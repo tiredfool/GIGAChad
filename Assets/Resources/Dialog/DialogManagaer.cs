@@ -10,6 +10,8 @@ public class DialogueManager : MonoBehaviour
     public TextMeshProUGUI nameText;
     public Image portraitImage;
     public GameObject dialogueBox;
+    public GameObject blackBox; // 추가된 검은 회상박스
+    public TextMeshProUGUI blackText;//추가된 검은 회상박스 텍스트
     public string jsonFileName = "Dialog/dialogues"; // JSON 파일 이름
     public float typingSpeed = 0.05f;
     public float fontSizeIncrease = 5f;
@@ -29,6 +31,7 @@ public class DialogueManager : MonoBehaviour
     {
         originalDialogueBoxPosition = dialogueBox.transform.localPosition; // 대화창 초기 위치 저장
         dialogueBox.SetActive(false);
+        blackBox.SetActive(false);
         LoadDialogueFromJson();
     }
 
@@ -70,28 +73,47 @@ public class DialogueManager : MonoBehaviour
 
     void ShowDialogue(DialogueData data)
     {
-        nameText.text = data.npcName;
+        // 모든 대화 박스 비활성화
+        dialogueBox.SetActive(false);
+        blackBox.SetActive(false);
 
-        Sprite portrait = portraitSprites.Find(s => s.name == data.portraitName);
-        if (portrait != null)
+        if (data.dialogueType == "normal")
         {
-            portraitImage.sprite = portrait;
-        }
+            dialogueBox.SetActive(true);
+            nameText.text = data.npcName;
 
-        StopAllCoroutines();
-        if (data.shakeScreen) StartCoroutine(ShakeScreen());
-        StartCoroutine(TypeDialogue(data));
+            Sprite portrait = portraitSprites.Find(s => s.name == data.portraitName);
+            if (portrait != null)
+            {
+                portraitImage.sprite = portrait;
+            }
+
+            StopAllCoroutines();
+            if (data.shakeScreen) StartCoroutine(ShakeScreen());
+            StartCoroutine(TypeDialogue(data, dialogueText));
+        }
+        else if (data.dialogueType == "black")
+        {
+            blackBox.SetActive(true);
+            StopAllCoroutines();
+            StartCoroutine(TypeDialogue(data,blackText));
+        }
+        else
+        {
+            Debug.LogError("Unknown dialogue type: " + data.dialogueType);
+        }
     }
 
-    IEnumerator TypeDialogue(DialogueData data)
+
+    IEnumerator TypeDialogue(DialogueData data, TextMeshProUGUI T)
     {
         isTyping = true;
-        dialogueText.fontSize = data.fontSize;
-        dialogueText.text = "";
+        T.fontSize = data.fontSize;
+        T.text = "";
 
         foreach (char letter in data.dialogue.ToCharArray())
         {
-            dialogueText.text += letter;
+            T.text += letter;
             yield return new WaitForSeconds(typingSpeed);
         }
 
@@ -135,6 +157,7 @@ public class DialogueManager : MonoBehaviour
     void EndDialogue()
     {
         dialogueBox.SetActive(false);
+        blackBox.SetActive(false);
         playerController.SetTalking(false);
         playerController.SetTalking(false);
     }

@@ -5,16 +5,16 @@ m_ProjectFiles:
     m_ContentTrackingEnabled: 1
     m_ModificationDate:
       serializedVersion: 2
-      ticks: 638764285159244618
-    m_Hash: 1562492035
+      ticks: 638771079064149230
+    m_Hash: 4143985295
   m_LockFileStatus:
     m_FilePath: C:/Users/ghksq/Documents/GitHub/GIGAChad/Packages/packages-lock.json
     m_PathExists: 1
     m_ContentTrackingEnabled: 1
     m_ModificationDate:
       serializedVersion: 2
-      ticks: 638764285159429689
-    m_Hash: 2011128957
+      ticks: 638771079064149230
+    m_Hash: 139482985
 m_EmbeddedPackageManifests:
   m_ManifestsStatus: {}
 m_LocalPackages:

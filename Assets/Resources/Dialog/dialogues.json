@@ -22,6 +22,18 @@
       "portraitName": "Gigachard_ex",
       "dialogue": "Do 하드 Work!",
       "shakeScreen": true
+    },
+    {
+      "id": "black_start",
+      "dialogue": "예시 텍스트1",
+      "dialogueType": "black",
+      "shakeScreen": true
+    },
+    {
+      "id": "black_end",
+      "dialogue": "예시 텍스트2",
+      "dialogueType": "black",
+      "shakeScreen": true
     }
   ]
 }
