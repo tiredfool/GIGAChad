@@ -1,0 +1,27 @@
+{
+  "dialogues": [
+    {
+      "id": "scene1_start",
+      "npcName": "만삣삐",
+      "portraitName": "Player",
+      "dialogue": "기가차드.. 난 할 수 없을것같아"
+    },
+    {
+      "npcName": "만삣삐",
+      "portraitName": "Player_sad",
+      "dialogue": "난 이제 뭘 해야 하는걸까?"
+    },
+    {
+      "npcName": "기가차드",
+      "portraitName": "Gigachard",
+      "dialogue": "Oh My Son Stop Crying 그리고"
+    },
+    {
+      "id": "scene1_end",
+      "npcName": "기가차드",
+      "portraitName": "Gigachard_ex",
+      "dialogue": "Do 하드 Work!",
+      "shakeScreen": true
+    }
+  ]
+}
