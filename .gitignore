@@ -2,7 +2,8 @@
 #
 # Add folders and files that should not be tracked by Git here.
 #
-/Library
+Library/PackageCache/
+Library/ArtifactDB
 /Build
 /Builds
 
@@ -27,6 +28,3 @@ ExportedObj/
 *.unity
 *.vs/
 
-# Unity Accelerator cache files
-/Packages/packages-lock.json
-/UserSettings/Layouts.xml
