@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
@@ -131,7 +132,7 @@ public class PlayerController : MonoBehaviour
         if (Time.time - lastDamageTime > damageCooldown && !isTakingDamage)
         {
             // 피격 쿨다운 적용
-            health -= 1;
+            health -= 50;
             Debug.Log("Player Health: " + health);
 
             rb.velocity = new Vector2(rb.velocity.x, knockbackVerticalSpeed);//넉백
@@ -167,7 +168,21 @@ public class PlayerController : MonoBehaviour
     void Die()
     {
         Debug.Log("Player Died!");
-        Destroy(gameObject);
+        GameManager.instance.totalLives--;  // 목숨 하나 감소
+        PlayerPrefs.SetInt("TotalLives", GameManager.instance.totalLives);  // PlayerPrefs에 저장
+        GameManager.instance.UpdateLifeUI();  // UI 업데이트
+
+        if (GameManager.instance.totalLives <= 0)
+        {
+            // 목숨이 0일 경우 게임 오버 처리
+            Debug.Log("Game Over");
+            Destroy(gameObject);  // 플레이어 오브젝트 삭제
+        }
+        else
+        {
+            // 목숨이 남아있으면 플레이어 위치 초기화
+            RestartGame();
+        }
     }
 
     public bool IsFalling()
@@ -181,5 +196,33 @@ public class PlayerController : MonoBehaviour
         animator.SetFloat("Speed", 0f);
         animator.SetBool("IsJumping", false);
         animator.SetBool("IsGround", true);
+    }
+
+    void OnTriggerEnter2D(Collider2D collision)
+    {
+        Debug.Log("무언가와 충돌 감지됨: " + collision.gameObject.name);
+
+        if (collision.gameObject.CompareTag("Coin"))
+        {
+            Debug.Log("코인 트리거 충돌 감지됨!");
+
+            if (GameManager.instance != null)
+            {
+                GameManager.instance.AddScore(1);  // GameManager에서 얻은 코인 개수 1개 증가
+            }
+
+            Destroy(collision.gameObject);  // 코인 제거
+        }
+        if (collision.gameObject.tag == "Finish")
+        { 
+            GameManager.instance.NextStage();
+        }
+    }
+
+    void RestartGame()
+    {
+        // 씬을 처음 상태로 리셋
+        SceneManager.LoadScene(0);  // 씬 0번(첫 번째 씬)으로 로드
+        Time.timeScale = 1;  // 시간이 멈춘 상태라면 다시 정상 흐름으로 설정
     }
 }
