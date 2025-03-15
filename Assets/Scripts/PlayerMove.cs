@@ -136,7 +136,7 @@ public class PlayerController : MonoBehaviour
         if (Time.time - lastDamageTime > damageCooldown && !isTakingDamage)
         {
             // ÇÇ°Ý Äð´Ù¿î Àû¿ë
-            health -= 50;
+            health -= 10;
             Debug.Log("Player Health: " + health);
 
             rb.velocity = new Vector2(rb.velocity.x, knockbackVerticalSpeed);//³Ë¹é
