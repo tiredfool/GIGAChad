@@ -24,8 +24,14 @@ public class SwitchTrigger : MonoBehaviour
             platformRenderer = platformObject.GetComponent<TilemapRenderer>();
             platformCollider = platformObject.GetComponent<TilemapCollider2D>();
 
-            if (platformRenderer != null) platformRenderer.enabled = false;
-            if (platformCollider != null) platformCollider.enabled = false;
+            if (platformRenderer != null)
+            {
+                platformRenderer.enabled = false; // 시작 시 발판을 비활성화
+            }
+            if (platformCollider != null)
+            {
+                platformCollider.enabled = false; // 시작 시 발판의 충돌을 비활성화
+            }
         }
         else
         {
@@ -45,29 +51,25 @@ public class SwitchTrigger : MonoBehaviour
 
     IEnumerator ActivatePlatform()
     {
-        // 스위치 투명도 변경 (0.4)
-        /*
-            if (switchRenderer != null)
-            switchRenderer.color = new Color(1, 1, 1, 0.4f);
-        */
-
         // 발판 활성화
-        if (platformRenderer != null) platformRenderer.enabled = true;
-        if (platformCollider != null) platformCollider.enabled = true;
+        if (platformRenderer != null)
+            platformRenderer.enabled = true; // 발판 보이게
+        if (platformCollider != null)
+            platformCollider.enabled = true; // 발판 충돌 처리
 
         yield return new WaitForSeconds(activeTime);
 
         // 발판 비활성화
-        if (platformRenderer != null) platformRenderer.enabled = false;
-        if (platformCollider != null) platformCollider.enabled = false;
+        if (platformRenderer != null)
+            platformRenderer.enabled = false; // 발판 숨기기
+        if (platformCollider != null)
+            platformCollider.enabled = false; // 발판 충돌 비활성화
 
         // 스위치 투명도 원래대로 (1.0)
-
         if (switchRenderer != null)
-        {          
+        {
             switchRenderer.sprite = originalSprite; // 원래 이미지로 복구
         }
-
 
         Debug.Log("발판 비활성화됨");
     }

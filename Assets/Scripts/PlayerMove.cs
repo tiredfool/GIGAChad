@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 public class PlayerController : MonoBehaviour
 {
     public float moveSpeed = 5f;
+    public float originalMoveSpeed; // 원래 속도를 저장할 변수
     public float jumpForce = 10f;
     public float health = 100f;
     public float damageCooldown = 0.5f; // 피격 무적 시간
@@ -29,6 +30,7 @@ public class PlayerController : MonoBehaviour
         animator = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         lastDamageTime = -damageCooldown; // 시작 시 무적 상태로 설정
+        originalMoveSpeed = moveSpeed; // 시작 시 원래 속도 저장
     }
 
     void Update()
@@ -81,7 +83,8 @@ public class PlayerController : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Ground") || collision.gameObject.CompareTag("MovingPlatform") || collision.gameObject.CompareTag("Trick"))
+        if (collision.gameObject.CompareTag("Ground") || collision.gameObject.CompareTag("MovingPlatform") || collision.gameObject.CompareTag("Trick") 
+            || collision.gameObject.CompareTag("Slow") || collision.gameObject.CompareTag("Move"))
         {
             isGrounded = true;
             animator.SetBool("IsJumping", false);
@@ -120,7 +123,8 @@ public class PlayerController : MonoBehaviour
 
     void OnCollisionExit2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Ground") || collision.gameObject.CompareTag("MovingPlatform") || collision.gameObject.CompareTag("Trick"))
+        if (collision.gameObject.CompareTag("Ground") || collision.gameObject.CompareTag("MovingPlatform") || collision.gameObject.CompareTag("Trick") 
+            || collision.gameObject.CompareTag("Slow") || collision.gameObject.CompareTag("Move"))
         {
             isGrounded = false;
             animator.SetBool("IsGround", false);
@@ -213,10 +217,36 @@ public class PlayerController : MonoBehaviour
 
             Destroy(collision.gameObject);  // 코인 제거
         }
+
         if (collision.gameObject.tag == "Finish")
         { 
             GameManager.instance.NextStage();
         }
+
+        if (collision.gameObject.CompareTag("Slow")) // 'Slow' 태그를 가진 오브젝트에 닿으면 감속
+        {
+            ApplySlow(0.5f); // 50% 속도 감소
+        }
+    }
+
+    void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("Slow")) // Slow를 벗어나면 속도 원복
+        {
+            RemoveSlow();
+        }
+    }
+
+    public void ApplySlow(float multiplier)
+    {
+        moveSpeed = originalMoveSpeed * multiplier;
+        Debug.Log("이동 속도 감소: " + moveSpeed);
+    }
+
+    public void RemoveSlow()
+    {
+        moveSpeed = originalMoveSpeed;
+        Debug.Log("이동 속도 복구: " + moveSpeed);
     }
 
     void RestartGame()

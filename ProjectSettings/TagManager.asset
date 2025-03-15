@@ -11,6 +11,8 @@ TagManager:
   - Spike
   - Coin
   - MovingPlatform
+  - Slow
+  - Move
   layers:
   - Default
   - TransparentFX
