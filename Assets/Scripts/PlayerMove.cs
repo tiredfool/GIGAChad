@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using UnityEngine.SceneManagement;
+using System;
 
 public class PlayerController : MonoBehaviour
 {
@@ -22,6 +23,11 @@ public class PlayerController : MonoBehaviour
     private bool isTakingDamage = false;
     private bool isTalking = false;
 
+    public float groundCheckDistance = 0.2f; // 땅 체크 Raycast 거리 (값 증가)
+    public LayerMask groundLayer; // 땅 레이어
+    private bool jumpRequest; // 점프 요청 변수
+    private float verticalVelocity; // 수직 속도 저장 변수
+    private bool canJump = false;
 
 
     void Start()
@@ -30,10 +36,33 @@ public class PlayerController : MonoBehaviour
         animator = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         lastDamageTime = -damageCooldown; // 시작 시 무적 상태로 설정
-        originalMoveSpeed = moveSpeed; // 시작 시 원래 속도 저장
+        originalMoveSpeed = moveSpeed; // 원래 속도 저장
     }
 
     void Update()
+    {
+        // 점프 입력 처리
+        if ((Input.GetButtonDown("Jump") && isGrounded) || (Input.GetButtonDown("Jump") && canJump))
+        {
+            jumpRequest = true; // 점프 요청
+            canJump = false;
+           // animator.SetBool("IsJumping", true);
+           // animator.SetBool("IsGround", false);
+        }
+        float moveInput = Input.GetAxisRaw("Horizontal");
+
+        // 스프라이트 방향 전환
+        if (moveInput > 0)
+        {
+            spriteRenderer.flipX = false;
+        }
+        else if (moveInput < 0)
+        {
+            spriteRenderer.flipX = true;
+        }
+    }
+
+    void FixedUpdate()
     {
         // 입력이 막혀있는지 확인
         if (Time.time < inputDisabledTime || isTalking)
@@ -46,31 +75,46 @@ public class PlayerController : MonoBehaviour
             animator.ResetTrigger("TakeDamage");
         }
 
+        // 땅 체크 (FixedUpdate에서 Raycast 사용)
+        isGrounded = IsGrounded();
+        if(isGrounded) Debug.Log("땅");
+        // 애니메이션 제어
+        animator.SetBool("IsJumping", !isGrounded);
+        animator.SetBool("IsGround", isGrounded);
+
+        // 점프 처리
+        if (jumpRequest)
+        {
+            jumpRequest = false; // 점프 요청 초기화
+            rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+            //isGrounded = false; // 이 라인 제거
+            // animator.SetBool("IsJumping", true);
+            //animator.SetBool("IsGround", false);
+        }
+
         // 좌우 이동
         float moveInput = Input.GetAxisRaw("Horizontal");
         Vector2 moveVelocity = new Vector2(moveInput * moveSpeed, rb.velocity.y);
         rb.velocity = moveVelocity;
 
-        // 스프라이트 방향 전환
+       /* // 스프라이트 방향 전환
         if (moveInput > 0)
         {
             spriteRenderer.flipX = false;
         }
         else if (moveInput < 0)
         {
-            spriteRenderer.flipX = true;
-        }
+            spriteRenderer.flipX = false;
+        }*/
 
         animator.SetFloat("Speed", Mathf.Abs(moveInput));
+    }
 
-        // 점프
-        if (Input.GetButton("Jump") && isGrounded)
-        {
-            rb.velocity = new Vector2(rb.velocity.x, jumpForce);
-            isGrounded = false;
-            animator.SetBool("IsJumping", true);
-            animator.SetBool("IsGround", false);
-        }
+    bool IsGrounded()
+    {
+        // 캐릭터 발 밑으로 Raycast를 쏘아서 땅에 닿았는지 확인
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, groundCheckDistance, groundLayer);
+        return hit.collider != null;
     }
 
     void OnCollisionStay2D(Collision2D collision)
@@ -79,18 +123,12 @@ public class PlayerController : MonoBehaviour
         {
             TakeDamage();
         }
+        isGrounded = IsGrounded();
     }
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Ground") || collision.gameObject.CompareTag("MovingPlatform") || collision.gameObject.CompareTag("Trick") 
-            || collision.gameObject.CompareTag("Slow") || collision.gameObject.CompareTag("Move"))
-        {
-            isGrounded = true;
-            animator.SetBool("IsJumping", false);
-            animator.SetBool("IsGround", true);
-        }
-
+        isGrounded = IsGrounded();
         if (collision.gameObject.CompareTag("Enemy"))
         {
             Debug.Log("플레이어가 맞았습니다!");
@@ -105,7 +143,12 @@ public class PlayerController : MonoBehaviour
                 {
                     enemy.TakeDamage(1);
                     rb.velocity = new Vector2(rb.velocity.x, 3f);
-                    isGrounded = true;
+                    isGrounded = IsGrounded();
+                    canJump = true;
+                    verticalVelocity = 0;
+                    Debug.Log("적 밟은 후 isGrounded: " + isGrounded);
+                   
+
                 }
             }
             // Damaged
@@ -119,15 +162,16 @@ public class PlayerController : MonoBehaviour
         {
             TakeDamage();
         }
+
     }
 
     void OnCollisionExit2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Ground") || collision.gameObject.CompareTag("MovingPlatform") || collision.gameObject.CompareTag("Trick") 
-            || collision.gameObject.CompareTag("Slow") || collision.gameObject.CompareTag("Move"))
+        if (collision.gameObject.CompareTag("Ground") || collision.gameObject.CompareTag("MovingPlatform") || collision.gameObject.CompareTag("Trick")
+           || collision.gameObject.CompareTag("Slow") || collision.gameObject.CompareTag("Move"))
         {
-            isGrounded = false;
-            animator.SetBool("IsGround", false);
+            isGrounded = IsGrounded();
+            Debug.Log("OnCollisionExit2D 실행");
         }
     }
 
@@ -136,7 +180,7 @@ public class PlayerController : MonoBehaviour
         if (Time.time - lastDamageTime > damageCooldown && !isTakingDamage)
         {
             // 피격 쿨다운 적용
-            health -= 10;
+            health -= 50;
             Debug.Log("Player Health: " + health);
 
             rb.velocity = new Vector2(rb.velocity.x, knockbackVerticalSpeed);//넉백
@@ -219,7 +263,7 @@ public class PlayerController : MonoBehaviour
         }
 
         if (collision.gameObject.tag == "Finish")
-        { 
+        {
             GameManager.instance.NextStage();
         }
 
