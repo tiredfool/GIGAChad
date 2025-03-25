@@ -29,6 +29,7 @@ public class PlayerController : MonoBehaviour
     private float verticalVelocity; // 수직 속도 저장 변수
     private bool canJump = false;
 
+    public FollowPlayer follower; // 따라오는 기가차드
 
     void Start()
     {
@@ -55,10 +56,12 @@ public class PlayerController : MonoBehaviour
         if (moveInput > 0)
         {
             spriteRenderer.flipX = false;
+            follower.SetNegativeDistance(false);
         }
         else if (moveInput < 0)
         {
             spriteRenderer.flipX = true;
+            follower.SetNegativeDistance(true);
         }
     }
 
@@ -77,7 +80,7 @@ public class PlayerController : MonoBehaviour
 
         // 땅 체크 (FixedUpdate에서 Raycast 사용)
         isGrounded = IsGrounded();
-        if(isGrounded) Debug.Log("땅");
+      //  if(isGrounded) Debug.Log("땅");
         // 애니메이션 제어
         animator.SetBool("IsJumping", !isGrounded);
         animator.SetBool("IsGround", isGrounded);
