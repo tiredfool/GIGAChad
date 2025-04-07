@@ -33,6 +33,9 @@ public class PlayerController : MonoBehaviour
 
     private bool isStackGameMode = false; // 스택 게임 모드 여부
 
+    private bool isOnConveyor = false;
+    private ConveyorBeltPhysics currentConveyorScript = null;
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -99,18 +102,28 @@ public class PlayerController : MonoBehaviour
 
         // 좌우 이동
         float moveInput = Input.GetAxisRaw("Horizontal");
-        Vector2 moveVelocity = new Vector2(moveInput * moveSpeed, rb.velocity.y);
-        rb.velocity = moveVelocity;
+        //Vector2 moveVelocity = new Vector2(moveInput * moveSpeed, rb.velocity.y);
+        //rb.velocity = moveVelocity;
 
-       /* // 스프라이트 방향 전환
-        if (moveInput > 0)
+        bool allowPlayerVelocityOverride = true; // 플레이어 입력으로 속도를 덮어쓸지 여부
+
+
+        if (isOnConveyor && currentConveyorScript != null)
         {
-            spriteRenderer.flipX = false;
+            // 컨베이어와 같은 방향으로 이동 중인지 확인
+            if (moveInput != 0 && Mathf.Sign(moveInput) == Mathf.Sign(currentConveyorScript.directionMultiplier))
+            {
+                allowPlayerVelocityOverride = false;
+                float extraPushFactor = 4f; // moveSpeed와 다른 힘 계수, 튜닝 필요
+                rb.AddForce(Vector2.right * moveInput * extraPushFactor, ForceMode2D.Force);
+
+            }
         }
-        else if (moveInput < 0)
+
+        if ((allowPlayerVelocityOverride && Mathf.Abs(moveInput) > 0.01f)) // 입력이 있을 때 (0이 아닐 때)
         {
-            spriteRenderer.flipX = false;
-        }*/
+            rb.velocity = new Vector2(moveInput * moveSpeed, rb.velocity.y);
+        }
 
         animator.SetFloat("Speed", Mathf.Abs(moveInput));
     }
@@ -276,6 +289,17 @@ public class PlayerController : MonoBehaviour
         {
             ApplySlow(0.5f); // 50% 속도 감소
         }
+
+        if (collision.gameObject.CompareTag("MovingWalk"))
+        {
+            isOnConveyor = true;
+            currentConveyorScript = collision.GetComponent<ConveyorBeltPhysics>(); // 스크립트 이름 확인!
+            if (currentConveyorScript == null)
+            {
+                Debug.LogError("ConveyorBeltPhysics2D 스크립트를 찾을 수 없습니다!", collision.gameObject);
+            }
+            Debug.Log("Entered Conveyor");
+        }
     }
 
     void OnTriggerExit2D(Collider2D collision)
@@ -283,6 +307,18 @@ public class PlayerController : MonoBehaviour
         if (collision.gameObject.CompareTag("Slow")) // Slow를 벗어나면 속도 원복
         {
             RemoveSlow();
+        }
+
+
+        if (collision.gameObject.CompareTag("MovingWalk"))
+        {
+            ConveyorBeltPhysics exitedConveyor = collision.GetComponent<ConveyorBeltPhysics>();
+            if (currentConveyorScript == exitedConveyor)
+            {
+                isOnConveyor = false;
+                currentConveyorScript = null;
+                Debug.Log("Exited Conveyor");
+            }
         }
     }
 
