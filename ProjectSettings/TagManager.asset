@@ -15,6 +15,9 @@ TagManager:
   - Move
   - trick
   - MovingWalk
+  - LeftBoundary
+  - RightBoundary
+  - RightLimit
   layers:
   - Default
   - TransparentFX
