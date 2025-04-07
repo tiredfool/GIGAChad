@@ -2,58 +2,110 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-public class SwitchToTrick : MonoBehaviour
+public class SwitchToTrigger : MonoBehaviour
 {
-    private SpriteRenderer switchRenderer; // 스위치의 스프라이트 렌더러
-    private TilemapRenderer platformRenderer; // Trick 발판의 렌더러
-    private TilemapCollider2D platformCollider; // Trick 발판의 충돌 처리
+    public enum SwitchType { Timed, Permanent }
+    public SwitchType switchType = SwitchType.Timed; // 스위치 타입 선택
 
-    public Sprite greenLightSprite; // 녹색불 이미지
-    public Sprite originalSprite; // 원래 이미지 저장
+    public Sprite greenLightSprite;
+    private Sprite originalSprite;
+
+    private SpriteRenderer switchRenderer;
+    private TilemapRenderer[] platformRenderers;
+    private TilemapCollider2D[] platformColliders;
+
+    public float activeTime = 10f; // 타이머 기반 활성화 시간 (Timed 타입만 사용)
+
+    private bool isActivated = false;
 
     void Start()
     {
         switchRenderer = GetComponent<SpriteRenderer>();
-        originalSprite = switchRenderer.sprite; // 원래 이미지 저장
+        originalSprite = switchRenderer.sprite;
 
-        // Trick 태그를 가진 발판 찾기
-        GameObject platformObject = GameObject.FindGameObjectWithTag("Trick");
-        if (platformObject != null)
-        {
-            platformRenderer = platformObject.GetComponent<TilemapRenderer>();
-            platformCollider = platformObject.GetComponent<TilemapCollider2D>();
+        // Trick 태그를 가진 모든 발판 찾아 비활성화
+        GameObject[] trickPlatforms = GameObject.FindGameObjectsWithTag("Trick");
+        platformRenderers = new TilemapRenderer[trickPlatforms.Length];
+        platformColliders = new TilemapCollider2D[trickPlatforms.Length];
 
-            if (platformRenderer != null) platformRenderer.enabled = false;
-            if (platformCollider != null) platformCollider.enabled = false;
-        }
-        else
+        for (int i = 0; i < trickPlatforms.Length; i++)
         {
-            Debug.LogError("Trick 태그를 가진 발판을 찾을 수 없습니다!");
+            platformRenderers[i] = trickPlatforms[i].GetComponent<TilemapRenderer>();
+            platformColliders[i] = trickPlatforms[i].GetComponent<TilemapCollider2D>();
+
+            if (platformRenderers[i] != null)
+                platformRenderers[i].enabled = false;
+            if (platformColliders[i] != null)
+                platformColliders[i].enabled = false;
         }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Player"))
+        if (!collision.gameObject.CompareTag("Player")) return;
+
+        if (switchType == SwitchType.Timed)
         {
-            Debug.Log("스위치 작동: 발판 활성화 시작");
-            switchRenderer.sprite = greenLightSprite; // 녹색불로 변경
-            ActivatePlatform(); // 발판 활성화 (코루틴 사용 안함)
+            if (!isActivated)
+            {
+                isActivated = true;
+                switchRenderer.sprite = greenLightSprite;
+                StartCoroutine(ActivateTemporarily());
+            }
+        }
+        else if (switchType == SwitchType.Permanent)
+        {
+            if (!isActivated)
+            {
+                isActivated = true;
+                switchRenderer.sprite = greenLightSprite;
+                ActivatePlatforms(true); // 한 번만 작동, 계속 켜짐
+            }
         }
     }
 
-    void ActivatePlatform()
+    IEnumerator ActivateTemporarily()
     {
-        // 발판 활성화
-        if (platformRenderer != null) platformRenderer.enabled = true;
-        if (platformCollider != null) platformCollider.enabled = true;
+        ActivatePlatforms(true); // 발판 켜기
 
-        // 스위치 이미지 복원
-        if (switchRenderer != null)
+        float blinkStartTime = activeTime - 3f;
+        yield return new WaitForSeconds(blinkStartTime);
+
+        // 깜빡이기 시작
+        float blinkDuration = 3f;
+        float blinkInterval = 0.3f;
+        float elapsed = 0f;
+
+        while (elapsed < blinkDuration)
         {
-            switchRenderer.sprite = originalSprite; // 원래 이미지로 복구
+            TogglePlatformRenderers();
+            yield return new WaitForSeconds(blinkInterval);
+            elapsed += blinkInterval;
         }
 
-        Debug.Log("발판이 계속 활성화되었습니다.");
+        // 발판 꺼주기
+        ActivatePlatforms(false);
+        switchRenderer.sprite = originalSprite;
+        isActivated = false;
+    }
+
+    void ActivatePlatforms(bool state)
+    {
+        for (int i = 0; i < platformRenderers.Length; i++)
+        {
+            if (platformRenderers[i] != null)
+                platformRenderers[i].enabled = state;
+            if (platformColliders[i] != null)
+                platformColliders[i].enabled = state;
+        }
+    }
+
+    void TogglePlatformRenderers()
+    {
+        for (int i = 0; i < platformRenderers.Length; i++)
+        {
+            if (platformRenderers[i] != null)
+                platformRenderers[i].enabled = !platformRenderers[i].enabled;
+        }
     }
 }

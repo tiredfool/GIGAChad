@@ -31,6 +31,8 @@ public class PlayerController : MonoBehaviour
 
     public FollowPlayer follower; // 따라오는 기가차드
 
+    private bool isStackGameMode = false; // 스택 게임 모드 여부
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -68,7 +70,7 @@ public class PlayerController : MonoBehaviour
     void FixedUpdate()
     {
         // 입력이 막혀있는지 확인
-        if (Time.time < inputDisabledTime || isTalking)
+        if (Time.time < inputDisabledTime || isTalking || isStackGameMode)
         {
             rb.velocity = new Vector2(0, rb.velocity.y); // 움직임 멈춤
             return; // 입력 처리 X
@@ -180,7 +182,7 @@ public class PlayerController : MonoBehaviour
 
     public void TakeDamage()
     {
-        if (Time.time - lastDamageTime > damageCooldown && !isTakingDamage)
+        if (Time.time - lastDamageTime > damageCooldown && !isTakingDamage && !isStackGameMode)
         {
             // 피격 쿨다운 적용
             health -= 50;
@@ -302,4 +304,25 @@ public class PlayerController : MonoBehaviour
         SceneManager.LoadScene(0);  // 씬 0번(첫 번째 씬)으로 로드
         Time.timeScale = 1;  // 시간이 멈춘 상태라면 다시 정상 흐름으로 설정
     }
+
+    // 스택 게임 전환 시 작동
+    public void SetStackGameMode(bool isActive)
+    {
+        isStackGameMode = isActive;
+
+        if (isActive)
+        {
+            inputDisabledTime = float.MaxValue; // 입력 차단
+            isTakingDamage = true;              // 무적 처리
+            animator.SetFloat("Speed", 0f);
+            animator.SetBool("IsJumping", false);
+            animator.SetBool("IsGround", true);
+        }
+        else
+        {
+            inputDisabledTime = Time.time;      // 입력 재활성화
+            isTakingDamage = false;
+        }
+    }
+
 }
