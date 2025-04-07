@@ -14,6 +14,7 @@ TagManager:
   - Slow
   - Move
   - trick
+  - MovingWalk
   layers:
   - Default
   - TransparentFX
