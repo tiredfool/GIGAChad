@@ -27,12 +27,16 @@ public class DialogueManager : MonoBehaviour
     public List<Sprite> portraitSprites = new List<Sprite>(); // 이미지 
     public PlayerController playerController; // PlayerController 참조
 
+    public FollowPlayer follower; // 따라오는 기가차드
+
+
     void Awake()
     {
         originalDialogueBoxPosition = dialogueBox.transform.localPosition; // 대화창 초기 위치 저장
         dialogueBox.SetActive(false);
         blackBox.SetActive(false);
         LoadDialogueFromJson();
+       // follower.SetVisible(false); // 기가차드 비활성화
     }
 
     void LoadDialogueFromJson()
@@ -64,11 +68,12 @@ public class DialogueManager : MonoBehaviour
             Debug.LogWarning("No dialogues set for this scene!");
             return;
         }
-
+        follower.SetVisible(true);
         dialogueIndex = 0;
         dialogueBox.SetActive(true);
         playerController.SetTalking(true); // 대화 시작 시 움직임 막기
         ShowDialogue(currentDialogues[dialogueIndex]);
+      
     }
 
     void ShowDialogue(DialogueData data)
@@ -79,6 +84,7 @@ public class DialogueManager : MonoBehaviour
 
         if (data.dialogueType == "normal")
         {
+
             dialogueBox.SetActive(true);
             nameText.text = data.npcName;
 
@@ -123,7 +129,7 @@ public class DialogueManager : MonoBehaviour
     IEnumerator ShakeScreen() // 흔들기
     {
         float elapsed = 0.0f;
-
+        follower.SetShake(true);
         while (elapsed < shakeDuration)
         {
             float x = Random.Range(-1f, 1f) * shakeIntensity;
@@ -135,8 +141,9 @@ public class DialogueManager : MonoBehaviour
 
             yield return null;
         }
-
+       
         dialogueBox.transform.localPosition = originalDialogueBoxPosition;
+      
     }
 
     public void NextDialogue()
@@ -160,6 +167,8 @@ public class DialogueManager : MonoBehaviour
         blackBox.SetActive(false);
         playerController.SetTalking(false);
         playerController.SetTalking(false);
+        follower.SetShake(false);
+        follower.SetVisible(false);
     }
 
     public List<DialogueData> GetDialogues()

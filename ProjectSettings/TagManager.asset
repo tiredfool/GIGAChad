@@ -11,6 +11,18 @@ TagManager:
   - Spike
   - Coin
   - MovingPlatform
+  - Slow
+  - Move
+  - trick
+  - MovingWalk
+  - LeftBoundary
+  - RightBoundary
+  - RightLimit
+  - Wall
+  - Food
+  - Bullet
+  - SwitchZone
+  - PlayerHidden
   layers:
   - Default
   - TransparentFX
