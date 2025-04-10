@@ -18,6 +18,11 @@ TagManager:
   - LeftBoundary
   - RightBoundary
   - RightLimit
+  - Wall
+  - Food
+  - Bullet
+  - SwitchZone
+  - PlayerHidden
   layers:
   - Default
   - TransparentFX
