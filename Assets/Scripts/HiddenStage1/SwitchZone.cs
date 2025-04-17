@@ -53,6 +53,7 @@ public class SwitchZone : MonoBehaviour
 
         //  플랫포머 모드로 돌아가기
         StartCoroutine(SwitchToPlatformer());
+        Destroy(gameObject);
     }
 
     private IEnumerator SwitchToPlatformer()
