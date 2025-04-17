@@ -1,6 +1,6 @@
 Using pre-set license
 Built from '2022.3/staging' branch; Version is '2022.3.42f1 (2dcb6a0abc42) revision 3001194'; Using compiler version '192829333'; Build Type 'Release'
-OS: 'Windows 11  (10.0.22631) 64bit Education' Language: 'ko' Physical Memory: 32487 MB
+OS: 'Windows 10  (10.0.19045) 64bit Education' Language: 'ko' Physical Memory: 16294 MB
 BatchMode: 1, IsHumanControllingUs: 0, StartBugReporterOnCrash: 0, Is64bit: 1, IsPro: 1
 
 COMMAND LINE ARGUMENTS:
@@ -11,13 +11,13 @@ C:\Program Files\Unity\Hub\Editor\2022.3.42f1\Editor\Unity.exe
 -name
 AssetImportWorker0
 -projectPath
-C:/Users/User/Documents/GitHub/GIGACHAD2
+C:/Users/jhkin/OneDrive/ë¬¸ì„œ/GIGAChad
 -logFile
 Logs/AssetImportWorker0.log
 -srvPort
-63604
-Successfully changed project path to: C:/Users/User/Documents/GitHub/GIGACHAD2
-C:/Users/User/Documents/GitHub/GIGACHAD2
+54910
+Successfully changed project path to: C:/Users/jhkin/OneDrive/ë¬¸ì„œ/GIGAChad
+C:/Users/jhkin/OneDrive/ë¬¸ì„œ/GIGAChad
 [UnityMemory] Configuration Parameters - Can be set up in boot.config
     "memorysetup-bucket-allocator-granularity=16"
     "memorysetup-bucket-allocator-bucket-count=8"
@@ -49,74 +49,70 @@ C:/Users/User/Documents/GitHub/GIGACHAD2
     "memorysetup-temp-allocator-size-cloud-worker=32768"
     "memorysetup-temp-allocator-size-gi-baking-worker=262144"
     "memorysetup-temp-allocator-size-gfx=262144"
-Player connection [30320]  Target information:
+Player connection [35364]  Target information:
 
-Player connection [30320]  * "[IP] 192.168.64.1 [Port] 0 [Flags] 2 [Guid] 3206123873 [EditorId] 3206123873 [Version] 1048832 [Id] WindowsEditor(7,DESKTOP-UJF6R1S) [Debug] 1 [PackageName] WindowsEditor [ProjectName] Editor" 
+Player connection [35364]  * "[IP] 192.168.219.175 [Port] 0 [Flags] 2 [Guid] 2043274510 [EditorId] 2043274510 [Version] 1048832 [Id] WindowsEditor(7,DESKTOP-9JFRNG2) [Debug] 1 [PackageName] WindowsEditor [ProjectName] Editor" 
 
-Player connection [30320]  * "[IP] 192.168.114.1 [Port] 0 [Flags] 2 [Guid] 3206123873 [EditorId] 3206123873 [Version] 1048832 [Id] WindowsEditor(7,DESKTOP-UJF6R1S) [Debug] 1 [PackageName] WindowsEditor [ProjectName] Editor" 
-
-Player connection [30320]  * "[IP] 192.168.123.104 [Port] 0 [Flags] 2 [Guid] 3206123873 [EditorId] 3206123873 [Version] 1048832 [Id] WindowsEditor(7,DESKTOP-UJF6R1S) [Debug] 1 [PackageName] WindowsEditor [ProjectName] Editor" 
-
-Player connection [30320] Host joined multi-casting on [225.0.0.222:54997]...
-Player connection [30320] Host joined alternative multi-casting on [225.0.0.222:34997]...
-[PhysX] Initialized MultithreadedTaskDispatcher with 32 workers.
-Refreshing native plugins compatible for Editor in 6.09 ms, found 4 plugins.
+Player connection [35364] Host joined multi-casting on [225.0.0.222:54997]...
+Player connection [35364] Host joined alternative multi-casting on [225.0.0.222:34997]...
+[PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+Refreshing native plugins compatible for Editor in 30.23 ms, found 4 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
 Initialize engine version: 2022.3.42f1 (2dcb6a0abc42)
 [Subsystems] Discovering subsystems at path C:/Program Files/Unity/Hub/Editor/2022.3.42f1/Editor/Data/Resources/UnitySubsystems
-[Subsystems] Discovering subsystems at path C:/Users/User/Documents/GitHub/GIGACHAD2/Assets
+[Subsystems] Discovering subsystems at path C:/Users/jhkin/OneDrive/ë¬¸ì„œ/GIGAChad/Assets
 GfxDevice: creating device client; threaded=0; jobified=0
 Direct3D:
     Version:  Direct3D 11.0 [level 11.1]
-    Renderer: NVIDIA GeForce RTX 4060 Laptop GPU (ID=0x28e0)
+    Renderer: NVIDIA GeForce RTX 3070 Ti (ID=0x2482)
     Vendor:   NVIDIA
-    VRAM:     7957 MB
-    Driver:   32.0.15.7283
+    VRAM:     8017 MB
+    Driver:   32.0.15.6590
 Initialize mono
 Mono path[0] = 'C:/Program Files/Unity/Hub/Editor/2022.3.42f1/Editor/Data/Managed'
 Mono path[1] = 'C:/Program Files/Unity/Hub/Editor/2022.3.42f1/Editor/Data/MonoBleedingEdge/lib/mono/unityjit-win32'
 Mono config path = 'C:/Program Files/Unity/Hub/Editor/2022.3.42f1/Editor/Data/MonoBleedingEdge/etc'
-Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56496
+Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56160
 Begin MonoManager ReloadAssembly
 Registering precompiled unity dll's ...
 Register platform support module: C:/Program Files/Unity/Hub/Editor/2022.3.42f1/Editor/Data/PlaybackEngines/AndroidPlayer/UnityEditor.Android.Extensions.dll
 Register platform support module: C:/Program Files/Unity/Hub/Editor/2022.3.42f1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport/UnityEditor.WindowsStandalone.Extensions.dll
-Registered in 0.004408 seconds.
-- Loaded All Assemblies, in  0.228 seconds
+Registered in 0.048154 seconds.
+- Loaded All Assemblies, in  0.551 seconds
 Native extension for WindowsStandalone target not found
 Native extension for Android target not found
-Android Extension - Scanning For ADB Devices 222 ms
+Android Extension - Scanning For ADB Devices 369 ms
 Mono: successfully reloaded assembly
-- Finished resetting the current domain, in  0.447 seconds
-Domain Reload Profiling: 674ms
-	BeginReloadAssembly (68ms)
+- Finished resetting the current domain, in  0.681 seconds
+Domain Reload Profiling: 1218ms
+	BeginReloadAssembly (203ms)
 		ExecutionOrderSort (0ms)
 		DisableScriptedObjects (0ms)
 		BackupInstance (0ms)
 		ReleaseScriptingObjects (0ms)
 		CreateAndSetChildDomain (1ms)
-	RebuildCommonClasses (24ms)
-	RebuildNativeTypeToScriptingClass (6ms)
-	initialDomainReloadingComplete (36ms)
-	LoadAllAssembliesAndSetupDomain (92ms)
-		LoadAssemblies (68ms)
+	RebuildCommonClasses (34ms)
+	RebuildNativeTypeToScriptingClass (8ms)
+	initialDomainReloadingComplete (133ms)
+	LoadAllAssembliesAndSetupDomain (159ms)
+		LoadAssemblies (194ms)
 		RebuildTransferFunctionScriptingTraits (0ms)
-		AnalyzeDomain (90ms)
-			TypeCache.Refresh (89ms)
-				TypeCache.ScanAssembly (80ms)
+		AnalyzeDomain (153ms)
+			TypeCache.Refresh (152ms)
+				TypeCache.ScanAssembly (137ms)
 			ScanForSourceGeneratedMonoScriptInfo (0ms)
-			ResolveRequiredComponents (1ms)
-	FinalizeReload (448ms)
+			ResolveRequiredComponents (0ms)
+	FinalizeReload (681ms)
 		ReleaseScriptCaches (0ms)
 		RebuildScriptCaches (0ms)
-		SetupLoadedEditorAssemblies (413ms)
+		SetupLoadedEditorAssemblies (641ms)
 			LogAssemblyErrors (0ms)
-			InitializePlatformSupportModulesInManaged (295ms)
+			InitializePlatformSupportModulesInManaged (484ms)
 			SetLoadedEditorAssemblies (3ms)
 			RefreshPlugins (0ms)
-			BeforeProcessingInitializeOnLoad (3ms)
-			ProcessInitializeOnLoadAttributes (78ms)
-			ProcessInitializeOnLoadMethodAttributes (34ms)
+			BeforeProcessingInitializeOnLoad (2ms)
+			ProcessInitializeOnLoadAttributes (103ms)
+			ProcessInitializeOnLoadMethodAttributes (48ms)
 			AfterProcessingInitializeOnLoad (0ms)
 			EditorAssembliesLoaded (0ms)
 		ExecutionOrderSort2 (0ms)
@@ -125,55 +121,54 @@ Domain Reload Profiling: 674ms
 Worker process is ready to serve import requests
 Caller must complete domain reload
 Begin MonoManager ReloadAssembly
-- Loaded All Assemblies, in  0.432 seconds
+- Loaded All Assemblies, in  0.974 seconds
 Native extension for WindowsStandalone target not found
 Native extension for Android target not found
 Mono: successfully reloaded assembly
-- Finished resetting the current domain, in  0.533 seconds
-Domain Reload Profiling: 964ms
-	BeginReloadAssembly (92ms)
+- Finished resetting the current domain, in  0.962 seconds
+Domain Reload Profiling: 1918ms
+	BeginReloadAssembly (193ms)
 		ExecutionOrderSort (0ms)
-		DisableScriptedObjects (3ms)
+		DisableScriptedObjects (4ms)
 		BackupInstance (0ms)
 		ReleaseScriptingObjects (0ms)
-		CreateAndSetChildDomain (14ms)
-	RebuildCommonClasses (19ms)
-	RebuildNativeTypeToScriptingClass (6ms)
-	initialDomainReloadingComplete (26ms)
-	LoadAllAssembliesAndSetupDomain (287ms)
-		LoadAssemblies (228ms)
+		CreateAndSetChildDomain (20ms)
+	RebuildCommonClasses (31ms)
+	RebuildNativeTypeToScriptingClass (8ms)
+	initialDomainReloadingComplete (72ms)
+	LoadAllAssembliesAndSetupDomain (652ms)
+		LoadAssemblies (594ms)
 		RebuildTransferFunctionScriptingTraits (0ms)
-		AnalyzeDomain (115ms)
-			TypeCache.Refresh (95ms)
-				TypeCache.ScanAssembly (84ms)
-			ScanForSourceGeneratedMonoScriptInfo (14ms)
-			ResolveRequiredComponents (4ms)
-	FinalizeReload (534ms)
+		AnalyzeDomain (193ms)
+			TypeCache.Refresh (162ms)
+				TypeCache.ScanAssembly (143ms)
+			ScanForSourceGeneratedMonoScriptInfo (20ms)
+			ResolveRequiredComponents (9ms)
+	FinalizeReload (963ms)
 		ReleaseScriptCaches (0ms)
 		RebuildScriptCaches (0ms)
-		SetupLoadedEditorAssemblies (429ms)
+		SetupLoadedEditorAssemblies (793ms)
 			LogAssemblyErrors (0ms)
-			InitializePlatformSupportModulesInManaged (17ms)
-			SetLoadedEditorAssemblies (4ms)
+			InitializePlatformSupportModulesInManaged (44ms)
+			SetLoadedEditorAssemblies (5ms)
 			RefreshPlugins (0ms)
-			BeforeProcessingInitializeOnLoad (74ms)
-			ProcessInitializeOnLoadAttributes (300ms)
-			ProcessInitializeOnLoadMethodAttributes (30ms)
-			AfterProcessingInitializeOnLoad (4ms)
+			BeforeProcessingInitializeOnLoad (145ms)
+			ProcessInitializeOnLoadAttributes (533ms)
+			ProcessInitializeOnLoadMethodAttributes (34ms)
+			AfterProcessingInitializeOnLoad (31ms)
 			EditorAssembliesLoaded (0ms)
 		ExecutionOrderSort2 (0ms)
-		AwakeInstancesAfterBackupRestoration (4ms)
+		AwakeInstancesAfterBackupRestoration (13ms)
 Launched and connected shader compiler UnityShaderCompiler.exe after 0.06 seconds
-Refreshing native plugins compatible for Editor in 4.37 ms, found 4 plugins.
+Refreshing native plugins compatible for Editor in 23.74 ms, found 4 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
 Unloading 4318 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 45 unused Assets / (130.5 KB). Loaded Objects now: 4795.
-Memory consumption went from 167.0 MB to 166.9 MB.
-Total: 2.768900 ms (FindLiveObjects: 0.231200 ms CreateObjectMapping: 0.094800 ms MarkObjects: 2.351000 ms  DeleteObjects: 0.089800 ms)
+Unloading 45 unused Assets / (131.0 KB). Loaded Objects now: 4795.
+Memory consumption went from 165.8 MB to 165.7 MB.
+Total: 4.355200 ms (FindLiveObjects: 0.356400 ms CreateObjectMapping: 0.223600 ms MarkObjects: 3.615400 ms  DeleteObjects: 0.158300 ms)
 
 AssetImportParameters requested are different than current active one (requested -> active):
   custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
-  custom:video-codec-MediaFoundation-h265: 746d11721c4dcdbdad8f713fa42b33f4 -> 
   custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
   custom:framework-win-MediaFoundation: 216162199b28c13a410421893ffa2e32 -> 
   custom:CustomObjectIndexerAttribute: 9a22284fe3817be447336de3de66b15e -> 
@@ -187,142 +182,71 @@ AssetImportParameters requested are different than current active one (requested
   custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
 ========================================================================
 Received Import Request.
-  Time since last request: 510138.235187 seconds.
-  path: Assets/Scripts/HiddenStage1/SwitchZone.cs
-  artifactKey: Guid(d97ac266eb6ea124f86a655f490a9edd) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Scripts/HiddenStage1/SwitchZone.cs using Guid(d97ac266eb6ea124f86a655f490a9edd) Importer(815301076,1909f56bfc062723c751e8b465ee728b) [PhysX] Initialized MultithreadedTaskDispatcher with 32 workers.
- -> (artifact id: 'e7b4a1ecf1793817bc14c22405b823cb') in 0.002055 seconds
+  Time since last request: 58457.016327 seconds.
+  path: Assets/ElvGames/Fantasy Dreamland Reborn/Characters/FD_Character_007_Idle.png
+  artifactKey: Guid(5715a68ed9188774e8b71040d68596f6) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/ElvGames/Fantasy Dreamland Reborn/Characters/FD_Character_007_Idle.png using Guid(5715a68ed9188774e8b71040d68596f6) Importer(815301076,1909f56bfc062723c751e8b465ee728b) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+[PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '18bc98ee428fb5142f917ec7896b2441') in 0.161213 seconds
 Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 0
+Number of asset objects unloaded after import = 18
 ========================================================================
 Received Import Request.
-  Time since last request: 9.078556 seconds.
-  path: Assets/Scripts/HiddenStage1/FoodMove.cs
-  artifactKey: Guid(cb9424bfca7b3c14a90830adf2320ae4) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Scripts/HiddenStage1/FoodMove.cs using Guid(cb9424bfca7b3c14a90830adf2320ae4) Importer(815301076,1909f56bfc062723c751e8b465ee728b) [PhysX] Initialized MultithreadedTaskDispatcher with 32 workers.
- -> (artifact id: '97f9000d632b2d4ad4f0cfe453563063') in 0.000443 seconds
+  Time since last request: 0.000027 seconds.
+  path: Assets/ElvGames/Fantasy Dreamland Reborn/Characters/FD_Character_003.png
+  artifactKey: Guid(d2daf5dfea3286145aa2f311ad5a63ed) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/ElvGames/Fantasy Dreamland Reborn/Characters/FD_Character_003.png using Guid(d2daf5dfea3286145aa2f311ad5a63ed) Importer(815301076,1909f56bfc062723c751e8b465ee728b) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+[PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '7051f1283c6fe535c2ac8c5b7e74df82') in 0.078223 seconds
 Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 0
+Number of asset objects unloaded after import = 18
 ========================================================================
 Received Import Request.
-  Time since last request: 85.257999 seconds.
-  path: Assets/Scripts/HiddenStage1/FoodMove.cs
-  artifactKey: Guid(cb9424bfca7b3c14a90830adf2320ae4) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Scripts/HiddenStage1/FoodMove.cs using Guid(cb9424bfca7b3c14a90830adf2320ae4) Importer(815301076,1909f56bfc062723c751e8b465ee728b) [PhysX] Initialized MultithreadedTaskDispatcher with 32 workers.
- -> (artifact id: '1a5b848b31ae8b543d3f7c29e0c3947c') in 0.000563 seconds
+  Time since last request: 0.000017 seconds.
+  path: Assets/ElvGames/Fantasy Dreamland Reborn/Characters/FD_Character_007.png
+  artifactKey: Guid(85a230410c41bd74f990800979947e82) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/ElvGames/Fantasy Dreamland Reborn/Characters/FD_Character_007.png using Guid(85a230410c41bd74f990800979947e82) Importer(815301076,1909f56bfc062723c751e8b465ee728b) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+[PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '07bcdec5ed632d41cb26f2c2cdd28285') in 0.168143 seconds
 Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 0
-========================================================================
-Received Prepare
-Caller must complete domain reload
-Begin MonoManager ReloadAssembly
-- Loaded All Assemblies, in  0.533 seconds
-Native extension for WindowsStandalone target not found
-Native extension for Android target not found
-Mono: successfully reloaded assembly
-- Finished resetting the current domain, in  0.477 seconds
-Domain Reload Profiling: 1010ms
-	BeginReloadAssembly (311ms)
-		ExecutionOrderSort (0ms)
-		DisableScriptedObjects (205ms)
-		BackupInstance (0ms)
-		ReleaseScriptingObjects (0ms)
-		CreateAndSetChildDomain (29ms)
-	RebuildCommonClasses (19ms)
-	RebuildNativeTypeToScriptingClass (8ms)
-	initialDomainReloadingComplete (20ms)
-	LoadAllAssembliesAndSetupDomain (174ms)
-		LoadAssemblies (207ms)
-		RebuildTransferFunctionScriptingTraits (0ms)
-		AnalyzeDomain (20ms)
-			TypeCache.Refresh (8ms)
-				TypeCache.ScanAssembly (1ms)
-			ScanForSourceGeneratedMonoScriptInfo (6ms)
-			ResolveRequiredComponents (5ms)
-	FinalizeReload (478ms)
-		ReleaseScriptCaches (0ms)
-		RebuildScriptCaches (0ms)
-		SetupLoadedEditorAssemblies (360ms)
-			LogAssemblyErrors (0ms)
-			InitializePlatformSupportModulesInManaged (16ms)
-			SetLoadedEditorAssemblies (4ms)
-			RefreshPlugins (0ms)
-			BeforeProcessingInitializeOnLoad (75ms)
-			ProcessInitializeOnLoadAttributes (241ms)
-			ProcessInitializeOnLoadMethodAttributes (20ms)
-			AfterProcessingInitializeOnLoad (3ms)
-			EditorAssembliesLoaded (0ms)
-		ExecutionOrderSort2 (0ms)
-		AwakeInstancesAfterBackupRestoration (8ms)
-Refreshing native plugins compatible for Editor in 4.25 ms, found 4 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 4291 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 20 unused Assets / (102.4 KB). Loaded Objects now: 4812.
-Memory consumption went from 159.8 MB to 159.7 MB.
-Total: 3.046800 ms (FindLiveObjects: 0.196000 ms CreateObjectMapping: 0.053300 ms MarkObjects: 2.730100 ms  DeleteObjects: 0.066500 ms)
-
-Prepare: number of updated asset objects reloaded= 0
-AssetImportParameters requested are different than current active one (requested -> active):
-  custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
-  custom:video-codec-MediaFoundation-h265: 746d11721c4dcdbdad8f713fa42b33f4 -> 
-  custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
-  custom:framework-win-MediaFoundation: 216162199b28c13a410421893ffa2e32 -> 
-  custom:CustomObjectIndexerAttribute: 9a22284fe3817be447336de3de66b15e -> 
-  custom:container-demuxer-webm: 4f35f7cbe854078d1ac9338744f61a02 -> 
-  custom:container-muxer-webm: aa71ff27fc2769a1b78a27578f13a17b -> 
-  custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
-  custom:SearchIndexIgnoredProperties: e643bd26f0fe6173181afceb89e7c659 -> 
-  custom:AudioImporter_EditorPlatform: d09bf68614088b80899f8185d706f6e7 -> 
-  custom:video-encoder-webm-vp8: eb34c28f22e8b96e1ab97ce403110664 -> 
-  custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
-  custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
+Number of asset objects unloaded after import = 18
 ========================================================================
 Received Import Request.
-  Time since last request: 13.546632 seconds.
-  path: Assets/Prefabs/Block.prefab
-  artifactKey: Guid(aa9828df73385aa4097d21569fec9c7e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Prefabs/Block.prefab using Guid(aa9828df73385aa4097d21569fec9c7e) Importer(815301076,1909f56bfc062723c751e8b465ee728b) [PhysX] Initialized MultithreadedTaskDispatcher with 32 workers.
- -> (artifact id: 'ddcfc5b1bd1ada398e309ac59a6e8eff') in 0.001937 seconds
+  Time since last request: 0.000014 seconds.
+  path: Assets/ElvGames/Fantasy Dreamland Reborn/Characters/FD_Character_002_Idle.png
+  artifactKey: Guid(cd8ead56134c7ac42a1d328096b19d13) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/ElvGames/Fantasy Dreamland Reborn/Characters/FD_Character_002_Idle.png using Guid(cd8ead56134c7ac42a1d328096b19d13) Importer(815301076,1909f56bfc062723c751e8b465ee728b) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+[PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: 'af819545efc1d6eff6f77767ff7feacd') in 0.047794 seconds
 Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 0
+Number of asset objects unloaded after import = 18
 ========================================================================
 Received Import Request.
-  Time since last request: 4.885490 seconds.
-  path: Assets/HiddenStage1Prefabs/Beer.prefab
-  artifactKey: Guid(da275d73e8a599b478d5958a7cffb315) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/HiddenStage1Prefabs/Beer.prefab using Guid(da275d73e8a599b478d5958a7cffb315) Importer(815301076,1909f56bfc062723c751e8b465ee728b) [PhysX] Initialized MultithreadedTaskDispatcher with 32 workers.
- -> (artifact id: '1deacc090b13b0d30045a8952d83e8dd') in 0.000438 seconds
+  Time since last request: 0.000022 seconds.
+  path: Assets/ElvGames/Fantasy Dreamland Reborn/Characters/FD_Character_016_Idle.png
+  artifactKey: Guid(83305fbd2539b0d40869599ba0a5792d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/ElvGames/Fantasy Dreamland Reborn/Characters/FD_Character_016_Idle.png using Guid(83305fbd2539b0d40869599ba0a5792d) Importer(815301076,1909f56bfc062723c751e8b465ee728b) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+[PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '0505e80f4e5da18a2e9c3bd974129124') in 0.036157 seconds
 Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 0
+Number of asset objects unloaded after import = 18
 ========================================================================
 Received Import Request.
-  Time since last request: 0.000296 seconds.
-  path: Assets/HiddenStage1Prefabs/Brownie.prefab
-  artifactKey: Guid(d29427c5b7abe1a45a994fb987cca3ed) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/HiddenStage1Prefabs/Brownie.prefab using Guid(d29427c5b7abe1a45a994fb987cca3ed) Importer(815301076,1909f56bfc062723c751e8b465ee728b) [PhysX] Initialized MultithreadedTaskDispatcher with 32 workers.
- -> (artifact id: '879316fd4c0108ef28a18e77b6ed1018') in 0.000709 seconds
+  Time since last request: 7.576024 seconds.
+  path: Assets/ElvGames/Fantasy Dreamland Reborn/Item Icons/Fantasy_Dreamland_Icons_Blue.png
+  artifactKey: Guid(232f28799b54ce848afb455567297fb5) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/ElvGames/Fantasy Dreamland Reborn/Item Icons/Fantasy_Dreamland_Icons_Blue.png using Guid(232f28799b54ce848afb455567297fb5) Importer(815301076,1909f56bfc062723c751e8b465ee728b) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+[PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '9762d4fc895f19a1c9f152eb3993a3ef') in 0.727391 seconds
 Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 0
+Number of asset objects unloaded after import = 290
 ========================================================================
 Received Import Request.
-  Time since last request: 0.004747 seconds.
-  path: Assets/HiddenStage1Prefabs/Cookie.prefab
-  artifactKey: Guid(6b9a8d8cfea12684d80b4c69f4cfb337) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/HiddenStage1Prefabs/Cookie.prefab using Guid(6b9a8d8cfea12684d80b4c69f4cfb337) Importer(815301076,1909f56bfc062723c751e8b465ee728b) [PhysX] Initialized MultithreadedTaskDispatcher with 32 workers.
- -> (artifact id: '6df9de4033aef424894e2ad384fd9af5') in 0.000312 seconds
+  Time since last request: 0.000016 seconds.
+  path: Assets/ElvGames/Fantasy Dreamland Reborn/Item Icons/Fantasy_Dreamland_Icons_Transparent.png
+  artifactKey: Guid(4d5b9b104a674384ba8238098b48511b) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/ElvGames/Fantasy Dreamland Reborn/Item Icons/Fantasy_Dreamland_Icons_Transparent.png using Guid(4d5b9b104a674384ba8238098b48511b) Importer(815301076,1909f56bfc062723c751e8b465ee728b) [PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+[PhysX] Initialized MultithreadedTaskDispatcher with 16 workers.
+ -> (artifact id: '1cc4d38a90d9a193d08dbc8133443152') in 0.306781 seconds
 Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 0
-========================================================================
-Received Import Request.
-  Time since last request: 0.000129 seconds.
-  path: Assets/HiddenStage1Prefabs/Chicken.prefab
-  artifactKey: Guid(b9d38f466d84d4e4bbb754403e5fffdf) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/HiddenStage1Prefabs/Chicken.prefab using Guid(b9d38f466d84d4e4bbb754403e5fffdf) Importer(815301076,1909f56bfc062723c751e8b465ee728b) [PhysX] Initialized MultithreadedTaskDispatcher with 32 workers.
- -> (artifact id: '08e974b8276a4113019c5842f649ecdf') in 0.000332 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 0
-Editor requested this worker to shutdown with reason: Scaling down because of idle timeout
-TcpMessagingSession - receive error: operation aborted. errorcode: 995, details: ½º·¹µå Á¾·á ¶Ç´Â ÀÀ¿ë ÇÁ·Î±×·¥ ¿äÃ» ¶§¹®¿¡ I/O ÀÛ¾÷ÀÌ Ãë¼ÒµÇ¾ú½À´Ï´Ù.
-AssetImportWorker is now disconnected from the server
-Process exiting
-Exiting without the bug reporter. Application will terminate with return code 0
+Number of asset objects unloaded after import = 290
