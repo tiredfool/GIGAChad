@@ -572,7 +572,7 @@ AudioSource:
   m_GameObject: {fileID: 366570027}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 6632816216861281994, guid: 011851ce181c589448466513d1a27905, type: 2}
+  OutputAudioMixerGroup: {fileID: -1631138198559960745, guid: 5eb0ad12bd73d554791e6e66d59e07fc, type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 1
@@ -668,7 +668,7 @@ AudioSource:
   m_GameObject: {fileID: 366570027}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 3259451915337615809, guid: 011851ce181c589448466513d1a27905, type: 2}
+  OutputAudioMixerGroup: {fileID: -9021559464455738588, guid: 5eb0ad12bd73d554791e6e66d59e07fc, type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 1
@@ -764,10 +764,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 366570027}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 820bbf00d4830a247b3fe87c9fe44298, type: 3}
+  m_Script: {fileID: 11500000, guid: 115be2d510910ec488a0e287db027f11, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  audioMixer: {fileID: 24100000, guid: 011851ce181c589448466513d1a27905, type: 2}
+  audioMixer: {fileID: 24100000, guid: 5eb0ad12bd73d554791e6e66d59e07fc, type: 2}
 --- !u!1 &380550211
 GameObject:
   m_ObjectHideFlags: 0
@@ -2348,19 +2348,7 @@ MonoBehaviour:
   m_Value: 1
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 366570031}
-        m_TargetAssemblyTypeName: SoundManager, Assembly-CSharp
-        m_MethodName: Mute
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!1 &1238770616
 GameObject:
   m_ObjectHideFlags: 0

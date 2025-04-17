@@ -408,6 +408,7 @@
 "Assets/Scripts/PlayerMove.cs"
 "Assets/Scripts/Player_Move.cs"
 "Assets/Scripts/SlowTile.cs"
+"Assets/Scripts/SoundManager.cs"
 "Assets/Scripts/Stack_Game/BlockController.cs"
 "Assets/Scripts/Stack_Game/CameraSwitcher.cs"
 "Assets/Scripts/Stack_Game/StackManager.cs"
