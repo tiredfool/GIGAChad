@@ -2,55 +2,27 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
+using UnityEngine.UI;
 
 
 public enum EAudioMixerType { Master, BGM, SFX }
 public class SoundManager : MonoBehaviour
 {
-    public static SoundManager Instance;
-    [SerializeField] private AudioMixer audioMixer;
+    public AudioMixer Mixer;
+    public Slider audioSlider;
 
-    private bool[] isMute = new bool[3];
-    private float[] audioVolumes = new float[3];
-    private void Awake()
+    public void AduioControl()
     {
-        Instance = this;
+        float sound = audioSlider.value;
+
+        if (sound == -40f) Mixer.SetFloat("BGM", -80);
+        else Mixer.SetFloat("BGM",sound);
     }
 
-    public void SetAudioVolume(EAudioMixerType audioMixerType, float volume)
+    public void ToggleAudioVolume()
     {
-        // 오디오 믹서의 값은 -80 ~ 0까지이기 때문에 0.0001 ~ 1의 Log10 * 20을 한다.
-        audioMixer.SetFloat(audioMixerType.ToString(), Mathf.Log10(volume) * 20);
+        AudioListener.volume = AudioListener.volume == 0 ? 1 : 0;
     }
-
-    public void SetAudioMute(EAudioMixerType audioMixerType)
-    {
-        int type = (int)audioMixerType;
-        if (!isMute[type]) // 뮤트 
-        {
-            isMute[type] = true;
-            audioMixer.GetFloat(audioMixerType.ToString(), out float curVolume);
-            audioVolumes[type] = curVolume;
-            SetAudioVolume(audioMixerType, 0.001f);
-        }
-        else
-        {
-            isMute[type] = false;
-            SetAudioVolume(audioMixerType, audioVolumes[type]);
-        }
-    }
-
-    private void Mute()
-    {
-        SoundManager.Instance.SetAudioMute(EAudioMixerType.BGM);
-    }
-
-    private void ChangeVolume(float volume)
-    {
-        SoundManager.Instance.SetAudioVolume(EAudioMixerType.BGM, volume);
-    }
-
 }
 
 
-//https://deff-dev.tistory.com/147 코드 복붙
