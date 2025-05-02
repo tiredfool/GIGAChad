@@ -1,240 +1,206 @@
 using UnityEngine;
+using System.Collections; // 코루틴 사용을 위해 추가
 using System.Collections.Generic;
 
 public class StackManager : MonoBehaviour
 {
     public GameObject blockPrefab;
     public Transform spawnPoint;
-
     public Camera mainCamera;
     public CameraSwitcher cameraSwitcher;
-
     private GameObject lastBlock;
     private float blockHeight;
-
-    // 초기화 관련 필드
-    private Vector3 initialCameraPosition; // 카메라 시점
-    private GameObject originalBlockPrefab; // 초기 상태 보존용
-    private Vector3 nextBlockScale; // 다음 블록 크기 저장용
-
-    // Y 기준 순환을 위한 필드
+    private Vector3 initialCameraPosition;
+    private GameObject originalBlockPrefab;
+    private Vector3 nextBlockScale;
     public int maxVisibleBlocks = 5;
     private List<GameObject> stackedBlocks = new List<GameObject>();
     private float totalHeightMoved = 0f;
-
-    // 게임오버 관련 필드
     private bool isGameOver = false;
+    private int blocksStackedCount = 0;
+    private int licenseCount = 0;
+    public float blockSpeedIncrement = 1f;
+    public int licenseThreshold = 10;
+    public int maxLicenses = 3;
+    public bool isStackGameActive = false;
+    public string blockSortingLayerName = "Default";
+    public int baseBlockOrderInLayer = 0;
+    public GameObject badgeImageObject; // Inspector에서 연결할 뱃지 GameObject
+    public Sprite[] badgeSprites; // Inspector에서 연결할 뱃지 Sprite 배열
+    public Vector3 badgeOffset = new Vector3(2f, 2f, 0f); // 카메라로부터의 상대적인 위치 오프셋
+    private bool canExit = false; // 더 이상 사용하지 않음
+    public float exitDelay = 3f; // 3초 딜레이
 
-    public bool IsGameOver()
-    {
-        return isGameOver;
-    }
+    public bool IsGameOver() { return isGameOver; }
 
     public void StartStackGame(Camera stackCamera)
     {
         Debug.Log("스택 게임 시작됨!");
-
+        isStackGameActive = true;
         mainCamera = stackCamera;
-        // 초기 시작 카메라 위치가 저장된 적 없을 때만 저장
-        if (initialCameraPosition == Vector3.zero)
-        {
-            initialCameraPosition = mainCamera.transform.position;
-        }
-
+        if (initialCameraPosition == Vector3.zero) initialCameraPosition = mainCamera.transform.position;
         originalBlockPrefab = blockPrefab;
-
-        // Trim에 필요한 요소
-        //lastBlock = null;
-
         blockHeight = blockPrefab.transform.localScale.y;
         nextBlockScale = originalBlockPrefab.transform.localScale;
-
-        if (mainCamera != null)
-        {
-            mainCamera.enabled = true;
-        }
-
-        // 초기화
+        if (mainCamera != null) mainCamera.enabled = true;
         ResetStackGame();
+        // 게임 시작 시 뱃지 GameObject 비활성화
+        if (badgeImageObject != null)
+        {
+            badgeImageObject.SetActive(false);
+        }
     }
 
     public void ResetStackGame()
     {
-        // 게임 오버 상태 초기화
         isGameOver = false;
-
-        // prefab 원본으로 복원
+        blocksStackedCount = 0;
+        licenseCount = 0;
         blockPrefab = originalBlockPrefab;
-
-        // 기존 블록 제거
-        foreach (GameObject block in stackedBlocks)
-        {
-            if (block != null)
-            {
-                Destroy(block);
-            }
-        }
-
+        foreach (GameObject block in stackedBlocks) if (block != null) Destroy(block);
         stackedBlocks.Clear();
         lastBlock = null;
         totalHeightMoved = 0f;
-
-        // 카메라 위치 복구
         mainCamera.transform.position = initialCameraPosition;
         nextBlockScale = originalBlockPrefab.transform.localScale;
-
-        // 첫 블록 다시 스폰
-        SpawnBlock();
+        if (isStackGameActive) SpawnBlock();
+        // 게임 재시작 시 뱃지 GameObject 비활성화
+        if (badgeImageObject != null)
+        {
+            badgeImageObject.SetActive(false);
+        }
     }
 
     public void SpawnBlock()
     {
-        if (isGameOver) return;
+        if (!isStackGameActive || isGameOver) return;
 
         Vector3 spawnPos = spawnPoint.position;
-
-        if (lastBlock != null)
-        {
-            spawnPos.y = lastBlock.transform.position.y + blockHeight;
-        }
-
+        if (lastBlock != null) spawnPos.y = lastBlock.transform.position.y + blockHeight + 0.5f;
         GameObject newBlock = Instantiate(blockPrefab, spawnPos, Quaternion.identity);
         newBlock.transform.localScale = nextBlockScale;
-        newBlock.GetComponent<BlockController>().Init(this);
+        BlockController blockController = newBlock.GetComponent<BlockController>();
+        blockController.Init(this);
+        blockController.moveSpeed += licenseCount * blockSpeedIncrement;
 
-        //Debug.Log("Spawned Block at: " + spawnPos);
-
-        // 리스트에 저장
-        stackedBlocks.Add(newBlock);
-
-        // 블록이 너무 많으면 재배치
-        if (stackedBlocks.Count > maxVisibleBlocks)
+        SpriteRenderer renderer = newBlock.GetComponent<SpriteRenderer>();
+        if (renderer != null)
         {
-            RecycleBlocks();
+            renderer.sortingLayerName = blockSortingLayerName;
+            renderer.sortingOrder = baseBlockOrderInLayer + stackedBlocks.Count;
         }
+
+        stackedBlocks.Add(newBlock);
+        if (stackedBlocks.Count > maxVisibleBlocks) RecycleBlocks();
+
+        lastBlock = newBlock;
     }
 
     private void RecycleBlocks()
     {
         int numToRemove = stackedBlocks.Count - maxVisibleBlocks;
-
-        // 아래에 있는 오래된 블록 제거
         for (int i = 0; i < numToRemove; i++)
         {
-            Destroy(stackedBlocks[i]);
+            GameObject blockToRemove = stackedBlocks[i];
+            if (blockToRemove != null) Destroy(blockToRemove);
         }
-
         stackedBlocks.RemoveRange(0, numToRemove);
 
-        // 나머지 블록들 아래로 이동
-        foreach (var block in stackedBlocks)
+        for (int i = 0; i < stackedBlocks.Count; i++)
         {
-            block.transform.position -= new Vector3(0, blockHeight * numToRemove, 0);
+            SpriteRenderer renderer = stackedBlocks[i].GetComponent<SpriteRenderer>();
+            if (renderer != null) renderer.sortingOrder = baseBlockOrderInLayer + i;
         }
 
-        // 카메라 위치도 재조정
-        mainCamera.transform.position -= new Vector3(0, blockHeight * numToRemove, 0);
-
-        // 현재까지 카메라가 이동한 높이 저장 (나중에 필요하면 씀)
-        totalHeightMoved += blockHeight * numToRemove;
+        foreach (var block in stackedBlocks) block.transform.position -= new Vector3(0, blockHeight * numToRemove + 0.5f * numToRemove, 0);
+        mainCamera.transform.position -= new Vector3(0, blockHeight * numToRemove + 0.5f * numToRemove, 0);
+        totalHeightMoved += blockHeight * numToRemove + 0.5f * numToRemove;
     }
-
 
     public void OnBlockStopped(GameObject currentBlock)
     {
-        if (lastBlock == null)
+        if (!isStackGameActive || isGameOver) return;
+
+        blocksStackedCount++;
+        if (blocksStackedCount % licenseThreshold == 0)
         {
-            lastBlock = currentBlock;
-            nextBlockScale = currentBlock.transform.localScale;
-            SpawnBlock();
-            return;
-        }
-
-        /*
-         float overlap = GetOverlap(currentBlock, lastBlock, out float slicedSize, out float slicedX);
-
-        if (overlap <= 0f)
-        {
-            Debug.Log("Game Over");
-
-            if (cameraSwitcher != null)
+            if (licenseCount < maxLicenses)
             {
-                cameraSwitcher.ExitStackMode(); // 카메라 복귀
+                Debug.Log("자격증을 취득했습니다!!!");
+                ShowBadge(licenseCount); // 뱃지 표시
+                licenseCount++;
             }
-            return;
+            if (licenseCount >= maxLicenses)
+            {
+                Debug.Log("모든 자격증을 취득했습니다! " + exitDelay + "초 후에 원래 게임으로 돌아갑니다.");
+                StartCoroutine(ReturnToOriginalGame()); // 3초 후 돌아가는 코루틴 시작
+                return; // 더 이상 블록을 생성하지 않도록 return
+            }
         }
 
-        // 블럭 자르기
-        float direction = Mathf.Sign(currentBlock.transform.position.x - lastBlock.transform.position.x);
-        float newBlockX = lastBlock.transform.position.x + (currentBlock.transform.position.x - lastBlock.transform.position.x) / 2f;
-
-        Vector3 trimmedScale = currentBlock.transform.localScale;
-        trimmedScale.x = overlap;
-
-        Vector3 trimmedPos = currentBlock.transform.position;
-        trimmedPos.x = newBlockX;
-
-        currentBlock.transform.localScale = trimmedScale;
-        currentBlock.transform.position = trimmedPos;
-
-        // 잘린 조각 생성 (떨어지는 부분)
-        Vector3 slicedPos = currentBlock.transform.position + new Vector3((overlap / 2f + slicedSize / 2f) * direction, 0, 0);
-        GameObject slicedPart = Instantiate(originalBlockPrefab, slicedPos, Quaternion.identity);
-        slicedPart.transform.localScale = new Vector3(slicedSize, currentBlock.transform.localScale.y, 1f);
-        slicedPart.AddComponent<Rigidbody2D>();
-        Destroy(slicedPart, 2f);
-        */
-
-        // Trim된 블럭을 기준으로 갱신
         lastBlock = currentBlock;
-        nextBlockScale = currentBlock.transform.localScale;
+        SpriteRenderer renderer = lastBlock.GetComponent<SpriteRenderer>();
+        if (renderer != null) renderer.sortingOrder = baseBlockOrderInLayer + stackedBlocks.Count;
 
         MoveCameraUp();
+        UpdateBadgePosition(); // 매 프레임 뱃지 위치 업데이트
+
+        nextBlockScale = currentBlock.transform.localScale;
         SpawnBlock();
+    }
+
+    void ShowBadge(int badgeIndex)
+    {
+        if (badgeImageObject != null && badgeSprites != null && badgeIndex < badgeSprites.Length)
+        {
+            SpriteRenderer badgeRenderer = badgeImageObject.GetComponent<SpriteRenderer>();
+            if (badgeRenderer != null)
+            {
+                badgeRenderer.sprite = badgeSprites[badgeIndex];
+                badgeImageObject.SetActive(true);
+            }
+            else
+            {
+                Debug.LogError("BadgeImage GameObject에 SpriteRenderer가 없습니다!");
+            }
+        }
+        else
+        {
+            Debug.LogWarning("뱃지 GameObject 또는 스프라이트 배열이 연결되지 않았거나 인덱스가 잘못되었습니다.");
+        }
+    }
+
+    void UpdateBadgePosition()
+    {
+        if (badgeImageObject != null && mainCamera != null)
+        {
+            badgeImageObject.transform.position = mainCamera.transform.position + badgeOffset;
+        }
+    }
+
+    IEnumerator ReturnToOriginalGame()
+    {
+        yield return new WaitForSeconds(exitDelay);
+        EndGame();
     }
 
     public void EndGame()
     {
-        if (isGameOver) return; // 중복 종료 방지
+        if (!isStackGameActive || isGameOver) return;
+        if (isGameOver) return;
         isGameOver = true;
-
         Debug.Log("Game Over");
-
-        if (cameraSwitcher != null)
-        {
-            cameraSwitcher.ExitStackMode();
-        }
-
-        // 현재 블록 멈추게 하기
+        if (cameraSwitcher != null) cameraSwitcher.ExitStackMode();
         if (stackedBlocks.Count > 0)
         {
             GameObject current = stackedBlocks[stackedBlocks.Count - 1];
             var controller = current.GetComponent<BlockController>();
-            if (controller != null)
-            {
-                controller.StopBlock();
-            }
+            if (controller != null) controller.StopBlock();
         }
     }
 
-    /*
-     float GetOverlap(GameObject curr, GameObject last, out float slicedSize, out float slicedX)
-    {
-        float currX = curr.transform.position.x;
-        float lastX = last.transform.position.x;
-        float currW = curr.transform.localScale.x;
-        float lastW = last.transform.localScale.x;
-
-        float distance = currX - lastX;
-        float overlap = currW - Mathf.Abs(distance);
-        slicedSize = Mathf.Abs(distance);
-        slicedX = currX + (distance > 0 ? slicedSize / 2f : -slicedSize / 2f);
-        return overlap;
-    }
-     */
-
     void MoveCameraUp()
     {
-        mainCamera.transform.position += new Vector3(0, blockHeight, 0);
+        if (isStackGameActive) mainCamera.transform.position += new Vector3(0, blockHeight + 0.5f, 0);
     }
 }
