@@ -35,9 +35,13 @@ public class PlayerController : MonoBehaviour
 
     private bool isOnConveyor = false;
     private ConveyorBeltPhysics currentConveyorScript = null;
-
+    private PhysicsMaterial2D defaultMaterial; // 기본 Physics Material 2D
+    public PhysicsMaterial2D wallMaterial;
+    private Collider2D playerCollider;
     void Start()
     {
+        playerCollider = GetComponent<Collider2D>();
+        defaultMaterial = playerCollider.sharedMaterial;
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
@@ -72,6 +76,7 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
+      
         // 입력이 막혀있는지 확인
         if (Time.time < inputDisabledTime || isTalking || isStackGameMode)
         {
@@ -95,16 +100,20 @@ public class PlayerController : MonoBehaviour
         {
             jumpRequest = false; // 점프 요청 초기화
             rb.velocity = new Vector2(rb.velocity.x, jumpForce);
-            //isGrounded = false; // 이 라인 제거
-            // animator.SetBool("IsJumping", true);
-            //animator.SetBool("IsGround", false);
+           
+        }
+
+        if (!isGrounded && !isTalking && !isStackGameMode)
+        {
+            // 공중에 있을 때 수평 속도 감쇠
+            rb.velocity = new Vector2(rb.velocity.x * 0.95f, rb.velocity.y); // 0.95f는 감쇠율, 1보다 작은 값으로 조절
         }
 
         // 좌우 이동
         float moveInput = Input.GetAxisRaw("Horizontal");
         //Vector2 moveVelocity = new Vector2(moveInput * moveSpeed, rb.velocity.y);
         //rb.velocity = moveVelocity;
-
+        float desiredMove = moveInput;
         bool allowPlayerVelocityOverride = true; // 플레이어 입력으로 속도를 덮어쓸지 여부
 
 
@@ -125,6 +134,7 @@ public class PlayerController : MonoBehaviour
             rb.velocity = new Vector2(moveInput * moveSpeed, rb.velocity.y);
         }
 
+     
         animator.SetFloat("Speed", Mathf.Abs(moveInput));
     }
 
@@ -137,6 +147,24 @@ public class PlayerController : MonoBehaviour
 
     void OnCollisionStay2D(Collision2D collision)
     {
+        //벽 붙는거 방지
+        if (collision.gameObject.CompareTag("Ground"))
+        {
+            foreach (ContactPoint2D contact in collision.contacts)
+            {
+                // 충돌 지점의 백터
+                if (Mathf.Abs(contact.normal.x) > 0.8f) // 충돌방향 좌우
+                {
+                    float moveInput = Input.GetAxisRaw("Horizontal");
+                   // Debug.Log("wall");
+                    playerCollider.sharedMaterial = wallMaterial; // 마찰 0
+                }
+                else
+                {
+                    playerCollider.sharedMaterial = defaultMaterial; //기본
+                }
+            }
+        }
         if ((collision.gameObject.CompareTag("Spike") || collision.gameObject.CompareTag("Enemy")) && (Time.time - lastDamageTime > damageCooldown) && !isTakingDamage)
         {
             TakeDamage();
@@ -149,7 +177,7 @@ public class PlayerController : MonoBehaviour
         isGrounded = IsGrounded();
         if (collision.gameObject.CompareTag("Enemy"))
         {
-            Debug.Log("플레이어가 맞았습니다!");
+            Debug.Log("플레이어가 맞았습니다!" + health);
 
             // Attack
             if (rb.velocity.y < 0 && transform.position.y > collision.transform.position.y)
