@@ -36,8 +36,13 @@ public class PlayerController : MonoBehaviour
     private bool isOnConveyor = false;
     private ConveyorBeltPhysics currentConveyorScript = null;
 
+    private PhysicsMaterial2D defaultMaterial; // 기본 마찰
+    public PhysicsMaterial2D wallMaterial; // 벽에 붙을시 마찰
+    private Collider2D playerCollider;
     void Start()
     {
+        playerCollider = GetComponent<Collider2D>();
+        defaultMaterial = playerCollider.sharedMaterial;
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
@@ -95,16 +100,18 @@ public class PlayerController : MonoBehaviour
         {
             jumpRequest = false; // 점프 요청 초기화
             rb.velocity = new Vector2(rb.velocity.x, jumpForce);
-            //isGrounded = false; // 이 라인 제거
-            // animator.SetBool("IsJumping", true);
-            //animator.SetBool("IsGround", false);
+         
+        }
+        if (!isGrounded && !isTalking && !isStackGameMode)
+        {
+            //공중에서 속도 줄이기
+            rb.velocity = new Vector2(rb.velocity.x * 0.95f, rb.velocity.y); //
         }
 
         // 좌우 이동
         float moveInput = Input.GetAxisRaw("Horizontal");
         //Vector2 moveVelocity = new Vector2(moveInput * moveSpeed, rb.velocity.y);
         //rb.velocity = moveVelocity;
-
         bool allowPlayerVelocityOverride = true; // 플레이어 입력으로 속도를 덮어쓸지 여부
 
 
@@ -137,7 +144,25 @@ public class PlayerController : MonoBehaviour
 
     void OnCollisionStay2D(Collision2D collision)
     {
-        if ((collision.gameObject.CompareTag("Spike") || collision.gameObject.CompareTag("Enemy")) && (Time.time - lastDamageTime > damageCooldown) && !isTakingDamage)
+        //벽 붙기 제거
+        if (collision.gameObject.CompareTag("Ground"))
+        {
+            foreach (ContactPoint2D contact in collision.contacts)
+            {
+
+                if (Mathf.Abs(contact.normal.x) > 0.8f)
+                {
+                    float moveInput = Input.GetAxisRaw("Horizontal");
+                    // Debug.Log("wall");
+                    playerCollider.sharedMaterial = wallMaterial;
+                }
+                else
+                {
+                    playerCollider.sharedMaterial = defaultMaterial;
+                }
+            }
+        }
+            if ((collision.gameObject.CompareTag("Spike") || collision.gameObject.CompareTag("Enemy")) && (Time.time - lastDamageTime > damageCooldown) && !isTakingDamage)
         {
             TakeDamage();
         }
