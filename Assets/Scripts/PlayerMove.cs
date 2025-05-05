@@ -142,6 +142,7 @@ public class PlayerController : MonoBehaviour
         return hit.collider != null;
     }
 
+
     void OnCollisionStay2D(Collision2D collision)
     {
         //벽 붙기 제거

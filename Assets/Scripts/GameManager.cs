@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using Unity.VisualScripting;
+using Cinemachine; // Cinemachine 네임스페이스 추가
 
 public class GameManager : MonoBehaviour
 {
@@ -33,6 +34,10 @@ public class GameManager : MonoBehaviour
         new Vector3(235.5f, -27, 0)
     };
 
+    [Header("Cinemachine")]
+    public CinemachineVirtualCamera virtualCamera; // Inspector에서 Virtual Camera 할당
+    private Vector3 originalDamping;
+
     void Awake()
     {
         // 싱글톤 패턴 적용
@@ -54,16 +59,23 @@ public class GameManager : MonoBehaviour
         // PlayerPrefs에서 totalLives 값을 불러오기
         totalLives = PlayerPrefs.GetInt("TotalLives", 3);  // 기본값 3으로 설정
         UpdateLifeUI();  // UI 업데이트
+
+        // Virtual Camera가 할당되었다면 초기 댐핑 값 저장
+        if (virtualCamera != null && virtualCamera.GetCinemachineComponent(CinemachineCore.Stage.Body) is CinemachineTransposer)
+        {
+            CinemachineTransposer transposer = virtualCamera.GetCinemachineComponent(CinemachineCore.Stage.Body) as CinemachineTransposer;
+            originalDamping = new Vector3(transposer.m_XDamping, transposer.m_YDamping, transposer.m_ZDamping);
+        }
     }
 
     void Start()
     {
-        
+
     }
 
     void Update()
     {
-        
+
     }
 
     //코인 5개까지 증가시키는 함수
@@ -80,17 +92,22 @@ public class GameManager : MonoBehaviour
         //UpdateScoreUI();
     }
 
-    
 
     public void NextStage()
     {
         if (stageIndex < stages.Length - 1 && stageIndex < startPositions.Length - 1) // 초과 방지
         {
+            // 맵 이동 전에 댐핑 0으로 설정
+            SetCameraDamping(Vector3.zero);
+
             stages[stageIndex].gameObject.SetActive(false);
             stageIndex++;
             stages[stageIndex].gameObject.SetActive(true);
             Debug.Log("Next Stage Index: " + stageIndex);
             PlayerReposition();
+
+            // 딜레이 후 댐핑 원래 값으로 복원
+            StartCoroutine(ResetCameraDampingAfterDelay(0.1f)); // 0.1초 딜레이 후 복원
         }
         else
         {
@@ -102,9 +119,15 @@ public class GameManager : MonoBehaviour
     {
         if (stageIndex < startPositions.Length)
         {
+            // 맵 이동 전에 댐핑 0으로 설정
+            SetCameraDamping(Vector3.zero);
+
             Debug.Log("Player Repositioned to: " + startPositions[stageIndex]);
             player.transform.position = startPositions[stageIndex]; // 스테이지에 맞는 플레이어 위치 설정
             GameManager.instance.hopeScore = 0;
+
+            // 딜레이 후 댐핑 원래 값으로 복원
+            StartCoroutine(ResetCameraDampingAfterDelay(0.1f)); // 0.1초 딜레이 후 복원
         }
         else
         {
@@ -132,4 +155,22 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    // 카메라 댐핑 설정 함수
+    private void SetCameraDamping(Vector3 dampingValues)
+    {
+        if (virtualCamera != null && virtualCamera.GetCinemachineComponent(CinemachineCore.Stage.Body) is CinemachineTransposer)
+        {
+            CinemachineTransposer transposer = virtualCamera.GetCinemachineComponent(CinemachineCore.Stage.Body) as CinemachineTransposer;
+            transposer.m_XDamping = dampingValues.x;
+            transposer.m_YDamping = dampingValues.y;
+            transposer.m_ZDamping = dampingValues.z;
+        }
+    }
+
+    // 딜레이 후 카메라 댐핑 원래 값으로 복원하는 코루틴
+    IEnumerator ResetCameraDampingAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        SetCameraDamping(originalDamping);
+    }
 }
