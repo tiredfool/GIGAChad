@@ -5,23 +5,34 @@ using UnityEngine.UI;
 
 public class SettingUI : MonoBehaviour
 {
+    public Image setting;
+    public bool isActivated;
 
-    
     // Start is called before the first frame update
     void Start()
     {
-        
+        isActivated = false;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyUp(KeyCode.Escape))
         {
-            this.gameObject.SetActive(false);
+            if (isActivated == false)
+            {
+                setting.gameObject.SetActive(true);
+                isActivated = true;
+                Time.timeScale = 0f;
+            }
+            else
+            {
+                setting.gameObject.SetActive(false);
+                isActivated = false;
+                Time.timeScale = 1f;
+            }
         }
-       
     }
 
-    
+
 }
