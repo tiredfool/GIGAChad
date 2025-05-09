@@ -51,9 +51,9 @@ ExportedObj/
 *.VC.db
 
 # Unity3D generated meta files
-*.pidb.meta
-*.pdb.meta
-*.mdb.meta
+#*.pidb.meta
+#*.pdb.meta
+#*.mdb.meta
 
 # Unity3D generated file on crash reports
 sysinfo.txt
@@ -487,4 +487,4 @@ FodyWeavers.xsd
 ### VisualStudio Patch ###
 # Additional files built by Visual Studio
 
-# End of https://www.toptal.com/developers/gitignore/api/visualstudio,windows,unity
+# End of https://www.toptal.com/developers/gitignore/api/visualstudio,windows,unityLibrary/
