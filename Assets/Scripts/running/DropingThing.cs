@@ -37,7 +37,7 @@ public class DropingThing : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        Debug.Log("Collision Enter with: " + collision.gameObject.tag);
+       // Debug.Log("Collision Enter with: " + collision.gameObject.tag);
         if (collision.gameObject.CompareTag("Ground") && !collision.gameObject.CompareTag("MovingWalk"))
         {
             isGrounded = true; // ∂•ø° ¡¢√À«ﬂ¿Ω¿ª ±‚∑œ
@@ -66,7 +66,7 @@ public class DropingThing : MonoBehaviour
             {
                 isOnConveyor = false;
                 currentConveyorScript = null;
-                Debug.Log("DropingThing Exited Conveyor");
+               // Debug.Log("DropingThing Exited Conveyor");
             }
         }
     }

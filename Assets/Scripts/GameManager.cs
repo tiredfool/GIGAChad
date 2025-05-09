@@ -10,7 +10,7 @@ public class GameManager : MonoBehaviour
     public static GameManager instance;  // 싱글톤 인스턴스
     public int hopeScore = 0;
     //public Text pointTxt;  // 점수 UI 표시용 텍스트
-    public int stageIndex;
+    public int stageIndex = 0; // 초기 스테이지 인덱스 0으로 설정
     public GameObject[] stages = new GameObject[12]; // 크기를 startPositions.Length와 동일하게 설정
     public Transform player;
     public int totalLives = 3;  // 총 목숨 수
@@ -36,6 +36,7 @@ public class GameManager : MonoBehaviour
 
     [Header("Cinemachine")]
     public CinemachineVirtualCamera virtualCamera; // Inspector에서 Virtual Camera 할당
+    public CinemachineConfiner2D confiner2D; // Inspector에서 Confiner2D 할당
     private Vector3 originalDamping;
 
     void Awake()
@@ -70,7 +71,15 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-
+        // 초기 스테이지 활성화 및 카메라 범위 설정
+        if (stages.Length > 0 && stageIndex < stages.Length)
+        {
+            for (int i = 0; i < stages.Length; i++)
+            {
+                stages[i].SetActive(i == stageIndex);
+            }
+            SetCameraConfinerBounds(stages[stageIndex]);
+        }
     }
 
     void Update()
@@ -105,6 +114,7 @@ public class GameManager : MonoBehaviour
             stages[stageIndex].gameObject.SetActive(true);
             Debug.Log("Next Stage Index: " + stageIndex);
             PlayerReposition();
+            SetCameraConfinerBounds(stages[stageIndex]); // 다음 스테이지의 콜라이더로 범위 설정
 
             // 딜레이 후 댐핑 원래 값으로 복원
             StartCoroutine(ResetCameraDampingAfterDelay(0.1f)); // 0.1초 딜레이 후 복원
@@ -172,5 +182,27 @@ public class GameManager : MonoBehaviour
     {
         yield return new WaitForSeconds(delay);
         SetCameraDamping(originalDamping);
+    }
+
+    // CinemachineConfiner2D의 Bounding Volume 2D를 설정하는 함수
+    private void SetCameraConfinerBounds(GameObject stage)
+    {
+        if (confiner2D != null && stage != null)
+        {
+            Collider2D stageCollider = stage.GetComponent<Collider2D>();
+            if (stageCollider != null)
+            {
+                confiner2D.m_BoundingShape2D = stageCollider;
+                Debug.Log($"카메라 범위를 스테이지 '{stage.name}'의 콜라이더로 설정했습니다.");
+            }
+            else
+            {
+                Debug.LogError(stage.name + "에 Collider2D 컴포넌트가 없습니다!");
+            }
+        }
+        else
+        {
+            Debug.LogError("CinemachineConfiner2D 또는 스테이지가 할당되지 않았습니다!");
+        }
     }
 }
