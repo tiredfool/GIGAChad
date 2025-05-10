@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 13312, guid: 0000000000000000e000000000000000, type: 0}
   m_Name: FDR_Interior_563
   m_EditorClassIdentifier: 
-  m_Sprite: {fileID: 1204680087, guid: 5600cd25f34d70b41afed0adb2319964, type: 3}
+  m_Sprite: {fileID: -1735052695, guid: c3c035b4bc5e89747846478bdf5f3cd4, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Transform:
     e00: 1
