@@ -71,6 +71,7 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
+        player.transform.position = startPositions[stageIndex];
         // 초기 스테이지 활성화 및 카메라 범위 설정
         if (stages.Length > 0 && stageIndex < stages.Length)
         {
