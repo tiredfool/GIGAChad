@@ -3445,7 +3445,7 @@ SpriteRenderer:
   m_Size: {x: 23.039999, y: 12.959999}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &105859546
@@ -13286,7 +13286,7 @@ SpriteRenderer:
   m_Size: {x: 23.039999, y: 12.959999}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &423661507
@@ -15451,7 +15451,7 @@ SpriteRenderer:
   m_Size: {x: 23.039999, y: 12.959999}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &488360913
@@ -27223,7 +27223,7 @@ SpriteRenderer:
   m_Size: {x: 24.800001, y: 24.800001}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!4 &730100507
@@ -45419,7 +45419,7 @@ SpriteRenderer:
   m_Size: {x: 23.039999, y: 12.959999}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &1545637678
@@ -46455,7 +46455,7 @@ SpriteRenderer:
   m_Size: {x: 23.039999, y: 12.959999}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &1588247627
@@ -46827,7 +46827,7 @@ SpriteRenderer:
   m_Size: {x: 23.039999, y: 12.959999}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &1602879663
@@ -49794,8 +49794,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61e5ca06327685146ab8bec18a63c468, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  instructionImageObject: {fileID: 0}
-  stackManager: {fileID: 0}
+  instructionImageObject: {fileID: 2030051472}
+  stackManager: {fileID: 790999395}
   startGameKey: 113
 --- !u!1 &1742990959
 GameObject:
@@ -52591,7 +52591,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hopeScore: 0
-  stageIndex: 0
+  stageIndex: 7
   stages:
   - {fileID: 1065366533}
   - {fileID: 274972194}
@@ -53878,7 +53878,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ccf8031c0e2e82b46af5f46a1ed39bd1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startUpManager: {fileID: 0}
+  startUpManager: {fileID: 1731476866}
 --- !u!1 &2023038192
 GameObject:
   m_ObjectHideFlags: 0
@@ -55648,7 +55648,7 @@ SpriteRenderer:
   m_Size: {x: 23.039999, y: 12.959999}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &2047671380
