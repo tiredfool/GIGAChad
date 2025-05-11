@@ -3,44 +3,52 @@ using UnityEngine;
 
 public class PlatformTrigger : MonoBehaviour
 {
-    public GameObject platformPrefab;       // »ı¼º¿¡ »ç¿ëÇÒ ÇÃ·§Æû ÇÁ¸®ÆÕ
-    public GameObject blackWaves;           // ¼­¼­È÷ ¿Ã¶ó¿Ã BlackWaves ¿ÀºêÁ§Æ®
-    public GameObject mainCamera;           // ±âÁ¸ Ä«¸Ş¶ó
-    public GameObject bossCamera;           // º¸½º¿ë Ä«¸Ş¶ó
+    public GameObject platformPrefab;
+    public GameObject blackWaves;
+    public GameObject mainCamera;
+    public GameObject bossCamera;
 
     private bool hasStepped = false;
     private float destroyDelay = 3f;
+
+    // ì¹´ë©”ë¼ ìë™ ìƒìŠ¹ìš© ì„¤ì •
+    public float cameraRiseSpeed = 2f;
+    private bool isCameraRising = false;
 
     void OnCollisionEnter2D(Collision2D collision)
     {
         if (hasStepped || !collision.collider.CompareTag("Player")) return;
 
         hasStepped = true;
-        Debug.Log("ÇÃ·¹ÀÌ¾î°¡ ¹ßÆÇÀ» ¹âÀ½");
+        Debug.Log("í”Œë ˆì´ì–´ê°€ í”Œë«í¼ì— ë‹¿ìŒ");
 
-        // º¸½º Ä«¸Ş¶ó ÀüÈ¯
+        // ì¹´ë©”ë¼ ì „í™˜
         if (mainCamera != null) mainCamera.SetActive(false);
         if (bossCamera != null) bossCamera.SetActive(true);
 
-        // BlackWaves ¿Ã¶ó¿À±â ½ÃÀÛ
+        // ì¹´ë©”ë¼ ìƒìŠ¹ ì‹œì‘
+        isCameraRising = true;
+
+        // BlackWaves ì´ë™ ì‹œì‘
         if (blackWaves != null)
         {
             StartCoroutine(RaiseBlackWaves());
         }
 
-        // ´ÙÀ½ ¹ßÆÇ »ı¼º
+        // ìƒˆ í”Œë«í¼ ìƒì„±
         Vector3 currentPos = transform.position;
         float newX = Random.Range(270f, 275f);
         float newY = currentPos.y + 3f;
         Vector3 newPlatformPos = new Vector3(newX, newY, 0f);
 
         GameObject newPlatform = Instantiate(platformPrefab, newPlatformPos, Quaternion.identity);
-        newPlatform.GetComponent<PlatformTrigger>().platformPrefab = platformPrefab;
-        newPlatform.GetComponent<PlatformTrigger>().blackWaves = blackWaves;
-        newPlatform.GetComponent<PlatformTrigger>().mainCamera = mainCamera;
-        newPlatform.GetComponent<PlatformTrigger>().bossCamera = bossCamera;
+        var newTrigger = newPlatform.GetComponent<PlatformTrigger>();
+        newTrigger.platformPrefab = platformPrefab;
+        newTrigger.blackWaves = blackWaves;
+        newTrigger.mainCamera = mainCamera;
+        newTrigger.bossCamera = bossCamera;
 
-        // ÇöÀç ¹ßÆÇ Á¦°Å ¿¹¾à
+        // ìì‹  ì‚­ì œ
         StartCoroutine(DestroyAfterDelay(gameObject));
     }
 
@@ -49,21 +57,30 @@ public class PlatformTrigger : MonoBehaviour
         float duration = 7f;
         float elapsed = 0f;
         Vector3 startPos = blackWaves.transform.position;
-        Vector3 targetPos = startPos + new Vector3(0f, 20f, 0f); // 20¸¸Å­ »ó½Â
+        float targetY = startPos.y + 20f;
 
         while (elapsed < duration)
         {
-            blackWaves.transform.position = Vector3.Lerp(startPos, targetPos, elapsed / duration);
+            blackWaves.transform.position = Vector3.Lerp(startPos, new Vector3(startPos.x, targetY, startPos.z), elapsed / duration);
             elapsed += Time.deltaTime;
             yield return null;
         }
 
-        blackWaves.transform.position = targetPos;
+        blackWaves.transform.position = new Vector3(startPos.x, targetY, startPos.z);
     }
 
     IEnumerator DestroyAfterDelay(GameObject platform)
     {
         yield return new WaitForSeconds(destroyDelay);
         Destroy(platform);
+    }
+
+    void Update()
+    {
+        // ì¹´ë©”ë¼ë¥¼ ìœ„ë¡œ ì²œì²œíˆ ì´ë™
+        if (isCameraRising && bossCamera != null)
+        {
+            bossCamera.transform.position += new Vector3(0f, cameraRiseSpeed * Time.deltaTime, 0f);
+        }
     }
 }
