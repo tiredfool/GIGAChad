@@ -3,7 +3,6 @@ using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic; // List 사용을 위해 추가
 using TMPro;
-
 public class DialogueManager : MonoBehaviour
 {
     public TextMeshProUGUI dialogueText;
@@ -26,9 +25,12 @@ public class DialogueManager : MonoBehaviour
     private List<DialogueData> currentDialogues = new List<DialogueData>(); // 현재 씬 대사
     public List<Sprite> portraitSprites = new List<Sprite>(); // 이미지 
     public PlayerController playerController; // PlayerController 참조
-
     public FollowPlayer follower; // 따라오는 기가차드
 
+    // 스탠딩 일러스트 관련 변수
+    public Image standingImageLeft;
+    public Image standingImageRight;
+    public List<Sprite> standingSprites = new List<Sprite>(); // 스탠딩 일러스트 스프라이트 리스트
 
     void Awake()
     {
@@ -36,7 +38,9 @@ public class DialogueManager : MonoBehaviour
         dialogueBox.SetActive(false);
         blackBox.SetActive(false);
         LoadDialogueFromJson();
-       // follower.SetVisible(false); // 기가차드 비활성화
+        // follower.SetVisible(false); // 기가차드 비활성화
+        if (standingImageLeft != null) standingImageLeft.gameObject.SetActive(false);
+        if (standingImageRight != null) standingImageRight.gameObject.SetActive(false);
     }
 
     void LoadDialogueFromJson()
@@ -58,7 +62,7 @@ public class DialogueManager : MonoBehaviour
     public void SetDialogues(List<DialogueData> dialogues) //트리거에서 대사 정해주기
     {
         currentDialogues = dialogues;
-        dialogueIndex = 0; 
+        dialogueIndex = 0;
     }
 
     public void StartDialogue()
@@ -73,18 +77,19 @@ public class DialogueManager : MonoBehaviour
         dialogueBox.SetActive(true);
         playerController.SetTalking(true); // 대화 시작 시 움직임 막기
         ShowDialogue(currentDialogues[dialogueIndex]);
-      
+
     }
 
     void ShowDialogue(DialogueData data)
     {
-        // 모든 대화 박스 비활성화
+        // 모든 대화 박스 및 스탠딩 일러스트 비활성화
         dialogueBox.SetActive(false);
         blackBox.SetActive(false);
+        if (standingImageLeft != null) standingImageLeft.gameObject.SetActive(false);
+        if (standingImageRight != null) standingImageRight.gameObject.SetActive(false);
 
         if (data.dialogueType == "normal")
         {
-
             dialogueBox.SetActive(true);
             nameText.text = data.npcName;
 
@@ -92,6 +97,52 @@ public class DialogueManager : MonoBehaviour
             if (portrait != null)
             {
                 portraitImage.sprite = portrait;
+            }
+
+            // 스탠딩 일러스트 처리
+            string[] standingImages = data.standingImage?.Split(',');
+            string[] standingPositions = data.standingPosition?.Split(',');
+
+            if (standingImages != null)
+            {
+                for (int i = 0; i < standingImages.Length; i++)
+                {
+                    string imageName = standingImages[i].Trim();
+                    if (!string.IsNullOrEmpty(imageName))
+                    {
+                        Sprite standingSprite = standingSprites.Find(s => s.name == imageName);
+                        if (standingSprite != null)
+                        {
+                            string position = (standingPositions != null && i < standingPositions.Length) ? standingPositions[i].Trim().ToLower() : "";
+
+                            if (position == "left" && standingImageLeft != null)
+                            {
+                                standingImageLeft.gameObject.SetActive(true);
+                                standingImageLeft.sprite = standingSprite;
+                            }
+                            else if (position == "right" && standingImageRight != null)
+                            {
+                                standingImageRight.gameObject.SetActive(true);
+                                standingImageRight.sprite = standingSprite;
+                            }
+                            else if (position == "both" && standingImageLeft != null && standingImageRight != null)
+                            {
+                                standingImageLeft.gameObject.SetActive(true);
+                                standingImageLeft.sprite = standingSprite;
+                                standingImageRight.gameObject.SetActive(true);
+                                standingImageRight.sprite = standingSprite;
+                            }
+                            else if (!string.IsNullOrEmpty(position) && position != "both")
+                            {
+                                Debug.LogError("Invalid standing position: " + position);
+                            }
+                        }
+                        else
+                        {
+                            Debug.LogError("Standing sprite not found: " + imageName);
+                        }
+                    }
+                }
             }
 
             StopAllCoroutines();
@@ -102,7 +153,7 @@ public class DialogueManager : MonoBehaviour
         {
             blackBox.SetActive(true);
             StopAllCoroutines();
-            StartCoroutine(TypeDialogue(data,blackText));
+            StartCoroutine(TypeDialogue(data, blackText));
         }
         else
         {
@@ -141,9 +192,9 @@ public class DialogueManager : MonoBehaviour
 
             yield return null;
         }
-       
+
         dialogueBox.transform.localPosition = originalDialogueBoxPosition;
-      
+
     }
 
     public void NextDialogue()
@@ -165,6 +216,8 @@ public class DialogueManager : MonoBehaviour
     {
         dialogueBox.SetActive(false);
         blackBox.SetActive(false);
+        if (standingImageLeft != null) standingImageLeft.gameObject.SetActive(false);
+        if (standingImageRight != null) standingImageRight.gameObject.SetActive(false);
         playerController.SetTalking(false);
         playerController.SetTalking(false);
         follower.SetShake(false);
@@ -178,39 +231,9 @@ public class DialogueManager : MonoBehaviour
     void Update() // 다음 대사
     {
 
-        if (Input.GetKeyDown(KeyCode.Return) )
+        if (Input.GetKeyDown(KeyCode.Return))
         {
             NextDialogue();
         }
-    }
-}
-
-// JSON 배열 파싱용...
-public static class JsonHelper
-{
-    public static List<T> FromJson<T>(string json)
-    {
-        Wrapper<T> wrapper = JsonUtility.FromJson<Wrapper<T>>(json);
-        return wrapper.Items;
-    }
-
-    public static string ToJson<T>(List<T> array)
-    {
-        Wrapper<T> wrapper = new Wrapper<T>();
-        wrapper.Items = array;
-        return JsonUtility.ToJson(wrapper);
-    }
-
-    public static string ToJson<T>(List<T> array, bool prettyPrint)
-    {
-        Wrapper<T> wrapper = new Wrapper<T>();
-        wrapper.Items = array;
-        return JsonUtility.ToJson(wrapper, prettyPrint);
-    }
-
-    [System.Serializable]
-    private class Wrapper<T>
-    {
-        public List<T> Items;
     }
 }
