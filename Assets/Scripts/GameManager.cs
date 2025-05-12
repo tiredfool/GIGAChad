@@ -206,4 +206,5 @@ public class GameManager : MonoBehaviour
             Debug.LogError("CinemachineConfiner2D 또는 스테이지가 할당되지 않았습니다!");
         }
     }
+
 }
