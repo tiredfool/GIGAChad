@@ -16,6 +16,9 @@ public class CameraSmoothRise : MonoBehaviour
     // 외부에서 시작 트리거를 걸기 위한 함수
     public void StartRising()
     {
-        startRising = true;
+        if (!startRising)
+        {
+            startRising = true;
+        }
     }
 }

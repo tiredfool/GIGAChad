@@ -15,6 +15,21 @@ public class PlatformTrigger : MonoBehaviour
     public float cameraRiseSpeed = 2f;
     private bool isCameraRising = false;
 
+    void Update()
+    {
+        // 카메라가 상승할 때, BlackWaves도 함께 상승
+        if (isCameraRising && bossCamera != null)
+        {
+            bossCamera.transform.position += new Vector3(0f, cameraRiseSpeed * Time.deltaTime, 0f);
+
+            // BlackWaves도 함께 상승
+            if (blackWaves != null)
+            {
+                blackWaves.transform.position += new Vector3(0f, cameraRiseSpeed * Time.deltaTime, 0f);
+            }
+        }
+    }
+
     void OnCollisionEnter2D(Collision2D collision)
     {
         if (hasStepped || !collision.collider.CompareTag("Player")) return;
@@ -22,12 +37,19 @@ public class PlatformTrigger : MonoBehaviour
         hasStepped = true;
         Debug.Log("플레이어가 플랫폼에 닿음");
 
+        // 점수 추가
+        ScoreManager.instance.AddScore(100);
+
         // 카메라 전환
         if (mainCamera != null) mainCamera.SetActive(false);
         if (bossCamera != null) bossCamera.SetActive(true);
 
         // 카메라 상승 시작
-        isCameraRising = true;
+        CameraSmoothRise cameraScript = bossCamera.GetComponent<CameraSmoothRise>();
+        if (cameraScript != null && !cameraScript.startRising)
+        {
+            cameraScript.StartRising();  // 상승 시작
+        }
 
         // BlackWaves 이동 시작
         if (blackWaves != null)
@@ -52,6 +74,7 @@ public class PlatformTrigger : MonoBehaviour
         StartCoroutine(DestroyAfterDelay(gameObject));
     }
 
+
     IEnumerator RaiseBlackWaves()
     {
         float duration = 7f;
@@ -75,12 +98,4 @@ public class PlatformTrigger : MonoBehaviour
         Destroy(platform);
     }
 
-    void Update()
-    {
-        // 카메라를 위로 천천히 이동
-        if (isCameraRising && bossCamera != null)
-        {
-            bossCamera.transform.position += new Vector3(0f, cameraRiseSpeed * Time.deltaTime, 0f);
-        }
-    }
 }
