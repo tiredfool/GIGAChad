@@ -34150,6 +34150,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1821372119480011127, guid: 5b1a83a9d8c3ca24eb49841f3d0a0ed7, type: 3}
       insertIndex: -1
       addedObject: {fileID: 716300462}
+    - targetCorrespondingSourceObject: {fileID: 1821372119480011127, guid: 5b1a83a9d8c3ca24eb49841f3d0a0ed7, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2134110761}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 3869865496289594816, guid: 5b1a83a9d8c3ca24eb49841f3d0a0ed7, type: 3}
       insertIndex: -1
@@ -54001,6 +54004,8 @@ MonoBehaviour:
     m_Bits: 256
   follower: {fileID: 730100508}
   wallMaterial: {fileID: 6200000, guid: cf3a15ac8aa9b814db89e26b0c4debd9, type: 2}
+  jumpDustEffect: {fileID: 1967835574231978638, guid: 3e196c9e632c76841a71cb6e2dc6d010, type: 3}
+  dustPoint: {fileID: 2134110761}
 --- !u!1 &1659780577
 GameObject:
   m_ObjectHideFlags: 0
@@ -64909,6 +64914,37 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &2134110760
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2134110761}
+  m_Layer: 0
+  m_Name: DustPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2134110761
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2134110760}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1656909042}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2138090603
 GameObject:
   m_ObjectHideFlags: 0

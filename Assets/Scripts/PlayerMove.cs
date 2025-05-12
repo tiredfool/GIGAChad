@@ -39,6 +39,12 @@ public class PlayerController : MonoBehaviour
     private PhysicsMaterial2D defaultMaterial; // 기본 마찰
     public PhysicsMaterial2D wallMaterial; // 벽에 붙을시 마찰
     private Collider2D playerCollider;
+
+    public GameObject jumpDustEffect;//먼지 프리펩
+    public Transform dustPoint;//이펙트를 생성할 위치
+
+    private bool wasGrounded;//직전 프레임에서 ground 상태 변수
+
     void Start()
     {
         playerCollider = GetComponent<Collider2D>();
@@ -57,8 +63,8 @@ public class PlayerController : MonoBehaviour
         {
             jumpRequest = true; // 점프 요청
             canJump = false;
-           // animator.SetBool("IsJumping", true);
-           // animator.SetBool("IsGround", false);
+            // animator.SetBool("IsJumping", true);
+            // animator.SetBool("IsGround", false);
         }
         float moveInput = Input.GetAxisRaw("Horizontal");
 
@@ -87,9 +93,20 @@ public class PlayerController : MonoBehaviour
         {
             animator.ResetTrigger("TakeDamage");
         }
-
+        wasGrounded = isGrounded;//직전 Grounded 상태 저장
         // 땅 체크 (FixedUpdate에서 Raycast 사용)
         isGrounded = IsGrounded();
+
+        //착지시 이펙트 발생
+        if(!wasGrounded && isGrounded )
+        {
+            if(jumpRequest != null && dustPoint != null)
+            {
+                GameObject dust = Instantiate(jumpDustEffect, dustPoint.position, Quaternion.identity);
+                Destroy(dust, 0.2f);
+            }
+        }
+
       //  if(isGrounded) Debug.Log("땅");
         // 애니메이션 제어
         animator.SetBool("IsJumping", !isGrounded);
@@ -100,7 +117,13 @@ public class PlayerController : MonoBehaviour
         {
             jumpRequest = false; // 점프 요청 초기화
             rb.velocity = new Vector2(rb.velocity.x, jumpForce);
-         
+            
+            //점프 시 이펙트 생성
+            if (jumpDustEffect != null && dustPoint != null)
+            {
+                GameObject dust = Instantiate(jumpDustEffect, dustPoint.position, Quaternion.identity);
+                Destroy(dust, 0.2f);
+            }
         }
         if (!isGrounded && !isTalking && !isStackGameMode)
         {
