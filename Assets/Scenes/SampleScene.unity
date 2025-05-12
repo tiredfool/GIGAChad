@@ -15093,6 +15093,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2601970b213673e41a940f032a80826f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  titleText: {fileID: 1293052447}
   scoreValueText: {fileID: 2138405989}
 --- !u!1 &461717526
 GameObject:
@@ -46097,7 +46098,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1293052446
 RectTransform:
   m_ObjectHideFlags: 0
@@ -55525,6 +55526,7 @@ GameObject:
   - component: {fileID: 1749589076}
   - component: {fileID: 1749589075}
   - component: {fileID: 1749589077}
+  - component: {fileID: 1749589078}
   m_Layer: 12
   m_Name: PixelBlackWaves
   m_TagString: Untagged
@@ -55593,8 +55595,8 @@ Transform:
   m_GameObject: {fileID: 1749589074}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 240.3007, y: -12.1, z: 0.05220357}
-  m_LocalScale: {x: 0.7361436, y: 0.8137484, z: 1}
+  m_LocalPosition: {x: 240.2, y: -10.5, z: 0.05220357}
+  m_LocalScale: {x: 0.7361436, y: 0.67319024, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1219650643}
@@ -55688,6 +55690,20 @@ PolygonCollider2D:
       - {x: 13.3125, y: -2.96875}
       - {x: 13.3125, y: 2.65625}
   m_UseDelaunayMesh: 0
+--- !u!114 &1749589078
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1749589074}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4a07e64002db5e40a55789f66798631, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetCamera: {fileID: 1871833997}
+  offsetY: -7
 --- !u!1 &1757679608
 GameObject:
   m_ObjectHideFlags: 0
@@ -64483,7 +64499,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2138405988
 RectTransform:
   m_ObjectHideFlags: 0

@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class PlatformTrigger : MonoBehaviour
 {
+    public static int steppedCount = 0;  // 밟은 횟수 전역 카운터
+
     public GameObject platformPrefab;
     public GameObject blackWaves;
     public GameObject mainCamera;
@@ -11,25 +13,6 @@ public class PlatformTrigger : MonoBehaviour
     private bool hasStepped = false;
     private float destroyDelay = 3f;
 
-    // 카메라 자동 상승용 설정
-    public float cameraRiseSpeed = 2f;
-    private bool isCameraRising = false;
-
-    void Update()
-    {
-        // 카메라가 상승할 때, BlackWaves도 함께 상승
-        if (isCameraRising && bossCamera != null)
-        {
-            bossCamera.transform.position += new Vector3(0f, cameraRiseSpeed * Time.deltaTime, 0f);
-
-            // BlackWaves도 함께 상승
-            if (blackWaves != null)
-            {
-                blackWaves.transform.position += new Vector3(0f, cameraRiseSpeed * Time.deltaTime, 0f);
-            }
-        }
-    }
-
     void OnCollisionEnter2D(Collision2D collision)
     {
         if (hasStepped || !collision.collider.CompareTag("Player")) return;
@@ -37,8 +20,20 @@ public class PlatformTrigger : MonoBehaviour
         hasStepped = true;
         Debug.Log("플레이어가 플랫폼에 닿음");
 
+        // 게임 UI 시작
+        ScoreManager.instance.StartGameUI();
+
         // 점수 추가
         ScoreManager.instance.AddScore(100);
+
+        // 밟은 횟수 증가
+        steppedCount++;
+
+        // 10개 단위로 상승 속도 증가
+        if (steppedCount % 10 == 0)
+        {
+            Debug.Log($"플랫폼 {steppedCount}개 밟음 → 상승 속도 증가");
+        }
 
         // 카메라 전환
         if (mainCamera != null) mainCamera.SetActive(false);
@@ -48,13 +43,7 @@ public class PlatformTrigger : MonoBehaviour
         CameraSmoothRise cameraScript = bossCamera.GetComponent<CameraSmoothRise>();
         if (cameraScript != null && !cameraScript.startRising)
         {
-            cameraScript.StartRising();  // 상승 시작
-        }
-
-        // BlackWaves 이동 시작
-        if (blackWaves != null)
-        {
-            StartCoroutine(RaiseBlackWaves());
+            cameraScript.StartRising();
         }
 
         // 새 플랫폼 생성
@@ -74,28 +63,9 @@ public class PlatformTrigger : MonoBehaviour
         StartCoroutine(DestroyAfterDelay(gameObject));
     }
 
-
-    IEnumerator RaiseBlackWaves()
-    {
-        float duration = 7f;
-        float elapsed = 0f;
-        Vector3 startPos = blackWaves.transform.position;
-        float targetY = startPos.y + 20f;
-
-        while (elapsed < duration)
-        {
-            blackWaves.transform.position = Vector3.Lerp(startPos, new Vector3(startPos.x, targetY, startPos.z), elapsed / duration);
-            elapsed += Time.deltaTime;
-            yield return null;
-        }
-
-        blackWaves.transform.position = new Vector3(startPos.x, targetY, startPos.z);
-    }
-
     IEnumerator DestroyAfterDelay(GameObject platform)
     {
         yield return new WaitForSeconds(destroyDelay);
         Destroy(platform);
     }
-
 }

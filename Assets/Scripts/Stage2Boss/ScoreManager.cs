@@ -3,27 +3,30 @@ using UnityEngine.UI;
 
 public class ScoreManager : MonoBehaviour
 {
-    public static ScoreManager instance; // 싱글톤
+    public static ScoreManager instance;
 
-    public Text scoreValueText;
+    public Text titleText;     
+    public Text scoreValueText; 
+
     private int score = 0;
 
     private void Awake()
     {
-        // 싱글톤 인스턴스 설정
-        if (instance == null)
-        {
-            instance = this;
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
+        if (instance == null) instance = this;
+        else Destroy(gameObject);
     }
 
     private void Start()
     {
+        titleText.gameObject.SetActive(false);      // 초기 비활성화
+        scoreValueText.gameObject.SetActive(false); // 초기 비활성화
         UpdateScoreText();
+    }
+
+    public void StartGameUI()
+    {
+        titleText.gameObject.SetActive(true);
+        scoreValueText.gameObject.SetActive(true);
     }
 
     public void AddScore(int amount)
