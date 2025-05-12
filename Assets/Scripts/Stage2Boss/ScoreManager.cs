@@ -5,8 +5,8 @@ public class ScoreManager : MonoBehaviour
 {
     public static ScoreManager instance;
 
-    public Text titleText;     
-    public Text scoreValueText; 
+    public Text titleText;
+    public Text scoreValueText;
 
     private int score = 0;
 
@@ -33,10 +33,22 @@ public class ScoreManager : MonoBehaviour
     {
         score += amount;
         UpdateScoreText();
+
+        if (score >= 5000)
+        {
+            Stage2Manager.instance.EndGameByScore();
+        }
     }
 
     private void UpdateScoreText()
     {
         scoreValueText.text = score.ToString();
     }
+
+    public void ResetScore()
+    {
+        score = 0;
+        UpdateScoreText();
+    }
+
 }

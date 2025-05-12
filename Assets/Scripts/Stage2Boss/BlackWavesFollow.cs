@@ -14,4 +14,13 @@ public class BlackWavesFollow : MonoBehaviour
             transform.position = newPos;
         }
     }
+
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            Stage2Manager.instance.EndGameByBlackWave();
+        }
+    }
+
 }
