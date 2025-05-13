@@ -255,12 +255,12 @@ public class PlayerController : MonoBehaviour
 
     public void TakeDamage()
     {
-        if (Time.time - lastDamageTime > damageCooldown && !isTakingDamage && !isStackGameMode)
+        if (Time.time - lastDamageTime > damageCooldown && !isTakingDamage && !isStackGameMode && !died)
         {
             // 피격 쿨다운 적용
             health -= 10;
             Debug.Log("Player Health: " + health);
-
+            DialogueManager.instance.SetHealth(health);
             rb.velocity = new Vector2(rb.velocity.x, knockbackVerticalSpeed);//넉백
             inputDisabledTime = Time.time + inputDisableDuration;//입력불가 시간
 
@@ -298,7 +298,7 @@ public class PlayerController : MonoBehaviour
         GameManager.instance.totalLives--;  // 목숨 하나 감소
         PlayerPrefs.SetInt("TotalLives", GameManager.instance.totalLives);  // PlayerPrefs에 저장
         GameManager.instance.UpdateLifeUI();  // UI 업데이트
-
+        Time.timeScale = 0;
         if (GameManager.instance.totalLives <= 0)
         {
             // 목숨이 0일 경우 게임 오버 처리
@@ -415,6 +415,7 @@ public class PlayerController : MonoBehaviour
                 GameManager.instance.PlayerReposition();
                 GameManager.instance.FindAndSetStagesByParent();
                 GameManager.instance.ResetStageActivation();
+                DialogueManager.instance.SetHealth(health);
                 // 씬 로드 완료 후 카메라 Confiner 재설정
                 //GameManager.instance.GetComponent<GameManager>().Invoke("SetCameraConfinerForCurrentStage", 0.15f);
             }

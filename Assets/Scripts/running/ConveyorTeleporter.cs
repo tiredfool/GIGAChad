@@ -10,6 +10,8 @@ public class PlayerTeleporter : MonoBehaviour
     private Vector3 originalDamping;
     private CinemachineVirtualCamera vcam;
     private Collider2D myCollider;
+    private bool first = false;
+    public PlayerController P;
 
     void Start()
     {
@@ -24,6 +26,7 @@ public class PlayerTeleporter : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
+        
         if (other.CompareTag("Player") && destination != null && vcam != null)
         {
             // 텔레포트 직전 댐핑 0으로 설정
@@ -40,7 +43,9 @@ public class PlayerTeleporter : MonoBehaviour
             Rigidbody2D rb = other.GetComponent<Rigidbody2D>();
             if (rb != null)
             {
+                if(first)P.TakeDamage();
                 rb.velocity = Vector2.zero;
+                first = true;
             }
             Debug.Log(other.gameObject.name + " teleported to " + destination.name);
 

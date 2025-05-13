@@ -31,9 +31,22 @@ public class ConveyorBeltPhysics : MonoBehaviour
             Rigidbody2D rb2D = other.GetComponent<Rigidbody2D>();
 
             if (other.CompareTag("Player") && rb2D != null && rb2D.bodyType == RigidbodyType2D.Dynamic)
-            {
-                Vector2 pushDirection = transform.right * directionMultiplier;
-                rb2D.AddForce(pushDirection * pushForce, ForceMode2D.Force);
+            { 
+                Animator playerAnimator = other.GetComponent<Animator>();
+
+                if (playerAnimator != null)
+                {
+                    if (!playerAnimator.GetBool("died")) 
+                    {
+                        Vector2 pushDirection = transform.right * directionMultiplier;
+                        rb2D.AddForce(pushDirection * pushForce, ForceMode2D.Force);
+                    }
+                }
+                else
+                {
+                    Vector2 pushDirection = transform.right * directionMultiplier;
+                    rb2D.AddForce(pushDirection * pushForce, ForceMode2D.Force);
+                }
             }
         }
     }

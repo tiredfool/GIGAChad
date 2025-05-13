@@ -22,21 +22,37 @@ public class BossManager : MonoBehaviour
     [Tooltip("작동 지속 시간 (초)")]
     public float activeDuration = 6f;
 
-    [Tooltip("진행 시간을 표시할 텍스트 UI")]
-    public TextMeshProUGUI progressText_TMP; // TextMeshPro 사용 시
-    //public Text progressText_Legacy;       // 기본 Text UI 사용 시
+    //[Tooltip("진행 시간을 표시할 텍스트 UI")]
+    //public TextMeshProUGUI progressText_TMP; // TextMeshPro 사용 시
+
+
+    [Tooltip("진행 시간을 표시할 슬라이더")]
+    public Slider slider;
+    private CanvasGroup sliderCanvasGroup;
+    public float fadeDuration = 1.0f;
 
     private bool isRunning = false; // 기능들이 시작되었는지 확인하는 플래그
     private float startTime; // 시작 시간 기록
 
     void Start()
     {
-        // 지정된 지연 시간 후에 모든 기능 시작
-        Invoke("StartAllFeatures", startDelay);
+        sliderCanvasGroup = slider.GetComponent<CanvasGroup>();
+        if (sliderCanvasGroup != null)
+        {
+            sliderCanvasGroup.alpha = 0f;
+            sliderCanvasGroup.interactable = false;
+            sliderCanvasGroup.blocksRaycasts = false;
+        }
+
+        SetMaxHealth(activeDuration);
+        conveyorBelt.gameObject.SetActive(false);
+       
     }
 
     public void StartAllFeatures()
     {
+        StartCoroutine(FadeInSlider());
+        conveyorBelt.gameObject.SetActive(true);
         if (spawnManager != null)
         {
             spawnManager.StartSpawning();
@@ -126,34 +142,50 @@ public class BossManager : MonoBehaviour
         Debug.Log("모든 기능 중단!");
 
         // UI 업데이트 (중단 메시지 표시)
-        UpdateProgressUI(true);
+        UpdateProgressUI();
+    }
+    public void SetMaxHealth(float health)
+    {
+        slider.maxValue = health;
+        slider.value = health;
     }
 
-    void UpdateProgressUI(bool isStopped = false)
+    public void SetHealth(float health)
     {
-        if (progressText_TMP != null)
+        slider.value = health;
+    }
+    void UpdateProgressUI()
+    {
+        if (slider != null)
         {
-            if (isStopped)
-            {
-                progressText_TMP.text = "PASS!";
-            }
-            else
-            {
-                float elapsedTime = Time.time - startTime;
-                float progressPercentage = elapsedTime / activeDuration;
-                progressPercentage = Mathf.Clamp01(progressPercentage); // 0과 1 사이로 제한
-
-                string displayText = $"시간: {elapsedTime:F1} / {activeDuration:F1} \n진행도 : ({progressPercentage:P0})";
-                progressText_TMP.text = displayText;
-            }
+            float elapsed = Time.time - startTime;
+            float remaining = Mathf.Clamp(activeDuration - elapsed, 0f, activeDuration);
+            SetHealth(remaining);
         }
-        // else if (progressText_Legacy != null)
-        // {
-        //     // 동일한 로직을 사용하여 progressText_Legacy를 업데이트합니다.
-        // }
         else
         {
-            Debug.LogWarning("진행 시간 텍스트 UI가 연결되지 않았습니다!");
+            Debug.LogWarning("슬라이더 UI가 연결되지 않았습니다!");
         }
     }
+
+    IEnumerator FadeInSlider()
+    {
+        if (sliderCanvasGroup == null)
+            yield break;
+
+        float elapsed = 0f;
+
+        while (elapsed < fadeDuration)
+        {
+            elapsed += Time.deltaTime;
+            float alpha = Mathf.Clamp01(elapsed / fadeDuration);
+            sliderCanvasGroup.alpha = alpha;
+            yield return null;
+        }
+
+        sliderCanvasGroup.alpha = 1f;
+        sliderCanvasGroup.interactable = true;
+        sliderCanvasGroup.blocksRaycasts = true;
+    }
+
 }

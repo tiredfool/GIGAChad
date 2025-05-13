@@ -21,6 +21,9 @@ public class DialogueManager : MonoBehaviour
     public float fontSizeIncrease = 5f;
     public float shakeIntensity = 0.1f;
     public float shakeDuration = 0.2f;
+
+    public Slider slider;
+
     private int dialogueIndex = 0;
     private bool isTyping = false;
 
@@ -51,6 +54,7 @@ public class DialogueManager : MonoBehaviour
         }
 
         originalDialogueBoxPosition = dialogueBox.transform.localPosition; // 대화창 초기 위치 저장
+        SetMaxHealth(100);
         diedText.text = "";
         dialogueBox.SetActive(false);
         blackBox.SetActive(false);
@@ -60,6 +64,16 @@ public class DialogueManager : MonoBehaviour
         if (standingImageRight != null) standingImageRight.gameObject.SetActive(false);
     }
 
+    public void SetMaxHealth(float health)
+    {
+        slider.maxValue = health;
+        slider.value = health;
+    }
+
+    public void SetHealth(float health)
+    {
+        slider.value = health;
+    }
 
 
     void LoadDialogueFromJson()
