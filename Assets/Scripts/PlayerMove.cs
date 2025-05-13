@@ -304,11 +304,14 @@ public class PlayerController : MonoBehaviour
             // 목숨이 0일 경우 게임 오버 처리
             Debug.Log("Game Over");
             game_over = true;
+            DialogueManager.instance.SetDiedMessage("Game Over");
             Destroy(gameObject);  // 플레이어 오브젝트 삭제
         }
         else
         {
+
             GetComponent<Renderer>().enabled = false;
+            DialogueManager.instance.SetDiedMessage("플레이어 사망\r\n'R'키를 눌러 다시");
         }
     }
 
@@ -398,7 +401,8 @@ public class PlayerController : MonoBehaviour
     void RestartGame()
     {
         Debug.Log("리셋시작!");
-        // 씬을 처음 상태로 리셋하고 로딩 완료 시 콜백 함수 등록
+       
+        DialogueManager.instance.SetDiedMessage("");
         GameManager.instance.UpdateLifeUI();
         SceneManager.LoadSceneAsync(0).completed += (AsyncOperation operation) =>
         {

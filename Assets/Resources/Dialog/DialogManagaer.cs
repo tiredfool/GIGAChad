@@ -11,8 +11,8 @@ public class DialogueManager : MonoBehaviour
 
     public TextMeshProUGUI dialogueText;
     public TextMeshProUGUI nameText;
+    public TextMeshProUGUI diedText;
     public Image portraitImage;
-    public Image[] lifes;
     public GameObject dialogueBox;
     public GameObject blackBox; // 추가된 검은 회상박스
     public TextMeshProUGUI blackText;//추가된 검은 회상박스 텍스트
@@ -51,6 +51,7 @@ public class DialogueManager : MonoBehaviour
         }
 
         originalDialogueBoxPosition = dialogueBox.transform.localPosition; // 대화창 초기 위치 저장
+        diedText.text = "";
         dialogueBox.SetActive(false);
         blackBox.SetActive(false);
         LoadDialogueFromJson();
@@ -58,6 +59,8 @@ public class DialogueManager : MonoBehaviour
         if (standingImageLeft != null) standingImageLeft.gameObject.SetActive(false);
         if (standingImageRight != null) standingImageRight.gameObject.SetActive(false);
     }
+
+
 
     void LoadDialogueFromJson()
     {
@@ -193,7 +196,20 @@ public class DialogueManager : MonoBehaviour
         isTyping = false;
     }
 
-  
+    public void SetDiedMessage(string message)
+    {   
+
+        if (diedText != null)
+        {
+            diedText.text = "";
+            StopAllCoroutines(); // 혹시 다른 코루틴이 실행 중이라면 중단
+            StartCoroutine(TypeDialogue(new DialogueData { dialogue = message, fontSize = diedText.fontSize }, diedText));
+        }
+        else
+        {
+            Debug.LogError("diedText가 DialogueManager Inspector 창에 할당되지 않았습니다!");
+        }
+    }
     IEnumerator ShakeScreen() // 흔들기
     {
         float elapsed = 0.0f;
