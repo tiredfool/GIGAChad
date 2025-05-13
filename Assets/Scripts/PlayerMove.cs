@@ -23,6 +23,10 @@ public class PlayerController : MonoBehaviour
     private bool isTakingDamage = false;
     private bool isTalking = false;
 
+    private bool died = false;
+    private bool game_over = false;
+
+
     public float groundCheckDistance = 0.2f; // 땅 체크 Raycast 거리 (값 증가)
     public LayerMask groundLayer; // 땅 레이어
     private bool jumpRequest; // 점프 요청 변수
@@ -79,6 +83,13 @@ public class PlayerController : MonoBehaviour
             spriteRenderer.flipX = true;
             follower.SetNegativeDistance(true);
         }
+
+        if (died && Input.GetKeyDown(KeyCode.R))
+        {
+            died = false;
+            RestartGame();
+        }
+
     }
 
     void FixedUpdate()
@@ -186,7 +197,7 @@ public class PlayerController : MonoBehaviour
                 }
             }
         }
-            if ((collision.gameObject.CompareTag("Spike") || collision.gameObject.CompareTag("Enemy")) && (Time.time - lastDamageTime > damageCooldown) && !isTakingDamage)
+            if ((collision.gameObject.CompareTag("Spike") || collision.gameObject.CompareTag("Enemy")) && (Time.time - lastDamageTime > damageCooldown) && !isTakingDamage && !died)
         {
             TakeDamage();
         }
@@ -247,7 +258,7 @@ public class PlayerController : MonoBehaviour
         if (Time.time - lastDamageTime > damageCooldown && !isTakingDamage && !isStackGameMode)
         {
             // 피격 쿨다운 적용
-            health -= 50;
+            health -= 10;
             Debug.Log("Player Health: " + health);
 
             rb.velocity = new Vector2(rb.velocity.x, knockbackVerticalSpeed);//넉백
@@ -282,6 +293,7 @@ public class PlayerController : MonoBehaviour
 
     void Die()
     {
+        died = true;
         Debug.Log("Player Died!");
         GameManager.instance.totalLives--;  // 목숨 하나 감소
         PlayerPrefs.SetInt("TotalLives", GameManager.instance.totalLives);  // PlayerPrefs에 저장
@@ -291,12 +303,12 @@ public class PlayerController : MonoBehaviour
         {
             // 목숨이 0일 경우 게임 오버 처리
             Debug.Log("Game Over");
+            game_over = true;
             Destroy(gameObject);  // 플레이어 오브젝트 삭제
         }
         else
         {
-            // 목숨이 남아있으면 플레이어 위치 초기화
-            RestartGame();
+            GetComponent<Renderer>().enabled = false;
         }
     }
 
@@ -385,11 +397,27 @@ public class PlayerController : MonoBehaviour
 
     void RestartGame()
     {
-        // 씬을 처음 상태로 리셋
-        SceneManager.LoadScene(0);  // 씬 0번(첫 번째 씬)으로 로드
-        Time.timeScale = 1;  // 시간이 멈춘 상태라면 다시 정상 흐름으로 설정
+        Debug.Log("리셋시작!");
+        // 씬을 처음 상태로 리셋하고 로딩 완료 시 콜백 함수 등록
+        GameManager.instance.UpdateLifeUI();
+        SceneManager.LoadSceneAsync(0).completed += (AsyncOperation operation) =>
+        {
+            // 씬 로드가 완료된 후 실행되는 코드
+            if (GameManager.instance != null && GameManager.instance.stageIndex < GameManager.instance.startPositions.Length)
+            {
+                health = 100f;
+                isTakingDamage = false;
+                GameManager.instance.FindPlayer();
+                GameManager.instance.PlayerReposition();
+                GameManager.instance.FindAndSetStagesByParent();
+                GameManager.instance.ResetStageActivation();
+                // 씬 로드 완료 후 카메라 Confiner 재설정
+                //GameManager.instance.GetComponent<GameManager>().Invoke("SetCameraConfinerForCurrentStage", 0.15f);
+            }
+            GameManager.instance.UpdateLifeUI();
+            Time.timeScale = 1; 
+        };
     }
-
     // 스택 게임 전환 시 작동
     public void SetStackGameMode(bool isActive)
     {

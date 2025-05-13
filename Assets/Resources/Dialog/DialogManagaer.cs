@@ -1,13 +1,18 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
-using System.Collections.Generic; // List 사용을 위해 추가
+using System.Collections.Generic; 
 using TMPro;
+
 public class DialogueManager : MonoBehaviour
 {
+
+    public static DialogueManager instance;
+
     public TextMeshProUGUI dialogueText;
     public TextMeshProUGUI nameText;
     public Image portraitImage;
+    public Image[] lifes;
     public GameObject dialogueBox;
     public GameObject blackBox; // 추가된 검은 회상박스
     public TextMeshProUGUI blackText;//추가된 검은 회상박스 텍스트
@@ -34,11 +39,22 @@ public class DialogueManager : MonoBehaviour
 
     void Awake()
     {
+
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject); // 씬 전환 시 유지 (선택 사항)
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+
         originalDialogueBoxPosition = dialogueBox.transform.localPosition; // 대화창 초기 위치 저장
         dialogueBox.SetActive(false);
         blackBox.SetActive(false);
         LoadDialogueFromJson();
-        // follower.SetVisible(false); // 기가차드 비활성화
+        follower.SetVisible(false); // 기가차드 비활성화
         if (standingImageLeft != null) standingImageLeft.gameObject.SetActive(false);
         if (standingImageRight != null) standingImageRight.gameObject.SetActive(false);
     }
@@ -58,7 +74,7 @@ public class DialogueManager : MonoBehaviour
 
         Debug.Log("Loaded " + allDialogues.Count + " dialogues from JSON.");
     }
-
+   
     public void SetDialogues(List<DialogueData> dialogues) //트리거에서 대사 정해주기
     {
         currentDialogues = dialogues;
@@ -76,8 +92,8 @@ public class DialogueManager : MonoBehaviour
         dialogueIndex = 0;
         dialogueBox.SetActive(true);
         playerController.SetTalking(true); // 대화 시작 시 움직임 막기
+        Time.timeScale = 0f;
         ShowDialogue(currentDialogues[dialogueIndex]);
-
     }
 
     void ShowDialogue(DialogueData data)
@@ -171,12 +187,13 @@ public class DialogueManager : MonoBehaviour
         foreach (char letter in data.dialogue.ToCharArray())
         {
             T.text += letter;
-            yield return new WaitForSeconds(typingSpeed);
+            yield return new WaitForSecondsRealtime(typingSpeed); // 수정됨
         }
 
         isTyping = false;
     }
 
+  
     IEnumerator ShakeScreen() // 흔들기
     {
         float elapsed = 0.0f;
@@ -188,13 +205,12 @@ public class DialogueManager : MonoBehaviour
 
             dialogueBox.transform.localPosition = originalDialogueBoxPosition + new Vector3(x, y, 0);
 
-            elapsed += Time.deltaTime;
+            elapsed += Time.unscaledDeltaTime; // 수정됨
 
             yield return null;
         }
 
         dialogueBox.transform.localPosition = originalDialogueBoxPosition;
-
     }
 
     public void NextDialogue()
@@ -219,7 +235,8 @@ public class DialogueManager : MonoBehaviour
         if (standingImageLeft != null) standingImageLeft.gameObject.SetActive(false);
         if (standingImageRight != null) standingImageRight.gameObject.SetActive(false);
         playerController.SetTalking(false);
-        playerController.SetTalking(false);
+        //  playerController.SetTalking(false);
+        Time.timeScale = 1f;
         follower.SetShake(false);
         follower.SetVisible(false);
     }
@@ -228,9 +245,9 @@ public class DialogueManager : MonoBehaviour
     {
         return allDialogues;
     }
+
     void Update() // 다음 대사
     {
-
         if (Input.GetKeyDown(KeyCode.Return))
         {
             NextDialogue();

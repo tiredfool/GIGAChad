@@ -41,9 +41,11 @@ public class GameManager : MonoBehaviour
 
     void Awake()
     {
+        
         // 싱글톤 패턴 적용
         if (instance == null)
         {
+            PlayerPrefs.DeleteKey("TotalLives");
             instance = this;
             DontDestroyOnLoad(gameObject);  // 씬 전환 시 유지
             uiCanvas = FindObjectOfType<Canvas>();  // 씬에서 Canvas를 찾아 할당
@@ -58,8 +60,7 @@ public class GameManager : MonoBehaviour
         }
 
         // PlayerPrefs에서 totalLives 값을 불러오기
-        totalLives = PlayerPrefs.GetInt("TotalLives", 3);  // 기본값 3으로 설정
-        UpdateLifeUI();  // UI 업데이트
+        
 
         // Virtual Camera가 할당되었다면 초기 댐핑 값 저장
         if (virtualCamera != null && virtualCamera.GetCinemachineComponent(CinemachineCore.Stage.Body) is CinemachineTransposer)
@@ -71,6 +72,12 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
+       
+        totalLives = PlayerPrefs.GetInt("TotalLives", 3);  // 기본값 3으로 설정
+        UpdateLifeUI();  // UI 업데이트
+
+        FindAndSetStagesByParent();
+        //Debug.Log("GameManager Start - totalLives: " + totalLives);
         player.transform.position = startPositions[stageIndex];
         // 초기 스테이지 활성화 및 카메라 범위 설정
         if (stages.Length > 0 && stageIndex < stages.Length)
@@ -83,11 +90,72 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    void Update()
-    {
 
+
+    public void FindPlayer()
+    {
+        // "Player" 태그를 가진 오브젝트를 찾아 player 변수에 할당
+        GameObject playerObject = GameObject.FindGameObjectWithTag("Player");
+        if (playerObject != null)
+        {
+            player = playerObject.transform;
+            // Player 오브젝트에서 Cinemachine Virtual Camera 컴포넌트 찾기 (자식 오브젝트에서 찾을 수도 있음)
+            virtualCamera = playerObject.GetComponentInChildren<CinemachineVirtualCamera>();
+            if (virtualCamera == null)
+            {
+                Debug.LogError("Player 오브젝트 또는 그 자식에서 CinemachineVirtualCamera 컴포넌트를 찾을 수 없습니다!");
+            }
+
+            // Player 오브젝트에서 Cinemachine Confiner 2D 컴포넌트 찾기 (자식 오브젝트에서 찾을 수도 있음)
+            confiner2D = playerObject.GetComponentInChildren<CinemachineConfiner2D>();
+            if (confiner2D == null)
+            {
+                Debug.LogError("Player 오브젝트 또는 그 자식에서 CinemachineConfiner2D 컴포넌트를 찾을 수 없습니다!");
+            }
+        }
+        else
+        {
+            Debug.LogError("Player 태그를 가진 오브젝트를 찾을 수 없습니다!");
+        }
     }
 
+
+
+    public void FindAndSetStagesByParent()
+    {
+        GameObject stagesParent = GameObject.Find("Stage");
+        if (stagesParent != null)
+        {
+            stages = new GameObject[stagesParent.transform.childCount];
+            for (int i = 0; i < stagesParent.transform.childCount; i++)
+            {
+                stages[i] = stagesParent.transform.GetChild(i).gameObject;
+            }
+            // 스테이지를 찾은 후 카메라 Confiner 설정 시도
+            SetCameraConfinerForCurrentStage();
+        }
+        else
+        {
+            stages = new GameObject[0];
+        }
+    }
+
+    public void ResetStageActivation() // 재시작시 활용
+    {
+        if (stages.Length > 0 && stageIndex < stages.Length)
+        {
+            for (int i = 0; i < stages.Length; i++)
+            {
+                if (stages[i] != null)
+                {
+                    stages[i].SetActive(i == stageIndex);
+                }
+            }
+            SetCameraConfinerBounds(stages[stageIndex]); // 재시작 시 설정
+        }
+    }
+
+    
     //코인 5개까지 증가시키는 함수
     public void AddScore(int amount)
     {
@@ -164,6 +232,7 @@ public class GameManager : MonoBehaviour
                 lifeImages[i].enabled = false;  // 목숨이 없을 때 숨김
             }
         }
+
     }
 
     // 카메라 댐핑 설정 함수
@@ -206,5 +275,26 @@ public class GameManager : MonoBehaviour
             Debug.LogError("CinemachineConfiner2D 또는 스테이지가 할당되지 않았습니다!");
         }
     }
+    public void SetCameraConfinerForCurrentStage()
+    {
+        if (confiner2D != null && stages.Length > 0 && stageIndex < stages.Length && stages[stageIndex] != null)
+        {
+            Collider2D stageCollider = stages[stageIndex].GetComponent<Collider2D>();
+            if (stageCollider != null)
+            {
+                confiner2D.m_BoundingShape2D = stageCollider;
+                Debug.Log($"카메라 범위를 스테이지 '{stages[stageIndex].name}'의 콜라이더로 재설정했습니다.");
+            }
+            else
+            {
+                Debug.LogError(stages[stageIndex].name + "에 Collider2D 컴포넌트가 없습니다!");
+            }
+        }
+        else
+        {
+            Debug.LogWarning("CinemachineConfiner2D, stages 배열, 또는 현재 스테이지가 유효하지 않아 카메라 범위를 설정할 수 없습니다.");
+        }
+    }
+
 
 }

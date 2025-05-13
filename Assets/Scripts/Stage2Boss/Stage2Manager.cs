@@ -36,7 +36,7 @@ public class Stage2Manager : MonoBehaviour
     {
         if (isGameOver && Input.GetKeyDown(KeyCode.R))
         {
-            RestartGame();
+            //RestartGame();
         }
     }
 
@@ -76,10 +76,10 @@ public class Stage2Manager : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
-    public void RestartGame()
-    {
-        ResetGameState();  // 씬을 리로드하지 않고 직접 초기화
-    }
+    //public void RestartGame()
+    //{
+    //    ResetGameState();  // 씬을 리로드하지 않고 직접 초기화
+    //}
 
 
     public void HandlePlatformStepped(Vector3 currentPlatformPos)

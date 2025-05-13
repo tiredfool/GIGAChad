@@ -13,13 +13,15 @@
     {
       "npcName": "만삣삐",
       "portraitName": "Player_sad",
+      "fontSize": 70,
       "dialogue": "난 이제 뭘 해야 하는걸까?",
-      "standingImage": "pepeStand",
+      "standingImage": "pepeStand_sad",
       "standingPosition": "left"
     },
     {
       "npcName": "기가차드",
       "portraitName": "Gigachard",
+      "fontSize": 60,
       "dialogue": "Oh My Son Stop Crying 그리고",
       "standingImage": "chardStand",
       "standingPosition": "right"
@@ -28,8 +30,9 @@
       "id": "scene1_end",
       "npcName": "기가차드",
       "portraitName": "Gigachard_ex",
+      "fontSize": 70,
       "dialogue": "Do 하드 Work!",
-      "standingImage": "pepeStand,chardStand",
+      "standingImage": "pepeStand_sad,chardStand",
       "standingPosition": "left,right",
       "shakeScreen": true
     },
