@@ -16,7 +16,7 @@ public class BossManager : MonoBehaviour
     public RunningMove backgroundMover;
 
     public GameObject telSpot;
-
+    public SpriteFader spriteFader;
     [Tooltip("시작 지연 시간 (초)")]
     public float startDelay = 2f;
     [Tooltip("작동 지속 시간 (초)")]
@@ -57,6 +57,10 @@ public class BossManager : MonoBehaviour
         {
             spawnManager.StartSpawning();
             Debug.Log("스폰 매니저 시작");
+        }
+        if (spriteFader != null)
+        {
+            spriteFader.startShow();
         }
         else
         {
