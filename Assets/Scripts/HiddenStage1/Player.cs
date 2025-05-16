@@ -11,6 +11,10 @@ public class Player : MonoBehaviour
     public int hp;
 
     Rigidbody2D rb;
+
+    public BossManager bossManager;
+
+    private bool hasReducedDuration = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -18,6 +22,11 @@ public class Player : MonoBehaviour
         sr= GetComponent<SpriteRenderer>();
         anim = GetComponent<Animator>();
         hp = 3;
+
+        if (bossManager == null)
+        {
+            bossManager = FindObjectOfType<BossManager>();
+        }
     }
 
     // Update is called once per frame
@@ -44,6 +53,14 @@ public class Player : MonoBehaviour
         if (inputVec.x != 0)
         {
             sr.flipX = inputVec.x <0;
+        }
+    }
+
+    public void EndMiniGame()
+    {
+        if (hp> 0)
+        {
+            bossManager.ReduceActiveDuration(2f);
         }
     }
 }

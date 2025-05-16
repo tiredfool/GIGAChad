@@ -192,4 +192,9 @@ public class BossManager : MonoBehaviour
         sliderCanvasGroup.blocksRaycasts = true;
     }
 
+    public void ReduceActiveDuration(float amount)
+    {
+        activeDuration = Mathf.Max(0f, activeDuration - amount); // 0초 밑으로는 줄지 않도록
+        Debug.Log($"activeDuration이 {amount}초 감소하여 현재 {activeDuration}초입니다.");
+    }
 }

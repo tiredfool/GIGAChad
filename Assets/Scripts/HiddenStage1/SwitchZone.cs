@@ -45,6 +45,8 @@ public class SwitchZone : MonoBehaviour
         //10초 동안 톱다운 모드 유지
         yield return new WaitForSeconds(switchDuration);
 
+        topDownPlayer.GetComponent<Player>().EndMiniGame();
+
         // 시간이 지나면 톱다운 관련 오브젝트 삭제
         Debug.Log(" 톱다운 모드 종료");
         Destroy(topDownPlayer);
