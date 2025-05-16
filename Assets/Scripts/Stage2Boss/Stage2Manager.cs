@@ -34,10 +34,7 @@ public class Stage2Manager : MonoBehaviour
 
     void Update()
     {
-        if (isGameOver && Input.GetKeyDown(KeyCode.R))
-        {
-            //RestartGame();
-        }
+       
     }
 
     public void EndGameByScore()

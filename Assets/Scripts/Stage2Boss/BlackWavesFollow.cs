@@ -19,7 +19,11 @@ public class BlackWavesFollow : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            Stage2Manager.instance.EndGameByBlackWave();
+            PlayerController player = other.GetComponent<PlayerController>();
+            if(player != null)
+            {
+                player.Die();
+            }
         }
     }
 

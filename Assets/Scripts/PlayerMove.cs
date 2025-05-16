@@ -291,7 +291,7 @@ public class PlayerController : MonoBehaviour
         isTakingDamage = false;
     }
 
-    void Die()
+    public void Die()
     {
         died = true;
         Debug.Log("Player Died!");
