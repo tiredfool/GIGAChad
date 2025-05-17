@@ -87,38 +87,38 @@
       "dialogueType": "black",
       "dialogue": "난 어릴적에는 잠재력이 넘치는 아이였다.",
       "fontSize": 48,
-      "blackBoxDuration": 1.5
+      "blackBoxDuration": 2
     },
      {
       "dialogueType": "black",
       "dialogue": "부모님부터 해서 주위 사람들은 나에게 천재나 신동이라는 이야기를 했다",
       "fontSize": 48,
-      "blackBoxDuration": 1.5
+      "blackBoxDuration": 2
     },
      {
       "dialogueType": "black",
       "dialogue": "하지만 그뿐이었다.",
       "fontSize": 48,
-      "blackBoxDuration": 1.5
+      "blackBoxDuration": 2
     },
      {
       "dialogueType": "black",
       "dialogue": "나의 성장은 시간이 지나면서 점점 막히고",
       "fontSize": 48,
-      "blackBoxDuration": 1.5
+      "blackBoxDuration": 2
     },
      {
       "dialogueType": "black",
       "dialogue": "대학을 졸업하고나서는 지금의 나는",
       "fontSize": 48,
-      "blackBoxDuration": 1.5
+      "blackBoxDuration": 2
     },
      {
       "id": "1_e",
       "dialogueType": "black",
       "dialogue": "하나의 히키코모리가 되어 방안에 쓸쓸히 있을 뿐이었다.",
       "fontSize": 48,
-      "blackBoxDuration": 1.5
+      "blackBoxDuration": 2
     },
 
    

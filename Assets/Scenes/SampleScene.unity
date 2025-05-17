@@ -32321,8 +32321,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dialogueManager: {fileID: 78725522}
   targetTag: Player
-  startDialogueId: background_start
-  endDialogueId: background_end
+  startDialogueId: 1_s
+  endDialogueId: 1_e
 --- !u!4 &827101222
 Transform:
   m_ObjectHideFlags: 0
