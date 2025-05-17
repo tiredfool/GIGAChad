@@ -2852,6 +2852,8 @@ MonoBehaviour:
   - {fileID: 21300000, guid: cea8c2b642f952445a96a9766d3f6455, type: 3}
   - {fileID: 21300000, guid: 0e91aa90cadd01c4aa339d7498fcb1f3, type: 3}
   - {fileID: 21300000, guid: 31892e3c581236b469b79152855b6107, type: 3}
+  - {fileID: 21300000, guid: 6695ec9ce034e624db844d9ed9b5e49b, type: 3}
+  - {fileID: 21300000, guid: 493a4eb42eda9994c94986440622fb07, type: 3}
   playerController: {fileID: 1245668516}
   follower: {fileID: 730100508}
   standingImageLeft: {fileID: 1980569175}
@@ -2860,8 +2862,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 31a0fbdaf6a2d5c458919b886d9200c6, type: 3}
   - {fileID: 21300000, guid: 054811e369e80a549bd81452f12259c6, type: 3}
   - {fileID: 21300000, guid: 504275b63f3b21347bf4df35c2f5a849, type: 3}
-  backgroundSprites:
-  - {fileID: 21300000, guid: 3fb894b5d4c6a094784e3e9370f86d0d, type: 3}
+  - {fileID: 21300000, guid: 493a4eb42eda9994c94986440622fb07, type: 3}
 --- !u!114 &78725523
 MonoBehaviour:
   m_ObjectHideFlags: 0

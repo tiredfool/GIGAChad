@@ -220,6 +220,7 @@ public class DialogueManager : MonoBehaviour
             isBlackBoxActive = true;
             StopAllCoroutines();
             StartCoroutine(TypeDialogue(data, blackText));
+          
             StartCoroutine(WaitForBlackBoxEnd(data.blackBoxDuration));
         }
         else
@@ -307,6 +308,7 @@ public class DialogueManager : MonoBehaviour
         blackBox.SetActive(false);
         blackBox.GetComponent<SpriteRenderer>().enabled = false; // 배경 이미지 숨김
         blackBox.GetComponent<Image>().color = originalBlackBoxColor; // 색상 원래대로
+        blackText.text = "";
         isBlackBoxActive = false;
         if (standingImageLeft != null) standingImageLeft.gameObject.SetActive(false);
         if (standingImageRight != null) standingImageRight.gameObject.SetActive(false);

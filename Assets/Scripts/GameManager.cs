@@ -72,7 +72,7 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-       
+
         totalLives = PlayerPrefs.GetInt("TotalLives", 3);  // 기본값 3으로 설정
         UpdateLifeUI();  // UI 업데이트
 
@@ -88,6 +88,7 @@ public class GameManager : MonoBehaviour
             }
             SetCameraConfinerBounds(stages[stageIndex]);
         }
+        DialogueManager.instance.StartDialogueByIdRange("1_s","2_e");
     }
 
 
