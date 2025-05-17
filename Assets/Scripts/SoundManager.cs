@@ -9,14 +9,19 @@ public enum EAudioMixerType { Master, BGM, SFX }
 public class SoundManager : MonoBehaviour
 {
     public AudioMixer Mixer;
-    public Slider audioSlider;
+    public Slider BGMSlider;
+    public Slider SFXSlider;
 
     public void AduioControl()
     {
-        float sound = audioSlider.value;
+        float bgmsound = BGMSlider.value;
+        float sfxsound = SFXSlider.value;
 
-        if (sound == -40f) Mixer.SetFloat("BGM", -80);
-        else Mixer.SetFloat("BGM",sound);
+        if (bgmsound == -40f) Mixer.SetFloat("BGM", -80);
+        else Mixer.SetFloat("BGM", bgmsound);
+
+        if (sfxsound == -40f) Mixer.SetFloat("SFX", -80);
+        else Mixer.SetFloat("SFX", sfxsound);
     }
 
     public void ToggleAudioVolume()
