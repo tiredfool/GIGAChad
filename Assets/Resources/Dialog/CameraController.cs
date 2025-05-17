@@ -6,10 +6,24 @@ public class CameraController : MonoBehaviour
 {
     public CinemachineVirtualCamera playerCamera; // Player를 따라다니는 Virtual Camera
     public CinemachineVirtualCamera targetCamera; // 특정 오브젝트를 바라보는 Virtual Camera
-    public float transitionDuration = 1f;       // 카메라 전환 시간
+    public float transitionDuration = 1f;        // 카메라 전환 시간
     private bool isMoving = false;
 
     public bool IsMoving => isMoving; // 외부에서 카메라 이동 상태를 알 수 있도록 속성 추가
+
+    void Start()
+    {
+        // 시작 시 타겟 카메라 비활성화
+        if (targetCamera != null)
+        {
+            targetCamera.gameObject.SetActive(false);
+            Debug.Log($"{targetCamera.gameObject.name} 시작 시 비활성화");
+        }
+        else
+        {
+            Debug.LogError("Target Camera가 할당되지 않았습니다.");
+        }
+    }
 
     public IEnumerator MoveToTargetAndBack()
     {
@@ -18,8 +32,18 @@ public class CameraController : MonoBehaviour
         Debug.Log("카메라 이동 시작");
 
         // Target 카메라 활성화
-        targetCamera.Priority = 20;
-        playerCamera.Priority = 10;
+        if (targetCamera != null)
+        {
+            targetCamera.gameObject.SetActive(true);
+            targetCamera.Priority = 20;
+            playerCamera.Priority = 10;
+        }
+        else
+        {
+            Debug.LogError("Target Camera가 null입니다.");
+            isMoving = false;
+            yield break;
+        }
 
         yield return new WaitForSecondsRealtime(transitionDuration);
 
@@ -29,6 +53,8 @@ public class CameraController : MonoBehaviour
         // Player 카메라 복귀
         playerCamera.Priority = 20;
         targetCamera.Priority = 10;
+        // 타겟 카메라는 복귀 후 다시 비활성화 (선택 사항)
+        targetCamera.gameObject.SetActive(false);
 
         yield return new WaitForSecondsRealtime(transitionDuration);
 
