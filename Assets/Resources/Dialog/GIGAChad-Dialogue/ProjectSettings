@@ -1,0 +1,23 @@
+{
+  "settings": {
+    "graphics": {
+      "resolution": "1920x1080",
+      "fullscreen": true,
+      "vSync": true
+    },
+    "input": {
+      "jump": "space",
+      "moveLeft": "a",
+      "moveRight": "d"
+    },
+    "audio": {
+      "masterVolume": 1.0,
+      "musicVolume": 0.8,
+      "sfxVolume": 0.8
+    },
+    "dialogue": {
+      "defaultFontSize": 60,
+      "defaultBackgroundImage": "TestImage"
+    }
+  }
+}

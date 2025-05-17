@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using System;
 
 public class DialogueManager : MonoBehaviour
 {
@@ -41,6 +42,8 @@ public class DialogueManager : MonoBehaviour
     public Image standingImageRight;
     public List<Sprite> standingSprites = new List<Sprite>();
 
+    private DialogueSequenceController[] sequenceControllers;
+
     void Awake()
     {
         if (instance == null)
@@ -60,6 +63,7 @@ public class DialogueManager : MonoBehaviour
         blackBox.SetActive(false);
         originalBlackBoxColor = blackBox.GetComponent<Image>().color; // 초기 색상 저장
         LoadDialogueFromJson();
+
         follower.SetVisible(false);
         if (standingImageLeft != null) standingImageLeft.gameObject.SetActive(false);
         if (standingImageRight != null) standingImageRight.gameObject.SetActive(false);
@@ -72,6 +76,13 @@ public class DialogueManager : MonoBehaviour
         }
         blackBox.GetComponent<SpriteRenderer>().enabled = false; // 초기에는 비활성화
         blackBox.GetComponent<Image>().enabled = true; // Image 컴포넌트는 활성화 (색상 제어용)
+    }
+
+    void Start()
+    {
+        // 씬 시작 시 모든 DialogueSequenceController 찾기
+        sequenceControllers = FindObjectsOfType<DialogueSequenceController>();
+        Debug.Log($"찾은 DialogueSequenceController 개수: {sequenceControllers.Length}");
     }
 
     public void SetMaxHealth(float health)
@@ -88,10 +99,11 @@ public class DialogueManager : MonoBehaviour
 
     void LoadDialogueFromJson()
     {
+        allDialogues.Clear();
         TextAsset textAsset = Resources.Load<TextAsset>(jsonFileName);
         if (textAsset == null)
         {
-            //Debug.LogError("JSON 파일 '" + jsonFileName + "'을 찾을 수 없습니다.");
+            Debug.LogError("JSON 파일 '" + jsonFileName + "'을 찾을 수 없습니다.");
             return;
         }
 
@@ -99,20 +111,23 @@ public class DialogueManager : MonoBehaviour
         DialogueWrapper wrapper = JsonUtility.FromJson<DialogueWrapper>(jsonString);
         allDialogues = new List<DialogueData>(wrapper.dialogues);
 
-        //Debug.Log("Loaded " + allDialogues.Count + " dialogues from JSON.");
+        Debug.Log("Loaded " + allDialogues.Count + " dialogues from JSON.");
     }
 
     public void SetDialogues(List<DialogueData> dialogues)
     {
+        Debug.Log($"SetDialogues 호출됨. 받은 대화 개수: {dialogues.Count}");
         currentDialogues = dialogues;
         dialogueIndex = 0;
+        Debug.Log($"SetDialogues 완료. currentDialogues 개수: {currentDialogues.Count}, dialogueIndex: {dialogueIndex}");
     }
 
     public void StartDialogue()
     {
+        Debug.Log("StartDialogue 호출됨");
         if (currentDialogues.Count == 0)
         {
-            //Debug.LogWarning("No dialogues set for this scene!");
+            Debug.LogWarning("No dialogues set for this scene!");
             return;
         }
         follower.SetVisible(true);
@@ -120,8 +135,11 @@ public class DialogueManager : MonoBehaviour
         dialogueBox.SetActive(true);
         playerController.SetTalking(true);
         Time.timeScale = 0f;
+        Debug.Log($"StartDialogue: 첫 번째 대사 표시 시도 (index: {dialogueIndex}, ID: {currentDialogues[dialogueIndex].id})");
         ShowDialogue(currentDialogues[dialogueIndex]);
+        dialogueIndex++;
         dialogueStarted = true;
+        Debug.Log("StartDialogue 완료");
     }
 
     void ShowDialogue(DialogueData data)
@@ -159,7 +177,7 @@ public class DialogueManager : MonoBehaviour
                 }
                 else
                 {
-                    //Debug.LogError("Background image not found: " + data.backgroundImageName);
+                    Debug.LogError("Background image not found: " + data.backgroundImageName);
                 }
             }
 
@@ -198,12 +216,12 @@ public class DialogueManager : MonoBehaviour
                             }
                             else if (!string.IsNullOrEmpty(position) && position != "both")
                             {
-                                //Debug.LogError("Invalid standing position: " + position);
+                                Debug.LogError("Invalid standing position: " + position);
                             }
                         }
                         else
                         {
-                            //Debug.LogError("Standing sprite not found: " + imageName);
+                            Debug.LogError("Standing sprite not found: " + imageName);
                         }
                     }
                 }
@@ -225,24 +243,24 @@ public class DialogueManager : MonoBehaviour
         }
         else
         {
-            //Debug.LogError("Unknown dialogue type: " + data.dialogueType);
+            Debug.LogError("Unknown dialogue type: " + data.dialogueType);
         }
     }
 
     IEnumerator WaitForBlackBoxEnd(float duration)
     {
-        //Debug.Log("WaitForBlackBoxEnd 시작: " + duration + "초 대기");
+        Debug.Log("WaitForBlackBoxEnd 시작: " + duration + "초 대기");
         yield return new WaitForSecondsRealtime(duration);
-        //Debug.Log("WaitForBlackBoxEnd 종료, NextDialogue 호출 시도 (isTyping: " + isTyping + ")");
+        Debug.Log("WaitForBlackBoxEnd 종료, NextDialogue 호출 시도 (isTyping: " + isTyping + ")");
 
         // 타이핑이 완료될 때까지 대기
         while (isTyping)
         {
-            //Debug.Log("WaitForBlackBoxEnd: 아직 타이핑 중... 대기");
+            Debug.Log("WaitForBlackBoxEnd: 아직 타이핑 중... 대기");
             yield return null; // 다음 프레임까지 대기
         }
 
-        //Debug.Log("WaitForBlackBoxEnd: 타이핑 완료됨, NextDialogue 호출");
+        Debug.Log("WaitForBlackBoxEnd: 타이핑 완료됨, NextDialogue 호출");
         NextDialogue();
     }
 
@@ -260,7 +278,7 @@ public class DialogueManager : MonoBehaviour
         }
 
         isTyping = false;
-        //Debug.Log("타이핑 완료: isTyping = false"); // 타이핑 완료 시 로그
+        Debug.Log("타이핑 완료: isTyping = false"); // 타이핑 완료 시 로그
     }
 
     public void SetDiedMessage(string message)
@@ -273,7 +291,7 @@ public class DialogueManager : MonoBehaviour
         }
         else
         {
-            //Debug.LogError("diedText가 DialogueManager Inspector 창에 할당되지 않았습니다!");
+            Debug.LogError("diedText가 DialogueManager Inspector 창에 할당되지 않았습니다!");
         }
     }
     IEnumerator ShakeScreen()
@@ -282,8 +300,8 @@ public class DialogueManager : MonoBehaviour
         follower.SetShake(true);
         while (elapsed < shakeDuration)
         {
-            float x = Random.Range(-1f, 1f) * shakeIntensity;
-            float y = Random.Range(-1f, 1f) * shakeIntensity;
+            float x = UnityEngine.Random.Range(-1f, 1f) * shakeIntensity;
+            float y = UnityEngine.Random.Range(-1f, 1f) * shakeIntensity;
 
             dialogueBox.transform.localPosition = originalDialogueBoxPosition + new Vector3(x, y, 0);
 
@@ -298,25 +316,35 @@ public class DialogueManager : MonoBehaviour
 
     public void NextDialogue()
     {
-        if (isTyping)
-        {
-            //Debug.Log("NextDialogue 호출되었으나 타이핑 중이라 무시");
-            return;
-        }
+        if (isTyping) return;
 
-        dialogueIndex++;
-        //Debug.Log("다음 대사 진행 시도, 현재 인덱스: " + dialogueIndex + ", 총 대사 수: " + currentDialogues.Count);
         if (dialogueIndex < currentDialogues.Count)
         {
+            string currentId = currentDialogues[dialogueIndex].id;
+
+            // 모든 시퀀스 컨트롤러에 현재 대화 ID 전달
+            foreach (var controller in sequenceControllers)
+            {
+                controller.CheckDialogueEnd(currentId);
+                if (controller.cameraController != null && controller.cameraController.IsMoving)
+                {
+                    Debug.Log($"카메라 이동 중, 다음 대사 진행 보류 (Controller: {controller.gameObject.name})");
+                    return; // 하나의 컨트롤러라도 카메라 이동 중이면 진행 중단
+                }
+            }
+            Debug.Log($"NextDialogue: 다음 대사 표시 시도 (index: {dialogueIndex}, ID: {currentDialogues[dialogueIndex].id})");
+
             ShowDialogue(currentDialogues[dialogueIndex]);
+            dialogueIndex++;
         }
         else
         {
+            Debug.Log("NextDialogue: 대화 끝");
             EndDialogue();
         }
     }
 
-    void EndDialogue()
+    public void EndDialogue()
     {
         dialogueBox.SetActive(false);
         blackBox.SetActive(false);
@@ -329,7 +357,7 @@ public class DialogueManager : MonoBehaviour
         Time.timeScale = 1f;
         follower.SetVisible(false);
         dialogueStarted = false;
-        //Debug.Log("대화 종료");
+        Debug.Log("대화 종료");
     }
 
     public List<DialogueData> GetDialogues()
@@ -347,9 +375,10 @@ public class DialogueManager : MonoBehaviour
 
     public void StartDialogueByIdRange(string startId, string endId)// 외부에서 인스턴스로 불러와 대화 진행 가능
     {
+        Debug.Log($"StartDialogueByIdRange 호출됨 (startId: {startId}, endId: {endId}, dialogueStarted: {dialogueStarted})");
         if (dialogueStarted) // 이미 대화가 진행 중이면 중복 시작 방지
         {
-            //Debug.LogWarning("이미 대화가 진행 중입니다.");
+            Debug.LogWarning("이미 대화가 진행 중입니다.");
             return;
         }
 
@@ -361,12 +390,14 @@ public class DialogueManager : MonoBehaviour
         }
         else
         {
-            //Debug.LogWarning($"ID '{startId}'부터 '{endId}'까지의 대화를 찾을 수 없습니다.");
+            Debug.LogWarning($"ID '{startId}'부터 '{endId}'까지의 대화를 찾을 수 없습니다.");
         }
+        Debug.Log("StartDialogueByIdRange 완료");
     }
 
     List<DialogueData> GetDialoguesForScene(string startId, string endId)
     {
+        Debug.Log($"GetDialoguesForScene 호출됨 (startId: {startId}, endId: {endId})");
         List<DialogueData> sceneDialogues = new List<DialogueData>();
         bool inRange = false;
 
@@ -374,32 +405,32 @@ public class DialogueManager : MonoBehaviour
 
         if (allDialogues == null || allDialogues.Count == 0)
         {
-            //Debug.LogError("DialogueManager에서 대화 데이터를 불러오지 못했습니다.");
+            Debug.LogError("DialogueManager에서 대화 데이터를 불러오지 못했습니다.");
             return null;
         }
 
         foreach (DialogueData dialogue in allDialogues)
         {
-            //Debug.Log($"현재 확인 중인 대사 ID: {dialogue.id}");
+            Debug.Log($"현재 확인 중인 대사 ID: {dialogue.id}");
             if (dialogue.id == startId)
             {
                 inRange = true;
-                //Debug.Log($"시작 대사 찾음 (ID: {dialogue.id})");
+                Debug.Log($"시작 대사 찾음 (ID: {dialogue.id})");
+                sceneDialogues.Add(dialogue); // 시작 대사를 찾으면 바로 추가
             }
-
-            if (inRange)
+            else if (inRange)
             {
                 sceneDialogues.Add(dialogue);
-                //Debug.Log($"씬 대화 목록에 추가 (ID: {dialogue.id})");
+                Debug.Log($"씬 대화 목록에 추가 (ID: {dialogue.id})");
             }
 
             if (dialogue.id == endId)
             {
-                //Debug.Log($"종료 대사 찾음 (ID: {dialogue.id}), 대화 목록 생성 완료");
+                Debug.Log($"종료 대사 찾음 (ID: {dialogue.id}), 대화 목록 생성 완료");
                 break;
             }
         }
-
+        Debug.Log($"GetDialoguesForScene 완료. 찾은 대화 개수: {sceneDialogues.Count}");
         return sceneDialogues;
     }
 }

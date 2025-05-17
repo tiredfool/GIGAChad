@@ -88,7 +88,7 @@ public class GameManager : MonoBehaviour
             }
             SetCameraConfinerBounds(stages[stageIndex]);
         }
-        DialogueManager.instance.StartDialogueByIdRange("1_s","2_e");
+      
     }
 
 
