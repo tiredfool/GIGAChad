@@ -28,6 +28,7 @@ public class DialogueManager : MonoBehaviour
     private bool isTyping = false;
     private bool isBlackBoxActive = false;
     private Color originalBlackBoxColor; // blackBox의 초기 색상 저장
+    private bool dialogueStarted = false;
 
     private Vector3 originalDialogueBoxPosition;
 
@@ -121,6 +122,7 @@ public class DialogueManager : MonoBehaviour
         playerController.SetTalking(true);
         Time.timeScale = 0f;
         ShowDialogue(currentDialogues[dialogueIndex]);
+        dialogueStarted = true;
     }
 
     void ShowDialogue(DialogueData data)
@@ -311,6 +313,7 @@ public class DialogueManager : MonoBehaviour
         playerController.SetTalking(false);
         Time.timeScale = 1f;
         follower.SetVisible(false);
+        dialogueStarted = false;
     }
 
     public List<DialogueData> GetDialogues()
@@ -325,4 +328,63 @@ public class DialogueManager : MonoBehaviour
             NextDialogue();
         }
     }
+
+    public void StartDialogueByIdRange(string startId, string endId)// 외부에서 인스턴스로 불러와 대화 진행 가능
+    {
+        if (dialogueStarted) // 이미 대화가 진행 중이면 중복 시작 방지
+        {
+            Debug.LogWarning("이미 대화가 진행 중입니다.");
+            return;
+        }
+
+        List<DialogueData> sceneDialogues = GetDialoguesForScene(startId, endId);
+        if (sceneDialogues != null && sceneDialogues.Count > 0)
+        {
+            SetDialogues(sceneDialogues);
+            StartDialogue();
+        }
+        else
+        {
+            Debug.LogWarning($"ID '{startId}'부터 '{endId}'까지의 대화를 찾을 수 없습니다.");
+        }
+    }
+
+    List<DialogueData> GetDialoguesForScene(string startId, string endId) 
+    {
+        List<DialogueData> sceneDialogues = new List<DialogueData>();
+        bool inRange = false;
+
+        List<DialogueData> allDialogues = GetDialogues(); 
+
+        if (allDialogues == null || allDialogues.Count == 0)
+        {
+            Debug.LogError("DialogueManager에서 대화 데이터를 불러오지 못했습니다.");
+            return null;
+        }
+
+        foreach (DialogueData dialogue in allDialogues)
+        {
+            Debug.Log($"현재 확인 중인 대사 ID: {dialogue.id}");
+            if (dialogue.id == startId)
+            {
+                inRange = true;
+                Debug.Log($"시작 대사 찾음 (ID: {dialogue.id})");
+            }
+
+            if (inRange)
+            {
+                sceneDialogues.Add(dialogue);
+                Debug.Log($"씬 대화 목록에 추가 (ID: {dialogue.id})");
+            }
+
+            if (dialogue.id == endId)
+            {
+                Debug.Log($"종료 대사 찾음 (ID: {dialogue.id}), 대화 목록 생성 완료");
+                break;
+            }
+        }
+
+        return sceneDialogues;
+    }
+
 }
