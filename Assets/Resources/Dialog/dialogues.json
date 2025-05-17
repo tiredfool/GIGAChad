@@ -40,13 +40,46 @@
       "id": "black_start",
       "dialogue": "예시 텍스트1",
       "dialogueType": "black",
-      "shakeScreen": true
+      "blackBoxDuration": 1.5     
+      
     },
     {
       "id": "black_end",
       "dialogue": "예시 텍스트2",
       "dialogueType": "black",
-      "shakeScreen": true
+      "blackBoxDuration": 2      
+      
+    },
+    {
+      "id": "background_start",
+       "npcName": "만삣삐",
+      "portraitName": "Player_sad",
+      "fontSize": 70,
+      "dialogue": "배경용 테스트입니다",
+      "standingImage": "pepeStand_sad",
+      "standingPosition": "left",
+      "backgroundImageName": "TestImage" 
+    },
+    {
+      "dialogueType": "black",
+      "dialogue": "회상 장면 1",
+      "fontSize": 48,
+      "blackBoxDuration": 3.5
+    },
+    {
+  
+      "npcName": "만삣삐",
+      "portraitName": "Player_sad",
+      "fontSize": 70,
+      "dialogue": "난 이제 뭘 해야 하는걸까?",
+      "standingImage": "pepeStand_sad",
+      "standingPosition": "left"
+    }, {
+      "id": "background_end",
+      "dialogueType": "black",
+      "dialogue": "회상 장면 1",
+      "fontSize": 48,
+      "blackBoxDuration": 3.5
     }
   ]
 }

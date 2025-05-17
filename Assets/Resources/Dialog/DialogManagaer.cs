@@ -4,9 +4,9 @@ using System.Collections;
 using System.Collections.Generic; 
 using TMPro;
 
+
 public class DialogueManager : MonoBehaviour
 {
-
     public static DialogueManager instance;
 
     public TextMeshProUGUI dialogueText;
@@ -14,9 +14,9 @@ public class DialogueManager : MonoBehaviour
     public TextMeshProUGUI diedText;
     public Image portraitImage;
     public GameObject dialogueBox;
-    public GameObject blackBox; // 추가된 검은 회상박스
-    public TextMeshProUGUI blackText;//추가된 검은 회상박스 텍스트
-    public string jsonFileName = "Dialog/dialogues"; // JSON 파일 이름
+    public GameObject blackBox; // 배경 이미지 표시에도 사용
+    public TextMeshProUGUI blackText;
+    public string jsonFileName = "Dialog/dialogues";
     public float typingSpeed = 0.05f;
     public float fontSizeIncrease = 5f;
     public float shakeIntensity = 0.1f;
@@ -26,42 +26,52 @@ public class DialogueManager : MonoBehaviour
 
     private int dialogueIndex = 0;
     private bool isTyping = false;
+    private bool isBlackBoxActive = false;
+    private Color originalBlackBoxColor; // blackBox의 초기 색상 저장
 
-    private Vector3 originalDialogueBoxPosition; // 대화창 초기 위치
+    private Vector3 originalDialogueBoxPosition;
 
-    private List<DialogueData> allDialogues = new List<DialogueData>();  // 전체 대사
-    private List<DialogueData> currentDialogues = new List<DialogueData>(); // 현재 씬 대사
-    public List<Sprite> portraitSprites = new List<Sprite>(); // 이미지 
-    public PlayerController playerController; // PlayerController 참조
-    public FollowPlayer follower; // 따라오는 기가차드
+    private List<DialogueData> allDialogues = new List<DialogueData>();
+    private List<DialogueData> currentDialogues = new List<DialogueData>();
+    public List<Sprite> portraitSprites = new List<Sprite>();
+    public PlayerController playerController;
+    public FollowPlayer follower;
 
-    // 스탠딩 일러스트 관련 변수
     public Image standingImageLeft;
     public Image standingImageRight;
-    public List<Sprite> standingSprites = new List<Sprite>(); // 스탠딩 일러스트 스프라이트 리스트
+    public List<Sprite> standingSprites = new List<Sprite>();
 
     void Awake()
     {
-
         if (instance == null)
         {
             instance = this;
-            DontDestroyOnLoad(gameObject); // 씬 전환 시 유지 (선택 사항)
+            DontDestroyOnLoad(gameObject);
         }
         else
         {
             Destroy(gameObject);
         }
 
-        originalDialogueBoxPosition = dialogueBox.transform.localPosition; // 대화창 초기 위치 저장
+        originalDialogueBoxPosition = dialogueBox.transform.localPosition;
         SetMaxHealth(100);
         diedText.text = "";
         dialogueBox.SetActive(false);
         blackBox.SetActive(false);
+        originalBlackBoxColor = blackBox.GetComponent<Image>().color; // 초기 색상 저장
         LoadDialogueFromJson();
-        follower.SetVisible(false); // 기가차드 비활성화
+        follower.SetVisible(false);
         if (standingImageLeft != null) standingImageLeft.gameObject.SetActive(false);
         if (standingImageRight != null) standingImageRight.gameObject.SetActive(false);
+
+        // blackBox에 SpriteRenderer 컴포넌트가 없으면 추가
+        if (blackBox.GetComponent<SpriteRenderer>() == null)
+        {
+            blackBox.AddComponent<SpriteRenderer>();
+            blackBox.GetComponent<SpriteRenderer>().sortingOrder = -1; // 대화창 뒤에 표시되도록 설정 (조절 가능)
+        }
+        blackBox.GetComponent<SpriteRenderer>().enabled = false; // 초기에는 비활성화
+        blackBox.GetComponent<Image>().enabled = true; // Image 컴포넌트는 활성화 (색상 제어용)
     }
 
     public void SetMaxHealth(float health)
@@ -91,8 +101,8 @@ public class DialogueManager : MonoBehaviour
 
         Debug.Log("Loaded " + allDialogues.Count + " dialogues from JSON.");
     }
-   
-    public void SetDialogues(List<DialogueData> dialogues) //트리거에서 대사 정해주기
+
+    public void SetDialogues(List<DialogueData> dialogues)
     {
         currentDialogues = dialogues;
         dialogueIndex = 0;
@@ -108,18 +118,21 @@ public class DialogueManager : MonoBehaviour
         follower.SetVisible(true);
         dialogueIndex = 0;
         dialogueBox.SetActive(true);
-        playerController.SetTalking(true); // 대화 시작 시 움직임 막기
+        playerController.SetTalking(true);
         Time.timeScale = 0f;
         ShowDialogue(currentDialogues[dialogueIndex]);
     }
 
     void ShowDialogue(DialogueData data)
     {
-        // 모든 대화 박스 및 스탠딩 일러스트 비활성화
+        // 모든 대화 박스 및 관련 요소 비활성화 (배경 이미지 포함)
         dialogueBox.SetActive(false);
         blackBox.SetActive(false);
+        blackBox.GetComponent<SpriteRenderer>().enabled = false;
+        blackBox.GetComponent<Image>().color = originalBlackBoxColor; // 색상 초기화
         if (standingImageLeft != null) standingImageLeft.gameObject.SetActive(false);
         if (standingImageRight != null) standingImageRight.gameObject.SetActive(false);
+        isBlackBoxActive = false;
 
         if (data.dialogueType == "normal")
         {
@@ -130,6 +143,23 @@ public class DialogueManager : MonoBehaviour
             if (portrait != null)
             {
                 portraitImage.sprite = portrait;
+            }
+
+            // 배경 이미지 처리
+            if (!string.IsNullOrEmpty(data.backgroundImageName))
+            {
+                Sprite backgroundImage = Resources.Load<Sprite>("Backgrounds/" + data.backgroundImageName); // Resources 폴더 내 "Backgrounds" 폴더에서 로드
+                if (backgroundImage != null)
+                {
+                    blackBox.SetActive(true);
+                    blackBox.GetComponent<Image>().color = Color.white;
+                    blackBox.GetComponent<SpriteRenderer>().sprite = backgroundImage;
+                    blackBox.GetComponent<SpriteRenderer>().enabled = true;
+                }
+                else
+                {
+                    Debug.LogError("Background image not found: " + data.backgroundImageName);
+                }
             }
 
             // 스탠딩 일러스트 처리
@@ -185,12 +215,23 @@ public class DialogueManager : MonoBehaviour
         else if (data.dialogueType == "black")
         {
             blackBox.SetActive(true);
+            isBlackBoxActive = true;
             StopAllCoroutines();
             StartCoroutine(TypeDialogue(data, blackText));
+            StartCoroutine(WaitForBlackBoxEnd(data.blackBoxDuration));
         }
         else
         {
             Debug.LogError("Unknown dialogue type: " + data.dialogueType);
+        }
+    }
+
+    IEnumerator WaitForBlackBoxEnd(float duration)
+    {
+        yield return new WaitForSecondsRealtime(duration);
+        if (isBlackBoxActive)
+        {
+            NextDialogue();
         }
     }
 
@@ -204,19 +245,18 @@ public class DialogueManager : MonoBehaviour
         foreach (char letter in data.dialogue.ToCharArray())
         {
             T.text += letter;
-            yield return new WaitForSecondsRealtime(typingSpeed); // 수정됨
+            yield return new WaitForSecondsRealtime(typingSpeed);
         }
 
         isTyping = false;
     }
 
     public void SetDiedMessage(string message)
-    {   
-
+    {
         if (diedText != null)
         {
             diedText.text = "";
-            StopAllCoroutines(); // 혹시 다른 코루틴이 실행 중이라면 중단
+            StopAllCoroutines();
             StartCoroutine(TypeDialogue(new DialogueData { dialogue = message, fontSize = diedText.fontSize }, diedText));
         }
         else
@@ -224,7 +264,7 @@ public class DialogueManager : MonoBehaviour
             Debug.LogError("diedText가 DialogueManager Inspector 창에 할당되지 않았습니다!");
         }
     }
-    IEnumerator ShakeScreen() // 흔들기
+    IEnumerator ShakeScreen()
     {
         float elapsed = 0.0f;
         follower.SetShake(true);
@@ -235,17 +275,18 @@ public class DialogueManager : MonoBehaviour
 
             dialogueBox.transform.localPosition = originalDialogueBoxPosition + new Vector3(x, y, 0);
 
-            elapsed += Time.unscaledDeltaTime; // 수정됨
+            elapsed += Time.unscaledDeltaTime;
 
             yield return null;
         }
 
         dialogueBox.transform.localPosition = originalDialogueBoxPosition;
+        follower.SetShake(false);
     }
 
     public void NextDialogue()
     {
-        if (isTyping) return; // 타이핑 중이면 넘기지 않음
+        if (isTyping) return;
 
         dialogueIndex++;
         if (dialogueIndex < currentDialogues.Count)
@@ -262,12 +303,13 @@ public class DialogueManager : MonoBehaviour
     {
         dialogueBox.SetActive(false);
         blackBox.SetActive(false);
+        blackBox.GetComponent<SpriteRenderer>().enabled = false; // 배경 이미지 숨김
+        blackBox.GetComponent<Image>().color = originalBlackBoxColor; // 색상 원래대로
+        isBlackBoxActive = false;
         if (standingImageLeft != null) standingImageLeft.gameObject.SetActive(false);
         if (standingImageRight != null) standingImageRight.gameObject.SetActive(false);
         playerController.SetTalking(false);
-        //  playerController.SetTalking(false);
         Time.timeScale = 1f;
-        follower.SetShake(false);
         follower.SetVisible(false);
     }
 
@@ -276,9 +318,9 @@ public class DialogueManager : MonoBehaviour
         return allDialogues;
     }
 
-    void Update() // 다음 대사
+    void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Return))
+        if (Input.GetKeyDown(KeyCode.Return) && !isBlackBoxActive)
         {
             NextDialogue();
         }
