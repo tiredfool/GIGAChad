@@ -35,21 +35,17 @@ public class Stage2Manager : MonoBehaviour
     public float spawnRate = 0.7f;
 
     private bool isSpawning = false;
+    private bool hasBossEventStarted = false;
 
     private void Awake()
     {
         if (instance == null) instance = this;
         else Destroy(gameObject);
 
-        /*
-        if (bossBig != null) // 초기 Boss(Big) 이미지 비활성화
-            bossBig.SetActive(false);
-        */
-        // 기존 초기화 외에 Boss 관련 초기 설정
         if (bossSmall != null) bossSmall.SetActive(true);
         if (bossBig != null) bossBig.SetActive(false);
 
-        StartCoroutine(BossRoutine());
+        //StartCoroutine(BossRoutine());
     }
 
     void Update()
@@ -118,6 +114,12 @@ public class Stage2Manager : MonoBehaviour
             cameraScript.StartRising();
         }
 
+        // Boss 이벤트는 단 1번만 실행되도록
+        if (!hasBossEventStarted)
+        {
+            StartCoroutine(BossRoutine());
+        }
+
         // 새로운 플랫폼 생성
         float newX = Random.Range(272f, 279f);
         float newY = currentPlatformPos.y + 3f;
@@ -130,28 +132,32 @@ public class Stage2Manager : MonoBehaviour
 
     IEnumerator BossRoutine()
     {
+        if (hasBossEventStarted) yield break;
+        hasBossEventStarted = true;
+
+        yield return new WaitForSeconds(spawnInterval); // 첫 지연
+
         while (true)
         {
-            yield return new WaitForSeconds(spawnInterval);
-
             // Boss(Big) 등장
             if (bossSmall != null) bossSmall.SetActive(false);
             if (bossBig != null)
             {
                 bossBig.SetActive(true);
                 Vector3 pos = bossBig.transform.position;
-                bossBig.transform.position = new Vector3(pos.x, player.transform.position.y + 1f, pos.z); // 더 위에 위치
+                bossBig.transform.position = new Vector3(pos.x, player.transform.position.y + 1f, pos.z);
             }
 
             isSpawning = true;
-            StartCoroutine(SpawnFallingObjects());
-
-            yield return new WaitForSeconds(bossBigDuration);
+            yield return StartCoroutine(SpawnFallingObjects());
 
             // Boss(Big) 퇴장
             if (bossBig != null) bossBig.SetActive(false);
             if (bossSmall != null) bossSmall.SetActive(true);
+
             isSpawning = false;
+
+            yield return new WaitForSeconds(spawnInterval); // 다음 등장까지 대기
         }
     }
 
@@ -170,25 +176,6 @@ public class Stage2Manager : MonoBehaviour
             elapsed += spawnRate;
         }
     }
-
-    /*
-    IEnumerator SpawnFallingObjectWithDelay(float baseY)
-    {
-        // Boss(Big) 등장 연출
-        if (bossBig != null)
-        {
-            bossBig.SetActive(true);
-            yield return new WaitForSeconds(1f); // 1초 기다린 후
-            bossBig.SetActive(false); // 다시 숨기거나 유지하고 싶으면 생략
-        }
-
-        // 장애물 떨어뜨리기
-        float randomX = Random.Range(260f, 290f);
-        Vector3 fallObjectPos = new Vector3(randomX, baseY + 5f, 0f);
-        Instantiate(fallingObjectPrefab, fallObjectPos, Quaternion.identity);
-    }
-    */
-    
 
     private void ResetGameState()
     {
