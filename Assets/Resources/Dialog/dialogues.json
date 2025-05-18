@@ -167,6 +167,42 @@
       "backgroundImageName": "TestImage"
     },
     {
+      "id": "1_s_m_b",
+      "npcName": "기가차드",
+      "portraitName": "Gigachard",
+      "fontSize": 60,
+      "dialogue": "아주 잘하고 있어 삣삐. 킵 고잉!",
+      "standingImage": "chardStand",
+      "standingPosition": "right"
+    },
+    {
+      "id": "1_s_m_e",
+      "npcName": "만삣삐",
+      "portraitName": "Player",
+      "fontSize": 60,
+      "dialogue": "응!",
+      "standingImage": "pepeStand",
+      "standingPosition": "left"
+    },
+    {
+      "id": "2_s_m_b",
+      "npcName": "기가차드",
+      "portraitName": "Gigachard",
+      "fontSize": 60,
+      "dialogue": "정말 훌륭해 삣삐. 너는 확실히 나아가고 있어.",
+      "standingImage": "chardStand",
+      "standingPosition": "right"
+    },
+    {
+      "id": "2_s_m_e",
+      "npcName": "만삣삐",
+      "portraitName": "Player",
+      "fontSize": 60,
+      "dialogue": "네 덕분이지.",
+      "standingImage": "pepeStand",
+      "standingPosition": "left"
+    },
+    {
       "npcName": "기가차드",
       "portraitName": "Gigachard",
       "fontSize": 60,

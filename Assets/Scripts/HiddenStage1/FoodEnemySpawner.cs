@@ -5,7 +5,7 @@ using UnityEngine;
 public class MonsterSpawner : MonoBehaviour
 {
     public GameObject[] monsterPrefabs; // 여러 종류의 몬스터
-    public float spawnRate = 3f;
+    public float spawnRate = 1f;
 
     private Vector2[] spawnPoints = new Vector2[]
     {
