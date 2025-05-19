@@ -54,7 +54,7 @@ public class CameraController : MonoBehaviour
         playerCamera.Priority = 20;
         targetCamera.Priority = 10;
         // 타겟 카메라는 복귀 후 다시 비활성화 (선택 사항)
-        targetCamera.gameObject.SetActive(false);
+        // targetCamera.gameObject.SetActive(false);
 
         yield return new WaitForSecondsRealtime(transitionDuration);
 
