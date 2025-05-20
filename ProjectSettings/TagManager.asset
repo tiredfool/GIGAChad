@@ -24,6 +24,9 @@ TagManager:
   - SwitchZone
   - PlayerHidden
   - Platform
+  - vcCamPlatform
+  - FS
+  - TU
   layers:
   - Default
   - TransparentFX

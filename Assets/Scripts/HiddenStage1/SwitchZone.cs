@@ -1,10 +1,12 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Cinemachine;
 
 public class SwitchZone : MonoBehaviour
 {
+    public static SwitchZone Instance { get; private set; }
+
     public GameObject platformerPlayer;
     public GameObject topDownPlayer;
     public CinemachineVirtualCamera vcamPlatformer;
@@ -17,13 +19,89 @@ public class SwitchZone : MonoBehaviour
 
     private bool isTopDown = false;
 
+    private void Awake()
+    {
+        // 싱글톤 설정
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        Instance = this;
+        DontDestroyOnLoad(gameObject); // 씬 유지
+    }
+
+    private void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
     private void Start()
     {
-        foodSpawner.SetActive(false);
-        topDownPlayer.SetActive(false);
+        TryFindReferences();
+        InitState();
+    }
 
-        platformerUI.SetActive(true);
-        topDownUI.SetActive(false);
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        Debug.Log("씬 로드됨: " + scene.name);
+        TryFindReferences();
+        InitState();
+    }
+
+    private void TryFindReferences()
+    {
+        if (platformerPlayer == null)
+            platformerPlayer = GameObject.FindWithTag("Player");
+        if (topDownPlayer == null)
+            topDownPlayer = GameObject.FindWithTag("PlayerHidden");
+
+        if (vcamPlatformer == null)
+        {
+            GameObject vcamObj = GameObject.Find("Virtual Camera");
+            if (vcamObj != null)
+                vcamPlatformer = vcamObj.GetComponent<CinemachineVirtualCamera>();
+        }
+
+        if (vcamTopDown == null)
+        {
+            GameObject vcamTD = GameObject.Find("Vcam_TopDown");
+            if (vcamTD != null)
+                vcamTopDown = vcamTD.GetComponent<CinemachineVirtualCamera>();
+        }
+
+        if (foodSpawner == null)
+        {
+            foodSpawner = GameObject.FindWithTag("FS");
+            if (foodSpawner == null)
+                foodSpawner = FindInactiveWithTag("FS");
+        }
+
+
+        if (platformerUI == null)
+            platformerUI = GameObject.FindWithTag("PU");
+
+        if (topDownUI == null)
+            topDownUI = GameObject.FindWithTag("TU");
+    }
+
+    private void InitState()
+    {
+        if (foodSpawner != null)
+            foodSpawner.SetActive(false);
+        if (topDownPlayer != null)
+            topDownPlayer.SetActive(false);
+
+        if (platformerUI != null)
+            platformerUI.SetActive(true);
+        if (topDownUI != null)
+            topDownUI.SetActive(false);
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -38,50 +116,66 @@ public class SwitchZone : MonoBehaviour
     {
         isTopDown = true;
 
-        vcamPlatformer.Priority = 5;
-        vcamTopDown.Priority = 10;
+        if (vcamPlatformer != null) vcamPlatformer.Priority = 5;
+        if (vcamTopDown != null) vcamTopDown.Priority = 10;
 
-        platformerUI.SetActive(false);
-        topDownUI.SetActive(true);
+        if (platformerUI != null) platformerUI.SetActive(false);
+        if (topDownUI != null) topDownUI.SetActive(true);
 
-        // 톱다운 모드 활성화
-        foodSpawner.SetActive(true);
-        topDownPlayer.SetActive(true);
-        platformerPlayer.SetActive(false);
+        if (foodSpawner != null) foodSpawner.SetActive(true);
+        if (topDownPlayer != null) topDownPlayer.SetActive(true);
+        if (platformerPlayer != null) platformerPlayer.SetActive(false);
 
         Debug.Log("톱다운 모드 시작");
 
-        //10초 동안 톱다운 모드 유지
         yield return new WaitForSeconds(switchDuration);
 
-        topDownPlayer.GetComponent<Player>().EndMiniGame();
+        if (topDownPlayer != null)
+        {
+            Player player = topDownPlayer.GetComponent<Player>();
+            if (player != null)
+                player.EndMiniGame();
+        }
 
-        // 시간이 지나면 톱다운 관련 오브젝트 삭제
-        Debug.Log(" 톱다운 모드 종료");
+        Debug.Log("톱다운 모드 종료");
 
-        topDownUI.SetActive(false);
-        Destroy(topDownPlayer);
-        Destroy(foodSpawner);
-        Destroy(vcamTopDown);
+        if (topDownUI != null) topDownUI.SetActive(false);
+        if (topDownPlayer != null) topDownPlayer.SetActive(false);
+        if (foodSpawner != null) foodSpawner.SetActive(false);
+        if (vcamTopDown != null) vcamTopDown.gameObject.SetActive(false);
 
-        //  플랫포머 모드로 돌아가기
         StartCoroutine(SwitchToPlatformer());
-        Destroy(gameObject);
+
+        gameObject.SetActive(false);
     }
 
     private IEnumerator SwitchToPlatformer()
     {
-        Debug.Log(" 플랫포머 모드로 복귀");
+        Debug.Log("플랫포머 모드로 복귀");
 
         isTopDown = false;
 
-        vcamPlatformer.Priority = 10;
+        if (vcamPlatformer != null) vcamPlatformer.Priority = 10;
 
-        // ✅ 플랫포머 플레이어 다시 활성화
-        platformerPlayer.SetActive(true);
-        Debug.Log("플랫포머 플레이어 활성화");
-        platformerUI.SetActive(true);
+        if (platformerPlayer != null) platformerPlayer.SetActive(true);
+        if (platformerUI != null) platformerUI.SetActive(true);
 
         yield return null;
     }
+
+    private GameObject FindInactiveWithTag(string tag)
+    {
+        foreach (GameObject root in SceneManager.GetActiveScene().GetRootGameObjects())
+        {
+            Transform[] children = root.GetComponentsInChildren<Transform>(true); // true → 비활성 포함
+            foreach (Transform child in children)
+            {
+                if (child.CompareTag(tag))
+                    return child.gameObject;
+            }
+        }
+        return null;
+    }
+
 }
+
