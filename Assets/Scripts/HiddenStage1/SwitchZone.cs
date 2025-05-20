@@ -19,6 +19,7 @@ public class SwitchZone : MonoBehaviour
 
     private bool isTopDown = false;
 
+    private PlayerController platformerPlayerController;
     private void Awake()
     {
         // 싱글톤 설정
@@ -61,6 +62,18 @@ public class SwitchZone : MonoBehaviour
             platformerPlayer = GameObject.FindWithTag("Player");
         if (topDownPlayer == null)
             topDownPlayer = GameObject.FindWithTag("PlayerHidden");
+
+
+        if (platformerPlayer != null && platformerPlayerController == null)
+        {
+            platformerPlayerController = platformerPlayer.GetComponent<PlayerController>();
+            if (platformerPlayerController == null)
+            {
+                Debug.LogError("Platformer Player에 PlayerController 스크립트가 없습니다!");
+            }
+        }
+
+
 
         if (vcamPlatformer == null)
         {
@@ -124,6 +137,17 @@ public class SwitchZone : MonoBehaviour
 
         if (foodSpawner != null) foodSpawner.SetActive(true);
         if (topDownPlayer != null) topDownPlayer.SetActive(true);
+        if (platformerPlayer != null) platformerPlayer.SetActive(false);
+
+        if (platformerPlayerController != null) // 발소리 제거
+        {
+            platformerPlayerController.isPlayingFootstepSound = false;
+            StopCoroutine("PlayFootstepSound");
+            if (MainSoundManager.instance != null)
+            {
+                MainSoundManager.instance.StopSFX("Footstep");
+            }
+        }
         if (platformerPlayer != null) platformerPlayer.SetActive(false);
 
         Debug.Log("톱다운 모드 시작");

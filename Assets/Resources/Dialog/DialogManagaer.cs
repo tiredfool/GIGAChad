@@ -24,7 +24,7 @@ public class DialogueManager : MonoBehaviour
     public Slider slider;
 
     private int dialogueIndex = 0;
-    private bool isTyping = false;
+    public bool isTyping = false;
     private bool isBlackBoxActive = false;
     private Color originalBlackBoxColor; // blackBox의 초기 색상 저장
     private bool dialogueStarted = false;
@@ -45,6 +45,7 @@ public class DialogueManager : MonoBehaviour
 
     public Sprite diedMessageBackground;
     private bool died = false;
+   
 
 
     public float fadeDuration = 1.5f; // 배경이 완전히 투명해지는 데 걸리는 시간
@@ -91,6 +92,8 @@ public class DialogueManager : MonoBehaviour
         sequenceControllers = FindObjectsOfType<DialogueSequenceController>();
         Debug.Log($"찾은 DialogueSequenceController 개수: {sequenceControllers.Length}");
     }
+
+
 
     public void SetMaxHealth(float health)
     {
@@ -291,7 +294,7 @@ public class DialogueManager : MonoBehaviour
     {
         if (diedText != null)
         {
-             died = true; // 이 변수는 PlayerController에서 관리하는 것이 더 적절합니다. 여기서는 삭제해도 무방합니다.
+            died = true;
             dialogueBox.SetActive(false);
             if (standingImageLeft != null) standingImageLeft.gameObject.SetActive(false);
             if (standingImageRight != null) standingImageRight.gameObject.SetActive(false);
@@ -339,6 +342,7 @@ public class DialogueManager : MonoBehaviour
 
     IEnumerator FadeInDiedBackgroundAndShowText(Image targetImage, string message)
     {
+       
         float timer = 0f;
         Color startColor = targetImage.color; 
         Color endColor = new Color(startColor.r, startColor.g, startColor.b, 1f); 
@@ -357,6 +361,8 @@ public class DialogueManager : MonoBehaviour
         diedText.text = ""; // 텍스트 초기화 
         StopAllCoroutines(); // 혹시 모를 다른 타이핑 코루틴 중지 (이 함수가 시작될 때)
         StartCoroutine(TypeDialogue(new DialogueData { dialogue = message, fontSize = diedText.fontSize }, diedText));
+       
+        
     }
 
     IEnumerator ShakeScreen()
@@ -382,7 +388,7 @@ public class DialogueManager : MonoBehaviour
     public void NextDialogue()
     {
         if (isTyping) return;
-
+        
         if (dialogueIndex < currentDialogues.Count)
         {
             string currentId = currentDialogues[dialogueIndex].id;
@@ -445,7 +451,7 @@ public class DialogueManager : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Return) && !isBlackBoxActive)
+        if (Input.GetKeyDown(KeyCode.Return) && !isBlackBoxActive )
         {
             NextDialogue();
         }

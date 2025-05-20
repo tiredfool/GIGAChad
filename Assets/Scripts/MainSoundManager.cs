@@ -24,16 +24,17 @@ public class MainSoundManager : MonoBehaviour
     private Dictionary<string, AudioSource> activeSfxAudioSources = new Dictionary<string, AudioSource>();
 
     public AudioMixer Mixer;
-    // 슬라이더 필드를 public으로 유지하되, Inspector에서 직접 할당하지 않아도 되도록 합니다.
-    // public Slider BGMSlider; // 이제 자동 연결할 것이므로 Inspector에서 제거해도 됩니다.
-    // public Slider SFXSlider; // 이제 자동 연결할 것이므로 Inspector에서 제거해도 됩니다.
 
-    // private 변수로 변경하고 필요할 때 찾아 할당합니다.
-    private Slider _bgmSlider;
+    
+    private Slider _bgmSlider; // 자동으로 할당
     private Slider _sfxSlider;
 
-    private const float MIN_VOLUME_DB = -80f;
-    private const float MAX_VOLUME_DB = 0f;
+    private const float MIN_VOLUME_DB = -80f; // AudioMixer의 가장 낮은 볼륨
+    private const float MAX_VOLUME_DB = 0f;   // AudioMixer의 기본 볼륨 (오디오 클립의 원본 볼륨)
+
+    //초기볼륨
+    private float currentBGMVolume = 1f; 
+    private float currentSFXVolume = 1f;
 
     void Awake()
     {
@@ -57,42 +58,52 @@ public class MainSoundManager : MonoBehaviour
             }
             sfxSoundDictionary.Add(sfx.sfxName, sfx);
         }
+
+        ApplyInitialMixerVolumes();
     }
 
     void OnEnable()
     {
-        // 씬 로드 이벤트 구독: 새로운 씬이 로드될 때마다 OnSceneLoaded 함수가 호출됩니다.
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
     void OnDisable()
     {
-        // 오브젝트가 비활성화되거나 파괴될 때 이벤트 구독 해제 (메모리 누수 방지)
         SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
-    // 씬 로드 완료 시 호출될 함수
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        Debug.Log($"씬 '{scene.name}' 로드 완료. UI 슬라이더를 다시 연결합니다.");
-        ConnectSliders(); // 슬라이더 연결 시도
+        Debug.Log($"씬 '{scene.name}' 로드 완료. UI 슬라이더를 다시 연결하고 현재 볼륨을 적용합니다.");
+        ConnectSlidersAndApplyVolumes(); // 슬라이더 연결 시도 및 볼륨 적용
     }
 
-    // 슬라이더를 찾아 연결하고, 초기 볼륨을 설정하는 함수
-    private void ConnectSliders()
+    // 초기 Awake 시점에 믹서 볼륨을 설정하는 함수
+    private void ApplyInitialMixerVolumes()
     {
-        // 씬에서 "BGMSlider"라는 이름의 Slider 컴포넌트를 찾습니다. (이름은 실제 UI 오브젝트 이름과 일치해야 합니다)
-        _bgmSlider = FindObjectOfType<Slider>(); // 특정 이름으로 찾으려면 GameObject.Find("BGMSlider").GetComponent<Slider>();
-                                                 // 이 방법은 씬에 슬라이더가 하나만 있거나, 특정 태그 등으로 구분할 수 있을 때 유리합니다.
-                                                 // 예를 들어, UI 캔버스 내에 슬라이더가 있다면 더 구체적인 경로를 사용할 수 있습니다:
-                                                 // Transform canvasTransform = GameObject.Find("Canvas").transform;
-                                                 // _bgmSlider = canvasTransform.Find("BGMSlider").GetComponent<Slider>();
+        if (Mixer == null)
+        {
+            Debug.LogError("AudioMixer가 MainSoundManager에 할당되지 않았습니다!");
+            return;
+        }
+
+        // BGM 볼륨 적용
+        float bgmDb = (currentBGMVolume <= 0.0001f) ? MIN_VOLUME_DB : Mathf.Log10(currentBGMVolume) * 20;
+        Mixer.SetFloat("BGM", bgmDb);
+        Debug.Log($"초기 BGM 볼륨 적용 (Mixer Only): {currentBGMVolume}, dB: {bgmDb}");
+
+        // SFX 볼륨 적용
+        float sfxDb = (currentSFXVolume <= 0.0001f) ? MIN_VOLUME_DB : Mathf.Log10(currentSFXVolume) * 20;
+        Mixer.SetFloat("SFX", sfxDb);
+        Debug.Log($"초기 SFX 볼륨 적용 (Mixer Only): {currentSFXVolume}, dB: {sfxDb}");
+    }
 
 
-        // SFX 슬라이더 찾기
-        // FindObjectsOfType<Slider>()를 사용하여 모든 슬라이더를 찾은 뒤,
-        // 이름으로 구분하는 것이 일반적입니다.
-        Slider[] allSliders = FindObjectsOfType<Slider>(true); // 비활성화된 오브젝트도 찾기 위해 true 추가
+    // 슬라이더를 찾아 연결하고, 현재 볼륨을 설정하는 함수
+    private void ConnectSlidersAndApplyVolumes()
+    {
+        // 씬에서 모든 Slider 컴포넌트를 찾습니다.
+        Slider[] allSliders = FindObjectsOfType<Slider>(true);
         foreach (Slider s in allSliders)
         {
             if (s.name == "BGMSlider") // 슬라이더 UI 오브젝트의 이름이 "BGMSlider"라고 가정
@@ -105,31 +116,44 @@ public class MainSoundManager : MonoBehaviour
             }
         }
 
-
+        // --- BGM 슬라이더 연결 및 현재 볼륨 적용 ---
         if (_bgmSlider != null)
         {
-            _bgmSlider.onValueChanged.RemoveAllListeners(); // 모든 리스너 제거
-            _bgmSlider.onValueChanged.AddListener(SetBGMVolume); // BGM 전용 함수 연결
+            _bgmSlider.onValueChanged.RemoveAllListeners(); // 기존 리스너 제거 (중복 연결 방지)
+            _bgmSlider.onValueChanged.AddListener(SetBGMVolume); // 새 리스너 연결 (매개변수 있는 버전)
+
+            // 슬라이더 UI의 값에 현재 저장된 볼륨 적용
+            _bgmSlider.value = currentBGMVolume;
+            SetBGMVolume(currentBGMVolume);
+            Debug.Log($"BGM 슬라이더에 현재 값 적용 및 믹서 업데이트: {currentBGMVolume}");
         }
         else
         {
             Debug.LogWarning("BGMSlider를 씬에서 찾을 수 없습니다! 이름이 'BGMSlider'인지 확인하세요.");
+           
+            float bgmDb = (currentBGMVolume <= 0.0001f) ? MIN_VOLUME_DB : Mathf.Log10(currentBGMVolume) * 20;
+            Mixer.SetFloat("BGM", bgmDb);
         }
 
+      
         if (_sfxSlider != null)
         {
-            _sfxSlider.onValueChanged.RemoveAllListeners(); // 모든 리스너 제거
-            _sfxSlider.onValueChanged.AddListener(SetSFXVolume); // SFX 전용 함수 연결
+            _sfxSlider.onValueChanged.RemoveAllListeners();
+            _sfxSlider.onValueChanged.AddListener(SetSFXVolume);
+
+            _sfxSlider.value = currentSFXVolume;
+            SetSFXVolume(currentSFXVolume);
+            Debug.Log($"SFX 슬라이더에 현재 값 적용 및 믹서 업데이트: {currentSFXVolume}");
         }
         else
         {
             Debug.LogWarning("SFXSlider를 씬에서 찾을 수 없습니다! 이름이 'SFXSlider'인지 확인하세요.");
+            float sfxDb = (currentSFXVolume <= 0.0001f) ? MIN_VOLUME_DB : Mathf.Log10(currentSFXVolume) * 20;
+            Mixer.SetFloat("SFX", sfxDb);
         }
-
-        if (_bgmSlider != null) SetBGMVolume(_bgmSlider.value);
-        if (_sfxSlider != null) SetSFXVolume(_sfxSlider.value);
     }
 
+    // 슬라이더 값이 변경될 때마다 호출되며, 이 값이 currentBGMVolume에 저장됩니다.
     public void SetBGMVolume(float sliderValue)
     {
         if (Mixer == null)
@@ -148,10 +172,11 @@ public class MainSoundManager : MonoBehaviour
             volumeDb = Mathf.Log10(sliderValue) * 20;
         }
         Mixer.SetFloat("BGM", volumeDb);
-        Debug.Log($"BGM Slider Value: {sliderValue}, BGM Volume dB: {volumeDb}");
+        currentBGMVolume = sliderValue; // 변경된 슬라이더 값을 내부 변수에 저장
+        Debug.Log($"BGM Slider Value changed and stored: {sliderValue}, BGM Volume dB: {volumeDb}");
     }
 
-    // 변경된 부분: 슬라이더 값을 매개변수로 직접 받습니다.
+    // 슬라이더 값이 변경될 때마다 호출되며, 이 값이 currentSFXVolume에 저장됩니다.
     public void SetSFXVolume(float sliderValue)
     {
         if (Mixer == null)
@@ -170,55 +195,8 @@ public class MainSoundManager : MonoBehaviour
             volumeDb = Mathf.Log10(sliderValue) * 20;
         }
         Mixer.SetFloat("SFX", volumeDb);
-        Debug.Log($"SFX Slider Value: {sliderValue}, SFX Volume dB: {volumeDb}");
-    }
-    // 이 함수는 이제 내부적으로 _bgmSlider와 _sfxSlider를 참조합니다.
-    public void AduioControl()
-    {
-        if (Mixer == null)
-        {
-            Debug.LogError("AudioMixer가 MainSoundManager에 할당되지 않았습니다!");
-            return;
-        }
-        // 이제 필드를 사용하지 않고, private 변수를 사용합니다.
-        if (_bgmSlider == null)
-        {
-            // Debug.LogError("BGMSlider가 아직 연결되지 않았습니다!"); // 연결이 실패했거나 아직 UI가 로드되지 않은 경우 발생
-            return;
-        }
-        if (_sfxSlider == null)
-        {
-            // Debug.LogError("SFXSlider가 아직 연결되지 않았습니다!"); // 연결이 실패했거나 아직 UI가 로드되지 않은 경우 발생
-            return;
-        }
-
-        // BGM 볼륨 조절
-        float bgmSliderValue = _bgmSlider.value; // _bgmSlider 사용
-        float bgmVolumeDb;
-        if (bgmSliderValue <= 0.0001f)
-        {
-            bgmVolumeDb = MIN_VOLUME_DB;
-        }
-        else
-        {
-            bgmVolumeDb = Mathf.Log10(bgmSliderValue) * 20;
-        }
-        Mixer.SetFloat("BGM", bgmVolumeDb);
-        Debug.Log($"BGM Slider Value: {bgmSliderValue}, BGM Volume dB: {bgmVolumeDb}");
-
-        // SFX 볼륨 조절
-        float sfxSliderValue = _sfxSlider.value; // _sfxSlider 사용
-        float sfxVolumeDb;
-        if (sfxSliderValue <= 0.0001f)
-        {
-            sfxVolumeDb = MIN_VOLUME_DB;
-        }
-        else
-        {
-            sfxVolumeDb = Mathf.Log10(sfxSliderValue) * 20;
-        }
-        Mixer.SetFloat("SFX", sfxVolumeDb);
-        Debug.Log($"SFX Slider Value: {sfxSliderValue}, SFX Volume dB: {sfxVolumeDb}");
+        currentSFXVolume = sliderValue; // 변경된 슬라이더 값을 내부 변수에 저장
+        Debug.Log($"SFX Slider Value changed and stored: {sliderValue}, SFX Volume dB: {volumeDb}");
     }
 
     public void ToggleAudioVolume()
