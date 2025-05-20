@@ -2527,8 +2527,8 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 839357871}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 1, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -2833,7 +2833,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &78725522
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2875,7 +2875,8 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 054811e369e80a549bd81452f12259c6, type: 3}
   - {fileID: 21300000, guid: 504275b63f3b21347bf4df35c2f5a849, type: 3}
   - {fileID: 21300000, guid: 493a4eb42eda9994c94986440622fb07, type: 3}
-  diedMessageBackground: {fileID: 21300000, guid: 71a8ffed60f1b5e408d2879ea8af142e, type: 3}
+  diedMessageBackground: {fileID: 21300000, guid: 9a7293055570e6644b4ecf7482167704, type: 3}
+  fadeDuration: 1.5
 --- !u!114 &78725523
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -44179,7 +44180,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uD50C\uB808\uC774\uC5B4 \uC0AC\uB9DD\n'R'\uD0A4\uB97C \uB20C\uB7EC \uB2E4\uC2DC"
+  m_text: "oh..\uB9CC\uC0A3\uC090 \uB10C \uD560 \uC218 \uC788\uC5B4 \\n\\n\\n\\n\\n\\n\\n\\n\\n\\n
+    'R'\uC744 \uB20C\uB7EC \uB2E4\uC2DC Stand Up \uD558\uB294\uAC70\uC57C!"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 423ea4a8df63f654aa27cca2c0e0842b, type: 2}
   m_sharedMaterial: {fileID: -6404029355627870059, guid: 423ea4a8df63f654aa27cca2c0e0842b, type: 2}
@@ -44206,8 +44208,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 100
-  m_fontSizeBase: 100
+  m_fontSize: 80
+  m_fontSizeBase: 80
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -44840,7 +44842,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 3fb894b5d4c6a094784e3e9370f86d0d, type: 3}
+  m_Sprite: {fileID: 0}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -45280,7 +45282,7 @@ RectTransform:
   m_Father: {fileID: 233167515}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 10, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}

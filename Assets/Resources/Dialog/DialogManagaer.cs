@@ -1,4 +1,4 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
@@ -14,7 +14,7 @@ public class DialogueManager : MonoBehaviour
     public TextMeshProUGUI diedText;
     public Image portraitImage;
     public GameObject dialogueBox;
-    public GameObject blackBox; // ¹è°æ ÀÌ¹ÌÁö Ç¥½Ã¿¡µµ »ç¿ë
+    public GameObject blackBox; // ë°°ê²½ ì´ë¯¸ì§€ í‘œì‹œì—ë„ ì‚¬ìš©
     public TextMeshProUGUI blackText;
     public string jsonFileName = "Dialog/dialogues";
     public float typingSpeed = 0.05f;
@@ -26,7 +26,7 @@ public class DialogueManager : MonoBehaviour
     private int dialogueIndex = 0;
     private bool isTyping = false;
     private bool isBlackBoxActive = false;
-    private Color originalBlackBoxColor; // blackBoxÀÇ ÃÊ±â »ö»ó ÀúÀå
+    private Color originalBlackBoxColor; // blackBoxì˜ ì´ˆê¸° ìƒ‰ìƒ ì €ì¥
     private bool dialogueStarted = false;
 
     private Vector3 originalDialogueBoxPosition;
@@ -46,6 +46,11 @@ public class DialogueManager : MonoBehaviour
     public Sprite diedMessageBackground;
     private bool died = false;
 
+
+    public float fadeDuration = 1.5f; // ë°°ê²½ì´ ì™„ì „íˆ íˆ¬ëª…í•´ì§€ëŠ” ë° ê±¸ë¦¬ëŠ” ì‹œê°„
+    private Coroutine currentFadeCoroutine; // í˜„ì¬ ì‹¤í–‰ ì¤‘ì¸ í˜ì´ë“œ ì½”ë£¨í‹´ì„ ì €ì¥
+
+
     void Awake()
     {
         if (instance == null)
@@ -63,28 +68,28 @@ public class DialogueManager : MonoBehaviour
         diedText.text = "";
         dialogueBox.SetActive(false);
         blackBox.SetActive(false);
-        originalBlackBoxColor = blackBox.GetComponent<Image>().color; // ÃÊ±â »ö»ó ÀúÀå
+
+        // blackBoxì— Image ì»´í¬ë„ŒíŠ¸ê°€ í•„ìˆ˜ì ì„ì„ í™•ì¸
+        Image blackBoxImage = blackBox.GetComponent<Image>();
+        if (blackBoxImage == null)
+        {
+            Debug.LogError("blackBox GameObjectì— UI.Image ì»´í¬ë„ŒíŠ¸ê°€ ì—†ìŠµë‹ˆë‹¤! ì¶”ê°€í•´ì£¼ì„¸ìš”. (UI.Image ì»´í¬ë„ŒíŠ¸ë§Œ ì‚¬ìš©í•©ë‹ˆë‹¤.)");
+            enabled = false; // ìŠ¤í¬ë¦½íŠ¸ ë¹„í™œì„±í™”í•˜ì—¬ ì¶”ê°€ ì˜¤ë¥˜ ë°©ì§€
+            return;
+        }
+        originalBlackBoxColor = blackBoxImage.color; // ì´ˆê¸° ìƒ‰ìƒ ì €ì¥
+
         LoadDialogueFromJson();
 
         follower.SetVisible(false);
         if (standingImageLeft != null) standingImageLeft.gameObject.SetActive(false);
         if (standingImageRight != null) standingImageRight.gameObject.SetActive(false);
-
-        // blackBox¿¡ SpriteRenderer ÄÄÆ÷³ÍÆ®°¡ ¾øÀ¸¸é Ãß°¡
-        if (blackBox.GetComponent<SpriteRenderer>() == null)
-        {
-            blackBox.AddComponent<SpriteRenderer>();
-            blackBox.GetComponent<SpriteRenderer>().sortingOrder = -1; // ´ëÈ­Ã¢ µÚ¿¡ Ç¥½ÃµÇµµ·Ï ¼³Á¤ (Á¶Àı °¡´É)
-        }
-        blackBox.GetComponent<SpriteRenderer>().enabled = false; // ÃÊ±â¿¡´Â ºñÈ°¼ºÈ­
-        blackBox.GetComponent<Image>().enabled = true; // Image ÄÄÆ÷³ÍÆ®´Â È°¼ºÈ­ (»ö»ó Á¦¾î¿ë)
     }
-
     void Start()
     {
-        // ¾À ½ÃÀÛ ½Ã ¸ğµç DialogueSequenceController Ã£±â
+        // ì”¬ ì‹œì‘ ì‹œ ëª¨ë“  DialogueSequenceController ì°¾ê¸°
         sequenceControllers = FindObjectsOfType<DialogueSequenceController>();
-        Debug.Log($"Ã£Àº DialogueSequenceController °³¼ö: {sequenceControllers.Length}");
+        Debug.Log($"ì°¾ì€ DialogueSequenceController ê°œìˆ˜: {sequenceControllers.Length}");
     }
 
     public void SetMaxHealth(float health)
@@ -105,7 +110,7 @@ public class DialogueManager : MonoBehaviour
         TextAsset textAsset = Resources.Load<TextAsset>(jsonFileName);
         if (textAsset == null)
         {
-            Debug.LogError("JSON ÆÄÀÏ '" + jsonFileName + "'À» Ã£À» ¼ö ¾ø½À´Ï´Ù.");
+            Debug.LogError("JSON íŒŒì¼ '" + jsonFileName + "'ì„ ì°¾ì„ ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
             return;
         }
 
@@ -118,15 +123,15 @@ public class DialogueManager : MonoBehaviour
 
     public void SetDialogues(List<DialogueData> dialogues)
     {
-        Debug.Log($"SetDialogues È£ÃâµÊ. ¹ŞÀº ´ëÈ­ °³¼ö: {dialogues.Count}");
+        Debug.Log($"SetDialogues í˜¸ì¶œë¨. ë°›ì€ ëŒ€í™” ê°œìˆ˜: {dialogues.Count}");
         currentDialogues = dialogues;
         dialogueIndex = 0;
-        Debug.Log($"SetDialogues ¿Ï·á. currentDialogues °³¼ö: {currentDialogues.Count}, dialogueIndex: {dialogueIndex}");
+        Debug.Log($"SetDialogues ì™„ë£Œ. currentDialogues ê°œìˆ˜: {currentDialogues.Count}, dialogueIndex: {dialogueIndex}");
     }
 
     public void StartDialogue()
     {
-        Debug.Log("StartDialogue È£ÃâµÊ");
+        Debug.Log("StartDialogue í˜¸ì¶œë¨");
         if (currentDialogues.Count == 0)
         {
             Debug.LogWarning("No dialogues set for this scene!");
@@ -137,20 +142,20 @@ public class DialogueManager : MonoBehaviour
         dialogueBox.SetActive(true);
         playerController.SetTalking(true);
         Time.timeScale = 0f;
-        Debug.Log($"StartDialogue: Ã¹ ¹øÂ° ´ë»ç Ç¥½Ã ½Ãµµ (index: {dialogueIndex}, ID: {currentDialogues[dialogueIndex].id})");
+        Debug.Log($"StartDialogue: ì²« ë²ˆì§¸ ëŒ€ì‚¬ í‘œì‹œ ì‹œë„ (index: {dialogueIndex}, ID: {currentDialogues[dialogueIndex].id})");
         ShowDialogue(currentDialogues[dialogueIndex]);
         dialogueIndex++;
         dialogueStarted = true;
-        Debug.Log("StartDialogue ¿Ï·á");
+        Debug.Log("StartDialogue ì™„ë£Œ");
     }
 
     void ShowDialogue(DialogueData data)
     {
-        // ¸ğµç ´ëÈ­ ¹Ú½º ¹× °ü·Ã ¿ä¼Ò ºñÈ°¼ºÈ­ (¹è°æ ÀÌ¹ÌÁö Æ÷ÇÔ)
+        // ëª¨ë“  ëŒ€í™” ë°•ìŠ¤ ë° ê´€ë ¨ ìš”ì†Œ ë¹„í™œì„±í™” (ë°°ê²½ ì´ë¯¸ì§€ í¬í•¨)
         dialogueBox.SetActive(false);
         blackBox.SetActive(false);
-        blackBox.GetComponent<SpriteRenderer>().enabled = false;
-        blackBox.GetComponent<Image>().color = originalBlackBoxColor; // »ö»ó ÃÊ±âÈ­
+        // blackBox.GetComponent<SpriteRenderer>().enabled = false; // ì´ ì¤„ ì œê±°
+        blackBox.GetComponent<Image>().color = originalBlackBoxColor; // ìƒ‰ìƒ ì´ˆê¸°í™” (í˜ì´ë“œì¸ ì‹œì—ëŠ” ì•ŒíŒŒë¥¼ 0ìœ¼ë¡œ ì„¤ì •)
         if (standingImageLeft != null) standingImageLeft.gameObject.SetActive(false);
         if (standingImageRight != null) standingImageRight.gameObject.SetActive(false);
         isBlackBoxActive = false;
@@ -166,16 +171,16 @@ public class DialogueManager : MonoBehaviour
                 portraitImage.sprite = portrait;
             }
 
-            // ¹è°æ ÀÌ¹ÌÁö Ã³¸®
+            // ë°°ê²½ ì´ë¯¸ì§€ ì²˜ë¦¬ (Image ì»´í¬ë„ŒíŠ¸ ì‚¬ìš©)
             if (!string.IsNullOrEmpty(data.backgroundImageName))
             {
-                Sprite backgroundImage = Resources.Load<Sprite>("Backgrounds/" + data.backgroundImageName); // Resources Æú´õ ³» "Backgrounds" Æú´õ¿¡¼­ ·Îµå
+                Sprite backgroundImage = Resources.Load<Sprite>("Backgrounds/" + data.backgroundImageName);
                 if (backgroundImage != null)
                 {
                     blackBox.SetActive(true);
-                    blackBox.GetComponent<Image>().color = Color.white;
-                    blackBox.GetComponent<SpriteRenderer>().sprite = backgroundImage;
-                    blackBox.GetComponent<SpriteRenderer>().enabled = true;
+                    // ì¼ë°˜ ëŒ€í™”ì˜ ë°°ê²½ ì´ë¯¸ì§€ëŠ” ë°”ë¡œ ë³´ì´ë„ë¡ ì•ŒíŒŒ 1ë¡œ ì„¤ì •
+                    blackBox.GetComponent<Image>().color = new Color(1, 1, 1, 1); // ë°°ê²½ ì´ë¯¸ì§€ë¥¼ ì›ë˜ ìƒ‰ìƒìœ¼ë¡œ ë³´ì´ê²Œ (ë¶ˆíˆ¬ëª…)
+                    blackBox.GetComponent<Image>().sprite = backgroundImage; // Image ì»´í¬ë„ŒíŠ¸ì— ìŠ¤í”„ë¼ì´íŠ¸ í• ë‹¹
                 }
                 else
                 {
@@ -183,7 +188,7 @@ public class DialogueManager : MonoBehaviour
                 }
             }
 
-            // ½ºÅÄµù ÀÏ·¯½ºÆ® Ã³¸®
+            // ìŠ¤íƒ ë”© ì¼ëŸ¬ìŠ¤íŠ¸ ì²˜ë¦¬ (ê¸°ì¡´ê³¼ ë™ì¼)
             string[] standingImages = data.standingImage?.Split(',');
             string[] standingPositions = data.standingPosition?.Split(',');
 
@@ -240,7 +245,7 @@ public class DialogueManager : MonoBehaviour
             StopAllCoroutines();
             StartCoroutine(TypeDialogue(data, blackText));
 
-            // Black ¹Ú½º Áö¼Ó ½Ã°£ ÈÄ ´ÙÀ½ ´ë»ç ÁøÇà
+            // Black ë°•ìŠ¤ ì§€ì† ì‹œê°„ í›„ ë‹¤ìŒ ëŒ€ì‚¬ ì§„í–‰
             StartCoroutine(WaitForBlackBoxEnd(data.blackBoxDuration));
         }
         else
@@ -248,21 +253,20 @@ public class DialogueManager : MonoBehaviour
             Debug.LogError("Unknown dialogue type: " + data.dialogueType);
         }
     }
-
     IEnumerator WaitForBlackBoxEnd(float duration)
     {
-        Debug.Log("WaitForBlackBoxEnd ½ÃÀÛ: " + duration + "ÃÊ ´ë±â");
+        Debug.Log("WaitForBlackBoxEnd ì‹œì‘: " + duration + "ì´ˆ ëŒ€ê¸°");
         yield return new WaitForSecondsRealtime(duration);
-        Debug.Log("WaitForBlackBoxEnd Á¾·á, NextDialogue È£Ãâ ½Ãµµ (isTyping: " + isTyping + ")");
+        Debug.Log("WaitForBlackBoxEnd ì¢…ë£Œ, NextDialogue í˜¸ì¶œ ì‹œë„ (isTyping: " + isTyping + ")");
 
-        // Å¸ÀÌÇÎÀÌ ¿Ï·áµÉ ¶§±îÁö ´ë±â
+        // íƒ€ì´í•‘ì´ ì™„ë£Œë  ë•Œê¹Œì§€ ëŒ€ê¸°
         while (isTyping)
         {
-            Debug.Log("WaitForBlackBoxEnd: ¾ÆÁ÷ Å¸ÀÌÇÎ Áß... ´ë±â");
-            yield return null; // ´ÙÀ½ ÇÁ·¹ÀÓ±îÁö ´ë±â
+            Debug.Log("WaitForBlackBoxEnd: ì•„ì§ íƒ€ì´í•‘ ì¤‘... ëŒ€ê¸°");
+            yield return null; // ë‹¤ìŒ í”„ë ˆì„ê¹Œì§€ ëŒ€ê¸°
         }
 
-        Debug.Log("WaitForBlackBoxEnd: Å¸ÀÌÇÎ ¿Ï·áµÊ, NextDialogue È£Ãâ");
+        Debug.Log("WaitForBlackBoxEnd: íƒ€ì´í•‘ ì™„ë£Œë¨, NextDialogue í˜¸ì¶œ");
         NextDialogue();
     }
 
@@ -280,46 +284,81 @@ public class DialogueManager : MonoBehaviour
         }
 
         isTyping = false;
-        Debug.Log("Å¸ÀÌÇÎ ¿Ï·á: isTyping = false"); // Å¸ÀÌÇÎ ¿Ï·á ½Ã ·Î±×
+        Debug.Log("íƒ€ì´í•‘ ì™„ë£Œ: isTyping = false"); // íƒ€ì´í•‘ ì™„ë£Œ ì‹œ ë¡œê·¸
     }
 
     public void SetDiedMessage(string message)
     {
         if (diedText != null)
         {
-            died = true;
+             died = true; // ì´ ë³€ìˆ˜ëŠ” PlayerControllerì—ì„œ ê´€ë¦¬í•˜ëŠ” ê²ƒì´ ë” ì ì ˆí•©ë‹ˆë‹¤. ì—¬ê¸°ì„œëŠ” ì‚­ì œí•´ë„ ë¬´ë°©í•©ë‹ˆë‹¤.
             dialogueBox.SetActive(false);
             if (standingImageLeft != null) standingImageLeft.gameObject.SetActive(false);
             if (standingImageRight != null) standingImageRight.gameObject.SetActive(false);
-            nameText.gameObject.SetActive(false); // ÀÌ¸§ ÅØ½ºÆ® ¼û±â±â
-            portraitImage.gameObject.SetActive(false); // ÃÊ»óÈ­ ¼û±â±â
+            nameText.gameObject.SetActive(false); // ì´ë¦„ í…ìŠ¤íŠ¸ ìˆ¨ê¸°ê¸°
+            portraitImage.gameObject.SetActive(false); // ì´ˆìƒí™” ìˆ¨ê¸°ê¸°
 
-            blackBox.SetActive(true); // blackBox GameObject È°¼ºÈ­
-            blackBox.GetComponent<Image>().color = Color.white; // Image ÄÄÆ÷³ÍÆ® »ö»óÀ» Èò»öÀ¸·Î
+            blackBox.SetActive(true); //
 
-            if (diedMessageBackground != null) // ÇÒ´çµÈ ½ºÇÁ¶óÀÌÆ®°¡ ÀÖ´ÂÁö È®ÀÎ
+            Image blackBoxImage = blackBox.GetComponent<Image>();
+            if (blackBoxImage != null)
             {
-                blackBox.GetComponent<SpriteRenderer>().sprite = diedMessageBackground; // ÇÒ´çµÈ ½ºÇÁ¶óÀÌÆ® »ç¿ë
-                blackBox.GetComponent<SpriteRenderer>().enabled = true; // SpriteRenderer È°¼ºÈ­
+                blackBoxImage.color = new Color(1, 1, 1, 0);
+
+                if (diedMessageBackground != null) // ì¸ìŠ¤í™í„°ì— í• ë‹¹ëœ ìŠ¤í”„ë¼ì´íŠ¸ê°€ ìˆëŠ”ì§€ í™•ì¸
+                {
+                    blackBoxImage.sprite = diedMessageBackground; // Image ì»´í¬ë„ŒíŠ¸ì— í• ë‹¹
+                }
+                else
+                { 
+                    blackBoxImage.sprite = null; // ìŠ¤í”„ë¼ì´íŠ¸ ì—†ìœ¼ë©´ ë¹„ì›Œë‘¡ë‹ˆë‹¤.
+                    blackBoxImage.color = originalBlackBoxColor; // ê²€ì€ìƒ‰ìœ¼ë¡œ ë˜ëŒë¦½ë‹ˆë‹¤.
+                }
+
+                // ê¸°ì¡´ í˜ì´ë“œ ì½”ë£¨í‹´ì´ ìˆë‹¤ë©´ ì¤‘ì§€
+                if (currentFadeCoroutine != null)
+                {
+                    StopCoroutine(currentFadeCoroutine);
+                } 
+                currentFadeCoroutine = StartCoroutine(FadeInDiedBackgroundAndShowText(blackBoxImage, message));
+
             }
             else
             {
-                Debug.LogError("Died Message Background Sprite°¡ DialogueManager ÀÎ½ºÆåÅÍ¿¡ ÇÒ´çµÇÁö ¾Ê¾Ò½À´Ï´Ù!");
-                blackBox.GetComponent<SpriteRenderer>().enabled = false; // ½ºÇÁ¶óÀÌÆ® ¾øÀ¸¸é ºñÈ°¼ºÈ­
+                Debug.LogError("blackBox GameObjectì— UI.Image ì»´í¬ë„ŒíŠ¸ê°€ ì—†ì–´ DiedMessageBackgroundë¥¼ ì„¤ì •í•  ìˆ˜ ì—†ìŠµë‹ˆë‹¤!");
             }
 
-            isBlackBoxActive = true; // blackBox°¡ È°¼ºÈ­µÇ¾úÀ½À» Ç¥½Ã (Update ÇÔ¼ö¿¡¼­ »ç¿ëµÊ)
+            isBlackBoxActive = true; // blackBoxê°€ í™œì„±í™”ë˜ì—ˆìŒì„ í‘œì‹œ 
 
-            diedText.gameObject.SetActive(true); // diedText È°¼ºÈ­
-            diedText.text = "";
-            StopAllCoroutines();
-            StartCoroutine(TypeDialogue(new DialogueData { dialogue = message, fontSize = diedText.fontSize }, diedText));
         }
         else
         {
-            Debug.LogError("diedText°¡ DialogueManager Inspector Ã¢¿¡ ÇÒ´çµÇÁö ¾Ê¾Ò½À´Ï´Ù!");
+            Debug.LogError("diedTextê°€ DialogueManager Inspector ì°½ì— í• ë‹¹ë˜ì§€ ì•Šì•˜ìŠµë‹ˆë‹¤!");
         }
     }
+
+    IEnumerator FadeInDiedBackgroundAndShowText(Image targetImage, string message)
+    {
+        float timer = 0f;
+        Color startColor = targetImage.color; 
+        Color endColor = new Color(startColor.r, startColor.g, startColor.b, 1f); 
+
+        while (timer < fadeDuration)
+        {
+            timer += Time.unscaledDeltaTime; // Time.timeScaleì´ 0ì¼ ë•Œë„ ì‘ë™
+            float progress = timer / fadeDuration;
+            targetImage.color = Color.Lerp(startColor, endColor, progress);
+            yield return null;
+        }
+        targetImage.color = endColor; 
+
+     
+        diedText.gameObject.SetActive(true); // diedText í™œì„±í™”
+        diedText.text = ""; // í…ìŠ¤íŠ¸ ì´ˆê¸°í™” 
+        StopAllCoroutines(); // í˜¹ì‹œ ëª¨ë¥¼ ë‹¤ë¥¸ íƒ€ì´í•‘ ì½”ë£¨í‹´ ì¤‘ì§€ (ì´ í•¨ìˆ˜ê°€ ì‹œì‘ë  ë•Œ)
+        StartCoroutine(TypeDialogue(new DialogueData { dialogue = message, fontSize = diedText.fontSize }, diedText));
+    }
+
     IEnumerator ShakeScreen()
     {
         float elapsed = 0.0f;
@@ -348,24 +387,24 @@ public class DialogueManager : MonoBehaviour
         {
             string currentId = currentDialogues[dialogueIndex].id;
 
-            // ¸ğµç ½ÃÄö½º ÄÁÆ®·Ñ·¯¿¡ ÇöÀç ´ëÈ­ ID Àü´Ş
+            // ëª¨ë“  ì‹œí€€ìŠ¤ ì»¨íŠ¸ë¡¤ëŸ¬ì— í˜„ì¬ ëŒ€í™” ID ì „ë‹¬
             foreach (var controller in sequenceControllers)
             {
                 controller.CheckDialogueEnd(currentId);
                 if (controller.cameraController != null && controller.cameraController.IsMoving)
                 {
-                    Debug.Log($"Ä«¸Ş¶ó ÀÌµ¿ Áß, ´ÙÀ½ ´ë»ç ÁøÇà º¸·ù (Controller: {controller.gameObject.name})");
-                    return; // ÇÏ³ªÀÇ ÄÁÆ®·Ñ·¯¶óµµ Ä«¸Ş¶ó ÀÌµ¿ ÁßÀÌ¸é ÁøÇà Áß´Ü
+                    Debug.Log($"ì¹´ë©”ë¼ ì´ë™ ì¤‘, ë‹¤ìŒ ëŒ€ì‚¬ ì§„í–‰ ë³´ë¥˜ (Controller: {controller.gameObject.name})");
+                    return; // í•˜ë‚˜ì˜ ì»¨íŠ¸ë¡¤ëŸ¬ë¼ë„ ì¹´ë©”ë¼ ì´ë™ ì¤‘ì´ë©´ ì§„í–‰ ì¤‘ë‹¨
                 }
             }
-            Debug.Log($"NextDialogue: ´ÙÀ½ ´ë»ç Ç¥½Ã ½Ãµµ (index: {dialogueIndex}, ID: {currentDialogues[dialogueIndex].id})");
+            Debug.Log($"NextDialogue: ë‹¤ìŒ ëŒ€ì‚¬ í‘œì‹œ ì‹œë„ (index: {dialogueIndex}, ID: {currentDialogues[dialogueIndex].id})");
 
             ShowDialogue(currentDialogues[dialogueIndex]);
             dialogueIndex++;
         }
         else
         {
-            Debug.Log("NextDialogue: ´ëÈ­ ³¡");
+            Debug.Log("NextDialogue: ëŒ€í™” ë");
             EndDialogue();
         }
     }
@@ -376,9 +415,19 @@ public class DialogueManager : MonoBehaviour
         if (!died)
         {
             blackBox.SetActive(false);
-            blackBox.GetComponent<SpriteRenderer>().enabled = false; // ¹è°æ ÀÌ¹ÌÁö ¼û±è
-            blackBox.GetComponent<Image>().color = originalBlackBoxColor; // »ö»ó ¿ø·¡´ë·Î
+           
+            Image blackBoxImage = blackBox.GetComponent<Image>();
+            if (blackBoxImage != null)
+            {
+                blackBoxImage.sprite = null; // ì‚¬ìš©í–ˆë˜ ìŠ¤í”„ë¼ì´íŠ¸ ì´ˆê¸°í™”
+                blackBoxImage.color = originalBlackBoxColor; // ìƒ‰ìƒ ì›ë˜ëŒ€ë¡œ
+            }
             isBlackBoxActive = false;
+        }
+        if (currentFadeCoroutine != null)
+        {
+            StopCoroutine(currentFadeCoroutine);
+            currentFadeCoroutine = null;
         }
         if (standingImageLeft != null) standingImageLeft.gameObject.SetActive(false);
         if (standingImageRight != null) standingImageRight.gameObject.SetActive(false);
@@ -386,7 +435,7 @@ public class DialogueManager : MonoBehaviour
         Time.timeScale = 1f;
         follower.SetVisible(false);
         dialogueStarted = false;
-        Debug.Log("´ëÈ­ Á¾·á");
+        Debug.Log("ëŒ€í™” ì¢…ë£Œ");
     }
 
     public List<DialogueData> GetDialogues()
@@ -402,12 +451,12 @@ public class DialogueManager : MonoBehaviour
         }
     }
 
-    public void StartDialogueByIdRange(string startId, string endId)// ¿ÜºÎ¿¡¼­ ÀÎ½ºÅÏ½º·Î ºÒ·¯¿Í ´ëÈ­ ÁøÇà °¡´É
+    public void StartDialogueByIdRange(string startId, string endId)// ì™¸ë¶€ì—ì„œ ì¸ìŠ¤í„´ìŠ¤ë¡œ ë¶ˆëŸ¬ì™€ ëŒ€í™” ì§„í–‰ ê°€ëŠ¥
     {
-        Debug.Log($"StartDialogueByIdRange È£ÃâµÊ (startId: {startId}, endId: {endId}, dialogueStarted: {dialogueStarted})");
-        if (dialogueStarted) // ÀÌ¹Ì ´ëÈ­°¡ ÁøÇà ÁßÀÌ¸é Áßº¹ ½ÃÀÛ ¹æÁö
+        Debug.Log($"StartDialogueByIdRange í˜¸ì¶œë¨ (startId: {startId}, endId: {endId}, dialogueStarted: {dialogueStarted})");
+        if (dialogueStarted) // ì´ë¯¸ ëŒ€í™”ê°€ ì§„í–‰ ì¤‘ì´ë©´ ì¤‘ë³µ ì‹œì‘ ë°©ì§€
         {
-            Debug.LogWarning("ÀÌ¹Ì ´ëÈ­°¡ ÁøÇà ÁßÀÔ´Ï´Ù.");
+            Debug.LogWarning("ì´ë¯¸ ëŒ€í™”ê°€ ì§„í–‰ ì¤‘ì…ë‹ˆë‹¤.");
             return;
         }
 
@@ -419,14 +468,14 @@ public class DialogueManager : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning($"ID '{startId}'ºÎÅÍ '{endId}'±îÁöÀÇ ´ëÈ­¸¦ Ã£À» ¼ö ¾ø½À´Ï´Ù.");
+            Debug.LogWarning($"ID '{startId}'ë¶€í„° '{endId}'ê¹Œì§€ì˜ ëŒ€í™”ë¥¼ ì°¾ì„ ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
         }
-        Debug.Log("StartDialogueByIdRange ¿Ï·á");
+        Debug.Log("StartDialogueByIdRange ì™„ë£Œ");
     }
 
     List<DialogueData> GetDialoguesForScene(string startId, string endId)
     {
-        Debug.Log($"GetDialoguesForScene È£ÃâµÊ (startId: {startId}, endId: {endId})");
+        Debug.Log($"GetDialoguesForScene í˜¸ì¶œë¨ (startId: {startId}, endId: {endId})");
         List<DialogueData> sceneDialogues = new List<DialogueData>();
         bool inRange = false;
 
@@ -434,42 +483,50 @@ public class DialogueManager : MonoBehaviour
 
         if (allDialogues == null || allDialogues.Count == 0)
         {
-            Debug.LogError("DialogueManager¿¡¼­ ´ëÈ­ µ¥ÀÌÅÍ¸¦ ºÒ·¯¿ÀÁö ¸øÇß½À´Ï´Ù.");
+            Debug.LogError("DialogueManagerì—ì„œ ëŒ€í™” ë°ì´í„°ë¥¼ ë¶ˆëŸ¬ì˜¤ì§€ ëª»í–ˆìŠµë‹ˆë‹¤.");
             return null;
         }
 
         foreach (DialogueData dialogue in allDialogues)
         {
-            Debug.Log($"ÇöÀç È®ÀÎ ÁßÀÎ ´ë»ç ID: {dialogue.id}");
+            Debug.Log($"í˜„ì¬ í™•ì¸ ì¤‘ì¸ ëŒ€ì‚¬ ID: {dialogue.id}");
             if (dialogue.id == startId)
             {
                 inRange = true;
-                Debug.Log($"½ÃÀÛ ´ë»ç Ã£À½ (ID: {dialogue.id})");
-                sceneDialogues.Add(dialogue); // ½ÃÀÛ ´ë»ç¸¦ Ã£À¸¸é ¹Ù·Î Ãß°¡
+                Debug.Log($"ì‹œì‘ ëŒ€ì‚¬ ì°¾ìŒ (ID: {dialogue.id})");
+                sceneDialogues.Add(dialogue); // ì‹œì‘ ëŒ€ì‚¬ë¥¼ ì°¾ìœ¼ë©´ ë°”ë¡œ ì¶”ê°€
             }
             else if (inRange)
             {
                 sceneDialogues.Add(dialogue);
-                Debug.Log($"¾À ´ëÈ­ ¸ñ·Ï¿¡ Ãß°¡ (ID: {dialogue.id})");
+                Debug.Log($"ì”¬ ëŒ€í™” ëª©ë¡ì— ì¶”ê°€ (ID: {dialogue.id})");
             }
 
             if (dialogue.id == endId)
             {
-                Debug.Log($"Á¾·á ´ë»ç Ã£À½ (ID: {dialogue.id}), ´ëÈ­ ¸ñ·Ï »ı¼º ¿Ï·á");
+                Debug.Log($"ì¢…ë£Œ ëŒ€ì‚¬ ì°¾ìŒ (ID: {dialogue.id}), ëŒ€í™” ëª©ë¡ ìƒì„± ì™„ë£Œ");
                 break;
             }
         }
-        Debug.Log($"GetDialoguesForScene ¿Ï·á. Ã£Àº ´ëÈ­ °³¼ö: {sceneDialogues.Count}");
+        Debug.Log($"GetDialoguesForScene ì™„ë£Œ. ì°¾ì€ ëŒ€í™” ê°œìˆ˜: {sceneDialogues.Count}");
         return sceneDialogues;
     }
 
     public void ReloadBlack()
     {
         blackBox.SetActive(false);
-        blackBox.GetComponent<SpriteRenderer>().enabled = false; // ¹è°æ ÀÌ¹ÌÁö ¼û±è
-        blackBox.GetComponent<Image>().color = originalBlackBoxColor; // »ö»ó ¿ø·¡´ë·Î
+        Image blackBoxImage = blackBox.GetComponent<Image>();
+        if (blackBoxImage != null)
+        {
+            blackBoxImage.sprite = null; // ì´ë¯¸ì§€ ì»´í¬ë„ŒíŠ¸ ìŠ¤í”„ë¼ì´íŠ¸ ì´ˆê¸°í™”
+            blackBoxImage.color = originalBlackBoxColor; // ìƒ‰ìƒ ì›ë˜ëŒ€ë¡œ
+        }
+        if (currentFadeCoroutine != null)
+        {
+            StopCoroutine(currentFadeCoroutine);
+            currentFadeCoroutine = null;
+        }
         isBlackBoxActive = false;
-        blackBox.SetActive(false);
        
     }
 }

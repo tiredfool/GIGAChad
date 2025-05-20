@@ -311,7 +311,7 @@ public class PlayerController : MonoBehaviour
         {
 
             GetComponent<Renderer>().enabled = false;
-            DialogueManager.instance.SetDiedMessage("플레이어 사망\r\n'R'키를 눌러 다시");
+            DialogueManager.instance.SetDiedMessage("oh..만삣삐 넌 할 수 있어 \n\n\n\n\n\n\n\n\n 'R'을 눌러 다시 Stand Up 하는거야!");
         }
     }
 
@@ -417,6 +417,7 @@ public class PlayerController : MonoBehaviour
                 GameManager.instance.ResetStageActivation();
                 DialogueManager.instance.ReloadBlack();
                 DialogueManager.instance.SetHealth(health);
+                DialogueManager.instance.diedText.text = "";
                 // 씬 로드 완료 후 카메라 Confiner 재설정
                 //GameManager.instance.GetComponent<GameManager>().Invoke("SetCameraConfinerForCurrentStage", 0.15f);
             }
