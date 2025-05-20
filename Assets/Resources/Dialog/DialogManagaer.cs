@@ -21,7 +21,6 @@ public class DialogueManager : MonoBehaviour
     public float fontSizeIncrease = 5f;
     public float shakeIntensity = 0.1f;
     public float shakeDuration = 0.2f;
-
     public Slider slider;
 
     private int dialogueIndex = 0;
@@ -43,6 +42,9 @@ public class DialogueManager : MonoBehaviour
     public List<Sprite> standingSprites = new List<Sprite>();
 
     private DialogueSequenceController[] sequenceControllers;
+
+    public Sprite diedMessageBackground;
+    private bool died = false;
 
     void Awake()
     {
@@ -285,6 +287,30 @@ public class DialogueManager : MonoBehaviour
     {
         if (diedText != null)
         {
+            died = true;
+            dialogueBox.SetActive(false);
+            if (standingImageLeft != null) standingImageLeft.gameObject.SetActive(false);
+            if (standingImageRight != null) standingImageRight.gameObject.SetActive(false);
+            nameText.gameObject.SetActive(false); // 이름 텍스트 숨기기
+            portraitImage.gameObject.SetActive(false); // 초상화 숨기기
+
+            blackBox.SetActive(true); // blackBox GameObject 활성화
+            blackBox.GetComponent<Image>().color = Color.white; // Image 컴포넌트 색상을 흰색으로
+
+            if (diedMessageBackground != null) // 할당된 스프라이트가 있는지 확인
+            {
+                blackBox.GetComponent<SpriteRenderer>().sprite = diedMessageBackground; // 할당된 스프라이트 사용
+                blackBox.GetComponent<SpriteRenderer>().enabled = true; // SpriteRenderer 활성화
+            }
+            else
+            {
+                Debug.LogError("Died Message Background Sprite가 DialogueManager 인스펙터에 할당되지 않았습니다!");
+                blackBox.GetComponent<SpriteRenderer>().enabled = false; // 스프라이트 없으면 비활성화
+            }
+
+            isBlackBoxActive = true; // blackBox가 활성화되었음을 표시 (Update 함수에서 사용됨)
+
+            diedText.gameObject.SetActive(true); // diedText 활성화
             diedText.text = "";
             StopAllCoroutines();
             StartCoroutine(TypeDialogue(new DialogueData { dialogue = message, fontSize = diedText.fontSize }, diedText));
@@ -347,10 +373,13 @@ public class DialogueManager : MonoBehaviour
     public void EndDialogue()
     {
         dialogueBox.SetActive(false);
-        blackBox.SetActive(false);
-        blackBox.GetComponent<SpriteRenderer>().enabled = false; // 배경 이미지 숨김
-        blackBox.GetComponent<Image>().color = originalBlackBoxColor; // 색상 원래대로
-        isBlackBoxActive = false;
+        if (!died)
+        {
+            blackBox.SetActive(false);
+            blackBox.GetComponent<SpriteRenderer>().enabled = false; // 배경 이미지 숨김
+            blackBox.GetComponent<Image>().color = originalBlackBoxColor; // 색상 원래대로
+            isBlackBoxActive = false;
+        }
         if (standingImageLeft != null) standingImageLeft.gameObject.SetActive(false);
         if (standingImageRight != null) standingImageRight.gameObject.SetActive(false);
         playerController.SetTalking(false);
@@ -432,5 +461,15 @@ public class DialogueManager : MonoBehaviour
         }
         Debug.Log($"GetDialoguesForScene 완료. 찾은 대화 개수: {sceneDialogues.Count}");
         return sceneDialogues;
+    }
+
+    public void ReloadBlack()
+    {
+        blackBox.SetActive(false);
+        blackBox.GetComponent<SpriteRenderer>().enabled = false; // 배경 이미지 숨김
+        blackBox.GetComponent<Image>().color = originalBlackBoxColor; // 색상 원래대로
+        isBlackBoxActive = false;
+        blackBox.SetActive(false);
+       
     }
 }

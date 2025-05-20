@@ -415,6 +415,7 @@ public class PlayerController : MonoBehaviour
                 GameManager.instance.PlayerReposition();
                 GameManager.instance.FindAndSetStagesByParent();
                 GameManager.instance.ResetStageActivation();
+                DialogueManager.instance.ReloadBlack();
                 DialogueManager.instance.SetHealth(health);
                 // 씬 로드 완료 후 카메라 Confiner 재설정
                 //GameManager.instance.GetComponent<GameManager>().Invoke("SetCameraConfinerForCurrentStage", 0.15f);
