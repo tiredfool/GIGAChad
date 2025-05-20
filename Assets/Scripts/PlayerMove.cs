@@ -49,6 +49,9 @@ public class PlayerController : MonoBehaviour
 
     private bool wasGrounded;//직전 프레임에서 ground 상태 변수
 
+    private bool isPlayingFootstepSound = false;
+    public float footstepInterval = 0.3f; 
+
     void Start()
     {
         playerCollider = GetComponent<Collider2D>();
@@ -67,6 +70,10 @@ public class PlayerController : MonoBehaviour
         {
             jumpRequest = true; // 점프 요청
             canJump = false;
+            if (MainSoundManager.instance != null)
+            {
+                MainSoundManager.instance.PlaySFX("Jump");
+            }
             // animator.SetBool("IsJumping", true);
             // animator.SetBool("IsGround", false);
         }
@@ -98,6 +105,17 @@ public class PlayerController : MonoBehaviour
         if (Time.time < inputDisabledTime || isTalking || isStackGameMode)
         {
             rb.velocity = new Vector2(0, rb.velocity.y); // 움직임 멈춤
+
+            if (isPlayingFootstepSound)
+            {
+                isPlayingFootstepSound = false;
+                StopCoroutine("PlayFootstepSound");
+                if (MainSoundManager.instance != null)
+                {
+                    MainSoundManager.instance.StopSFX("Footstep");
+                }
+            }
+
             return; // 입력 처리 X
         }
         else
@@ -115,6 +133,10 @@ public class PlayerController : MonoBehaviour
             {
                 GameObject dust = Instantiate(jumpDustEffect, dustPoint.position, Quaternion.identity);
                 Destroy(dust, 0.2f);
+            }
+            if (MainSoundManager.instance != null)
+            {
+                MainSoundManager.instance.PlaySFX("Lend");
             }
         }
 
@@ -134,6 +156,16 @@ public class PlayerController : MonoBehaviour
             {
                 GameObject dust = Instantiate(jumpDustEffect, dustPoint.position, Quaternion.identity);
                 Destroy(dust, 0.2f);
+            }
+
+            if (isPlayingFootstepSound)
+            {
+                isPlayingFootstepSound = false;
+                StopCoroutine("PlayFootstepSound");
+                if (MainSoundManager.instance != null)
+                {
+                    MainSoundManager.instance.StopSFX("Footstep");
+                }
             }
         }
         if (!isGrounded && !isTalking && !isStackGameMode)
@@ -167,6 +199,24 @@ public class PlayerController : MonoBehaviour
         }
 
         animator.SetFloat("Speed", Mathf.Abs(moveInput));
+
+        bool shouldPlayFootsteps = isGrounded && Mathf.Abs(moveInput) > 0.1f && !isTalking && !isStackGameMode;
+
+        if (shouldPlayFootsteps && !isPlayingFootstepSound)
+        {
+            isPlayingFootstepSound = true;
+            StartCoroutine("PlayFootstepSound");
+        }
+        else if (!shouldPlayFootsteps && isPlayingFootstepSound)
+        {
+            isPlayingFootstepSound = false;
+            StopCoroutine("PlayFootstepSound");
+            if (MainSoundManager.instance != null)
+            {
+                MainSoundManager.instance.StopSFX("Footstep");
+            }
+        }
+
     }
 
     bool IsGrounded()
@@ -294,6 +344,17 @@ public class PlayerController : MonoBehaviour
     public void Die()
     {
         died = true;
+
+        if (isPlayingFootstepSound)
+        {
+            isPlayingFootstepSound = false;
+            StopCoroutine("PlayFootstepSound");
+            if (MainSoundManager.instance != null)
+            {
+                MainSoundManager.instance.StopSFX("Footstep");
+            }
+        }
+
         Debug.Log("Player Died!");
         GameManager.instance.totalLives--;  // 목숨 하나 감소
         PlayerPrefs.SetInt("TotalLives", GameManager.instance.totalLives);  // PlayerPrefs에 저장
@@ -444,5 +505,17 @@ public class PlayerController : MonoBehaviour
             isTakingDamage = false;
         }
     }
-
+    IEnumerator PlayFootstepSound() // 걸음소리 
+    {
+        while (isGrounded && Mathf.Abs(Input.GetAxisRaw("Horizontal")) > 0.1f && !isTalking && !isStackGameMode)
+        {
+            // SoundManager가 존재하고 Footstep 사운드 재생 함수가 있을 경우 호출
+            if (MainSoundManager.instance != null)
+            {
+                MainSoundManager.instance.PlaySFX("Footstep"); // "Footstep"은 사운드 클립의 이름 또는 식별자입니다.
+            }
+            yield return new WaitForSeconds(footstepInterval);
+        }
+        isPlayingFootstepSound = false; // 코루틴이 종료되면 상태 업데이트
+    }
 }

@@ -8,6 +8,8 @@ using UnityEngine.UI;
 public enum EAudioMixerType { Master, BGM, SFX }
 public class SoundManager : MonoBehaviour
 {
+
+
     public AudioMixer Mixer;
     public Slider BGMSlider;
     public Slider SFXSlider;
