@@ -12,12 +12,18 @@ public class SwitchZone : MonoBehaviour
     public float switchDuration = 10f;
     public GameObject foodSpawner;
 
+    public GameObject platformerUI;
+    public GameObject topDownUI;
+
     private bool isTopDown = false;
 
     private void Start()
     {
         foodSpawner.SetActive(false);
         topDownPlayer.SetActive(false);
+
+        platformerUI.SetActive(true);
+        topDownUI.SetActive(false);
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -35,6 +41,9 @@ public class SwitchZone : MonoBehaviour
         vcamPlatformer.Priority = 5;
         vcamTopDown.Priority = 10;
 
+        platformerUI.SetActive(false);
+        topDownUI.SetActive(true);
+
         // 톱다운 모드 활성화
         foodSpawner.SetActive(true);
         topDownPlayer.SetActive(true);
@@ -49,6 +58,8 @@ public class SwitchZone : MonoBehaviour
 
         // 시간이 지나면 톱다운 관련 오브젝트 삭제
         Debug.Log(" 톱다운 모드 종료");
+
+        topDownUI.SetActive(false);
         Destroy(topDownPlayer);
         Destroy(foodSpawner);
         Destroy(vcamTopDown);
@@ -69,6 +80,7 @@ public class SwitchZone : MonoBehaviour
         // ✅ 플랫포머 플레이어 다시 활성화
         platformerPlayer.SetActive(true);
         Debug.Log("플랫포머 플레이어 활성화");
+        platformerUI.SetActive(true);
 
         yield return null;
     }
