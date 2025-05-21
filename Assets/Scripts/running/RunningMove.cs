@@ -1,73 +1,117 @@
 using UnityEngine;
-using UnityEngine.Tilemaps; // Tilemap 관련 네임스페이스 추가
+using UnityEngine.Tilemaps;
 
 public class RunningMove : MonoBehaviour
 {
     [Tooltip("텍스처 스크롤 속도 (X, Y 방향)")]
     public Vector2 scrollSpeed = new Vector2(-0.5f, 0f); // 왼쪽으로 스크롤
 
+     
+
+    [Header("Physics Materials for Conveyor")] // 2D 물리 머티리얼을 위한 헤더
+    [Tooltip("컨베이어 벨트가 활성화(움직임) 상태일 때 적용할 Physics Material 2D (마찰 낮음)")]
+    public PhysicsMaterial2D activePhysicsMaterial;
+    [Tooltip("컨베이어 벨트가 비활성화(멈춤) 상태일 때 적용할 Physics Material 2D (마찰 높음)")]
+    public PhysicsMaterial2D inactivePhysicsMaterial;
+
     private TilemapRenderer tilemapRenderer;
-    private Material materialInstance; // 스크롤을 위한 머티리얼 인스턴스
+    private TilemapCollider2D tilemapCollider; // TilemapCollider2D 참조
     private bool isScrolling = false; // 스크롤 상태를 관리하는 변수
 
-    void Start()
+    void Awake()
     {
         tilemapRenderer = GetComponent<TilemapRenderer>();
         if (tilemapRenderer == null)
         {
-            Debug.LogError("RunningMove: TilemapRenderer를 찾을 수 없습니다!", this);
+           // Debug.LogError("RunningMove: TilemapRenderer를 찾을 수 없습니다! 이 스크립트는 TilemapRenderer가 있는 오브젝트에 부착되어야 합니다.", this);
             enabled = false; // 컴포넌트 비활성화
             return;
         }
 
-        // 중요: 머티리얼 인스턴스를 생성하여 다른 타일맵에 영향을 주지 않도록 합니다.
-        materialInstance = tilemapRenderer.material;
+       
+
+        tilemapCollider = GetComponent<TilemapCollider2D>(); // TilemapCollider2D 참조
+        if (tilemapCollider == null)
+        {
+          //  Debug.LogError("RunningMove: TilemapCollider2D를 찾을 수 없습니다! 물리 머티리얼을 변경할 수 없습니다.", this);
+        
+        }
+
+        // 스크립트 시작 시 물리 머티리얼만 비활성 상태로 설정
+        ApplyPhysicsMaterial(inactivePhysicsMaterial);
     }
 
     void Update()
     {
-        if (isScrolling && materialInstance != null)
+      
+        if (isScrolling && tilemapRenderer.material != null)
         {
-            // 현재 텍스처 오프셋을 가져와서 시간에 따라 변경
-            Vector2 currentOffset = materialInstance.mainTextureOffset;
+            Vector2 currentOffset = tilemapRenderer.material.mainTextureOffset;
             currentOffset += scrollSpeed * Time.deltaTime;
-
-            // 오프셋 값이 너무 커지는 것을 방지 (선택 사항이지만 권장)
             currentOffset.x = currentOffset.x % 1.0f;
             currentOffset.y = currentOffset.y % 1.0f;
-
-            // 변경된 오프셋을 머티리얼에 다시 적용
-            materialInstance.mainTextureOffset = currentOffset;
+            tilemapRenderer.material.mainTextureOffset = currentOffset;
         }
     }
 
-    // 외부에서 스크롤을 시작하는 함수
+
     public void StartScrolling()
     {
+        if (isScrolling) return; // 이미 스크롤 중이면 중복 호출 방지
+
         isScrolling = true;
-        Debug.Log(gameObject.name + ": 텍스처 스크롤 시작");
+
+        ApplyPhysicsMaterial(activePhysicsMaterial);
+
+        // 사운드 재생
+        if (MainSoundManager.instance != null)
+            MainSoundManager.instance.PlaySFX("Running");
+
+        Debug.Log(gameObject.name + ": 컨베이어 활성화됨 (물리 머티리얼 변경).");
     }
 
-    // 외부에서 스크롤을 멈추는 함수
+
     public void StopScrolling()
     {
+        if (!isScrolling) return; // 이미 멈춰있으면 중복 호출 방지
+
         isScrolling = false;
-        Debug.Log(gameObject.name + ": 텍스처 스크롤 중단");
+
+        // 텍스처 오프셋을 초기화하여 정지된 것처럼 보이게 합니다.
+        if (tilemapRenderer.material != null)
+        {
+            tilemapRenderer.material.mainTextureOffset = Vector2.zero;
+        }
+        // 시각적 머티리얼 변경 코드를 제거했습니다.
+
+        // 2D 물리 머티리얼 변경 (물리적)
+        ApplyPhysicsMaterial(inactivePhysicsMaterial);
+
+        // 사운드 중지
+        if (MainSoundManager.instance != null)
+            MainSoundManager.instance.StopSFX("Running");
+
+        Debug.Log(gameObject.name + ": 컨베이어 비활성화됨 (물리 머티리얼 복구).");
+    }
+
+    // 물리 머티리얼을 적용하는 도우미 함수
+    private void ApplyPhysicsMaterial(PhysicsMaterial2D materialToApply)
+    {
+        if (tilemapCollider != null) // 콜라이더가 있는 경우에만 시도
+        {
+            if (materialToApply != null)
+            {
+                tilemapCollider.sharedMaterial = materialToApply;
+            }
+            else
+            {
+                Debug.LogWarning("RunningMove: 할당된 Physics Material이 null이어서 변경할 수 없습니다.", this);
+            }
+        }
     }
 
     void OnDisable()
     {
-        // 스크롤이 멈출 때 오프셋을 초기화하거나 원하는 상태로 되돌릴 수 있습니다.
-        if (materialInstance != null)
-        {
-            materialInstance.mainTextureOffset = Vector2.zero; // 예시: 오프셋 초기화
-        }
-    }
-
-    void OnDestroy()
-    {
-        // 필요하다면 머티리얼 인스턴스를 정리합니다.
-        // Renderer.material을 통해 접근했다면 유니티가 관리해줄 가능성이 높습니다.
-        // 만약 Start에서 명시적으로 new Material()을 사용했다면 Destroy(materialInstance); 를 호출해야 합니다.
+        StopScrolling(); // 오브젝트가 비활성화될 때 상태 정리
     }
 }

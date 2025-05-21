@@ -387,22 +387,38 @@ public class DialogueManager : MonoBehaviour
 
     public void NextDialogue()
     {
-        if (isTyping) return;
-        
+        if (isTyping) // 타이핑 중이면 스킵 방지
+        {
+            Debug.Log("NextDialogue: 타이핑 중이므로 스킵");
+            return;
+        }
+
+        // 🔴 여기서는 이제 CheckDialogueEnd를 호출하지 않습니다. (TypeDialogue에서 하도록 변경했으므로)
+        // 🔴 다시 여기로 CheckDialogueEnd 호출을 복구하고, 올바른 ID를 전달해야 합니다.
+        // 이 시점의 dialogueIndex는 현재 표시될 대사의 인덱스입니다.
+        // 우리는 "방금 지나온" 대사의 ID가 트리거 ID와 일치하는지 확인해야 합니다.
+
+        // 방금 완료된 대화의 ID를 가져오기 (dialogueIndex는 이미 다음 대사를 가리키고 있으므로 -1)
+        string completedDialogueId = (dialogueIndex > 0 && dialogueIndex <= currentDialogues.Count) ? currentDialogues[dialogueIndex - 1].id : "";
+
+        // 모든 시퀀스 컨트롤러에 방금 완료된 대화 ID 전달
+        foreach (var controller in sequenceControllers)
+        {
+            controller.CheckDialogueEnd(completedDialogueId);
+            if (controller.cameraController != null && controller.cameraController.IsMoving)
+            {
+                Debug.Log($"카메라 이동 중, 다음 대사 진행 보류 (Controller: {controller.gameObject.name})");
+                // 카메라가 이동 중이면 대화 진행을 멈추고 현재 대사를 다시 보여주거나,
+                // 대화창을 비활성화하는 등의 처리가 필요할 수 있습니다.
+                // 현재는 그냥 return하여 다음 대사로 넘어가지 않게 합니다.
+                return;
+            }
+        }
+
+        // --- 여기까지 카메라 전환 로직 ---
+
         if (dialogueIndex < currentDialogues.Count)
         {
-            string currentId = currentDialogues[dialogueIndex].id;
-
-            // 모든 시퀀스 컨트롤러에 현재 대화 ID 전달
-            foreach (var controller in sequenceControllers)
-            {
-                controller.CheckDialogueEnd(currentId);
-                if (controller.cameraController != null && controller.cameraController.IsMoving)
-                {
-                    Debug.Log($"카메라 이동 중, 다음 대사 진행 보류 (Controller: {controller.gameObject.name})");
-                    return; // 하나의 컨트롤러라도 카메라 이동 중이면 진행 중단
-                }
-            }
             Debug.Log($"NextDialogue: 다음 대사 표시 시도 (index: {dialogueIndex}, ID: {currentDialogues[dialogueIndex].id})");
 
             ShowDialogue(currentDialogues[dialogueIndex]);

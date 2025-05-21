@@ -21,7 +21,8 @@ public class DialogueTrigger : MonoBehaviour
             }
             else
             {
-               DialogueManager.instance.StartDialogueByIdRange(startDialogueId, endDialogueId);
+                Debug.Log("일반 대화 시작");
+                DialogueManager.instance.StartDialogueByIdRange(startDialogueId, endDialogueId);
             }
             dialogueStarted = true;
             //Destroy(gameObject);            //트리거 제거 (원하시면 이 줄은 주석 처리)

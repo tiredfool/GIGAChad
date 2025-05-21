@@ -1,4 +1,4 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 using System.Collections;
 
 [System.Serializable]
@@ -10,7 +10,7 @@ public class DialogueSequence
 
 public class DialogueSequenceController : MonoBehaviour
 {
-    public CameraController cameraController; // ÀÌ ÄÁÆ®·Ñ·¯°¡ »ç¿ëÇÒ CameraController
+    public CameraController cameraController; // ì´ ì»¨íŠ¸ë¡¤ëŸ¬ê°€ ì‚¬ìš©í•  CameraController
     public string cameraTriggerEndId = "";
     public DialogueSequence postCameraDialogue;
     private bool isCameraSequenceActive = false;
@@ -21,12 +21,12 @@ public class DialogueSequenceController : MonoBehaviour
         dialogueManager = DialogueManager.instance;
         if (dialogueManager == null)
         {
-            Debug.LogError("DialogueManager ÀÎ½ºÅÏ½º¸¦ Ã£À» ¼ö ¾ø½À´Ï´Ù.");
+            Debug.LogError("DialogueManager ì¸ìŠ¤í„´ìŠ¤ë¥¼ ì°¾ì„ ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
             enabled = false;
         }
         if (cameraController == null)
         {
-            Debug.LogWarning($"{gameObject.name}: CameraController°¡ ÇÒ´çµÇÁö ¾Ê¾Ò½À´Ï´Ù.");
+            Debug.LogWarning($"{gameObject.name}: CameraControllerê°€ í• ë‹¹ë˜ì§€ ì•Šì•˜ìŠµë‹ˆë‹¤.");
         }
     }
 
@@ -36,12 +36,12 @@ public class DialogueSequenceController : MonoBehaviour
         isCameraSequenceActive = true;
     }
 
-    // DialogueManager¿¡¼­ ÇöÀç ID¸¦ ¹Ş¾Æ Æ®¸®°Å ¿©ºÎ È®ÀÎ
+    // DialogueManagerì—ì„œ í˜„ì¬ IDë¥¼ ë°›ì•„ íŠ¸ë¦¬ê±° ì—¬ë¶€ í™•ì¸
     public void CheckDialogueEnd(string currentDialogueId)
     {
         if (isCameraSequenceActive && !string.IsNullOrEmpty(cameraTriggerEndId) && currentDialogueId == cameraTriggerEndId && cameraController != null && !cameraController.IsMoving)
         {
-            Debug.Log($"{gameObject.name}: ´ëÈ­ ID '{cameraTriggerEndId}' µµ´Ş, Ä«¸Ş¶ó ÀÌµ¿ ½ÃÀÛ");
+            Debug.Log($"{gameObject.name}: ëŒ€í™” ID '{cameraTriggerEndId}' ë„ë‹¬, ì¹´ë©”ë¼ ì´ë™ ì‹œì‘");
             StartCoroutine(HandleCameraMovement());
         }
     }
@@ -49,16 +49,26 @@ public class DialogueSequenceController : MonoBehaviour
     private IEnumerator HandleCameraMovement()
     {
         dialogueManager.EndDialogue();
-        yield return StartCoroutine(cameraController.MoveToTargetAndBack());
 
-        // Ãß°¡: Ä«¸Ş¶ó°¡ ¸ØÃâ ¶§±îÁö ´ë±â
+        // ğŸ”´ ì—¬ê¸°ë¥¼ ìˆ˜ì •í•©ë‹ˆë‹¤. StartCameraTransition()ì€ ì´ì œ voidë¥¼ ë°˜í™˜í•˜ë¯€ë¡œ StartCoroutine()ìœ¼ë¡œ ê°ìŒ€ í•„ìš”ê°€ ì—†ìŠµë‹ˆë‹¤.
+        // ê·¸ë¦¬ê³  ì¹´ë©”ë¼ ì „í™˜ì´ ì™„ë£Œë  ë•Œê¹Œì§€ ê¸°ë‹¤ë¦¬ë ¤ë©´ cameraController.IsMoving ìƒíƒœë¥¼ í™•ì¸í•´ì•¼ í•©ë‹ˆë‹¤.
+        if (cameraController != null)
+        {
+            cameraController.StartCameraTransition(); // ì¹´ë©”ë¼ ì „í™˜ ì‹œì‘
+        }
+
+        // ğŸ”´ ì¹´ë©”ë¼ ì´ë™ì´ ì™„ë£Œë  ë•Œê¹Œì§€ ëŒ€ê¸°
+        // cameraController.IsMovingì€ cameraController ë‚´ë¶€ì˜ ì½”ë£¨í‹´ì´ ëë‚  ë•Œ falseê°€ ë©ë‹ˆë‹¤.
         while (cameraController != null && cameraController.IsMoving)
         {
-            Debug.Log("Ä«¸Ş¶ó ÀÌµ¿ Áß... ´ëÈ­ ½ÃÀÛ ´ë±â");
-            yield return null;
+            Debug.Log("ì¹´ë©”ë¼ ì´ë™ ì¤‘... ëŒ€í™” ì‹œì‘ ëŒ€ê¸°");
+            yield return null; // í•œ í”„ë ˆì„ ëŒ€ê¸°
         }
+
+        // ì¹´ë©”ë¼ ì „í™˜ í›„ ì¶”ê°€ ëŒ€ê¸° (ì„ íƒ ì‚¬í•­)
         yield return new WaitForSecondsRealtime(1f);
-        Debug.Log("Ä«¸Ş¶ó ÀÌµ¿ ¿Ï·á, ´ÙÀ½ ´ëÈ­ ½ÃÀÛ");
+
+        Debug.Log("ì¹´ë©”ë¼ ì´ë™ ì™„ë£Œ, ë‹¤ìŒ ëŒ€í™” ì‹œì‘");
         if (!string.IsNullOrEmpty(postCameraDialogue.startId) && !string.IsNullOrEmpty(postCameraDialogue.endId))
         {
             dialogueManager.StartDialogueByIdRange(postCameraDialogue.startId, postCameraDialogue.endId);

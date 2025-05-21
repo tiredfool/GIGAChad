@@ -5,7 +5,11 @@ using System;
 
 public class PlayerController : MonoBehaviour
 {
-    public float moveSpeed = 5f;
+    //public float moveSpeed = 5f;
+
+    public float accelerationForce = 50f; // 플레이어 이동 가속도 (새로 추가)
+    public float maxMoveSpeed = 5f; // 플레이어 최대 이동 속도 (moveSpeed 대신 사용)
+
     public float originalMoveSpeed; // 원래 속도를 저장할 변수
     public float jumpForce = 10f;
     public float health = 100f;
@@ -52,6 +56,7 @@ public class PlayerController : MonoBehaviour
     public bool isPlayingFootstepSound = false;
     public float footstepInterval = 0.3f;
 
+    private float horizontalInput; // 런닝머신용
     void Start()
     {
         playerCollider = GetComponent<Collider2D>();
@@ -60,7 +65,7 @@ public class PlayerController : MonoBehaviour
         animator = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         lastDamageTime = -damageCooldown; // 시작 시 무적 상태로 설정
-        originalMoveSpeed = moveSpeed; // 원래 속도 저장
+        originalMoveSpeed = maxMoveSpeed; // 원래 속도 저장
     }
 
     void Update()
@@ -78,7 +83,7 @@ public class PlayerController : MonoBehaviour
             // animator.SetBool("IsGround", false);
         }
         float moveInput = Input.GetAxisRaw("Horizontal");
-
+        horizontalInput = Input.GetAxisRaw("Horizontal");
         // 스프라이트 방향 전환
         if (moveInput > 0)
         {
@@ -136,6 +141,7 @@ public class PlayerController : MonoBehaviour
         }
         wasGrounded = isGrounded;//직전 Grounded 상태 저장
         // 땅 체크 (FixedUpdate에서 Raycast 사용)
+
         isGrounded = IsGrounded();
 
         //착지시 이펙트 발생
@@ -190,39 +196,96 @@ public class PlayerController : MonoBehaviour
         }
 
         // 좌우 이동
+        //float moveInput = Input.GetAxisRaw("Horizontal");
+        //bool allowPlayerVelocityOverride = true; // 플레이어 입력으로 속도를 덮어쓸지 여부
+
+
+        //if (isOnConveyor && currentConveyorScript != null)
+        //{
+        //    // 컨베이어와 같은 방향으로 이동 중인지 확인
+        //    if (moveInput != 0 && Mathf.Sign(moveInput) == Mathf.Sign(currentConveyorScript.directionMultiplier))
+        //    {
+        //        allowPlayerVelocityOverride = false;
+        //        float extraPushFactor = 4f; // moveSpeed와 다른 힘 계수, 튜닝 필요
+        //        rb.AddForce(Vector2.right * moveInput * extraPushFactor, ForceMode2D.Force);
+
+        //    }
+        //}
+
+        //if ((allowPlayerVelocityOverride && Mathf.Abs(moveInput) > 0.01f)) // 입력이 있을 때 (0이 아닐 때)
+        //{
+        //    rb.velocity = new Vector2(moveInput * moveSpeed, rb.velocity.y);
+        //}
+        //else if (allowPlayerVelocityOverride && Mathf.Abs(moveInput) <= 0.01f) // 입력이 없을 때 (추가: 멈출 때 발소리 끔)
+        //{
+        //    // 입력이 없으면 캐릭터가 멈추고 발소리도 멈춰야 합니다.
+        //    // 단, 컨베이어 벨트 위에 있거나 다른 외부 힘에 의해 움직이는 경우는 예외로 둬야 할 수도 있습니다.
+        //    // 여기서는 단순히 입력이 없으면 수평 속도를 0으로 만듭니다.
+        //    rb.velocity = new Vector2(0, rb.velocity.y);
+        //}
+
+
+        //animator.SetFloat("Speed", Mathf.Abs(moveInput));
+
+        //// 발소리 재생 조건 강화: 움직임 입력이 0.1보다 커야 하고, 땅에 닿아 있어야 하며, 대화 중이 아니고, 스택 게임 모드가 아닐 때
+        //bool shouldPlayFootsteps = isGrounded && Mathf.Abs(moveInput) > 0.1f && !isTalking && !isStackGameMode;
+
+        //if (shouldPlayFootsteps && !isPlayingFootstepSound)
+        //{
+        //    isPlayingFootstepSound = true;
+        //    StartCoroutine("PlayFootstepSound");
+        //}
+        //else if (!shouldPlayFootsteps && isPlayingFootstepSound)
+        //{
+        //    isPlayingFootstepSound = false;
+        //    StopCoroutine("PlayFootstepSound");
+        //    if (MainSoundManager.instance != null)
+        //    {
+        //        MainSoundManager.instance.StopSFX("Footstep");
+        //    }
+        //}
         float moveInput = Input.GetAxisRaw("Horizontal");
-        bool allowPlayerVelocityOverride = true; // 플레이어 입력으로 속도를 덮어쓸지 여부
-
-
-        if (isOnConveyor && currentConveyorScript != null)
+        if (Time.time >= inputDisabledTime && !isTalking && !isStackGameMode)
         {
-            // 컨베이어와 같은 방향으로 이동 중인지 확인
-            if (moveInput != 0 && Mathf.Sign(moveInput) == Mathf.Sign(currentConveyorScript.directionMultiplier))
+            // 플레이어의 현재 수평 속도가 최대 속도 범위 내에 있는지 확인
+            // 그리고 목표 방향으로의 가속이 가능한지 확인
+            if (Mathf.Abs(rb.velocity.x) < maxMoveSpeed || Mathf.Sign(rb.velocity.x) != Mathf.Sign(horizontalInput))
             {
-                allowPlayerVelocityOverride = false;
-                float extraPushFactor = 4f; // moveSpeed와 다른 힘 계수, 튜닝 필요
-                rb.AddForce(Vector2.right * moveInput * extraPushFactor, ForceMode2D.Force);
-
+                rb.AddForce(Vector2.right * horizontalInput * accelerationForce, ForceMode2D.Force);
+            }
+            // 입력이 없으면 감속 (선택 사항, 필요에 따라 주석 처리)
+            else if (horizontalInput == 0 && isGrounded && !isOnConveyor)
+            {
+                // 땅에 있을 때만 수평 속도를 서서히 0으로
+                rb.velocity = new Vector2(Mathf.Lerp(rb.velocity.x, 0, Time.fixedDeltaTime * 10f), rb.velocity.y);
             }
         }
+        //else
+        //{
+        //    // 입력이 비활성화된 경우, 플레이어의 수평 속도를 0으로
+        //    // (컨베이어 벨트의 영향을 받지 않도록)
+        //    rb.velocity = new Vector2(0, rb.velocity.y);
+        //}
 
-        if ((allowPlayerVelocityOverride && Mathf.Abs(moveInput) > 0.01f)) // 입력이 있을 때 (0이 아닐 때)
+        // 컨베이어 벨트 힘 적용
+        if (isOnConveyor && currentConveyorScript != null)
         {
-            rb.velocity = new Vector2(moveInput * moveSpeed, rb.velocity.y);
-        }
-        else if (allowPlayerVelocityOverride && Mathf.Abs(moveInput) <= 0.01f) // 입력이 없을 때 (추가: 멈출 때 발소리 끔)
-        {
-            // 입력이 없으면 캐릭터가 멈추고 발소리도 멈춰야 합니다.
-            // 단, 컨베이어 벨트 위에 있거나 다른 외부 힘에 의해 움직이는 경우는 예외로 둬야 할 수도 있습니다.
-            // 여기서는 단순히 입력이 없으면 수평 속도를 0으로 만듭니다.
-            rb.velocity = new Vector2(0, rb.velocity.y);
+            Vector2 conveyorPushDirection = currentConveyorScript.transform.right * currentConveyorScript.directionMultiplier;
+            rb.AddForce(conveyorPushDirection * currentConveyorScript.pushForce, ForceMode2D.Force);
         }
 
+      
+        //// 만약 공중에서 빠르게 멈추는 느낌을 원하면 유지
+        // if (!isGrounded && !isTalking && !isStackGameMode)
+        // {
+        //     rb.velocity = new Vector2(rb.velocity.x * 0.95f, rb.velocity.y);
+        // }
 
+        // 애니메이션 제어
+        //animator.SetFloat("Speed", Mathf.Abs(rb.velocity.x)); // 실제 속도 사용
         animator.SetFloat("Speed", Mathf.Abs(moveInput));
-
-        // 발소리 재생 조건 강화: 움직임 입력이 0.1보다 커야 하고, 땅에 닿아 있어야 하며, 대화 중이 아니고, 스택 게임 모드가 아닐 때
-        bool shouldPlayFootsteps = isGrounded && Mathf.Abs(moveInput) > 0.1f && !isTalking && !isStackGameMode;
+        // 발소리 재생 조건 (actual velocity 사용)
+        bool shouldPlayFootsteps = isGrounded && Mathf.Abs(rb.velocity.x) > 0.1f && !isTalking && !isStackGameMode;
 
         if (shouldPlayFootsteps && !isPlayingFootstepSound)
         {
@@ -238,8 +301,9 @@ public class PlayerController : MonoBehaviour
                 MainSoundManager.instance.StopSFX("Footstep");
             }
         }
+    
 
-    }
+}
 
     bool IsGrounded()
     {
@@ -373,12 +437,13 @@ public class PlayerController : MonoBehaviour
     public void Die()
     {
         died = true;
-
+        MainSoundManager.instance.StopAllSFX();
         Debug.Log("Player Died!");
         GameManager.instance.totalLives--;  // 목숨 하나 감소
         PlayerPrefs.SetInt("TotalLives", GameManager.instance.totalLives);  // PlayerPrefs에 저장
         GameManager.instance.UpdateLifeUI();  // UI 업데이트
         Time.timeScale = 0;
+       
         if (GameManager.instance.totalLives <= 0)
         {
             // 목숨이 0일 경우 게임 오버 처리
@@ -479,14 +544,14 @@ public class PlayerController : MonoBehaviour
 
     public void ApplySlow(float multiplier)
     {
-        moveSpeed = originalMoveSpeed * multiplier;
-        Debug.Log("이동 속도 감소: " + moveSpeed);
+        maxMoveSpeed = originalMoveSpeed * multiplier;
+        Debug.Log("이동 속도 감소: " + maxMoveSpeed);
     }
 
     public void RemoveSlow()
     {
-        moveSpeed = originalMoveSpeed;
-        Debug.Log("이동 속도 복구: " + moveSpeed);
+        maxMoveSpeed = originalMoveSpeed;
+        Debug.Log("이동 속도 복구: " + maxMoveSpeed);
     }
 
     void RestartGame()

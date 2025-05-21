@@ -299,4 +299,23 @@ public class MainSoundManager : MonoBehaviour
             Destroy(source);
         }
     }
+    public void StopAllSFX()
+    {
+        Debug.Log("Stopping all SFX...");
+
+        AudioSource[] allAudioSourcesOnThisObject = GetComponents<AudioSource>();
+
+        foreach (AudioSource source in allAudioSourcesOnThisObject)
+        {
+            
+            if (source != null && source.isPlaying)
+            {
+                source.Stop(); // AudioSource 재생 중지
+            }
+            Destroy(source); // 컴포넌트 파괴 (메모리 해제)
+        }
+
+        activeSfxAudioSources.Clear();
+        StopAllCoroutines();
+    }
 }
