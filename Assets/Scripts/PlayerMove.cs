@@ -442,8 +442,10 @@ public class PlayerController : MonoBehaviour
         GameManager.instance.totalLives--;  // 목숨 하나 감소
         PlayerPrefs.SetInt("TotalLives", GameManager.instance.totalLives);  // PlayerPrefs에 저장
         GameManager.instance.UpdateLifeUI();  // UI 업데이트
+        MainSoundManager.instance.StopBGM();
+        MainSoundManager.instance.PlayBGM("gameOver");
         Time.timeScale = 0;
-       
+        
         if (GameManager.instance.totalLives <= 0)
         {
             // 목숨이 0일 경우 게임 오버 처리
@@ -564,7 +566,7 @@ public class PlayerController : MonoBehaviour
     {
         Debug.Log("리셋시작!");
 
-        DialogueManager.instance.SetDiedMessage("");
+       
         GameManager.instance.UpdateLifeUI();
         SceneManager.LoadSceneAsync(0).completed += (AsyncOperation operation) =>
         {
@@ -573,18 +575,21 @@ public class PlayerController : MonoBehaviour
             {
                 health = 100f;
                 isTakingDamage = false;
+                DialogueManager.instance.diedText.text = "";
                 GameManager.instance.FindPlayer();
                 GameManager.instance.PlayerReposition();
                 GameManager.instance.FindAndSetStagesByParent();
                 GameManager.instance.ResetStageActivation();
-                DialogueManager.instance.ReloadBlack();
+               
                 DialogueManager.instance.SetHealth(health);
-                DialogueManager.instance.diedText.text = "";
+                
                 // 씬 로드 완료 후 카메라 Confiner 재설정
                 //GameManager.instance.GetComponent<GameManager>().Invoke("SetCameraConfinerForCurrentStage", 0.15f);
             }
+            DialogueManager.instance.ReloadBlack();
             GameManager.instance.UpdateLifeUI();
             Time.timeScale = 1;
+            MainSoundManager.instance.ChangeBGM("Basic");
         };
     }
     // 스택 게임 전환 시 작동

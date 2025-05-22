@@ -88,7 +88,7 @@ public class GameManager : MonoBehaviour
             }
             SetCameraConfinerBounds(stages[stageIndex]);
         }
-      
+        MainSoundManager.instance.PlayBGM("Basic");
     }
 
 

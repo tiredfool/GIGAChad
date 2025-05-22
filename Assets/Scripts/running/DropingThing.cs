@@ -19,7 +19,7 @@ public class DropingThing : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         if (rb == null)
         {
-            Debug.LogError("DropingThing 오브젝트에 Rigidbody 2D 컴포넌트가 없습니다!", gameObject);
+           // Debug.LogError("DropingThing 오브젝트에 Rigidbody 2D 컴포넌트가 없습니다!", gameObject);
         }
     }
 
@@ -41,7 +41,7 @@ public class DropingThing : MonoBehaviour
         {
             isGrounded = true;
             groundContactTime = Time.time;
-            Debug.Log("DropingThing: Touched Ground.");
+            //Debug.Log("DropingThing: Touched Ground.");
         }
 
         // 플레이어와의 충돌 처리 (플레이어는 트리거가 아닌 콜라이더이므로 여기에 유지)
@@ -52,7 +52,7 @@ public class DropingThing : MonoBehaviour
             {
                 MainSoundManager.instance.PlaySFX("Eating");
             }
-            Debug.Log("DropingThing: Touched Player.");
+           // Debug.Log("DropingThing: Touched Player.");
         }
     }
 
@@ -67,7 +67,7 @@ public class DropingThing : MonoBehaviour
             currentConveyorScript = collision.GetComponent<ConveyorBeltPhysics>();
             if (currentConveyorScript == null)
             {
-                Debug.LogError("ConveyorBeltPhysics 스크립트를 MovingWalk 오브젝트에서 찾을 수 없습니다!", collision.gameObject);
+               // Debug.LogError("ConveyorBeltPhysics 스크립트를 MovingWalk 오브젝트에서 찾을 수 없습니다!", collision.gameObject);
             }
 
             // 🔴 트리거에 처음 닿을 때 왼쪽으로 강하게 튕겨내는 힘 적용
@@ -79,7 +79,7 @@ public class DropingThing : MonoBehaviour
                 // initialKnockbackForceOnTrigger 값을 인스펙터에서 튜닝하세요.
                 rb.AddForce(knockbackDirection * initialKnockbackForceOnTrigger, ForceMode2D.Impulse);
 
-                Debug.Log($"DropingThing: Entered MovingWalk Trigger. Applied initial knockback force: {initialKnockbackForceOnTrigger}");
+                //Debug.Log($"DropingThing: Entered MovingWalk Trigger. Applied initial knockback force: {initialKnockbackForceOnTrigger}");
             }
         }
     }
@@ -98,7 +98,7 @@ public class DropingThing : MonoBehaviour
                 // ForceMode2D.Force는 지속적인 힘을 가할 때 적합합니다.
                 rb.AddForce(pushDirection * currentConveyorScript.pushForce*10f, ForceMode2D.Force);
 
-                Debug.Log($"DropingThing: Staying on MovingWalk. Applying continuous force: {pushDirection * currentConveyorScript.pushForce}. Current Velocity: {rb.velocity}");
+                //Debug.Log($"DropingThing: Staying on MovingWalk. Applying continuous force: {pushDirection * currentConveyorScript.pushForce}. Current Velocity: {rb.velocity}");
             }
         }
     }
@@ -112,7 +112,7 @@ public class DropingThing : MonoBehaviour
             if (currentConveyorScript == collision.GetComponent<ConveyorBeltPhysics>())
             {
                 currentConveyorScript = null;
-                Debug.Log("DropingThing: Exited MovingWalk Trigger.");
+                //Debug.Log("DropingThing: Exited MovingWalk Trigger.");
             }
         }
     }

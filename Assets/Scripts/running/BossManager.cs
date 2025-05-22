@@ -51,6 +51,7 @@ public class BossManager : MonoBehaviour
 
     public void StartAllFeatures()
     {
+        MainSoundManager.instance.ChangeBGM("1StageBoss");
         StartCoroutine(FadeInSlider());
         conveyorBelt.gameObject.SetActive(true);
         if (spawnManager != null)
