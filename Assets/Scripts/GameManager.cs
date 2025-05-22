@@ -219,11 +219,11 @@ public class GameManager : MonoBehaviour
         {
             SetPlayerInteraction(false);
             SetCameraDamping(Vector3.zero);
-
-            DialogueManager.instance.FadeToBlack(() => {
-                // 페이드 인 완료 후 로직
-                StartCoroutine(RepositionAfterFadeIn()); // 리포지션 코루틴 시작
-            });
+            PlayerRepositionLogic();
+            GameManager.instance.hopeScore = 0; // 리포지션 시 점수 초기화 (필요하다면)
+            SetCameraDamping(originalDamping);
+            SetPlayerInteraction(true);
+            Debug.Log($"플레이어 상호작용 활성화됨. (페이드 아웃 없이 즉시)");
         }
         else
         {
@@ -231,20 +231,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private IEnumerator RepositionAfterFadeIn()
-    {
-        PlayerRepositionLogic(); // 플레이어 리포지션 및 관련 로직 호출
-        GameManager.instance.hopeScore = 0; // 리포지션 시 점수 초기화 (필요하다면)
 
-        // **여기서 0.4초 대기**
-        yield return new WaitForSeconds(0.4f);
-
-        DialogueManager.instance.FadeFromBlack(() => {
-            SetCameraDamping(originalDamping);
-            SetPlayerInteraction(true);
-            Debug.Log($"플레이어 상호작용 활성화됨. (페이드 아웃 완료)");
-        });
-    }
 
     private void PlayerRepositionLogic()
     {

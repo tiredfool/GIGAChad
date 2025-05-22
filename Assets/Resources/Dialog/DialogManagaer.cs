@@ -85,8 +85,9 @@ public class DialogueManager : MonoBehaviour
                 // 시작 시 블랙박스 Image의 Alpha 값을 0으로 설정하여 투명하게 만듦 (필요에 따라)
                 // 만약 시작 시 블랙박스가 항상 꺼진 상태라면 BlackState(false)를 호출해도 됨.
                 originalBlackBoxColor = blackBoxImage.color;
-                originalBlackBoxColor.a = 0f;
-                blackBoxImage.color = originalBlackBoxColor;
+                Color C = blackBoxImage.color;
+                C.a = 0f;
+                blackBoxImage.color = C;
                 blackBox.SetActive(false); // 일단 비활성화
             }
         }
@@ -199,8 +200,8 @@ public class DialogueManager : MonoBehaviour
                 {
                     blackBox.SetActive(true);
                     // 일반 대화의 배경 이미지는 바로 보이도록 알파 1로 설정
-                    blackBox.GetComponent<Image>().color = new Color(1, 1, 1, 1); // 배경 이미지를 원래 색상으로 보이게 (불투명)
-                    blackBox.GetComponent<Image>().sprite = backgroundImage; // Image 컴포넌트에 스프라이트 할당
+                    blackBoxImage.color = new Color(1, 1, 1, 1); // 배경 이미지를 원래 색상으로 보이게 (불투명)
+                    blackBoxImage.sprite = backgroundImage; // Image 컴포넌트에 스프라이트 할당
                 }
                 else
                 {
@@ -260,6 +261,7 @@ public class DialogueManager : MonoBehaviour
         }
         else if (data.dialogueType == "black")
         {
+            blackBoxImage.color = new Color(0, 0, 0, 1);
             blackBox.SetActive(true);
             isBlackBoxActive = true;
             StopAllCoroutines();
@@ -330,9 +332,9 @@ public class DialogueManager : MonoBehaviour
                     blackBoxImage.sprite = diedMessageBackground; // Image 컴포넌트에 할당
                 }
                 else
-                { 
-                    blackBoxImage.sprite = null; // 스프라이트 없으면 비워둡니다.
-                    blackBoxImage.color = originalBlackBoxColor; // 검은색으로 되돌립니다.
+                {
+                    blackBoxImage.sprite = null; // Clear any previous sprite
+                    blackBoxImage.color = new Color(0, 0, 0, 0); 
                 }
 
                 // 기존 페이드 코루틴이 있다면 중지
@@ -580,8 +582,8 @@ public class DialogueManager : MonoBehaviour
     {
         if (blackBoxImage == null)
         {
-            Debug.LogError("blackBoxImage가 초기화되지 않았습니다. BlackState를 호출할 수 없습니다.");
-            onComplete?.Invoke(); // 오류 시에도 콜백은 호출하여 멈추지 않게 함
+            Debug.LogError("blackBoxImage가 초기화되지 않았습니다.");
+            onComplete?.Invoke();
             return;
         }
 
@@ -589,7 +591,8 @@ public class DialogueManager : MonoBehaviour
         {
             StopCoroutine(currentBlackFadeCoroutine);
         }
-        currentBlackFadeCoroutine = StartCoroutine(FadeCoroutine(1f, 0f, onComplete)); // 검은색 -> 투명
+        blackBoxImage.sprite = null; 
+        currentBlackFadeCoroutine = StartCoroutine(FadeCoroutine(blackBoxImage.color.a, 0f, onComplete));
     }
 
     private IEnumerator FadeCoroutine(float startAlpha, float endAlpha, Action onComplete)
@@ -621,12 +624,10 @@ public class DialogueManager : MonoBehaviour
         onComplete?.Invoke(); // 연출 완료 후 콜백 호출
     }
 
-    // 기존 BlackState 함수는 더 이상 직접 사용하지 않는 것이 좋지만, 기존에 호출하는 곳이 있다면 수정해야 함
-    // 아니면 DialogueManager 내부에서만 사용하고 GameManager에서는 FadeToBlack/FadeFromBlack을 사용하도록
+    
     public void BlackState(bool onOff)
     {
-        // Debug.Log("지금 이동하면서 블랙박스 "+onOff); // 이 로그는 더 이상 정확하지 않을 수 있음
-        // 이 함수를 통해 직접 setActive를 하는 대신, 페이드 함수를 호출하도록 로직을 변경합니다.
+       
         if (onOff)
         {
             FadeToBlack(); // 즉시 블랙박스 켜기 (페이드 인)
@@ -634,6 +635,21 @@ public class DialogueManager : MonoBehaviour
         else
         {
             FadeFromBlack(); // 즉시 블랙박스 끄기 (페이드 아웃)
+        }
+    }
+    public void setBlack()
+    {
+        if (blackBoxImage != null)
+        {
+            blackBoxImage.sprite = null; // 스프라이트 제거
+            blackBoxImage.color = new Color(0f, 0f, 0f, 1f); // 완전 불투명 검은색
+            blackBox.SetActive(true); // 활성화
+                                      // 기존 코루틴 중지 로직도 여기에 포함되어야 함
+            if (currentFadeCoroutine != null) StopCoroutine(currentFadeCoroutine);
+            if (currentBlackFadeCoroutine != null) StopCoroutine(currentBlackFadeCoroutine);
+            currentFadeCoroutine = null;
+            currentBlackFadeCoroutine = null;
+            isBlackBoxActive = true;
         }
     }
 }

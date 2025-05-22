@@ -547,36 +547,87 @@ public class PlayerController : MonoBehaviour
 
     void RestartGame()
     {
-        Debug.Log("리셋시작!");
+        Debug.Log("리셋 시작!");
 
-        GameManager.instance.UpdateLifeUI();
+        // 1. 화면을 즉시 완전히 검게 만듭니다.
+        // DialogueManager가 DontDestroyOnLoad 되어 있어야 씬 로드 후에도 유지됩니다.
+        if (DialogueManager.instance != null)
+        {
+            DialogueManager.instance.setBlack();
+            Debug.Log("화면을 검게 설정했습니다.");
+        }
+        else
+        {
+            Debug.LogError("DialogueManager 인스턴스를 찾을 수 없습니다! 화면을 검게 만들 수 없습니다.");
+            // 오류 발생 시에도 게임이 멈추지 않도록 로드 진행
+        }
+
+        // 2. GameManager UI를 미리 업데이트하여 라이프가 올바르게 보이도록 합니다.
+        // (선택 사항이지만, 씬 로딩 전에 UI를 먼저 갱신하는 것이 더 자연스러울 수 있습니다.)
+        if (GameManager.instance != null)
+        {
+            GameManager.instance.UpdateLifeUI();
+        }
+
+        // 3. 씬 로드를 비동기로 시작하고 완료될 때 콜백을 받습니다.
         SceneManager.LoadSceneAsync(0).completed += (AsyncOperation operation) =>
         {
-            if (GameManager.instance != null && GameManager.instance.stageIndex < GameManager.instance.startPositions.Length)
-            {
-                health = 100f;
-                isTakingDamage = false;
-                if (DialogueManager.instance != null) // DialogueManager 인스턴스 확인
-                {
-                    DialogueManager.instance.diedText.text = "";
-                }
-                GameManager.instance.FindPlayer(); 
-                GameManager.instance.PlayerReposition();
-                GameManager.instance.FindAndSetStagesByParent();
-                GameManager.instance.ResetStageActivation();
+            Debug.Log("씬 로드 완료: " + operation.isDone);
 
-                if (DialogueManager.instance != null) // DialogueManager 인스턴스 확인
-                {
-                    DialogueManager.instance.SetHealth(health);
-                }
-            }
-            if (DialogueManager.instance != null) // DialogueManager 인스턴스 확인
+            // 씬 로드 후 필요한 모든 초기화 작업
+            if (GameManager.instance != null)
             {
-                DialogueManager.instance.ReloadBlack();
+                if (GameManager.instance.stageIndex < GameManager.instance.startPositions.Length)
+                {
+                    // 플레이어 체력 초기화
+                    health = 100f;
+                    // 데미지 받는 상태 초기화 (PlayerController 내 변수)
+                    // isTakingDamage = false; // 이 변수가 PlayerController에 있다면 주석 해제
+
+                    // DialogueManager의 죽음 메시지 초기화
+                    if (DialogueManager.instance != null)
+                    {
+                        DialogueManager.instance.diedText.text = "";
+                        // Scene 로드 후 DialogueManager 인스턴스는 유지되므로,
+                        // setBlack()을 여기서 다시 호출할 필요는 없습니다. 이미 검은색 상태입니다.
+                        // DialogueManager.instance.setBlack(); // 이 줄은 제거하거나 주석 처리
+                    }
+
+                    GameManager.instance.FindPlayer();
+                    GameManager.instance.PlayerReposition();
+                    GameManager.instance.FindAndSetStagesByParent();
+                    GameManager.instance.ResetStageActivation();
+
+                    if (DialogueManager.instance != null)
+                    {
+                        DialogueManager.instance.SetHealth(health); // DialogueManager의 체력 UI 업데이트
+                    }
+                }
+                // GameManager의 라이프 UI 최종 업데이트
+                GameManager.instance.UpdateLifeUI();
             }
-            GameManager.instance.UpdateLifeUI();
+
+            // TimeScale을 다시 1로 설정하여 게임 시간을 재개합니다.
             Time.timeScale = 1;
-            if (MainSoundManager.instance != null) MainSoundManager.instance.ChangeBGM("Basic");
+
+            // BGM 변경
+            if (MainSoundManager.instance != null)
+            {
+                MainSoundManager.instance.ChangeBGM("Basic");
+            }
+            else
+            {
+                Debug.LogWarning("MainSoundManager 인스턴스를 찾을 수 없습니다.");
+            }
+
+            // 4. 모든 초기화가 끝난 후, 화면을 서서히 밝아지게 합니다.
+            if (DialogueManager.instance != null)
+            {
+                // FadeFromBlack 호출 시, 콜백을 통해 이후 처리를 연결할 수 있습니다.
+                // 현재는 더 이상의 후속 작업이 없으므로 콜백을 생략합니다.
+                DialogueManager.instance.FadeFromBlack();
+                Debug.Log("화면을 밝게 전환 시작했습니다.");
+            }
         };
     }
 
