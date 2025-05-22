@@ -48,9 +48,12 @@ public class DialogueManager : MonoBehaviour
    
 
 
-    public float fadeDuration = 1.5f; // 배경이 완전히 투명해지는 데 걸리는 시간
+    public float fadeDuration = 0.7f; // 배경이 완전히 투명해지는 데 걸리는 시간
     private Coroutine currentFadeCoroutine; // 현재 실행 중인 페이드 코루틴을 저장
 
+   
+    private Image blackBoxImage; // blackBox에 붙어있는 Image 컴포넌트
+    private Coroutine currentBlackFadeCoroutine; // 현재 진행 중인 페이드 코루틴 참조
 
     void Awake()
     {
@@ -70,13 +73,26 @@ public class DialogueManager : MonoBehaviour
         dialogueBox.SetActive(false);
         blackBox.SetActive(false);
 
-        // blackBox에 Image 컴포넌트가 필수적임을 확인
-        Image blackBoxImage = blackBox.GetComponent<Image>();
-        if (blackBoxImage == null)
+        if (blackBox != null)
         {
-            Debug.LogError("blackBox GameObject에 UI.Image 컴포넌트가 없습니다! 추가해주세요. (UI.Image 컴포넌트만 사용합니다.)");
-            enabled = false; // 스크립트 비활성화하여 추가 오류 방지
-            return;
+            blackBoxImage = blackBox.GetComponent<Image>();
+            if (blackBoxImage == null)
+            {
+                Debug.LogError("blackBox GameObject에 Image 컴포넌트가 없습니다!", blackBox);
+            }
+            else
+            {
+                // 시작 시 블랙박스 Image의 Alpha 값을 0으로 설정하여 투명하게 만듦 (필요에 따라)
+                // 만약 시작 시 블랙박스가 항상 꺼진 상태라면 BlackState(false)를 호출해도 됨.
+                originalBlackBoxColor = blackBoxImage.color;
+                originalBlackBoxColor.a = 0f;
+                blackBoxImage.color = originalBlackBoxColor;
+                blackBox.SetActive(false); // 일단 비활성화
+            }
+        }
+        else
+        {
+            Debug.LogError("DialogueManager에 blackBox GameObject가 할당되지 않았습니다!");
         }
         originalBlackBoxColor = blackBoxImage.color; // 초기 색상 저장
 
@@ -85,12 +101,13 @@ public class DialogueManager : MonoBehaviour
         follower.SetVisible(false);
         if (standingImageLeft != null) standingImageLeft.gameObject.SetActive(false);
         if (standingImageRight != null) standingImageRight.gameObject.SetActive(false);
+        sequenceControllers = FindObjectsOfType<DialogueSequenceController>();
+        Debug.Log($"찾은 DialogueSequenceController 개수: {sequenceControllers.Length}");
     }
     void Start()
     {
-        // 씬 시작 시 모든 DialogueSequenceController 찾기
-        sequenceControllers = FindObjectsOfType<DialogueSequenceController>();
-        Debug.Log($"찾은 DialogueSequenceController 개수: {sequenceControllers.Length}");
+       
+      
     }
 
 
@@ -393,12 +410,6 @@ public class DialogueManager : MonoBehaviour
             return;
         }
 
-        // 🔴 여기서는 이제 CheckDialogueEnd를 호출하지 않습니다. (TypeDialogue에서 하도록 변경했으므로)
-        // 🔴 다시 여기로 CheckDialogueEnd 호출을 복구하고, 올바른 ID를 전달해야 합니다.
-        // 이 시점의 dialogueIndex는 현재 표시될 대사의 인덱스입니다.
-        // 우리는 "방금 지나온" 대사의 ID가 트리거 ID와 일치하는지 확인해야 합니다.
-
-        // 방금 완료된 대화의 ID를 가져오기 (dialogueIndex는 이미 다음 대사를 가리키고 있으므로 -1)
         string completedDialogueId = (dialogueIndex > 0 && dialogueIndex <= currentDialogues.Count) ? currentDialogues[dialogueIndex - 1].id : "";
 
         // 모든 시퀀스 컨트롤러에 방금 완료된 대화 ID 전달
@@ -408,9 +419,7 @@ public class DialogueManager : MonoBehaviour
             if (controller.cameraController != null && controller.cameraController.IsMoving)
             {
                 Debug.Log($"카메라 이동 중, 다음 대사 진행 보류 (Controller: {controller.gameObject.name})");
-                // 카메라가 이동 중이면 대화 진행을 멈추고 현재 대사를 다시 보여주거나,
-                // 대화창을 비활성화하는 등의 처리가 필요할 수 있습니다.
-                // 현재는 그냥 return하여 다음 대사로 넘어가지 않게 합니다.
+              
                 return;
             }
         }
@@ -550,5 +559,81 @@ public class DialogueManager : MonoBehaviour
         }
         isBlackBoxActive = false;
        
+    }
+    public void FadeToBlack(Action onComplete = null)
+    {
+        if (blackBoxImage == null)
+        {
+            Debug.LogError("blackBoxImage가 초기화되지 않았습니다. BlackState를 호출할 수 없습니다.");
+            onComplete?.Invoke(); // 오류 시에도 콜백은 호출하여 멈추지 않게 함
+            return;
+        }
+
+        if (currentBlackFadeCoroutine != null)
+        {
+            StopCoroutine(currentBlackFadeCoroutine);
+        }
+        currentBlackFadeCoroutine = StartCoroutine(FadeCoroutine(0f, 1f, onComplete)); // 투명 -> 검은색
+    }
+
+    public void FadeFromBlack(Action onComplete = null)
+    {
+        if (blackBoxImage == null)
+        {
+            Debug.LogError("blackBoxImage가 초기화되지 않았습니다. BlackState를 호출할 수 없습니다.");
+            onComplete?.Invoke(); // 오류 시에도 콜백은 호출하여 멈추지 않게 함
+            return;
+        }
+
+        if (currentBlackFadeCoroutine != null)
+        {
+            StopCoroutine(currentBlackFadeCoroutine);
+        }
+        currentBlackFadeCoroutine = StartCoroutine(FadeCoroutine(1f, 0f, onComplete)); // 검은색 -> 투명
+    }
+
+    private IEnumerator FadeCoroutine(float startAlpha, float endAlpha, Action onComplete)
+    {
+        blackBox.SetActive(true); // 페이드 시작 시 블랙박스 활성화 (투명 -> 검은색이든, 검은색 -> 투명 투명 시작 시)
+
+        float timer = 0f;
+        Color currentColor = blackBoxImage.color;
+
+        while (timer < fadeDuration)
+        {
+            timer += Time.deltaTime;
+            float alpha = Mathf.Lerp(startAlpha, endAlpha, timer / fadeDuration);
+            currentColor.a = alpha;
+            blackBoxImage.color = currentColor;
+            yield return null;
+        }
+
+        currentColor.a = endAlpha; // 최종 알파값 정확히 적용
+        blackBoxImage.color = currentColor;
+
+        // 투명해지면 비활성화 (검은색 -> 투명 연출일 때만)
+        if (endAlpha == 0f)
+        {
+            blackBox.SetActive(false);
+        }
+
+        currentBlackFadeCoroutine = null; // 코루틴 완료
+        onComplete?.Invoke(); // 연출 완료 후 콜백 호출
+    }
+
+    // 기존 BlackState 함수는 더 이상 직접 사용하지 않는 것이 좋지만, 기존에 호출하는 곳이 있다면 수정해야 함
+    // 아니면 DialogueManager 내부에서만 사용하고 GameManager에서는 FadeToBlack/FadeFromBlack을 사용하도록
+    public void BlackState(bool onOff)
+    {
+        // Debug.Log("지금 이동하면서 블랙박스 "+onOff); // 이 로그는 더 이상 정확하지 않을 수 있음
+        // 이 함수를 통해 직접 setActive를 하는 대신, 페이드 함수를 호출하도록 로직을 변경합니다.
+        if (onOff)
+        {
+            FadeToBlack(); // 즉시 블랙박스 켜기 (페이드 인)
+        }
+        else
+        {
+            FadeFromBlack(); // 즉시 블랙박스 끄기 (페이드 아웃)
+        }
     }
 }

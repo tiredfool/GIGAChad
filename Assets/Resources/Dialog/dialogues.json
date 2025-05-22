@@ -52,7 +52,7 @@
       "dialogue": ".....",
       "standingImage": "pepeStand",
       "standingPosition": "left",
-      "backgroundImageName": "TestImage"
+      "backgroundImageName": "Room1"
     },
     {
       "npcName": "만삣삐",
@@ -61,7 +61,7 @@
       "dialogue": "뭐 볼만한거 없나...",
       "standingImage": "pepeStand",
       "standingPosition": "left",
-      "backgroundImageName": "TestImage"
+      "backgroundImageName": "Room1"
     },
     {
       "npcName": "만삣삐",
@@ -70,7 +70,7 @@
       "dialogue": "이렇게 살아가는게 무슨 의미일까..?",
       "standingImage": "pepeStand_sad",
       "standingPosition": "left",
-      "backgroundImageName": "TestImage"
+      "backgroundImageName": "Room1"
     },
     {
       "npcName": "만삣삐",
@@ -79,7 +79,7 @@
       "dialogue": "그냥... 다 포기하고 싶어...",
       "standingImage": "pepeStand_sad",
       "standingPosition": "left",
-      "backgroundImageName": "TestImage"
+      "backgroundImageName": "Room1"
     },
     {
       "npcName": "???",
@@ -87,13 +87,13 @@
       "fontSize": 70,
       "dialogue": "유 뻐킹 이디엇! 만삣삐!",
       "shakeScreen": true,
-      "backgroundImageName": "TestImage"
+      "backgroundImageName": "Room1"
     },
     {
       "dialogueType": "black",
       "dialogue": "며칠 후",
       "fontSize": 48,
-      "blackBoxDuration": 0.5
+      "blackBoxDuration": 1
     },
     {
       "dialogueType": "black",
@@ -108,43 +108,43 @@
       "dialogue": "기가차드, 거기 있어?",
       "standingImage": "pepeStand",
       "standingPosition": "left",
-      "backgroundImageName": "TestImage"
+      "backgroundImageName": "Room1"
     },
     {
       "npcName": "기가차드",
       "portraitName": "Gigachard",
       "fontSize": 60,
       "dialogue": "오브콜스, 만삣삐",
-      "standingImage": "chardStand",
-      "standingPosition": "right",
-      "backgroundImageName": "TestImage"
+      "standingImage": "pepeStand,chardStand",
+      "standingPosition": "left,right",
+      "backgroundImageName": "Room1"
     },
     {
       "npcName": "만삣삐",
       "portraitName": "Player",
       "fontSize": 70,
       "dialogue": "또 새로운 하루가 시작되었어.",
-      "standingImage": "pepeStand",
-      "standingPosition": "left",
-      "backgroundImageName": "TestImage"
+     "standingImage": "pepeStand,chardStand",
+      "standingPosition": "left,right",
+      "backgroundImageName": "Room1"
     },
     {
       "npcName": "기가차드",
       "portraitName": "Gigachard",
       "fontSize": 60,
       "dialogue": "물론이지, 만삣삐",
-      "standingImage": "chardStand",
-      "standingPosition": "right",
-      "backgroundImageName": "TestImage"
+     "standingImage": "pepeStand,chardStand",
+      "standingPosition": "left,right",
+      "backgroundImageName": "Room1"
     },
     {
       "npcName": "기가차드",
       "portraitName": "Gigachard",
       "fontSize": 60,
       "dialogue": "아주 황금같은 하루가 말이야.",
-      "standingImage": "chardStand",
-      "standingPosition": "right",
-      "backgroundImageName": "TestImage"
+     "standingImage": "pepeStand,chardStand",
+      "standingPosition": "left,right",
+      "backgroundImageName": "Room1"
     },
     {
       "npcName": "기가차드",
@@ -153,7 +153,7 @@
       "dialogue": "그럼 겟 투 워크할 시간이야.",
       "standingImage": "chardStand",
       "standingPosition": "right",
-      "backgroundImageName": "TestImage"
+      "backgroundImageName": "Room1"
     },
     {
       "id": "2_e",
@@ -164,7 +164,7 @@
       "standingImage": "chardStand",
       "standingPosition": "right",
       "shakeScreen": true,
-      "backgroundImageName": "TestImage"
+      "backgroundImageName": "Room1"
     },
     {
       "id": "1_s_m_b",

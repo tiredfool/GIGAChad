@@ -27,6 +27,7 @@ public class PlayerController : MonoBehaviour
     private bool isTakingDamage = false;
     private bool isTalking = false;
 
+
     private bool died = false;
     private bool game_over = false;
 
@@ -34,8 +35,8 @@ public class PlayerController : MonoBehaviour
     public float groundCheckDistance = 0.2f; // 땅 체크 Raycast 거리 (값 증가)
     public LayerMask groundLayer; // 땅 레이어
     private bool jumpRequest; // 점프 요청 변수
-    private float verticalVelocity; // 수직 속도 저장 변수
-    private bool canJump = false;
+    private float verticalVelocity; // 수직 속도 저장 변수 (현재 코드에서 사용되지 않음)
+    private bool canJump = false; // 공중 점프 허용 여부
 
     public FollowPlayer follower; // 따라오는 기가차드
 
@@ -56,7 +57,13 @@ public class PlayerController : MonoBehaviour
     public bool isPlayingFootstepSound = false;
     public float footstepInterval = 0.3f;
 
-    private float horizontalInput; // 런닝머신용
+    private float horizontalInput; // 런닝머신용 (현재 코드에서 외부 입력용으로 사용됨)
+
+    // --- 추가된 변수 ---
+    private float fixedYPosition; // Y 고정 시 사용할 Y 위치
+    private bool wasPlayerInteractionEnabled = true; // 이전 프레임의 플레이어 상호작용 상태
+    // ---
+
     void Start()
     {
         playerCollider = GetComponent<Collider2D>();
@@ -70,35 +77,41 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        // GameManager 인스턴스가 없는 경우 (씬 로드 직후 등) 예외 처리
+        if (GameManager.instance == null) return;
+
         // 점프 입력 처리
         if ((Input.GetButtonDown("Jump") && isGrounded) || (Input.GetButtonDown("Jump") && canJump))
         {
+            // GameManager에서 플레이어 상호작용이 비활성화되어 있으면 점프 불가
+            if (!GameManager.instance.IsPlayerInteractionEnabled()) return;
+
             jumpRequest = true; // 점프 요청
             canJump = false;
             if (MainSoundManager.instance != null)
             {
                 MainSoundManager.instance.PlaySFX("Jump");
             }
-            // animator.SetBool("IsJumping", true);
-            // animator.SetBool("IsGround", false);
         }
-        float moveInput = Input.GetAxisRaw("Horizontal");
+
+        // 이동 입력 감지 (FixedUpdate에서 사용하기 위해 저장)
         horizontalInput = Input.GetAxisRaw("Horizontal");
+
         // 스프라이트 방향 전환
-        if (moveInput > 0)
+        if (horizontalInput > 0)
         {
             spriteRenderer.flipX = false;
             follower.SetNegativeDistance(false);
         }
-        else if (moveInput < 0)
+        else if (horizontalInput < 0)
         {
             spriteRenderer.flipX = true;
             follower.SetNegativeDistance(true);
         }
 
-        if (died && Input.GetKeyDown(KeyCode.R) && !DialogueManager.instance.isTyping)
+        // 재시작 처리 (죽었을 때)
+        if (died && Input.GetKeyDown(KeyCode.R) && DialogueManager.instance != null && !DialogueManager.instance.isTyping)
         {
-
             if (isPlayingFootstepSound)
             {
                 isPlayingFootstepSound = false;
@@ -108,21 +121,41 @@ public class PlayerController : MonoBehaviour
                     MainSoundManager.instance.StopSFX("Footstep");
                 }
             }
-
             died = false;
             RestartGame();
         }
-
     }
 
     void FixedUpdate()
     {
-        // 입력이 막혀있는지 확인
-        if (Time.time < inputDisabledTime || isTalking || isStackGameMode)
-        {
-            rb.velocity = new Vector2(0, rb.velocity.y); // 움직임 멈춤
+        // GameManager 인스턴스가 없는 경우 (씬 로드 직후 등) 예외 처리
+        if (GameManager.instance == null) return;
 
-            // 이 부분은 FixedUpdate에서 움직임이 멈췄을 때 발소리도 멈추도록 이미 잘 처리되어 있습니다.
+        // 현재 플레이어 상호작용 상태
+        bool currentPlayerInteractionEnabled = GameManager.instance.IsPlayerInteractionEnabled();
+
+        // ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+        // 플레이어 움직임 제어 로직 (주요 수정 부분)
+        // inputDisabledTime, isTalking, isStackGameMode, 그리고 GameManager의 상호작용 상태를 모두 고려
+        // ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+        bool shouldDisableMovement = (Time.time < inputDisabledTime) || isTalking || isStackGameMode || !currentPlayerInteractionEnabled;
+
+        if (shouldDisableMovement)
+        {
+            // 움직임이 비활성화되는 순간 Y 위치 고정 시작
+            if (wasPlayerInteractionEnabled && !currentPlayerInteractionEnabled) // 방금 비활성화 상태가 된 경우
+            {
+                fixedYPosition = transform.position.y;
+                rb.gravityScale = 0f; // 중력 0으로 설정하여 떨어지지 않도록
+                rb.velocity = Vector2.zero; // 모든 속도 초기화 (특히 Y 속도)
+                Debug.Log($"[PlayerController] Y 위치 고정 시작. 고정 Y: {fixedYPosition}");
+            }
+
+            // Y 고정 적용
+            transform.position = new Vector3(transform.position.x, fixedYPosition, transform.position.z);
+            rb.velocity = new Vector2(0, rb.velocity.y); // 수평 속도도 0으로 (컨베이어 영향 제외)
+
+            // 발소리 중지 (이미 잘 처리되어 있지만, 재확인)
             if (isPlayingFootstepSound)
             {
                 isPlayingFootstepSound = false;
@@ -132,199 +165,143 @@ public class PlayerController : MonoBehaviour
                     MainSoundManager.instance.StopSFX("Footstep");
                 }
             }
+            // 애니메이션 속도를 0으로 설정하여 정지 상태 유지
+            animator.SetFloat("Speed", 0f);
+            animator.SetBool("IsJumping", false); // 점프 애니메이션도 해제
+            animator.SetBool("IsGround", true); // 땅 애니메이션 강제
 
-            return; // 입력 처리 X
-        }
-        else
-        {
+            // TakeDamage 애니메이션 트리거 초기화 (입력 불가 시)
             animator.ResetTrigger("TakeDamage");
+
+            wasPlayerInteractionEnabled = currentPlayerInteractionEnabled; // 상태 업데이트
+            return; // 이후 이동 로직을 더 이상 실행하지 않음
         }
-        wasGrounded = isGrounded;//직전 Grounded 상태 저장
-        // 땅 체크 (FixedUpdate에서 Raycast 사용)
-
-        isGrounded = IsGrounded();
-
-        //착지시 이펙트 발생
-        if (!wasGrounded && isGrounded)
+        else // 플레이어 상호작용이 활성화된 경우
         {
-            if (jumpRequest != null && dustPoint != null) // jumpRequest는 항상 true/false 부울값이므로 null 비교는 의미 없습니다.
-                                                          // 직전 프레임에 점프 요청이 있었는지를 확인하는 것이 더 적절합니다.
-                                                          // 여기서는 `wasGrounded`가 false이고 `isGrounded`가 true인 경우에만 이펙트를 생성하는 것으로 충분합니다.
+            // 움직임이 다시 활성화되는 순간 Y 위치 고정 해제
+            if (!wasPlayerInteractionEnabled && currentPlayerInteractionEnabled) // 방금 활성화 상태가 된 경우
             {
-                GameObject dust = Instantiate(jumpDustEffect, dustPoint.position, Quaternion.identity);
-                Destroy(dust, 0.2f);
-            }
-            if (MainSoundManager.instance != null)
-            {
-                MainSoundManager.instance.PlaySFX("Lend");
-            }
-        }
-
-        //  if(isGrounded) Debug.Log("땅");
-        // 애니메이션 제어
-        animator.SetBool("IsJumping", !isGrounded);
-        animator.SetBool("IsGround", isGrounded);
-
-        // 점프 처리
-        if (jumpRequest)
-        {
-            jumpRequest = false; // 점프 요청 초기화
-            rb.velocity = new Vector2(rb.velocity.x, jumpForce);
-
-            //점프 시 이펙트 생성
-            if (jumpDustEffect != null && dustPoint != null)
-            {
-                GameObject dust = Instantiate(jumpDustEffect, dustPoint.position, Quaternion.identity);
-                Destroy(dust, 0.2f);
+                rb.gravityScale = 1f; // 중력 다시 적용
+                Debug.Log("[PlayerController] Y 위치 고정 해제 및 중력 복원.");
             }
 
-            // 점프 중 발소리 중지
-            if (isPlayingFootstepSound)
+            wasPlayerInteractionEnabled = currentPlayerInteractionEnabled; // 상태 업데이트
+
+            // ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+            // 기존 플레이어 이동 로직 (이하 그대로 유지하거나 약간 수정)
+            // ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+            wasGrounded = isGrounded; // 직전 Grounded 상태 저장
+            isGrounded = IsGrounded();
+
+            // 착지 시 이펙트 발생
+            if (!wasGrounded && isGrounded)
             {
-                isPlayingFootstepSound = false;
-                StopCoroutine("PlayFootstepSound");
+                if (jumpDustEffect != null && dustPoint != null)
+                {
+                    GameObject dust = Instantiate(jumpDustEffect, dustPoint.position, Quaternion.identity);
+                    Destroy(dust, 0.2f);
+                }
                 if (MainSoundManager.instance != null)
                 {
-                    MainSoundManager.instance.StopSFX("Footstep");
+                    MainSoundManager.instance.PlaySFX("Lend");
                 }
             }
-        }
-        if (!isGrounded && !isTalking && !isStackGameMode)
-        {
-            //공중에서 속도 줄이기
-            rb.velocity = new Vector2(rb.velocity.x * 0.95f, rb.velocity.y); //
-        }
 
-        // 좌우 이동
-        //float moveInput = Input.GetAxisRaw("Horizontal");
-        //bool allowPlayerVelocityOverride = true; // 플레이어 입력으로 속도를 덮어쓸지 여부
+            // 애니메이션 제어 (점프/땅)
+            animator.SetBool("IsJumping", !isGrounded);
+            animator.SetBool("IsGround", isGrounded);
 
-
-        //if (isOnConveyor && currentConveyorScript != null)
-        //{
-        //    // 컨베이어와 같은 방향으로 이동 중인지 확인
-        //    if (moveInput != 0 && Mathf.Sign(moveInput) == Mathf.Sign(currentConveyorScript.directionMultiplier))
-        //    {
-        //        allowPlayerVelocityOverride = false;
-        //        float extraPushFactor = 4f; // moveSpeed와 다른 힘 계수, 튜닝 필요
-        //        rb.AddForce(Vector2.right * moveInput * extraPushFactor, ForceMode2D.Force);
-
-        //    }
-        //}
-
-        //if ((allowPlayerVelocityOverride && Mathf.Abs(moveInput) > 0.01f)) // 입력이 있을 때 (0이 아닐 때)
-        //{
-        //    rb.velocity = new Vector2(moveInput * moveSpeed, rb.velocity.y);
-        //}
-        //else if (allowPlayerVelocityOverride && Mathf.Abs(moveInput) <= 0.01f) // 입력이 없을 때 (추가: 멈출 때 발소리 끔)
-        //{
-        //    // 입력이 없으면 캐릭터가 멈추고 발소리도 멈춰야 합니다.
-        //    // 단, 컨베이어 벨트 위에 있거나 다른 외부 힘에 의해 움직이는 경우는 예외로 둬야 할 수도 있습니다.
-        //    // 여기서는 단순히 입력이 없으면 수평 속도를 0으로 만듭니다.
-        //    rb.velocity = new Vector2(0, rb.velocity.y);
-        //}
-
-
-        //animator.SetFloat("Speed", Mathf.Abs(moveInput));
-
-        //// 발소리 재생 조건 강화: 움직임 입력이 0.1보다 커야 하고, 땅에 닿아 있어야 하며, 대화 중이 아니고, 스택 게임 모드가 아닐 때
-        //bool shouldPlayFootsteps = isGrounded && Mathf.Abs(moveInput) > 0.1f && !isTalking && !isStackGameMode;
-
-        //if (shouldPlayFootsteps && !isPlayingFootstepSound)
-        //{
-        //    isPlayingFootstepSound = true;
-        //    StartCoroutine("PlayFootstepSound");
-        //}
-        //else if (!shouldPlayFootsteps && isPlayingFootstepSound)
-        //{
-        //    isPlayingFootstepSound = false;
-        //    StopCoroutine("PlayFootstepSound");
-        //    if (MainSoundManager.instance != null)
-        //    {
-        //        MainSoundManager.instance.StopSFX("Footstep");
-        //    }
-        //}
-        float moveInput = Input.GetAxisRaw("Horizontal");
-        if (Time.time >= inputDisabledTime && !isTalking && !isStackGameMode)
-        {
-            // 플레이어의 현재 수평 속도가 최대 속도 범위 내에 있는지 확인
-            // 그리고 목표 방향으로의 가속이 가능한지 확인
-            if (Mathf.Abs(rb.velocity.x) < maxMoveSpeed || Mathf.Sign(rb.velocity.x) != Mathf.Sign(horizontalInput))
+            // 점프 처리
+            if (jumpRequest)
             {
-                rb.AddForce(Vector2.right * horizontalInput * accelerationForce, ForceMode2D.Force);
+                jumpRequest = false; // 점프 요청 초기화
+                rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+
+                // 점프 시 이펙트 생성
+                if (jumpDustEffect != null && dustPoint != null)
+                {
+                    GameObject dust = Instantiate(jumpDustEffect, dustPoint.position, Quaternion.identity);
+                    Destroy(dust, 0.2f);
+                }
+
+                // 점프 중 발소리 중지 (이미 잘 처리되어 있지만, 재확인)
+                if (isPlayingFootstepSound)
+                {
+                    isPlayingFootstepSound = false;
+                    StopCoroutine("PlayFootstepSound");
+                    if (MainSoundManager.instance != null)
+                    {
+                        MainSoundManager.instance.StopSFX("Footstep");
+                    }
+                }
             }
-            // 입력이 없으면 감속 (선택 사항, 필요에 따라 주석 처리)
-            else if (horizontalInput == 0 && isGrounded && !isOnConveyor)
+
+            // 공중에서 속도 줄이기 (현재 코드 유지)
+            if (!isGrounded && !isTalking && !isStackGameMode) // isTalking과 isStackGameMode는 shouldDisableMovement에서 이미 처리됨
             {
-                // 땅에 있을 때만 수평 속도를 서서히 0으로
+                rb.velocity = new Vector2(rb.velocity.x * 0.95f, rb.velocity.y);
+            }
+
+            // 플레이어 이동 (가속도 기반)
+            if (horizontalInput != 0) // 입력이 있을 때
+            {
+                // 플레이어의 현재 수평 속도가 최대 속도 범위 내에 있는지 확인
+                // 그리고 목표 방향으로의 가속이 가능한지 확인
+                if (Mathf.Abs(rb.velocity.x) < maxMoveSpeed || Mathf.Sign(rb.velocity.x) != Mathf.Sign(horizontalInput))
+                {
+                    rb.AddForce(Vector2.right * horizontalInput * accelerationForce, ForceMode2D.Force);
+                }
+            }
+            else if (isGrounded && !isOnConveyor) // 입력이 없고, 땅에 있고, 컨베이어 위가 아닐 때
+            {
+                // 땅에 있을 때만 수평 속도를 서서히 0으로 (감속)
                 rb.velocity = new Vector2(Mathf.Lerp(rb.velocity.x, 0, Time.fixedDeltaTime * 10f), rb.velocity.y);
             }
-        }
-        //else
-        //{
-        //    // 입력이 비활성화된 경우, 플레이어의 수평 속도를 0으로
-        //    // (컨베이어 벨트의 영향을 받지 않도록)
-        //    rb.velocity = new Vector2(0, rb.velocity.y);
-        //}
 
-        // 컨베이어 벨트 힘 적용
-        if (isOnConveyor && currentConveyorScript != null)
-        {
-            Vector2 conveyorPushDirection = currentConveyorScript.transform.right * currentConveyorScript.directionMultiplier;
-            rb.AddForce(conveyorPushDirection * currentConveyorScript.pushForce, ForceMode2D.Force);
-        }
-
-      
-        //// 만약 공중에서 빠르게 멈추는 느낌을 원하면 유지
-        // if (!isGrounded && !isTalking && !isStackGameMode)
-        // {
-        //     rb.velocity = new Vector2(rb.velocity.x * 0.95f, rb.velocity.y);
-        // }
-
-        // 애니메이션 제어
-        //animator.SetFloat("Speed", Mathf.Abs(rb.velocity.x)); // 실제 속도 사용
-        animator.SetFloat("Speed", Mathf.Abs(moveInput));
-        // 발소리 재생 조건 (actual velocity 사용)
-        bool shouldPlayFootsteps = isGrounded && Mathf.Abs(rb.velocity.x) > 0.1f && !isTalking && !isStackGameMode;
-
-        if (shouldPlayFootsteps && !isPlayingFootstepSound)
-        {
-            isPlayingFootstepSound = true;
-            StartCoroutine("PlayFootstepSound");
-        }
-        else if (!shouldPlayFootsteps && isPlayingFootstepSound)
-        {
-            isPlayingFootstepSound = false;
-            StopCoroutine("PlayFootstepSound");
-            if (MainSoundManager.instance != null)
+            // 컨베이어 벨트 힘 적용
+            if (isOnConveyor && currentConveyorScript != null)
             {
-                MainSoundManager.instance.StopSFX("Footstep");
+                Vector2 conveyorPushDirection = currentConveyorScript.transform.right * currentConveyorScript.directionMultiplier;
+                rb.AddForce(conveyorPushDirection * currentConveyorScript.pushForce, ForceMode2D.Force);
+            }
+
+            // 애니메이션 제어 (이동 속도)
+            animator.SetFloat("Speed", Mathf.Abs(horizontalInput)); // 입력 값 기반 (원래 코드 유지)
+
+            // 발소리 재생 조건 (수정: 실제 속도 대신 입력 사용, 이미 위에 있음)
+            bool shouldPlayFootsteps = isGrounded && Mathf.Abs(rb.velocity.x) > 0.1f; // 여기서 rb.velocity.x를 사용하는 것이 더 정확할 수 있습니다.
+
+            if (shouldPlayFootsteps && !isPlayingFootstepSound)
+            {
+                isPlayingFootstepSound = true;
+                StartCoroutine("PlayFootstepSound");
+            }
+            else if (!shouldPlayFootsteps && isPlayingFootstepSound)
+            {
+                isPlayingFootstepSound = false;
+                StopCoroutine("PlayFootstepSound");
+                if (MainSoundManager.instance != null)
+                {
+                    MainSoundManager.instance.StopSFX("Footstep");
+                }
             }
         }
-    
-
-}
+    }
 
     bool IsGrounded()
     {
-        // 캐릭터 발 밑으로 Raycast를 쏘아서 땅에 닿았는지 확인
         RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, groundCheckDistance, groundLayer);
         return hit.collider != null;
     }
 
-
     void OnCollisionStay2D(Collision2D collision)
     {
-        //벽 붙기 제거
         if (collision.gameObject.CompareTag("Ground"))
         {
             foreach (ContactPoint2D contact in collision.contacts)
             {
-
                 if (Mathf.Abs(contact.normal.x) > 0.8f)
                 {
-                    // float moveInput = Input.GetAxisRaw("Horizontal"); // 여기서 moveInput을 사용하지 않으므로 제거해도 무방합니다.
-                    // Debug.Log("wall");
                     playerCollider.sharedMaterial = wallMaterial;
                 }
                 else
@@ -347,26 +324,23 @@ public class PlayerController : MonoBehaviour
         {
             Debug.Log("플레이어가 맞았습니다!");
 
-            // Attack
             if (rb.velocity.y < 0 && transform.position.y > collision.transform.position.y)
             {
                 Debug.Log("밟기");
-                // 적 밟기 로직 (여기에 적 데미지 처리)
                 Enemy_Move enemy = collision.gameObject.GetComponent<Enemy_Move>();
                 if (enemy != null)
                 {
                     enemy.TakeDamage(1);
                     rb.velocity = new Vector2(rb.velocity.x, 3f);
-                    isGrounded = IsGrounded(); // 밟은 후 다시 땅 체크
+                    isGrounded = IsGrounded();
                     canJump = true;
-                    verticalVelocity = 0; // verticalVelocity는 사용되지 않는 변수 같습니다.
+                    verticalVelocity = 0;
                     Debug.Log("적 밟은 후 isGrounded: " + isGrounded);
                 }
             }
-            // Damaged
             else
             {
-                TakeDamage(); // 몬스터에게 맞으면 데미지
+                TakeDamage();
             }
         }
 
@@ -374,7 +348,6 @@ public class PlayerController : MonoBehaviour
         {
             TakeDamage();
         }
-
     }
 
     void OnCollisionExit2D(Collision2D collision)
@@ -383,7 +356,6 @@ public class PlayerController : MonoBehaviour
            || collision.gameObject.CompareTag("Slow") || collision.gameObject.CompareTag("Move"))
         {
             isGrounded = IsGrounded();
-            Debug.Log("OnCollisionExit2D 실행");
         }
     }
 
@@ -391,14 +363,16 @@ public class PlayerController : MonoBehaviour
     {
         if (Time.time - lastDamageTime > damageCooldown && !isTakingDamage && !isStackGameMode && !died)
         {
-            // 피격 쿨다운 적용
             health -= 10;
             Debug.Log("Player Health: " + health);
-            DialogueManager.instance.SetHealth(health);
-            rb.velocity = new Vector2(rb.velocity.x, knockbackVerticalSpeed);//넉백
-            inputDisabledTime = Time.time + inputDisableDuration;//입력불가 시간
+            if (DialogueManager.instance != null) // DialogueManager 인스턴스 확인
+            {
+                DialogueManager.instance.SetHealth(health);
+            }
+            rb.velocity = new Vector2(rb.velocity.x, knockbackVerticalSpeed);
+            inputDisabledTime = Time.time + inputDisableDuration;
 
-            animator.SetTrigger("TakeDamage");//피격 애니
+            animator.SetTrigger("TakeDamage");
 
             lastDamageTime = Time.time;
             if (health <= 0)
@@ -419,7 +393,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    IEnumerator BlinkEffect() // 데미지시 깜빡이
+    IEnumerator BlinkEffect()
     {
         isTakingDamage = true;
 
@@ -437,28 +411,35 @@ public class PlayerController : MonoBehaviour
     public void Die()
     {
         died = true;
-        MainSoundManager.instance.StopAllSFX();
+        if (MainSoundManager.instance != null) MainSoundManager.instance.StopAllSFX();
         Debug.Log("Player Died!");
-        GameManager.instance.totalLives--;  // 목숨 하나 감소
-        PlayerPrefs.SetInt("TotalLives", GameManager.instance.totalLives);  // PlayerPrefs에 저장
-        GameManager.instance.UpdateLifeUI();  // UI 업데이트
-        MainSoundManager.instance.StopBGM();
-        MainSoundManager.instance.PlayBGM("gameOver");
+        GameManager.instance.totalLives--;
+        PlayerPrefs.SetInt("TotalLives", GameManager.instance.totalLives);
+        GameManager.instance.UpdateLifeUI();
+        if (MainSoundManager.instance != null)
+        {
+            MainSoundManager.instance.StopBGM();
+            MainSoundManager.instance.PlayBGM("gameOver");
+        }
         Time.timeScale = 0;
-        
+
         if (GameManager.instance.totalLives <= 0)
         {
-            // 목숨이 0일 경우 게임 오버 처리
             Debug.Log("Game Over");
             game_over = true;
-            DialogueManager.instance.SetDiedMessage("Game Over");
-            Destroy(gameObject);  // 플레이어 오브젝트 삭제
+            if (DialogueManager.instance != null) // DialogueManager 인스턴스 확인
+            {
+                DialogueManager.instance.SetDiedMessage("Game Over");
+            }
+            Destroy(gameObject);
         }
         else
         {
-
             GetComponent<Renderer>().enabled = false;
-            DialogueManager.instance.SetDiedMessage("oh..만삣삐 넌 할 수 있어 \n\n\n\n\n\n\n\n\n 'R'을 눌러 다시 Stand Up 하는거야!");
+            if (DialogueManager.instance != null) // DialogueManager 인스턴스 확인
+            {
+                DialogueManager.instance.SetDiedMessage("oh..만삣삐 넌 할 수 있어 \n\n\n\n\n\n\n\n\n 'R'을 눌러 다시 Stand Up 하는거야!");
+            }
         }
     }
 
@@ -496,7 +477,7 @@ public class PlayerController : MonoBehaviour
 
             if (GameManager.instance != null)
             {
-                GameManager.instance.AddScore(1);  // GameManager에서 얻은 코인 개수 1개 증가
+                GameManager.instance.AddScore(1);
             }
 
             if (MainSoundManager.instance != null)
@@ -505,26 +486,29 @@ public class PlayerController : MonoBehaviour
                 Debug.Log("코인 사운드 재생");
             }
 
-            Destroy(collision.gameObject);  // 코인 제거
+            Destroy(collision.gameObject);
         }
 
         if (collision.gameObject.tag == "Finish")
         {
-            GameManager.instance.NextStage();
+            if (GameManager.instance != null) // GameManager 인스턴스 확인
+            {
+                GameManager.instance.NextStage();
+            }
         }
 
-        if (collision.gameObject.CompareTag("Slow")) // 'Slow' 태그를 가진 오브젝트에 닿으면 감속
+        if (collision.gameObject.CompareTag("Slow"))
         {
-            ApplySlow(0.5f); // 50% 속도 감소
+            ApplySlow(0.5f);
         }
 
         if (collision.gameObject.CompareTag("MovingWalk"))
         {
             isOnConveyor = true;
-            currentConveyorScript = collision.GetComponent<ConveyorBeltPhysics>(); // 스크립트 이름 확인!
+            currentConveyorScript = collision.GetComponent<ConveyorBeltPhysics>();
             if (currentConveyorScript == null)
             {
-                Debug.LogError("ConveyorBeltPhysics2D 스크립트를 찾을 수 없습니다!", collision.gameObject);
+                Debug.LogError("ConveyorBeltPhysics 스크립트를 찾을 수 없습니다!", collision.gameObject);
             }
             Debug.Log("Entered Conveyor");
         }
@@ -532,11 +516,10 @@ public class PlayerController : MonoBehaviour
 
     void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Slow")) // Slow를 벗어나면 속도 원복
+        if (collision.gameObject.CompareTag("Slow"))
         {
             RemoveSlow();
         }
-
 
         if (collision.gameObject.CompareTag("MovingWalk"))
         {
@@ -566,45 +549,48 @@ public class PlayerController : MonoBehaviour
     {
         Debug.Log("리셋시작!");
 
-       
         GameManager.instance.UpdateLifeUI();
         SceneManager.LoadSceneAsync(0).completed += (AsyncOperation operation) =>
         {
-            // 씬 로드가 완료된 후 실행되는 코드
             if (GameManager.instance != null && GameManager.instance.stageIndex < GameManager.instance.startPositions.Length)
             {
                 health = 100f;
                 isTakingDamage = false;
-                DialogueManager.instance.diedText.text = "";
-                GameManager.instance.FindPlayer();
+                if (DialogueManager.instance != null) // DialogueManager 인스턴스 확인
+                {
+                    DialogueManager.instance.diedText.text = "";
+                }
+                GameManager.instance.FindPlayer(); 
                 GameManager.instance.PlayerReposition();
                 GameManager.instance.FindAndSetStagesByParent();
                 GameManager.instance.ResetStageActivation();
-               
-                DialogueManager.instance.SetHealth(health);
-                
-                // 씬 로드 완료 후 카메라 Confiner 재설정
-                //GameManager.instance.GetComponent<GameManager>().Invoke("SetCameraConfinerForCurrentStage", 0.15f);
+
+                if (DialogueManager.instance != null) // DialogueManager 인스턴스 확인
+                {
+                    DialogueManager.instance.SetHealth(health);
+                }
             }
-            DialogueManager.instance.ReloadBlack();
+            if (DialogueManager.instance != null) // DialogueManager 인스턴스 확인
+            {
+                DialogueManager.instance.ReloadBlack();
+            }
             GameManager.instance.UpdateLifeUI();
             Time.timeScale = 1;
-            MainSoundManager.instance.ChangeBGM("Basic");
+            if (MainSoundManager.instance != null) MainSoundManager.instance.ChangeBGM("Basic");
         };
     }
-    // 스택 게임 전환 시 작동
+
     public void SetStackGameMode(bool isActive)
     {
         isStackGameMode = isActive;
 
         if (isActive)
         {
-            inputDisabledTime = float.MaxValue; // 입력 차단
-            isTakingDamage = true;              // 무적 처리
+            inputDisabledTime = float.MaxValue;
+            isTakingDamage = true;
             animator.SetFloat("Speed", 0f);
             animator.SetBool("IsJumping", false);
             animator.SetBool("IsGround", true);
-            // 스택 게임 모드 진입 시 발소리 중지
             if (isPlayingFootstepSound)
             {
                 isPlayingFootstepSound = false;
@@ -617,29 +603,40 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            inputDisabledTime = Time.time;      // 입력 재활성화
+            inputDisabledTime = Time.time;
             isTakingDamage = false;
         }
     }
 
-    IEnumerator PlayFootstepSound() // 걸음소리 
+    IEnumerator PlayFootstepSound()
     {
-        // 코루틴 내부에서 지속적으로 현재 입력 상태를 확인합니다.
-        while (isGrounded && Mathf.Abs(Input.GetAxisRaw("Horizontal")) > 0.1f && !isTalking && !isStackGameMode)
+        while (isGrounded && Mathf.Abs(horizontalInput) > 0.1f && !isTalking && !isStackGameMode && GameManager.instance != null && GameManager.instance.IsPlayerInteractionEnabled())
         {
-            // SoundManager가 존재하고 Footstep 사운드 재생 함수가 있을 경우 호출
             if (MainSoundManager.instance != null)
             {
-                MainSoundManager.instance.PlaySFX("Footstep"); // "Footstep"은 사운드 클립의 이름 또는 식별자입니다.
+                MainSoundManager.instance.PlaySFX("Footstep");
             }
             yield return new WaitForSeconds(footstepInterval);
         }
-        // while 루프 조건이 false가 되어 코루틴이 종료될 때,
-        // isPlayingFootstepSound 상태를 false로 업데이트하고 사운드를 중지합니다.
         isPlayingFootstepSound = false;
         if (MainSoundManager.instance != null)
         {
             MainSoundManager.instance.StopSFX("Footstep");
+        }
+    }
+
+    // GameManager에서 호출하여 플레이어 이동을 제어할 함수 (기존 로직과 중복되지 않도록 변경)
+    // 이 함수는 단순히 isPlayerInteractionEnabled 값에 따라 로직을 실행하는 트리거 역할만 합니다.
+    public void SetCanMove(bool state)
+    {
+        // GameManager의 IsPlayerInteractionEnabled()가 직접 사용되므로, 이 함수는 
+        // 단순히 호출될 때 관련된 디버그 로그나 애니메이션 세팅을 처리하는 데 사용할 수 있습니다.
+        // 실제 이동 가능 여부는 FixedUpdate에서 GameManager의 상태를 직접 확인하여 제어됩니다.
+        Debug.Log($"PlayerController: SetCanMove 호출됨 -> {state}");
+        if (state)
+        {
+            // 움직임 활성화 시 애니메이터 초기화
+            animator.ResetTrigger("TakeDamage");
         }
     }
 }

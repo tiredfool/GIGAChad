@@ -39,6 +39,8 @@ public class GameManager : MonoBehaviour
     public CinemachineConfiner2D confiner2D; // Inspector에서 Confiner2D 할당
     private Vector3 originalDamping;
 
+    private bool isPlayerInteractionEnabled = true;
+
     void Awake()
     {
         
@@ -174,20 +176,15 @@ public class GameManager : MonoBehaviour
 
     public void NextStage()
     {
-        if (stageIndex < stages.Length - 1 && stageIndex < startPositions.Length - 1) // 초과 방지
+        if (stageIndex < stages.Length - 1 && stageIndex < startPositions.Length - 1)
         {
-            // 맵 이동 전에 댐핑 0으로 설정
+            
             SetCameraDamping(Vector3.zero);
 
-            stages[stageIndex].gameObject.SetActive(false);
-            stageIndex++;
-            stages[stageIndex].gameObject.SetActive(true);
-            Debug.Log("Next Stage Index: " + stageIndex);
-            PlayerReposition();
-            SetCameraConfinerBounds(stages[stageIndex]); // 다음 스테이지의 콜라이더로 범위 설정
-
-            // 딜레이 후 댐핑 원래 값으로 복원
-            StartCoroutine(ResetCameraDampingAfterDelay(0.1f)); // 0.1초 딜레이 후 복원
+            DialogueManager.instance.FadeToBlack(() => {
+                // 페이드 인 완료 후 로직
+                StartCoroutine(NextStageAfterFadeIn()); // 다음 스테이지로 전환하는 코루틴 시작
+            });
         }
         else
         {
@@ -195,25 +192,69 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    private IEnumerator NextStageAfterFadeIn()
+    {
+        stages[stageIndex].gameObject.SetActive(false);
+        stageIndex++;
+        stages[stageIndex].gameObject.SetActive(true);
+        Debug.Log("Next Stage Index: " + stageIndex);
+
+        PlayerRepositionLogic(); // 플레이어 리포지션 및 관련 로직 호출
+        SetPlayerInteraction(false);
+        SetCameraConfinerBounds(stages[stageIndex]);
+
+        // **여기서 0.4초 대기**
+        yield return new WaitForSeconds(0.3f);
+        SetPlayerInteraction(true);
+        DialogueManager.instance.FadeFromBlack(() => {
+            SetCameraDamping(originalDamping);
+            
+            Debug.Log($"플레이어 상호작용 활성화됨. (페이드 아웃 완료)");
+        });
+    }
+
     public void PlayerReposition()
     {
         if (stageIndex < startPositions.Length)
         {
-            // 맵 이동 전에 댐핑 0으로 설정
+            SetPlayerInteraction(false);
             SetCameraDamping(Vector3.zero);
 
-            Debug.Log("Player Repositioned to: " + startPositions[stageIndex]);
-            player.transform.position = startPositions[stageIndex]; // 스테이지에 맞는 플레이어 위치 설정
-            GameManager.instance.hopeScore = 0;
-
-            // 딜레이 후 댐핑 원래 값으로 복원
-            StartCoroutine(ResetCameraDampingAfterDelay(0.1f)); // 0.1초 딜레이 후 복원
+            DialogueManager.instance.FadeToBlack(() => {
+                // 페이드 인 완료 후 로직
+                StartCoroutine(RepositionAfterFadeIn()); // 리포지션 코루틴 시작
+            });
         }
         else
         {
             Debug.LogWarning($"PlayerReposition: stageIndex({stageIndex})가 startPositions 범위를 초과했습니다.");
         }
     }
+
+    private IEnumerator RepositionAfterFadeIn()
+    {
+        PlayerRepositionLogic(); // 플레이어 리포지션 및 관련 로직 호출
+        GameManager.instance.hopeScore = 0; // 리포지션 시 점수 초기화 (필요하다면)
+
+        // **여기서 0.4초 대기**
+        yield return new WaitForSeconds(0.4f);
+
+        DialogueManager.instance.FadeFromBlack(() => {
+            SetCameraDamping(originalDamping);
+            SetPlayerInteraction(true);
+            Debug.Log($"플레이어 상호작용 활성화됨. (페이드 아웃 완료)");
+        });
+    }
+
+    private void PlayerRepositionLogic()
+    {
+        Debug.Log("Player Repositioned to: " + startPositions[stageIndex]);
+        if (player != null) // player가 null일 수 있으므로 null 체크 추가
+        {
+            player.transform.position = startPositions[stageIndex];
+        }
+    }
+
 
     public int getScore()
     {
@@ -248,13 +289,24 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    // 딜레이 후 카메라 댐핑 원래 값으로 복원하는 코루틴
-    IEnumerator ResetCameraDampingAfterDelay(float delay)
+    IEnumerator ResetCameraDampingAndEnableInteractionAfterDelay(float delay)
     {
         yield return new WaitForSeconds(delay);
         SetCameraDamping(originalDamping);
+        SetPlayerInteraction(true); // 상호작용 다시 활성화
+       
     }
 
+    public void SetPlayerInteraction(bool enable)
+    {
+        isPlayerInteractionEnabled = enable;
+        Debug.Log("변경된 플레이어 상호작용 상태 " + enable);
+
+    }
+    public bool IsPlayerInteractionEnabled()
+    {
+        return isPlayerInteractionEnabled;
+    }
     // CinemachineConfiner2D의 Bounding Volume 2D를 설정하는 함수
     private void SetCameraConfinerBounds(GameObject stage)
     {

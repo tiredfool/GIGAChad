@@ -12,6 +12,7 @@ public class DialogueTrigger : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
+     
         if (!dialogueStarted && other.CompareTag(targetTag))
         {
             if (dialogueSequencer != null)
@@ -29,5 +30,4 @@ public class DialogueTrigger : MonoBehaviour
         }
     }
 
-  
 }
