@@ -10,6 +10,7 @@ public class LoadStageSelect: MonoBehaviour
     public void StageSelectScene()
     {
         SceneManager.LoadScene("StageSelect");
+        Debug.Log("Å¬¸¯µÊ");
     }
 
 
