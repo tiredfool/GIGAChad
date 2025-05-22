@@ -72,5 +72,7 @@ public class Hand : MonoBehaviour
         bullet.transform.rotation = Quaternion.Euler(0, 0, angle-90);
 
         bullet.GetComponent<Bullet>().SetDirection(fireDirection);
+        if (MainSoundManager.instance != null)
+            MainSoundManager.instance.PlaySFX("Pistol");
     }
 }
