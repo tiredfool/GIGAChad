@@ -497,6 +497,12 @@ public class PlayerController : MonoBehaviour
                 GameManager.instance.AddScore(1);  // GameManager에서 얻은 코인 개수 1개 증가
             }
 
+            if (MainSoundManager.instance != null)
+            {
+                MainSoundManager.instance.PlaySFX("Coin");
+                Debug.Log("코인 사운드 재생");
+            }
+
             Destroy(collision.gameObject);  // 코인 제거
         }
 
