@@ -32,6 +32,8 @@ public class SettingUI : MonoBehaviour
                 Time.timeScale = 1f;
             }
         }
+
+        
     }
 
 
