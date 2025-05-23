@@ -48,7 +48,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 16
+  spritePixelsToUnits: 32
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -113,19 +113,19 @@ TextureImporter:
       name: Boss_sprite_0
       rect:
         serializedVersion: 2
-        x: 31
-        y: 251
-        width: 99
-        height: 148
+        x: 42
+        y: 347
+        width: 138
+        height: 207
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 83dbfabbc8864034eb63beb86febb593
-      internalID: 1515768900
+      spriteID: d4fa95184f5f9d347a6cc04c22a1074d
+      internalID: -248499612
       vertices: []
       indices: 
       edges: []
@@ -134,19 +134,19 @@ TextureImporter:
       name: Boss_sprite_1
       rect:
         serializedVersion: 2
-        x: 244
-        y: 251
-        width: 101
-        height: 147
+        x: 339
+        y: 346
+        width: 138
+        height: 207
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 84213ec0985ee6042a31d67b7d0bfc15
-      internalID: -1523111660
+      spriteID: 29a9162e5c9c2df4993724f32aa31dd7
+      internalID: -407709680
       vertices: []
       indices: 
       edges: []
@@ -155,19 +155,19 @@ TextureImporter:
       name: Boss_sprite_2
       rect:
         serializedVersion: 2
-        x: 429
-        y: 251
-        width: 99
-        height: 148
+        x: 595
+        y: 347
+        width: 138
+        height: 207
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c6f7587a46ff4d94c92c53f956fc35d3
-      internalID: -1056047823
+      spriteID: 01f78af6764d0144fbedb53ff1cdf5fd
+      internalID: -1020461061
       vertices: []
       indices: 
       edges: []
@@ -176,19 +176,19 @@ TextureImporter:
       name: Boss_sprite_4
       rect:
         serializedVersion: 2
-        x: 31
-        y: 39
-        width: 83
-        height: 148
+        x: 43
+        y: 54
+        width: 138
+        height: 207
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f3a4d0271e8a1fb4ba16daab0c98f50b
-      internalID: -958962995
+      spriteID: 3a0b2cee4d822b649b2470a25d8c85fb
+      internalID: -1017954653
       vertices: []
       indices: 
       edges: []
@@ -197,19 +197,19 @@ TextureImporter:
       name: Boss_sprite_5
       rect:
         serializedVersion: 2
-        x: 222
-        y: 39
-        width: 111
-        height: 147
+        x: 307
+        y: 78
+        width: 155
+        height: 180
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c21d82e40f9912e4a80fe87ed3de43d8
-      internalID: -1319505181
+      spriteID: 68949b4928f2c62499feaf1a0f8944f7
+      internalID: -766008591
       vertices: []
       indices: 
       edges: []
@@ -218,19 +218,19 @@ TextureImporter:
       name: Boss_sprite_6
       rect:
         serializedVersion: 2
-        x: 421
-        y: 38
-        width: 108
-        height: 147
+        x: 583
+        y: 79
+        width: 150
+        height: 178
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c8c5fbe5203c6a149b4be836ae3eb618
-      internalID: 262744665
+      spriteID: e6d6534483ba37c499f06af342d43ccd
+      internalID: -500207193
       vertices: []
       indices: 
       edges: []
@@ -246,13 +246,13 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Boss_sprite_0: 1515768900
-      Boss_sprite_1: -1523111660
-      Boss_sprite_2: -1056047823
-      Boss_sprite_3: 721765034
-      Boss_sprite_4: -958962995
-      Boss_sprite_5: -1319505181
-      Boss_sprite_6: 262744665
+      Boss_sprite_0: -248499612
+      Boss_sprite_1: -407709680
+      Boss_sprite_2: -1020461061
+      Boss_sprite_3: 1157787711
+      Boss_sprite_4: -1017954653
+      Boss_sprite_5: -766008591
+      Boss_sprite_6: -500207193
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -145,7 +145,7 @@ public class Stage2Manager : MonoBehaviour
             {
                 bossBig.SetActive(true);
                 Vector3 pos = bossBig.transform.position;
-                bossBig.transform.position = new Vector3(pos.x, player.transform.position.y + 1f, pos.z);
+                bossBig.transform.position = new Vector3(pos.x, player.transform.position.y + 0.1f, pos.z);
             }
 
             isSpawning = true;
