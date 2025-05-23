@@ -15,6 +15,7 @@ public class PlayerController : MonoBehaviour
     public float health = 100f;
     public float damageCooldown = 0.5f; // 피격 무적 시간
     public float knockbackVerticalSpeed = 5f; // 수직 넉백 속도
+    public float someHorizontalKnockbackForce = 1f;//수평 넉백 힘
     public float blinkDuration = 0.1f; // 깜빡이는 간격
     public int blinkCount = 5; // 깜빡이는 횟수
     public float inputDisableDuration = 0.3f; // 입력 막는 시간
@@ -128,34 +129,33 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
-        // GameManager 인스턴스가 없는 경우 (씬 로드 직후 등) 예외 처리
+      
         if (GameManager.instance == null) return;
 
-        // 현재 플레이어 상호작용 상태
+       
         bool currentPlayerInteractionEnabled = GameManager.instance.IsPlayerInteractionEnabled();
-
-        // ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
-        // 플레이어 움직임 제어 로직 (주요 수정 부분)
-        // inputDisabledTime, isTalking, isStackGameMode, 그리고 GameManager의 상호작용 상태를 모두 고려
-        // ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
-        bool shouldDisableMovement = (Time.time < inputDisabledTime) || isTalking || isStackGameMode || !currentPlayerInteractionEnabled;
+        bool disableInputByTime = (Time.time < inputDisabledTime);
+        bool shouldDisableMovement = disableInputByTime || isTalking || isStackGameMode || !currentPlayerInteractionEnabled;
 
         if (shouldDisableMovement)
         {
-            // 움직임이 비활성화되는 순간 Y 위치 고정 시작
-            if (wasPlayerInteractionEnabled && !currentPlayerInteractionEnabled) // 방금 비활성화 상태가 된 경우
+           
+            if (disableInputByTime && isTakingDamage)
             {
-                fixedYPosition = transform.position.y;
-                rb.gravityScale = 0f; // 중력 0으로 설정하여 떨어지지 않도록
-                rb.velocity = Vector2.zero; // 모든 속도 초기화 (특히 Y 속도)
-                Debug.Log($"[PlayerController] Y 위치 고정 시작. 고정 Y: {fixedYPosition}");
+                rb.velocity = new Vector2(0, rb.velocity.y);
             }
-
-            // Y 고정 적용
-            transform.position = new Vector3(transform.position.x, fixedYPosition, transform.position.z);
-            rb.velocity = new Vector2(0, rb.velocity.y); // 수평 속도도 0으로 (컨베이어 영향 제외)
-
-            // 발소리 중지 (이미 잘 처리되어 있지만, 재확인)
+            else // 그 외의 입력 비활성화
+            {    
+                if (wasPlayerInteractionEnabled && !currentPlayerInteractionEnabled)
+                {
+                    fixedYPosition = transform.position.y;
+                    rb.gravityScale = 0f;
+                    rb.velocity = Vector2.zero;
+                    Debug.Log($"[PlayerController] Y 위치 고정 시작. 고정 Y: {fixedYPosition}");
+                }
+                transform.position = new Vector3(transform.position.x, fixedYPosition, transform.position.z);
+                rb.velocity = new Vector2(0, rb.velocity.y);
+            }
             if (isPlayingFootstepSound)
             {
                 isPlayingFootstepSound = false;
@@ -174,9 +174,9 @@ public class PlayerController : MonoBehaviour
             animator.ResetTrigger("TakeDamage");
 
             wasPlayerInteractionEnabled = currentPlayerInteractionEnabled; // 상태 업데이트
-            return; // 이후 이동 로직을 더 이상 실행하지 않음
+            return; 
         }
-        else // 플레이어 상호작용이 활성화된 경우
+        else 
         {
             // 움직임이 다시 활성화되는 순간 Y 위치 고정 해제
             if (!wasPlayerInteractionEnabled && currentPlayerInteractionEnabled) // 방금 활성화 상태가 된 경우
@@ -186,14 +186,9 @@ public class PlayerController : MonoBehaviour
             }
 
             wasPlayerInteractionEnabled = currentPlayerInteractionEnabled; // 상태 업데이트
-
-            // ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
-            // 기존 플레이어 이동 로직 (이하 그대로 유지하거나 약간 수정)
-            // ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
             wasGrounded = isGrounded; // 직전 Grounded 상태 저장
             isGrounded = IsGrounded();
 
-            // 착지 시 이펙트 발생
             if (!wasGrounded && isGrounded)
             {
                 if (jumpDustEffect != null && dustPoint != null)
@@ -312,7 +307,7 @@ public class PlayerController : MonoBehaviour
         }
         if ((collision.gameObject.CompareTag("Spike") || collision.gameObject.CompareTag("Enemy")) && (Time.time - lastDamageTime > damageCooldown) && !isTakingDamage && !died)
         {
-            TakeDamage();
+            TakeDamage(collision.transform.position);
         }
         isGrounded = IsGrounded();
     }
@@ -340,13 +335,13 @@ public class PlayerController : MonoBehaviour
             }
             else
             {
-                TakeDamage();
+                TakeDamage(collision.transform.position);
             }
         }
 
         if (collision.gameObject.CompareTag("Spike"))
         {
-            TakeDamage();
+            TakeDamage(collision.transform.position);
         }
     }
 
@@ -359,17 +354,22 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public void TakeDamage()
+    public void TakeDamage(Vector2 enemyPosition) 
     {
         if (Time.time - lastDamageTime > damageCooldown && !isTakingDamage && !isStackGameMode && !died)
         {
             health -= 10;
             Debug.Log("Player Health: " + health);
-            if (DialogueManager.instance != null) // DialogueManager 인스턴스 확인
+            if (DialogueManager.instance != null)
             {
                 DialogueManager.instance.SetHealth(health);
             }
-            rb.velocity = new Vector2(rb.velocity.x, knockbackVerticalSpeed);
+
+            // 수평 넉백 방향 계산 (적에게서 멀어지는 방향)
+            float knockbackDirection = (transform.position.x > enemyPosition.x) ? 1 : -1;            
+            Vector2 knockbackForce = new Vector2(knockbackDirection * someHorizontalKnockbackForce, knockbackVerticalSpeed);
+            rb.AddForce(knockbackForce, ForceMode2D.Impulse);
+
             inputDisabledTime = Time.time + inputDisableDuration;
 
             animator.SetTrigger("TakeDamage");
@@ -392,6 +392,44 @@ public class PlayerController : MonoBehaviour
             StartCoroutine(BlinkEffect());
         }
     }
+
+    public void TakeDamage()
+    {
+
+        if (Time.time - lastDamageTime > damageCooldown && !isTakingDamage && !isStackGameMode && !died)
+        {
+            health -= 10;
+            Debug.Log("Player Health: " + health);
+            if (DialogueManager.instance != null)
+            {
+                DialogueManager.instance.SetHealth(health);
+            }
+
+            rb.AddForce(Vector2.up * knockbackVerticalSpeed, ForceMode2D.Impulse); // 수직 넉백만 적용
+
+            inputDisabledTime = Time.time + inputDisableDuration;
+
+            animator.SetTrigger("TakeDamage");
+
+            lastDamageTime = Time.time;
+            if (health <= 0)
+            {
+                if (isPlayingFootstepSound)
+                {
+                    isPlayingFootstepSound = false;
+                    StopCoroutine("PlayFootstepSound");
+                    if (MainSoundManager.instance != null)
+                    {
+                        MainSoundManager.instance.StopSFX("Footstep");
+                    }
+                }
+                Die();
+            }
+
+            StartCoroutine(BlinkEffect());
+        }
+    }
+
 
     IEnumerator BlinkEffect()
     {
@@ -549,8 +587,7 @@ public class PlayerController : MonoBehaviour
     {
         Debug.Log("리셋 시작!");
 
-        // 1. 화면을 즉시 완전히 검게 만듭니다.
-        // DialogueManager가 DontDestroyOnLoad 되어 있어야 씬 로드 후에도 유지됩니다.
+        
         if (DialogueManager.instance != null)
         {
             DialogueManager.instance.setBlack();
@@ -559,38 +596,32 @@ public class PlayerController : MonoBehaviour
         else
         {
             Debug.LogError("DialogueManager 인스턴스를 찾을 수 없습니다! 화면을 검게 만들 수 없습니다.");
-            // 오류 발생 시에도 게임이 멈추지 않도록 로드 진행
+           
         }
 
-        // 2. GameManager UI를 미리 업데이트하여 라이프가 올바르게 보이도록 합니다.
-        // (선택 사항이지만, 씬 로딩 전에 UI를 먼저 갱신하는 것이 더 자연스러울 수 있습니다.)
+        
         if (GameManager.instance != null)
         {
             GameManager.instance.UpdateLifeUI();
         }
 
-        // 3. 씬 로드를 비동기로 시작하고 완료될 때 콜백을 받습니다.
+       
         SceneManager.LoadSceneAsync(0).completed += (AsyncOperation operation) =>
         {
             Debug.Log("씬 로드 완료: " + operation.isDone);
 
-            // 씬 로드 후 필요한 모든 초기화 작업
+           
             if (GameManager.instance != null)
             {
                 if (GameManager.instance.stageIndex < GameManager.instance.startPositions.Length)
                 {
-                    // 플레이어 체력 초기화
-                    health = 100f;
-                    // 데미지 받는 상태 초기화 (PlayerController 내 변수)
-                    // isTakingDamage = false; // 이 변수가 PlayerController에 있다면 주석 해제
+                  
+                     health = 100f;
+                     isTakingDamage = false;
 
-                    // DialogueManager의 죽음 메시지 초기화
                     if (DialogueManager.instance != null)
                     {
                         DialogueManager.instance.diedText.text = "";
-                        // Scene 로드 후 DialogueManager 인스턴스는 유지되므로,
-                        // setBlack()을 여기서 다시 호출할 필요는 없습니다. 이미 검은색 상태입니다.
-                        // DialogueManager.instance.setBlack(); // 이 줄은 제거하거나 주석 처리
                     }
 
                     GameManager.instance.FindPlayer();
@@ -603,11 +634,9 @@ public class PlayerController : MonoBehaviour
                         DialogueManager.instance.SetHealth(health); // DialogueManager의 체력 UI 업데이트
                     }
                 }
-                // GameManager의 라이프 UI 최종 업데이트
                 GameManager.instance.UpdateLifeUI();
             }
 
-            // TimeScale을 다시 1로 설정하여 게임 시간을 재개합니다.
             Time.timeScale = 1;
 
             // BGM 변경
@@ -615,16 +644,9 @@ public class PlayerController : MonoBehaviour
             {
                 MainSoundManager.instance.ChangeBGM("Basic");
             }
-            else
-            {
-                Debug.LogWarning("MainSoundManager 인스턴스를 찾을 수 없습니다.");
-            }
 
-            // 4. 모든 초기화가 끝난 후, 화면을 서서히 밝아지게 합니다.
             if (DialogueManager.instance != null)
             {
-                // FadeFromBlack 호출 시, 콜백을 통해 이후 처리를 연결할 수 있습니다.
-                // 현재는 더 이상의 후속 작업이 없으므로 콜백을 생략합니다.
                 DialogueManager.instance.FadeFromBlack();
                 Debug.Log("화면을 밝게 전환 시작했습니다.");
             }
@@ -676,14 +698,10 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    // GameManager에서 호출하여 플레이어 이동을 제어할 함수 (기존 로직과 중복되지 않도록 변경)
-    // 이 함수는 단순히 isPlayerInteractionEnabled 값에 따라 로직을 실행하는 트리거 역할만 합니다.
+    
     public void SetCanMove(bool state)
     {
-        // GameManager의 IsPlayerInteractionEnabled()가 직접 사용되므로, 이 함수는 
-        // 단순히 호출될 때 관련된 디버그 로그나 애니메이션 세팅을 처리하는 데 사용할 수 있습니다.
-        // 실제 이동 가능 여부는 FixedUpdate에서 GameManager의 상태를 직접 확인하여 제어됩니다.
-        Debug.Log($"PlayerController: SetCanMove 호출됨 -> {state}");
+      
         if (state)
         {
             // 움직임 활성화 시 애니메이터 초기화
