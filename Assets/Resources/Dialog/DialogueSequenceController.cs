@@ -1,11 +1,20 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.Events; // UnityEvent를 사용하기 위해 추가
 
 [System.Serializable]
 public class DialogueSequence
 {
     public string startId;
     public string endId;
+}
+
+// 특정 대화 ID에 연결될 이벤트를 위한 구조체
+[System.Serializable]
+public class DialogueActionEvent
+{
+    public string dialogueId; // 이 ID에 도달했을 때 이벤트를 발생시킵니다.
+    public UnityEvent onDialogueIdReached; // 이 ID에 도달했을 때 호출될 UnityEvent
 }
 
 public class DialogueSequenceController : MonoBehaviour
@@ -15,6 +24,9 @@ public class DialogueSequenceController : MonoBehaviour
     public DialogueSequence postCameraDialogue;
     private bool isCameraSequenceActive = false;
     private DialogueManager dialogueManager;
+
+    // 🚨 특정 대화 ID에 따라 실행될 이벤트 목록
+    public DialogueActionEvent[] dialogueActions;
 
     void Start()
     {
@@ -39,10 +51,21 @@ public class DialogueSequenceController : MonoBehaviour
     // DialogueManager에서 현재 ID를 받아 트리거 여부 확인
     public void CheckDialogueEnd(string currentDialogueId)
     {
+        // 카메라 전환 로직 (기존 코드)
         if (isCameraSequenceActive && !string.IsNullOrEmpty(cameraTriggerEndId) && currentDialogueId == cameraTriggerEndId && cameraController != null && !cameraController.IsMoving)
         {
             Debug.Log($"{gameObject.name}: 대화 ID '{cameraTriggerEndId}' 도달, 카메라 이동 시작");
             StartCoroutine(HandleCameraMovement());
+        }
+
+        // 🚨 특정 대화 ID 도달 시 이벤트 실행 로직 추가
+        foreach (var action in dialogueActions)
+        {
+            if (currentDialogueId == action.dialogueId)
+            {
+                Debug.Log($"대화 ID '{action.dialogueId}'에 도달하여 등록된 이벤트를 호출합니다.");
+                action.onDialogueIdReached?.Invoke(); // 등록된 모든 함수 호출
+            }
         }
     }
 
@@ -50,22 +73,17 @@ public class DialogueSequenceController : MonoBehaviour
     {
         dialogueManager.EndDialogue();
 
-        // 🔴 여기를 수정합니다. StartCameraTransition()은 이제 void를 반환하므로 StartCoroutine()으로 감쌀 필요가 없습니다.
-        // 그리고 카메라 전환이 완료될 때까지 기다리려면 cameraController.IsMoving 상태를 확인해야 합니다.
         if (cameraController != null)
         {
-            cameraController.StartCameraTransition(); // 카메라 전환 시작
+            cameraController.StartCameraTransition();
         }
 
-        // 🔴 카메라 이동이 완료될 때까지 대기
-        // cameraController.IsMoving은 cameraController 내부의 코루틴이 끝날 때 false가 됩니다.
         while (cameraController != null && cameraController.IsMoving)
         {
             Debug.Log("카메라 이동 중... 대화 시작 대기");
-            yield return null; // 한 프레임 대기
+            yield return null;
         }
 
-        // 카메라 전환 후 추가 대기 (선택 사항)
         yield return new WaitForSecondsRealtime(1f);
 
         Debug.Log("카메라 이동 완료, 다음 대화 시작");
@@ -80,4 +98,6 @@ public class DialogueSequenceController : MonoBehaviour
     {
         dialogueManager.StartDialogueByIdRange(startId, endId);
     }
+
+    
 }

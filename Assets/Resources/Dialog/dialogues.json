@@ -319,6 +319,7 @@
       "standingPosition": "left"
     },
     {
+       "id" : "1M-s",
       "npcName": "???",
       "portraitName": "Q",
       "fontSize": 70,
@@ -333,6 +334,7 @@
       "standingPosition": "left"
     },
     {
+     
       "npcName": "???",
       "portraitName": "Q",
       "fontSize": 70,
@@ -348,6 +350,7 @@
       "shakeScreen": true
     },
     {
+      "id" : "1M-e",
       "npcName": "만삣삐",
       "portraitName": "Player",
       "fontSize": 70,
@@ -356,12 +359,16 @@
       "standingPosition": "left"
     },
     {
+      "id" : "1M-2s",
       "npcName": "흑형",
-      "portraitName": "Blackman",
+      "portraitName": "ChickenMan",
       "fontSize": 70,
-      "dialogue": "damn... 이걸로 넘어가지 않을꺼야 만삣삐! i'll be back!"
+      "dialogue": "damn... 이걸로 넘어가지 않을꺼야 만삣삐! i'll be back!",
+      "standingImage": "ChickenMan",
+      "standingPosition": "right"
     },
     {
+      "id" : "1M-2e",
       "npcName": "기가차드",
       "portraitName": "Gigachard",
       "fontSize": 60,
@@ -370,10 +377,73 @@
       "standingPosition": "right"
     },
     {
-      "npcName": "흑형",
-      "portraitName": "Blackman",
+      "id" : "1B-s",
+      "npcName": "만삣삐",
+      "portraitName": "Player",
       "fontSize": 70,
-      "dialogue": "yo! 여기까지 왔군 만삣삐! 나의 모든 것을 다 보여주겠어!"
+      "dialogue": "기가차드..여긴..?",
+      "standingImage": "pepeStand",
+      "standingPosition": "left"
+    },
+     {
+      "npcName": "기가차드",
+      "portraitName": "Gigachard",
+      "fontSize": 60,
+      "dialogue": "여긴 너의 다이어트를 도와줄 곳이야 만삣삐.",
+      "standingImage": "chardStand",
+      "standingPosition": "right"
+    },
+      {
+      "npcName": "기가차드",
+      "portraitName": "Gigachard_ex",
+      "fontSize": 60,
+      "dialogue": "바로 런닝머신!",
+      "standingImage": "chardStand",
+      "shakeScreen": true,
+      "standingPosition": "right"
+    },
+    {    
+      "npcName": "???",
+      "portraitName": "Q",
+      "fontSize": 70,
+      "dialogue": "후후후.. "
+    },
+    {
+      "npcName": "흑형",
+      "portraitName": "ChickenMan",
+      "fontSize": 70,
+      "dialogue": "yo! 여기까지 왔군 삣삐! 나의 모든 것을 다 보여주겠어!",
+      "standingImage": "ChickenMan",
+      "standingPosition": "right",
+      "shakeScreen": true
+    },
+    {
+     
+      "npcName": "흑형",
+      "portraitName": "ChickenMan",
+      "fontSize": 70,
+      "dialogue": "Chicken의 유혹을 이길수 있을까 Man삣삐?!",
+      "standingImage": "ChickenMan",
+      "standingPosition": "right",
+      "shakeScreen": true
+    },
+    {
+      "id" : "1B-e",
+      "npcName": "만삣삐",
+      "portraitName": "Player",
+      "fontSize": 70,
+      "dialogue": "히이익..! 도.. 도망쳐야..",
+      "standingImage": "pepeStand",
+      "standingPosition": "left"
+    },
+     {
+      "id" : "1B-2s",
+      "npcName": "기가차드",
+      "portraitName": "Gigachard",
+      "fontSize": 60,
+      "dialogue": "안되 만삣삐! 저건 너의 이곳에서 도망치지마!!",
+      "standingImage": "chardStand",
+      "standingPosition": "right"
     },
     {
       "npcName": "기가차드",
@@ -383,13 +453,34 @@
       "standingImage": "chardStand",
       "standingPosition": "right"
     },
-    {
-      "npcName": "흑형",
-      "portraitName": "Blackman",
-      "fontSize": 70,
-      "dialogue": "크아아아악!!!! 내가...내가...!"
+     {
+      "id" : "1B-2e",
+      "npcName": "기가차드",
+      "portraitName": "Gigachard",
+      "fontSize": 60,
+      "dialogue": "유혹을 피하며 RUN!!!",
+      "standingImage": "chardStand",
+      "standingPosition": "right"
     },
     {
+      "id" : "1B-3s",
+      "npcName": "흑형",
+      "portraitName": "ChickenMan",
+      "fontSize": 70,
+      "dialogue": "크아아아악!!!! 내가...내가...!",
+      "standingImage": "ChickenMan",
+      "standingPosition": "right",
+      "shakeScreen": true
+    },
+       {
+      "id" : "1B-3e",
+      "npcName": "흑형",
+      "portraitName": "ChickenMan",
+      "fontSize": 70,
+      "dialogue": "이럴수는!!!",
+      "shakeScreen": true
+    },
+    {"id" : "1B-4s",
       "npcName": "기가차드",
       "portraitName": "Gigachard",
       "fontSize": 60,
@@ -406,6 +497,7 @@
       "standingPosition": "left"
     },
     {
+      "id" : "1B-4e",
       "npcName": "기가차드",
       "portraitName": "Gigachard",
       "fontSize": 60,
