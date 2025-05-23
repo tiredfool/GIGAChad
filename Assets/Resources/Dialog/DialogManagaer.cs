@@ -690,4 +690,33 @@ public class DialogueManager : MonoBehaviour
             isBlackBoxActive = true;
         }
     }
+    public void Flash(Action onComplete = null)
+    {
+        if (blackBoxImage == null)
+        {
+            Debug.LogError("blackBoxImage가 초기화되지 않았습니다. Flash를 호출할 수 없습니다.");
+            onComplete?.Invoke();
+            return;
+        }
+
+        // 기존 페이드 코루틴이 있다면 중지
+        if (currentBlackFadeCoroutine != null)
+        {
+            StopCoroutine(currentBlackFadeCoroutine);
+        }
+
+        // blackBox를 활성화하고 흰색으로 설정
+        blackBox.SetActive(true);
+        blackBoxImage.sprite = null; // 스프라이트가 있다면 지워줍니다.
+        blackBoxImage.color = new Color(1f, 1f, 1f, 1f); // 완전 불투명한 흰색
+
+        // 흰색에서 완전히 투명해지는 페이드 아웃 코루틴 시작
+        currentBlackFadeCoroutine = StartCoroutine(FadeCoroutine(1f, 0f, () => {
+            // 페이드 아웃 완료 후 비활성화
+            blackBox.SetActive(false);
+            // 원래 색상으로 되돌리기 (다음 검은색 페이드인 등을 위해)
+            blackBoxImage.color = originalBlackBoxColor;
+            onComplete?.Invoke();
+        }));
+    }
 }

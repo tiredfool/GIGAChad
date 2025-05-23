@@ -103,6 +103,7 @@ public class SpriteFader : MonoBehaviour
         }
         spriteRenderer.material.SetColor(_COLOR_PROP, targetColor); // 완전히 보이게 고정 (알파 1)
         Debug.Log("SpriteFader: FadeIn 완료.");
+       
     }
 
     // 스프라이트가 하얗게 변했다가 위에서부터 사라지게 함 (새로운 기능)
@@ -131,33 +132,7 @@ public class SpriteFader : MonoBehaviour
         }
         spriteRenderer.material.SetFloat(_FADE_AMOUNT_PROP, 1f); // 완전히 하얗게 고정
         Debug.Log("SpriteFader: 흰색으로 페이드 완료.");
+       
 
-
-        // 2. 위에서부터 아래로 사라지는 와이프 아웃
-        elapsed = 0f; // 시간 초기화
-
-        // 와이프 아웃 시작 시 _Color의 알파는 여전히 1 (불투명)으로 유지
-        // 쉐이더의 _WipeAmount가 알파를 제어하므로 _Color의 알파는 건드릴 필요 없음.
-
-        while (elapsed < wipeOutDuration)
-        {
-            elapsed += Time.deltaTime;
-            float progress = Mathf.Clamp01(elapsed / wipeOutDuration);
-            // _WipeAmount 0 -> 1 (0: 모두 보임, 1: 모두 사라짐)
-            // 쉐이더에서 i.uv.y < _WipeAmount 이면 사라지므로, 
-            // progress가 0일 때는 (y가 0보다 작은 부분만 사라지므로) 거의 모두 보이고,
-            // progress가 1일 때는 (y가 1보다 작은 모든 부분이 사라지므로) 모두 사라집니다.
-            spriteRenderer.material.SetFloat(_WIPE_AMOUNT_PROP, progress);
-            yield return null;
-        }
-        spriteRenderer.material.SetFloat(_WIPE_AMOUNT_PROP, 1f); // 완전히 사라짐
-        Debug.Log("SpriteFader: 와이프 아웃 완료.");
-
-        // 완전히 사라진 후 _Color의 알파값도 0으로 명시적으로 설정 (선택 사항)
-        // Destroy(fader.gameObject)가 호출되므로 필요 없을 수도 있습니다.
-        Color finalTransparentColor = new Color(1, 1, 1, 0);
-        spriteRenderer.material.SetColor(_COLOR_PROP, finalTransparentColor);
-
-        // 이 스크립트가 붙은 GameObject를 파괴하는 것은 BossManager에서 담당합니다.
     }
 }

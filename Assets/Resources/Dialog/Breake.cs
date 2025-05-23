@@ -18,4 +18,8 @@ public class Breake : MonoBehaviour
     public void BROKE() {
         Destroy(gameObject);
     }
+    public void ON()
+    {
+        this.gameObject.SetActive(true);
+    }
 }

@@ -1,17 +1,17 @@
 {
   "dialogues": [
     {
-      "id": "1_s",
+      "id": "2_s",
       "dialogueType": "black",
-      "dialogue": "난 어릴적에는 잠재력이 넘치는 아이였다.",
+      "dialogue": "난 어릴적에는\n잠재력이 넘치는 아이였다.",
       "fontSize": 48,
-      "blackBoxDuration": 2
+      "blackBoxDuration": 3.3
     },
     {
       "dialogueType": "black",
-      "dialogue": "부모님부터 해서 주위 사람들은 나에게 천재나 신동이라는 이야기를 했다",
+      "dialogue": "부모님부터 주위 사람들은\n나에게 천재나 신동이라는 이야기를 했다",
       "fontSize": 48,
-      "blackBoxDuration": 2
+      "blackBoxDuration": 3.3
     },
     {
       "dialogueType": "black",
@@ -21,23 +21,29 @@
     },
     {
       "dialogueType": "black",
-      "dialogue": "나의 성장은 시간이 지나면서 점점 막히고",
+      "dialogue": "나의 성장은\n시간이 지나면서 더뎌졌고",
       "fontSize": 48,
-      "blackBoxDuration": 2
+      "blackBoxDuration": 2.5
     },
     {
       "dialogueType": "black",
-      "dialogue": "대학을 졸업하고나서는 지금의 나는",
+      "dialogue": "대학을 졸업하고나서는\n지금의 나는",
       "fontSize": 48,
-      "blackBoxDuration": 2
+      "blackBoxDuration": 2.5
     },
     {
       "dialogueType": "black",
-      "dialogue": "하나의 히키코모리가 되어 방안에 쓸쓸히 있을 뿐이었다.",
+      "dialogue": "하나의 히키코모리가 되어",
       "fontSize": 48,
-      "blackBoxDuration": 2
+      "blackBoxDuration": 2.5
     },
     {
+      "dialogueType": "black",
+      "dialogue": "방안에 쓸쓸히 있을 뿐이다.",
+      "fontSize": 48,
+      "blackBoxDuration": 2.2
+    },
+     {
       "id": "1_e",
       "dialogueType": "black",
       "dialogue": "",
@@ -45,7 +51,7 @@
       "blackBoxDuration": 0
     },
     {
-      "id": "2_s",
+      
       "npcName": "만삣삐",
       "portraitName": "Player",
       "fontSize": 70,
@@ -122,8 +128,8 @@
     {
       "npcName": "만삣삐",
       "portraitName": "Player",
-      "fontSize": 70,
-      "dialogue": "또 새로운 하루가 시작되었어.",
+      "fontSize": 55,
+      "dialogue": "또 새로운 하루가 시작되었어...",
      "standingImage": "pepeStand,chardStand",
       "standingPosition": "left,right",
       "backgroundImageName": "Room1"
@@ -159,7 +165,7 @@
       "id": "2_e",
       "npcName": "기가차드",
       "portraitName": "Gigachard_ex",
-      "fontSize": 60,
+      "fontSize": 80,
       "dialogue": "삣삐. 무브 유어 애즈!",
       "standingImage": "chardStand",
       "standingPosition": "right",
@@ -203,6 +209,7 @@
       "standingPosition": "left"
     },
     {
+      "id": "T-s",
       "npcName": "기가차드",
       "portraitName": "Gigachard",
       "fontSize": 60,
@@ -211,6 +218,7 @@
       "standingPosition": "right"
     },
     {
+      "id": "T-e",
       "npcName": "기가차드",
       "portraitName": "Gigachard",
       "fontSize": 60,
@@ -218,7 +226,8 @@
       "standingImage": "chardStand",
       "standingPosition": "right"
     },
-    {
+    { 
+      "id" : "T-2s",
       "npcName": "기가차드",
       "portraitName": "Gigachard",
       "fontSize": 60,
@@ -227,6 +236,7 @@
       "standingPosition": "right"
     },
     {
+      
       "npcName": "기가차드",
       "portraitName": "Gigachard",
       "fontSize": 60,
@@ -235,6 +245,7 @@
       "standingPosition": "right"
     },
     {
+      "id" : "T-2e",
       "npcName": "기가차드",
       "portraitName": "Gigachard",
       "fontSize": 60,
@@ -243,30 +254,42 @@
       "standingPosition": "right"
     },
     {
+      "id" : "T-3s",
       "npcName": "기가차드",
-      "portraitName": "Gigachard",
+      "portraitName": "Gigachard_ex",
       "fontSize": 60,
       "dialogue": "엑셀렌트, 만삣삐!",
       "standingImage": "chardStand",
       "standingPosition": "right"
     },
-    {
+     {
+      "id" : "T-3e",
       "npcName": "기가차드",
       "portraitName": "Gigachard",
       "fontSize": 60,
-      "dialogue": "저건 앞으로 계속해서 널 유혹에 빠트릴 아주 위험한 것들이야. 데인저러스 이블!",
+      "dialogue": "이제 앞으로 가보자!",
       "standingImage": "chardStand",
       "standingPosition": "right"
     },
     {
+      "id" : "T-4s",
       "npcName": "기가차드",
       "portraitName": "Gigachard",
       "fontSize": 60,
-      "dialogue": "그리고 너의 life가 제로가 된다면 넌 모든것을 give up하게 될거야, 만삣삐.",
+      "dialogue": "저건 앞으로 계속해서 널 유혹에 빠트릴 아주 위험한 것들이야",
       "standingImage": "chardStand",
       "standingPosition": "right"
     },
-    {
+     {
+      "id" : "T-4e",
+      "npcName": "기가차드",
+      "portraitName": "Gigachard",
+      "fontSize": 60,
+      "dialogue": " 데인저러스 이블!",
+      "standingImage": "chardStand",
+      "standingPosition": "right"
+    },
+     {
       "npcName": "기가차드",
       "portraitName": "Gigachard",
       "fontSize": 60,
@@ -274,6 +297,72 @@
       "standingImage": "chardStand",
       "standingPosition": "right"
     },
+     {
+      "npcName": "기가차드",
+      "portraitName": "Gigachard",
+      "fontSize": 60,
+      "dialogue": "But, Becareful.. 너의 Life가 0이 되면 넌 Give Up 하게돼.",
+      "standingImage": "chardStand",
+      "standingPosition": "right"
+    },
+    {
+      "id" : "T-5",
+      "npcName": "기가차드",
+      "portraitName": "Gigachard_ex",
+      "fontSize": 60,
+      "dialogue": "이제 가서 처리해!",
+      "standingImage": "chardStand",
+      "standingPosition": "right",
+      "shakeScreen": true
+    },
+     {
+      "id" : "T-6",
+      "npcName": "기가차드",
+      "portraitName": "Gigachard",
+      "fontSize": 60,
+      "dialogue": " 그리고 저건 코인이야\n 저것들을 모아야 앞으로 나아갈 수 있어",
+      "standingImage": "chardStand",
+      "standingPosition": "right"
+    },
+     {
+      "id" : "T-7",
+      "npcName": "기가차드",
+      "portraitName": "Gigachard",
+      "fontSize": 60,
+      "dialogue": " It's Shining thig!",
+      "standingImage": "chardStand",
+      "standingPosition": "right"
+    },
+     {
+      "id" : "T-8",
+      "npcName": "기가차드",
+      "portraitName": "Gigachard",
+      "fontSize": 60,
+      "dialogue": "가서 먹어봐!",
+      "standingImage": "chardStand",
+      "standingPosition": "right"
+    },
+     {
+      "id" : "T-9",
+      "npcName": "기가차드",
+      "portraitName": "Gigachard",
+      "fontSize": 60,
+      "dialogue": "좋아 잘했어.. 이제 앞으로 나아가서 우리들의 이야기를 시작하는거야..",
+      "standingImage": "chardStand",
+      "standingPosition": "right"
+    },
+     {
+      "id" : "T-10",
+      "npcName": "기가차드",
+      "portraitName": "Gigachard_ex",
+      "fontSize": 60,
+      "dialogue": "LET'S GO! 만삣삐!!!",
+      "standingImage": "chardStand",
+      "standingPosition": "right",
+       "shakeScreen": true
+    },
+   
+   
     {
       "id": "3_s",
       "npcName": "기가차드",

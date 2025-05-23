@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.Events; // UnityEvent를 사용하기 위해 추가
+using System.Collections.Generic; //
 
 [System.Serializable]
 public class DialogueSequence
@@ -25,8 +26,9 @@ public class DialogueSequenceController : MonoBehaviour
     private bool isCameraSequenceActive = false;
     private DialogueManager dialogueManager;
 
-    // 🚨 특정 대화 ID에 따라 실행될 이벤트 목록
+    
     public DialogueActionEvent[] dialogueActions;
+    private List<string> executedDialogueActionIds = new List<string>();
 
     void Start()
     {
@@ -61,14 +63,31 @@ public class DialogueSequenceController : MonoBehaviour
         // 🚨 특정 대화 ID 도달 시 이벤트 실행 로직 추가
         foreach (var action in dialogueActions)
         {
+            // ✨ 이미 실행된 액션인지 확인
+            if (executedDialogueActionIds.Contains(action.dialogueId))
+            {
+                // 이미 실행된 액션이면 건너뜁니다.
+                continue;
+            }
+
             if (currentDialogueId == action.dialogueId)
             {
                 Debug.Log($"대화 ID '{action.dialogueId}'에 도달하여 등록된 이벤트를 호출합니다.");
                 action.onDialogueIdReached?.Invoke(); // 등록된 모든 함수 호출
+
+                executedDialogueActionIds.Add(action.dialogueId);
+              
             }
         }
     }
-
+    public void MoveCam()
+    {
+        if (isCameraSequenceActive && !string.IsNullOrEmpty(cameraTriggerEndId) &&  cameraController != null && !cameraController.IsMoving)
+        {
+            Debug.Log($"{gameObject.name}: 대화 ID '{cameraTriggerEndId}' 도달, 카메라 이동 시작");
+            StartCoroutine(HandleCameraMovement());
+        }
+    }
     private IEnumerator HandleCameraMovement()
     {
         dialogueManager.EndDialogue();
@@ -89,7 +108,7 @@ public class DialogueSequenceController : MonoBehaviour
         Debug.Log("카메라 이동 완료, 다음 대화 시작");
         if (!string.IsNullOrEmpty(postCameraDialogue.startId) && !string.IsNullOrEmpty(postCameraDialogue.endId))
         {
-            dialogueManager.StartDialogueByIdRange(postCameraDialogue.startId, postCameraDialogue.endId);
+            StartSpecificDialogue(postCameraDialogue.startId, postCameraDialogue.endId);
         }
         isCameraSequenceActive = false;
     }

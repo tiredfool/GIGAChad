@@ -187,6 +187,7 @@ public class BossManager : MonoBehaviour
         yield return fader.CoFadeOutWhiteWipe(); // SpriteFader의 새로운 코루틴 호출 및 완료 대기
 
         // 페이드 아웃이 완료된 후 GameObject 파괴
+        DialogueManager.instance.Flash();
         Destroy(fader.gameObject);
         Debug.Log("SpriteFader 객체 제거 완료");
         spriteFader = null; // 참조 해제
