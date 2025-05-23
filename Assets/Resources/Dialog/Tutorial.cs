@@ -6,8 +6,10 @@ using UnityEngine.Events;
 public class Tutorial : MonoBehaviour
 {
    
-    public KeyCode leftKey = KeyCode.W; // 기본값: 왼쪽 화살표 키
-    public KeyCode rightKey = KeyCode.D; // 기본값: 오른쪽 화살표 키
+    public KeyCode leftKey1 = KeyCode.A; // 기본값: 왼쪽 화살표 키
+    public KeyCode rightKey1 = KeyCode.D; // 기본값: 오른쪽 화살표 키
+    public KeyCode leftKey2 = KeyCode.LeftArrow; // 기본값: 왼쪽 화살표 키
+    public KeyCode rightKey2 = KeyCode.RightArrow; // 기본값: 오른쪽 화살표 키
     public KeyCode additionalKey = KeyCode.Space; // 기본값: 스페이스바
 
    
@@ -32,9 +34,11 @@ public class Tutorial : MonoBehaviour
 
     void CheckAllThreeKeysPressed()
     {
-        // 1. 좌 키, 우 키, 추가 키(스페이스바)가 모두 눌려있는지 확인
-        if (!isLeftKeyPressed) isLeftKeyPressed = Input.GetKey(leftKey);
-        if (!isRightKeyPressed) isRightKeyPressed = Input.GetKey(rightKey);
+      
+        if (!isLeftKeyPressed) isLeftKeyPressed = Input.GetKey(leftKey1);
+        if (!isRightKeyPressed) isRightKeyPressed = Input.GetKey(rightKey1);
+        if (!isLeftKeyPressed) isLeftKeyPressed = Input.GetKey(leftKey2);
+        if (!isRightKeyPressed) isRightKeyPressed = Input.GetKey(rightKey2);
         if (!isAdditionalKeyPressed && action1) isAdditionalKeyPressed = Input.GetKey(additionalKey);
 
         if (isLeftKeyPressed && isRightKeyPressed && !action1)

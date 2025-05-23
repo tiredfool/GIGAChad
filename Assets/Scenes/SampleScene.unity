@@ -4017,6 +4017,7 @@ MonoBehaviour:
   startDialogueId: 1B-s
   endDialogueId: 1B-e
   dialogueSequencer: {fileID: 1630709991}
+  distroy: 0
 --- !u!61 &85942944
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -21286,6 +21287,7 @@ MonoBehaviour:
   startDialogueId: 1_s_m_b
   endDialogueId: 1_s_m_e
   dialogueSequencer: {fileID: 0}
+  distroy: 0
 --- !u!1 &535540263
 GameObject:
   m_ObjectHideFlags: 0
@@ -22547,6 +22549,7 @@ MonoBehaviour:
   startDialogueId: 2_s_m_b
   endDialogueId: 2_s_m_e
   dialogueSequencer: {fileID: 0}
+  distroy: 0
 --- !u!61 &562749544
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -23619,6 +23622,7 @@ MonoBehaviour:
   startDialogueId: scene1_start
   endDialogueId: scene1_end
   dialogueSequencer: {fileID: 0}
+  distroy: 0
 --- !u!4 &611630732 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6907021136763220364, guid: 81494f9118c043d4bb6696bfdd6a1f7d, type: 3}
@@ -27467,11 +27471,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 355eeef4358a1ad438b547eb23928cb2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  leftKey: 276
-  rightKey: 275
+  leftKey1: 97
+  rightKey1: 100
+  leftKey2: 276
+  rightKey2: 275
   additionalKey: 32
   delayForDialogue1: 0.5
-  delayForDialogue2: 0.5
+  delayForDialogue2: 1
 --- !u!1001 &643022314
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -30503,7 +30509,7 @@ Transform:
   m_GameObject: {fileID: 754577235}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -22.06, y: -7.28697, z: 0.24956153}
+  m_LocalPosition: {x: -24.3, y: -7.28697, z: 0.24956153}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -41995,6 +42001,7 @@ MonoBehaviour:
   startDialogueId: T-9
   endDialogueId: T-10
   dialogueSequencer: {fileID: 0}
+  distroy: 0
 --- !u!61 &1068842523
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -42090,6 +42097,7 @@ MonoBehaviour:
   startDialogueId: black_start
   endDialogueId: black_end
   dialogueSequencer: {fileID: 0}
+  distroy: 0
 --- !u!4 &1070236646
 Transform:
   m_ObjectHideFlags: 0
@@ -43039,6 +43047,7 @@ MonoBehaviour:
   startDialogueId: T-s
   endDialogueId: T-e
   dialogueSequencer: {fileID: 0}
+  distroy: 0
 --- !u!61 &1139980136
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -50470,7 +50479,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1290050243
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -50488,6 +50497,7 @@ MonoBehaviour:
   startDialogueId: 2_s
   endDialogueId: 2_e
   dialogueSequencer: {fileID: 0}
+  distroy: 1
 --- !u!61 &1290050244
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -50542,7 +50552,7 @@ Transform:
   m_GameObject: {fileID: 1290050242}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -33.58, y: -6.42, z: -0.01141724}
+  m_LocalPosition: {x: -31.67, y: -5.67, z: -0.01141724}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -51378,6 +51388,7 @@ MonoBehaviour:
   startDialogueId: T-4s
   endDialogueId: T-4s
   dialogueSequencer: {fileID: 2127426943}
+  distroy: 0
 --- !u!61 &1348522811
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -51611,6 +51622,83 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &1357995710
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1357995711}
+  - component: {fileID: 1357995712}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1357995711
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1357995710}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 3.51, y: -0.11, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1951827672}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &1357995712
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1357995710}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 5, y: 2}
+  m_EdgeRadius: 0
 --- !u!1 &1358588307
 GameObject:
   m_ObjectHideFlags: 0
@@ -51836,6 +51924,7 @@ MonoBehaviour:
   startDialogueId: 3_s
   endDialogueId: 3_e
   dialogueSequencer: {fileID: 968681038}
+  distroy: 0
 --- !u!61 &1366454062
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -61188,6 +61277,7 @@ MonoBehaviour:
   startDialogueId: T-6
   endDialogueId: T-6
   dialogueSequencer: {fileID: 672823857}
+  distroy: 0
 --- !u!61 &1691266816
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -65303,6 +65393,7 @@ MonoBehaviour:
   startDialogueId: black_start
   endDialogueId: black_end
   dialogueSequencer: {fileID: 0}
+  distroy: 0
 --- !u!4 &1846491633
 Transform:
   m_ObjectHideFlags: 0
@@ -66349,6 +66440,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1599671875}
+  - {fileID: 1357995711}
   m_Father: {fileID: 2107391731}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!156049354 &1951827673
@@ -71284,6 +71376,7 @@ MonoBehaviour:
   startDialogueId: 1B-4s
   endDialogueId: 1B-4e
   dialogueSequencer: {fileID: 0}
+  distroy: 0
 --- !u!61 &2079426715
 BoxCollider2D:
   m_ObjectHideFlags: 0

@@ -222,7 +222,7 @@
       "npcName": "기가차드",
       "portraitName": "Gigachard",
       "fontSize": 60,
-      "dialogue": "우선 W키와 A키를 눌러서 left and right로 움직여봐",
+      "dialogue": "우선 D키와 A키를 혹은 화살표 좌우를 눌러서 left and right로 움직여봐",
       "standingImage": "chardStand",
       "standingPosition": "right"
     },

@@ -9,7 +9,7 @@ public class DialogueTrigger : MonoBehaviour
     public string endDialogueId;           // 종료 대사 ID
     private bool dialogueStarted = false;
     public DialogueSequenceController dialogueSequencer = null;
-
+    public bool distroy = false;
     void OnTriggerEnter2D(Collider2D other)
     {
      
@@ -26,7 +26,7 @@ public class DialogueTrigger : MonoBehaviour
                 DialogueManager.instance.StartDialogueByIdRange(startDialogueId, endDialogueId);
             }
             dialogueStarted = true;
-            //Destroy(gameObject);            //트리거 제거 (원하시면 이 줄은 주석 처리)
+            if(distroy)Destroy(gameObject);            //트리거 제거 (원하시면 이 줄은 주석 처리)
         }
     }
 
