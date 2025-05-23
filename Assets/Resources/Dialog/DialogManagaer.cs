@@ -45,15 +45,15 @@ public class DialogueManager : MonoBehaviour
 
     public Sprite diedMessageBackground;
     private bool died = false;
-   
-
 
     public float fadeDuration = 0.7f; // 배경이 완전히 투명해지는 데 걸리는 시간
     private Coroutine currentFadeCoroutine; // 현재 실행 중인 페이드 코루틴을 저장
 
-   
     private Image blackBoxImage; // blackBox에 붙어있는 Image 컴포넌트
     private Coroutine currentBlackFadeCoroutine; // 현재 진행 중인 페이드 코루틴 참조
+
+    // 화면 흔들림 코루틴의 참조를 저장할 변수 추가 (가장 중요)
+    private Coroutine currentScreenShakeCoroutine;
 
     void Awake()
     {
@@ -82,8 +82,6 @@ public class DialogueManager : MonoBehaviour
             }
             else
             {
-                // 시작 시 블랙박스 Image의 Alpha 값을 0으로 설정하여 투명하게 만듦 (필요에 따라)
-                // 만약 시작 시 블랙박스가 항상 꺼진 상태라면 BlackState(false)를 호출해도 됨.
                 originalBlackBoxColor = blackBoxImage.color;
                 Color C = blackBoxImage.color;
                 C.a = 0f;
@@ -95,7 +93,9 @@ public class DialogueManager : MonoBehaviour
         {
             Debug.LogError("DialogueManager에 blackBox GameObject가 할당되지 않았습니다!");
         }
-        originalBlackBoxColor = blackBoxImage.color; // 초기 색상 저장
+        // originalBlackBoxColor는 blackBoxImage가 할당된 후에 설정하는 것이 더 안전합니다.
+        // blackBoxImage가 null일 경우 오류가 발생할 수 있습니다.
+        // 이미 blackBoxImage가 null이 아니라는 검사를 했으므로 이 위치는 괜찮습니다.
 
         LoadDialogueFromJson();
 
@@ -107,11 +107,8 @@ public class DialogueManager : MonoBehaviour
     }
     void Start()
     {
-       
-      
+        // Start에서는 할 게 없음
     }
-
-
 
     public void SetMaxHealth(float health)
     {
@@ -123,7 +120,6 @@ public class DialogueManager : MonoBehaviour
     {
         slider.value = health;
     }
-
 
     void LoadDialogueFromJson()
     {
@@ -163,6 +159,7 @@ public class DialogueManager : MonoBehaviour
         dialogueBox.SetActive(true);
         playerController.SetTalking(true);
         Time.timeScale = 0f;
+        follower.togleLocate();
         Debug.Log($"StartDialogue: 첫 번째 대사 표시 시도 (index: {dialogueIndex}, ID: {currentDialogues[dialogueIndex].id})");
         ShowDialogue(currentDialogues[dialogueIndex]);
         dialogueIndex++;
@@ -172,10 +169,13 @@ public class DialogueManager : MonoBehaviour
 
     void ShowDialogue(DialogueData data)
     {
+        // 현재 실행 중인 모든 코루틴을 중지시키는 대신, 필요한 코루틴만 중지하도록 변경
+        // StartCoroutine(TypeDialogue)는 여기서 다시 시작되므로 걱정 없음
+        StopExistingCoroutines(); // 새로 추가된 함수 호출
+
         // 모든 대화 박스 및 관련 요소 비활성화 (배경 이미지 포함)
         dialogueBox.SetActive(false);
         blackBox.SetActive(false);
-        // blackBox.GetComponent<SpriteRenderer>().enabled = false; // 이 줄 제거
         blackBox.GetComponent<Image>().color = originalBlackBoxColor; // 색상 초기화 (페이드인 시에는 알파를 0으로 설정)
         if (standingImageLeft != null) standingImageLeft.gameObject.SetActive(false);
         if (standingImageRight != null) standingImageRight.gameObject.SetActive(false);
@@ -199,7 +199,6 @@ public class DialogueManager : MonoBehaviour
                 if (backgroundImage != null)
                 {
                     blackBox.SetActive(true);
-                    // 일반 대화의 배경 이미지는 바로 보이도록 알파 1로 설정
                     blackBoxImage.color = new Color(1, 1, 1, 1); // 배경 이미지를 원래 색상으로 보이게 (불투명)
                     blackBoxImage.sprite = backgroundImage; // Image 컴포넌트에 스프라이트 할당
                 }
@@ -255,8 +254,11 @@ public class DialogueManager : MonoBehaviour
                 }
             }
 
-            StopAllCoroutines();
-            if (data.shakeScreen) StartCoroutine(ShakeScreen());
+            // 흔들림이 필요한 경우에만 코루틴 시작, 참조 저장
+            if (data.shakeScreen)
+            {
+                currentScreenShakeCoroutine = StartCoroutine(ShakeScreen(data.portraitName));
+            }
             StartCoroutine(TypeDialogue(data, dialogueText));
         }
         else if (data.dialogueType == "black")
@@ -264,7 +266,7 @@ public class DialogueManager : MonoBehaviour
             blackBoxImage.color = new Color(0, 0, 0, 1);
             blackBox.SetActive(true);
             isBlackBoxActive = true;
-            StopAllCoroutines();
+            // Black 타입 대화에서도 TypeDialogue는 시작해야 함
             StartCoroutine(TypeDialogue(data, blackText));
 
             // Black 박스 지속 시간 후 다음 대사 진행
@@ -275,6 +277,28 @@ public class DialogueManager : MonoBehaviour
             Debug.LogError("Unknown dialogue type: " + data.dialogueType);
         }
     }
+
+    // 새로운 대화가 시작될 때 기존 코루틴들을 안전하게 중지시키는 함수
+    void StopExistingCoroutines()
+    {
+        // 기존의 화면 흔들림 코루틴이 있다면 중지
+        if (currentScreenShakeCoroutine != null)
+        {
+            StopCoroutine(currentScreenShakeCoroutine);
+            currentScreenShakeCoroutine = null;
+            // DialogueManager에서 흔들림을 멈출 때 FollowPlayer에게도 흔들림을 멈추라고 지시
+            if (follower != null)
+            {
+                follower.SetShake(false);
+            }
+            dialogueBox.transform.localPosition = originalDialogueBoxPosition; // 대화 박스 위치 원복
+        }
+        // 이 외에 TypeDialogue, WaitForBlackBoxEnd 등은 새로운 ShowDialogue에서 다시 시작되므로 명시적으로 중지할 필요가 없거나,
+        // 필요하다면 개별 참조를 통해 중지해야 합니다.
+        // 현재 코드에서는 TypeDialogue는 다시 시작되고, WaitForBlackBoxEnd는 blackBoxActive로 제어되므로 괜찮습니다.
+    }
+
+
     IEnumerator WaitForBlackBoxEnd(float duration)
     {
         Debug.Log("WaitForBlackBoxEnd 시작: " + duration + "초 대기");
@@ -334,16 +358,15 @@ public class DialogueManager : MonoBehaviour
                 else
                 {
                     blackBoxImage.sprite = null; // Clear any previous sprite
-                    blackBoxImage.color = new Color(0, 0, 0, 0); 
+                    blackBoxImage.color = new Color(0, 0, 0, 0);  // 완전 투명 검은색 (배경 이미지 없으면)
                 }
 
                 // 기존 페이드 코루틴이 있다면 중지
                 if (currentFadeCoroutine != null)
                 {
                     StopCoroutine(currentFadeCoroutine);
-                } 
+                }
                 currentFadeCoroutine = StartCoroutine(FadeInDiedBackgroundAndShowText(blackBoxImage, message));
-
             }
             else
             {
@@ -351,7 +374,6 @@ public class DialogueManager : MonoBehaviour
             }
 
             isBlackBoxActive = true; // blackBox가 활성화되었음을 표시 
-
         }
         else
         {
@@ -361,10 +383,9 @@ public class DialogueManager : MonoBehaviour
 
     IEnumerator FadeInDiedBackgroundAndShowText(Image targetImage, string message)
     {
-       
         float timer = 0f;
-        Color startColor = targetImage.color; 
-        Color endColor = new Color(startColor.r, startColor.g, startColor.b, 1f); 
+        Color startColor = targetImage.color;
+        Color endColor = new Color(startColor.r, startColor.g, startColor.b, 1f);
 
         while (timer < fadeDuration)
         {
@@ -373,35 +394,43 @@ public class DialogueManager : MonoBehaviour
             targetImage.color = Color.Lerp(startColor, endColor, progress);
             yield return null;
         }
-        targetImage.color = endColor; 
+        targetImage.color = endColor;
 
-     
         diedText.gameObject.SetActive(true); // diedText 활성화
         diedText.text = ""; // 텍스트 초기화 
-        StopAllCoroutines(); // 혹시 모를 다른 타이핑 코루틴 중지 (이 함수가 시작될 때)
+        // StopAllCoroutines(); // 이 부분은 TypeDialogue만 중지하는 것이 좋을 수 있습니다.
+        // 현재는 diedText 타이핑만 시작하므로 괜찮습니다.
         StartCoroutine(TypeDialogue(new DialogueData { dialogue = message, fontSize = diedText.fontSize }, diedText));
-       
-        
     }
 
-    IEnumerator ShakeScreen()
+    IEnumerator ShakeScreen(string name) // string name 파라미터는 data.portraitName에서 가져옵니다.
     {
         float elapsed = 0.0f;
-        follower.SetShake(true);
+        // 특정 인물일 때만 카메라 흔들림 활성화
+        if (name == "Gigachard" || name == "Gigachard_ex")
+            follower.SetShake(true);
+
         while (elapsed < shakeDuration)
         {
             float x = UnityEngine.Random.Range(-1f, 1f) * shakeIntensity;
             float y = UnityEngine.Random.Range(-1f, 1f) * shakeIntensity;
 
+            // 대화 박스도 흔들리게 하려면 이 줄 유지
             dialogueBox.transform.localPosition = originalDialogueBoxPosition + new Vector3(x, y, 0);
 
-            elapsed += Time.unscaledDeltaTime;
+            elapsed += Time.unscaledDeltaTime; // UnscaledDeltaTime 사용
 
             yield return null;
         }
 
+        // 흔들림이 끝나면 대화 박스 위치 원복
         dialogueBox.transform.localPosition = originalDialogueBoxPosition;
-        follower.SetShake(false);
+        // 특정 인물일 때만 카메라 흔들림 비활성화
+        if (name == "Gigachard" || name == "Gigachard_ex")
+            follower.SetShake(false);
+
+        // 코루틴이 자연스럽게 종료되었으므로 참조를 null로 설정
+        currentScreenShakeCoroutine = null;
     }
 
     public void NextDialogue()
@@ -409,6 +438,9 @@ public class DialogueManager : MonoBehaviour
         if (isTyping) // 타이핑 중이면 스킵 방지
         {
             Debug.Log("NextDialogue: 타이핑 중이므로 스킵");
+            // 현재 타이핑 중인 대화를 즉시 완료하는 로직을 추가할 수 있습니다.
+            // dialogueText.text = currentDialogues[dialogueIndex - 1].dialogue;
+            // isTyping = false;
             return;
         }
 
@@ -421,7 +453,6 @@ public class DialogueManager : MonoBehaviour
             if (controller.cameraController != null && controller.cameraController.IsMoving)
             {
                 Debug.Log($"카메라 이동 중, 다음 대사 진행 보류 (Controller: {controller.gameObject.name})");
-              
                 return;
             }
         }
@@ -448,7 +479,7 @@ public class DialogueManager : MonoBehaviour
         if (!died)
         {
             blackBox.SetActive(false);
-           
+
             Image blackBoxImage = blackBox.GetComponent<Image>();
             if (blackBoxImage != null)
             {
@@ -457,15 +488,24 @@ public class DialogueManager : MonoBehaviour
             }
             isBlackBoxActive = false;
         }
+        // 대화 종료 시 모든 관련 코루틴을 안전하게 중지
         if (currentFadeCoroutine != null)
         {
             StopCoroutine(currentFadeCoroutine);
             currentFadeCoroutine = null;
         }
+        if (currentBlackFadeCoroutine != null)
+        {
+            StopCoroutine(currentBlackFadeCoroutine);
+            currentBlackFadeCoroutine = null;
+        }
+        StopExistingCoroutines(); // 대화 종료 시 흔들림 코루틴도 확실히 중지
+
         if (standingImageLeft != null) standingImageLeft.gameObject.SetActive(false);
         if (standingImageRight != null) standingImageRight.gameObject.SetActive(false);
         playerController.SetTalking(false);
         Time.timeScale = 1f;
+        follower.togleLocate(); // 대화 종료 시 위치 반전? (이 로직이 맞는지는 확인 필요)
         follower.SetVisible(false);
         dialogueStarted = false;
         Debug.Log("대화 종료");
@@ -478,16 +518,16 @@ public class DialogueManager : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Return) && !isBlackBoxActive )
+        if (Input.GetKeyDown(KeyCode.Return) && !isBlackBoxActive)
         {
             NextDialogue();
         }
     }
 
-    public void StartDialogueByIdRange(string startId, string endId)// 외부에서 인스턴스로 불러와 대화 진행 가능
+    public void StartDialogueByIdRange(string startId, string endId)
     {
         Debug.Log($"StartDialogueByIdRange 호출됨 (startId: {startId}, endId: {endId}, dialogueStarted: {dialogueStarted})");
-        if (dialogueStarted) // 이미 대화가 진행 중이면 중복 시작 방지
+        if (dialogueStarted)
         {
             Debug.LogWarning("이미 대화가 진행 중입니다.");
             return;
@@ -527,7 +567,7 @@ public class DialogueManager : MonoBehaviour
             {
                 inRange = true;
                 Debug.Log($"시작 대사 찾음 (ID: {dialogue.id})");
-                sceneDialogues.Add(dialogue); // 시작 대사를 찾으면 바로 추가
+                sceneDialogues.Add(dialogue);
             }
             else if (inRange)
             {
@@ -551,23 +591,23 @@ public class DialogueManager : MonoBehaviour
         Image blackBoxImage = blackBox.GetComponent<Image>();
         if (blackBoxImage != null)
         {
-            blackBoxImage.sprite = null; // 이미지 컴포넌트 스프라이트 초기화
-            blackBoxImage.color = originalBlackBoxColor; // 색상 원래대로
+            blackBoxImage.sprite = null;
+            blackBoxImage.color = originalBlackBoxColor;
         }
-        if (currentFadeCoroutine != null)
-        {
-            StopCoroutine(currentFadeCoroutine);
-            currentFadeCoroutine = null;
-        }
+        // 모든 관련 페이드 코루틴 중지
+        if (currentFadeCoroutine != null) StopCoroutine(currentFadeCoroutine);
+        if (currentBlackFadeCoroutine != null) StopCoroutine(currentBlackFadeCoroutine);
+        currentFadeCoroutine = null;
+        currentBlackFadeCoroutine = null;
         isBlackBoxActive = false;
-       
     }
+
     public void FadeToBlack(Action onComplete = null)
     {
         if (blackBoxImage == null)
         {
-            Debug.LogError("blackBoxImage가 초기화되지 않았습니다. BlackState를 호출할 수 없습니다.");
-            onComplete?.Invoke(); // 오류 시에도 콜백은 호출하여 멈추지 않게 함
+            Debug.LogError("blackBoxImage가 초기화되지 않았습니다. FadeToBlack을 호출할 수 없습니다.");
+            onComplete?.Invoke();
             return;
         }
 
@@ -575,7 +615,7 @@ public class DialogueManager : MonoBehaviour
         {
             StopCoroutine(currentBlackFadeCoroutine);
         }
-        currentBlackFadeCoroutine = StartCoroutine(FadeCoroutine(0f, 1f, onComplete)); // 투명 -> 검은색
+        currentBlackFadeCoroutine = StartCoroutine(FadeCoroutine(0f, 1f, onComplete));
     }
 
     public void FadeFromBlack(Action onComplete = null)
@@ -591,13 +631,13 @@ public class DialogueManager : MonoBehaviour
         {
             StopCoroutine(currentBlackFadeCoroutine);
         }
-        blackBoxImage.sprite = null; 
+        blackBoxImage.sprite = null;
         currentBlackFadeCoroutine = StartCoroutine(FadeCoroutine(blackBoxImage.color.a, 0f, onComplete));
     }
 
     private IEnumerator FadeCoroutine(float startAlpha, float endAlpha, Action onComplete)
     {
-        blackBox.SetActive(true); // 페이드 시작 시 블랙박스 활성화 (투명 -> 검은색이든, 검은색 -> 투명 투명 시작 시)
+        blackBox.SetActive(true);
 
         float timer = 0f;
         Color currentColor = blackBoxImage.color;
@@ -611,40 +651,38 @@ public class DialogueManager : MonoBehaviour
             yield return null;
         }
 
-        currentColor.a = endAlpha; // 최종 알파값 정확히 적용
+        currentColor.a = endAlpha;
         blackBoxImage.color = currentColor;
 
-        // 투명해지면 비활성화 (검은색 -> 투명 연출일 때만)
         if (endAlpha == 0f)
         {
             blackBox.SetActive(false);
         }
 
-        currentBlackFadeCoroutine = null; // 코루틴 완료
-        onComplete?.Invoke(); // 연출 완료 후 콜백 호출
+        currentBlackFadeCoroutine = null;
+        onComplete?.Invoke();
     }
 
-    
     public void BlackState(bool onOff)
     {
-       
         if (onOff)
         {
-            FadeToBlack(); // 즉시 블랙박스 켜기 (페이드 인)
+            FadeToBlack();
         }
         else
         {
-            FadeFromBlack(); // 즉시 블랙박스 끄기 (페이드 아웃)
+            FadeFromBlack();
         }
     }
+
     public void setBlack()
     {
         if (blackBoxImage != null)
         {
-            blackBoxImage.sprite = null; // 스프라이트 제거
-            blackBoxImage.color = new Color(0f, 0f, 0f, 1f); // 완전 불투명 검은색
-            blackBox.SetActive(true); // 활성화
-                                      // 기존 코루틴 중지 로직도 여기에 포함되어야 함
+            blackBoxImage.sprite = null;
+            blackBoxImage.color = new Color(0f, 0f, 0f, 1f);
+            blackBox.SetActive(true);
+            // 기존 코루틴 중지 로직을 여기에 포함
             if (currentFadeCoroutine != null) StopCoroutine(currentFadeCoroutine);
             if (currentBlackFadeCoroutine != null) StopCoroutine(currentBlackFadeCoroutine);
             currentFadeCoroutine = null;
