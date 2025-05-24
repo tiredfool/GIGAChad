@@ -35,6 +35,20 @@ public class SettingUI : MonoBehaviour
 
         
     }
-
+    public void togleActive()
+    {
+        if (isActivated == false)
+        {
+            setting.gameObject.SetActive(true);
+            isActivated = true;
+            Time.timeScale = 0f;
+        }
+        else
+        {
+            setting.gameObject.SetActive(false);
+            isActivated = false;
+            Time.timeScale = 1f;
+        }
+    }
 
 }

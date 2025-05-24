@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using System;
+using UnityEngine.SceneManagement;
 
 public class DialogueManager : MonoBehaviour
 {
@@ -99,7 +100,7 @@ public class DialogueManager : MonoBehaviour
 
         LoadDialogueFromJson();
 
-        follower.SetVisible(false);
+        
         if (standingImageLeft != null) standingImageLeft.gameObject.SetActive(false);
         if (standingImageRight != null) standingImageRight.gameObject.SetActive(false);
         sequenceControllers = FindObjectsOfType<DialogueSequenceController>();
@@ -108,6 +109,84 @@ public class DialogueManager : MonoBehaviour
     void Start()
     {
         // Start에서는 할 게 없음
+    }
+
+
+    // 씬이 로드될 때마다 호출되는 이벤트 핸들러 등록
+    void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    // 씬이 언로드될 때 호출되는 이벤트 핸들러 해제
+    void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    // 씬이 로드될 때 호출되는 메서드
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        Debug.Log($"씬 로드됨: {scene.name}, 모드: {mode}");
+
+        // 씬이 로드될 때마다 playerController와 follower를 다시 찾아서 할당합니다.
+        playerController = FindObjectOfType<PlayerController>();
+        follower = FindObjectOfType<FollowPlayer>();
+        follower.SetVisible(false);
+        if (playerController == null)
+        {
+            Debug.LogWarning("씬에서 PlayerController를 찾을 수 없습니다.");
+        }
+        if (follower == null)
+        {
+            Debug.LogWarning("씬에서 FollowPlayer를 찾을 수 없습니다.");
+        }
+        else
+        {
+            follower.SetVisible(false); // 초기 상태는 숨기기
+        }
+
+        // DialogueSequenceController도 씬마다 다를 수 있으므로 다시 찾아야 합니다.
+        sequenceControllers = FindObjectsOfType<DialogueSequenceController>();
+        Debug.Log($"OnSceneLoaded에서 찾은 DialogueSequenceController 개수: {sequenceControllers.Length}");
+
+        // 초기 UI 상태 설정
+        dialogueBox.SetActive(false);
+        blackBox.SetActive(false);
+        if (standingImageLeft != null) standingImageLeft.gameObject.SetActive(false);
+        if (standingImageRight != null) standingImageRight.gameObject.SetActive(false);
+
+        // 사망 상태 초기화 (씬 전환 시)
+        died = false;
+        diedText.text = "";
+        nameText.gameObject.SetActive(true); // 이름 텍스트 다시 활성화
+        portraitImage.gameObject.SetActive(true); // 초상화 다시 활성화
+        // blackBox 이미지 상태 초기화 (사망 메시지 배경 남아있을 수 있으므로)
+        if (blackBoxImage != null)
+        {
+            blackBoxImage.sprite = null;
+            blackBoxImage.color = originalBlackBoxColor;
+        }
+
+        // 현재 진행 중인 대화가 있다면 초기화
+        dialogueStarted = false;
+        isTyping = false;
+        dialogueIndex = 0;
+        currentDialogues.Clear(); // 이전 씬의 대화 목록 클리어
+
+        // 기존의 모든 코루틴 중지 (특히 Time.timeScale=0 때문에 멈춰있을 수 있는 코루틴)
+        StopAllCoroutines();
+        // 하지만 StopAllCoroutines()은 이 스크립트의 모든 코루틴을 중지시키므로,
+        // 필요에 따라 개별적인 Coroutine 변수를 이용해 StopCoroutine()을 사용하는 것이 좋습니다.
+        // 예를 들어, FadeCoroutine이나 ShakeScreen 코루틴은 씬 전환 시에도 문제가 될 수 있으므로,
+        // EndDialogue나 OnSceneLoaded에서 개별적으로 중지하는 로직을 강화할 수 있습니다.
+        currentFadeCoroutine = null;
+        currentBlackFadeCoroutine = null;
+        currentScreenShakeCoroutine = null;
+
+        // 혹시 Time.timeScale이 0으로 고정되어 있다면 다시 1로 돌려줍니다.
+        // (대화 도중 씬이 로드될 경우 대비)
+        Time.timeScale = 1f;
     }
 
     public void SetMaxHealth(float health)
@@ -518,8 +597,9 @@ public class DialogueManager : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Return) && !isBlackBoxActive)
+        if (VirtualInputManager.Instance.GetKeyOrButton("Action") && !isBlackBoxActive)
         {
+            Debug.Log("엔터눌림");
             NextDialogue();
         }
     }

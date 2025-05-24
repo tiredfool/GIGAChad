@@ -69,7 +69,7 @@ public class BlockController : MonoBehaviour
 
         transform.Translate(Vector3.right * moveSpeed * Time.deltaTime);
 
-        if (Input.GetKeyDown(KeyCode.Space))
+        if ((VirtualInputManager.Instance.GetKeyOrButtonDown("Jump")))
         {
             isStopped = true;
             stackManager.OnBlockStopped(this.gameObject);

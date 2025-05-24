@@ -15,7 +15,7 @@ public class PlayerController : MonoBehaviour
     public float health = 100f;
     public float damageCooldown = 0.5f; // 피격 무적 시간
     public float knockbackVerticalSpeed = 5f; // 수직 넉백 속도
-    public float someHorizontalKnockbackForce = 1f;//수평 넉백 힘
+    public float someHorizontalKnockbackForce = 1f; //수평 넉백 힘
     public float blinkDuration = 0.1f; // 깜빡이는 간격
     public int blinkCount = 5; // 깜빡이는 횟수
     public float inputDisableDuration = 0.3f; // 입력 막는 시간
@@ -50,15 +50,16 @@ public class PlayerController : MonoBehaviour
     public PhysicsMaterial2D wallMaterial; // 벽에 붙을시 마찰
     private Collider2D playerCollider;
 
-    public GameObject jumpDustEffect;//먼지 프리펩
-    public Transform dustPoint;//이펙트를 생성할 위치
+    public GameObject jumpDustEffect; //먼지 프리펩
+    public Transform dustPoint; //이펙트를 생성할 위치
 
-    private bool wasGrounded;//직전 프레임에서 ground 상태 변수
+    private bool wasGrounded; //직전 프레임에서 ground 상태 변수
 
     public bool isPlayingFootstepSound = false;
     public float footstepInterval = 0.3f;
 
-    private float horizontalInput; // 런닝머신용 (현재 코드에서 외부 입력용으로 사용됨)
+    private float horizontalInput; // *** 이 변수를 조이스틱/키보드 입력에 따라 업데이트할 것입니다. ***
+    private int currentHorizontalDirection = 0; // -1: 왼쪽, 0: 없음, 1: 오른쪽
 
     // --- 추가된 변수 ---
     private float fixedYPosition; // Y 고정 시 사용할 Y 위치
@@ -82,7 +83,7 @@ public class PlayerController : MonoBehaviour
         if (GameManager.instance == null) return;
 
         // 점프 입력 처리
-        if ((Input.GetButtonDown("Jump") && isGrounded) || (Input.GetButtonDown("Jump") && canJump))
+        if ((VirtualInputManager.Instance.GetKeyOrButtonDown("Jump") && isGrounded) || (VirtualInputManager.Instance.GetKeyOrButtonDown("Jump") && canJump))
         {
             // GameManager에서 플레이어 상호작용이 비활성화되어 있으면 점프 불가
             if (!GameManager.instance.IsPlayerInteractionEnabled()) return;
@@ -96,22 +97,39 @@ public class PlayerController : MonoBehaviour
         }
 
         // 이동 입력 감지 (FixedUpdate에서 사용하기 위해 저장)
-        horizontalInput = Input.GetAxisRaw("Horizontal");
+        // horizontalInput = Input.GetAxisRaw("Horizontal"); // 기존 Input.GetAxisRaw 주석 처리 또는 삭제
+
+        // VirtualInputManager를 통해 현재 수평 이동 방향을 가져옵니다.
+        currentHorizontalDirection = 0;
+        if (VirtualInputManager.Instance.GetKeyOrButton("Left"))
+        {
+            currentHorizontalDirection = -1;
+            Debug.Log("[PlayerController] Left Input Detected!"); // 추가
+        }
+        else if (VirtualInputManager.Instance.GetKeyOrButton("Right"))
+        {
+            currentHorizontalDirection = 1;
+            Debug.Log("[PlayerController] Right Input Detected!"); // 추가
+        }
+
+        horizontalInput = currentHorizontalDirection;
+        Debug.Log($"[PlayerController] currentHorizontalDirection: {currentHorizontalDirection}, horizontalInput: {horizontalInput}"); // 추가
+
 
         // 스프라이트 방향 전환
-        if (horizontalInput > 0)
+        if (horizontalInput > 0) // currentHorizontalDirection 대신 horizontalInput 사용
         {
             spriteRenderer.flipX = false;
             follower.SetNegativeDistance(false);
         }
-        else if (horizontalInput < 0)
+        else if (horizontalInput < 0) // currentHorizontalDirection 대신 horizontalInput 사용
         {
             spriteRenderer.flipX = true;
             follower.SetNegativeDistance(true);
         }
 
         // 재시작 처리 (죽었을 때)
-        if (died && Input.GetKeyDown(KeyCode.R) && DialogueManager.instance != null && !DialogueManager.instance.isTyping)
+        if (died && VirtualInputManager.Instance.GetKeyOrButtonDown("Action") && DialogueManager.instance != null && !DialogueManager.instance.isTyping) // "Action" 가상 키 사용
         {
             if (isPlayingFootstepSound)
             {
@@ -129,23 +147,23 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
-      
+
         if (GameManager.instance == null) return;
 
-       
+
         bool currentPlayerInteractionEnabled = GameManager.instance.IsPlayerInteractionEnabled();
         bool disableInputByTime = (Time.time < inputDisabledTime);
         bool shouldDisableMovement = disableInputByTime || isTalking || isStackGameMode || !currentPlayerInteractionEnabled;
 
         if (shouldDisableMovement)
         {
-           
+
             if (disableInputByTime && isTakingDamage)
             {
                 rb.velocity = new Vector2(0, rb.velocity.y);
             }
             else // 그 외의 입력 비활성화
-            {    
+            {
                 if (wasPlayerInteractionEnabled && !currentPlayerInteractionEnabled)
                 {
                     fixedYPosition = transform.position.y;
@@ -174,9 +192,9 @@ public class PlayerController : MonoBehaviour
             animator.ResetTrigger("TakeDamage");
 
             wasPlayerInteractionEnabled = currentPlayerInteractionEnabled; // 상태 업데이트
-            return; 
+            return;
         }
-        else 
+        else
         {
             // 움직임이 다시 활성화되는 순간 Y 위치 고정 해제
             if (!wasPlayerInteractionEnabled && currentPlayerInteractionEnabled) // 방금 활성화 상태가 된 경우
@@ -238,7 +256,7 @@ public class PlayerController : MonoBehaviour
             }
 
             // 플레이어 이동 (가속도 기반)
-            if (horizontalInput != 0) // 입력이 있을 때
+            if (horizontalInput != 0) // 입력이 있을 때 (이제 horizontalInput은 -1, 0, 1 값을 가짐)
             {
                 // 플레이어의 현재 수평 속도가 최대 속도 범위 내에 있는지 확인
                 // 그리고 목표 방향으로의 가속이 가능한지 확인
@@ -261,7 +279,11 @@ public class PlayerController : MonoBehaviour
             }
 
             // 애니메이션 제어 (이동 속도)
-            animator.SetFloat("Speed", Mathf.Abs(horizontalInput)); // 입력 값 기반 (원래 코드 유지)
+            // animator.SetFloat("Speed", Mathf.Abs(horizontalInput)); // 입력 값 기반 (원래 코드 유지)
+            // 애니메이션 Speed는 실제 이동 속도에 맞춰주는 것이 더 자연스럽습니다.
+            // 조이스틱/키보드 입력이 있을 때 animator.SetFloat("Speed", 1f) (움직임); 없을 때 0f (정지)
+            // 또는 Mathf.Abs(rb.velocity.x)를 사용
+            animator.SetFloat("Speed", Mathf.Abs(rb.velocity.x) > 0.1f ? 1f : 0f); // 변경 제안
 
             // 발소리 재생 조건 (수정: 실제 속도 대신 입력 사용, 이미 위에 있음)
             bool shouldPlayFootsteps = isGrounded && Mathf.Abs(rb.velocity.x) > 0.1f; // 여기서 rb.velocity.x를 사용하는 것이 더 정확할 수 있습니다.
@@ -354,7 +376,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public void TakeDamage(Vector2 enemyPosition) 
+    public void TakeDamage(Vector2 enemyPosition)
     {
         if (Time.time - lastDamageTime > damageCooldown && !isTakingDamage && !isStackGameMode && !died)
         {
@@ -373,7 +395,7 @@ public class PlayerController : MonoBehaviour
             }
 
             // 수평 넉백 방향 계산 (적에게서 멀어지는 방향)
-            float knockbackDirection = (transform.position.x > enemyPosition.x) ? 1 : -1;            
+            float knockbackDirection = (transform.position.x > enemyPosition.x) ? 1 : -1;
             Vector2 knockbackForce = new Vector2(knockbackDirection * someHorizontalKnockbackForce, knockbackVerticalSpeed);
             rb.AddForce(knockbackForce, ForceMode2D.Impulse);
 
@@ -594,7 +616,7 @@ public class PlayerController : MonoBehaviour
     {
         Debug.Log("리셋 시작!");
 
-        
+
         if (DialogueManager.instance != null)
         {
             DialogueManager.instance.setBlack();
@@ -603,28 +625,28 @@ public class PlayerController : MonoBehaviour
         else
         {
             Debug.LogError("DialogueManager 인스턴스를 찾을 수 없습니다! 화면을 검게 만들 수 없습니다.");
-           
+
         }
 
-        
+
         if (GameManager.instance != null)
         {
             GameManager.instance.UpdateLifeUI();
         }
 
-       
+
         SceneManager.LoadSceneAsync("SampleScene").completed += (AsyncOperation operation) =>
         {
             Debug.Log("씬 로드 완료: " + operation.isDone);
 
-           
+
             if (GameManager.instance != null)
             {
                 if (GameManager.instance.getIndex() < GameManager.instance.startPositions.Length)
                 {
-                  
-                     health = 100f;
-                     isTakingDamage = false;
+
+                    health = 100f;
+                    isTakingDamage = false;
 
                     if (DialogueManager.instance != null)
                     {
@@ -690,7 +712,8 @@ public class PlayerController : MonoBehaviour
 
     IEnumerator PlayFootstepSound()
     {
-        while (isGrounded && Mathf.Abs(horizontalInput) > 0.1f && !isTalking && !isStackGameMode && GameManager.instance != null && GameManager.instance.IsPlayerInteractionEnabled())
+        // 걷는 소리는 플레이어가 실제로 움직일 때만 재생 (rb.velocity.x 사용)
+        while (isGrounded && Mathf.Abs(rb.velocity.x) > 0.1f && !isTalking && !isStackGameMode && GameManager.instance != null && GameManager.instance.IsPlayerInteractionEnabled())
         {
             if (MainSoundManager.instance != null)
             {
@@ -705,10 +728,10 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    
+
     public void SetCanMove(bool state)
     {
-      
+
         if (state)
         {
             // 움직임 활성화 시 애니메이터 초기화

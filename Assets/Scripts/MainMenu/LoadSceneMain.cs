@@ -17,6 +17,8 @@ public class LoadSceneMain : MonoBehaviour
             DialogueManager.instance.off();
         if (MainSoundManager.instance != null)
             MainSoundManager.instance.off();
+        if (VirtualInputManager.Instance != null)
+            VirtualInputManager.Instance.off();
         SceneManager.LoadScene("MainMenu");
     }
 

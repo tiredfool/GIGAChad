@@ -18,6 +18,8 @@ public class LoadStageSelect: MonoBehaviour
             DialogueManager.instance.off();
         if (MainSoundManager.instance != null)
             MainSoundManager.instance.off();
+        if (VirtualInputManager.Instance != null)
+            VirtualInputManager.Instance.off();
         SceneManager.LoadScene("StageSelect");
         Debug.Log("Å¬¸¯µÊ");
     }

@@ -29,7 +29,7 @@ public class StartUpManager : MonoBehaviour
     void Update()
     {
         // Q 키가 눌리면
-        if (Input.GetKeyDown(startGameKey))
+        if (VirtualInputManager.Instance.GetKeyOrButton("Action"))
         {
             // 안내 이미지가 활성화되어 있다면
             if (instructionImageObject != null && instructionImageObject.activeSelf)
