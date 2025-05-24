@@ -39,6 +39,7 @@ public class CameraSwitcher : MonoBehaviour
             if (stackManager != null)
             {
                 stackManager.StartStackGame(stackCamera); // 카메라 넘겨주기
+                stackManager.isGameStart = true;
             }
             else
             {
