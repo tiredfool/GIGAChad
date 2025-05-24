@@ -9,10 +9,14 @@ public class LoadSceneMain : MonoBehaviour
 
     public void MainMenuScene()
     {
-        SwitchZone.Instance.off();
-        GameManager.instance.off();
-        DialogueManager.instance.off();
-        MainSoundManager.instance.off();
+        if(SwitchZone.Instance!=null)
+            SwitchZone.Instance.off();
+        if (GameManager.instance != null)
+            GameManager.instance.off();
+        if (DialogueManager.instance != null)
+            DialogueManager.instance.off();
+        if (MainSoundManager.instance != null)
+            MainSoundManager.instance.off();
         SceneManager.LoadScene("MainMenu");
     }
 
