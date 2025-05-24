@@ -606,7 +606,7 @@ public class PlayerController : MonoBehaviour
         }
 
        
-        SceneManager.LoadSceneAsync(0).completed += (AsyncOperation operation) =>
+        SceneManager.LoadSceneAsync("SampleScene").completed += (AsyncOperation operation) =>
         {
             Debug.Log("¾À ·Îµå ¿Ï·á: " + operation.isDone);
 
