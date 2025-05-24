@@ -43,6 +43,9 @@ public class StackManager : MonoBehaviour
         blockHeight = blockPrefab.transform.localScale.y;
         nextBlockScale = originalBlockPrefab.transform.localScale;
         if (mainCamera != null) mainCamera.enabled = true;
+
+        MainSoundManager.instance.ChangeBGM("StackGame");
+
         ResetStackGame();
         // 게임 시작 시 뱃지 GameObject 비활성화
         if (badgeImageObject != null)

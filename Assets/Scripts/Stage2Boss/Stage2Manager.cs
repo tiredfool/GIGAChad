@@ -15,6 +15,7 @@ public class Stage2Manager : MonoBehaviour
     public Transform platformStartPos;
     public GameObject blackwaves;
     public Transform blackwavesStartPos; // BlackWaves 초기 위치
+    private bool hasChangedBGM = false;  // BGM 변경 여부 체크
 
     // 
     public GameObject platformPrefab;
@@ -131,6 +132,14 @@ public class Stage2Manager : MonoBehaviour
             cameraScript.StartRising();
         }
 
+        // 한 번만 BGM 변경
+        if (!hasChangedBGM)
+        {
+            MainSoundManager.instance.ChangeBGM("2StageBoss");
+            hasChangedBGM = true;
+            Debug.Log("BGM이 '2StageBoss'로 변경되었습니다.");
+        }
+
         // Boss 이벤트는 단 1번만 실행되도록
         if (!hasBossEventStarted)
         {
@@ -194,6 +203,7 @@ public class Stage2Manager : MonoBehaviour
         }
     }
 
+    /*
     private void ResetGameState()
     {
         // 기존 플랫폼 제거
@@ -255,4 +265,5 @@ public class Stage2Manager : MonoBehaviour
 
         isGameOver = false;
     }
+    */
 }
