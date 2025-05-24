@@ -719,4 +719,10 @@ public class DialogueManager : MonoBehaviour
             onComplete?.Invoke();
         }));
     }
+
+    public void off()
+    {
+        instance = null;
+        Destroy(this.gameObject);
+    }
 }

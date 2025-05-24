@@ -503,5 +503,12 @@ public class MainSoundManager : MonoBehaviour
 
         activeSfxAudioSources.Clear();
         StopAllCoroutines(); // 모든 코루틴 중지 (SFX CleanUp 코루틴 포함)
+
+    }
+
+    public void off()
+    {
+        instance = null;
+        Destroy(this.gameObject);
     }
 }

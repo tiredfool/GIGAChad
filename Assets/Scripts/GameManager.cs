@@ -345,5 +345,10 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void off()
+    {
+        instance = null;
+        Destroy(this.gameObject);
+    }
 
 }

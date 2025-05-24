@@ -7,6 +7,7 @@ public class LoadScenePro : MonoBehaviour
 {
     public void PrologueScene()
     {
+        GameManager.setIndex(0);
         SceneManager.LoadScene("SampleScene");
     }
 }

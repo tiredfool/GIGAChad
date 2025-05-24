@@ -200,6 +200,11 @@ public class SwitchZone : MonoBehaviour
         }
         return null;
     }
+    public void off()
+    {
+        Instance = null;
+        Destroy(this.gameObject);
+    }
 
 }
 
