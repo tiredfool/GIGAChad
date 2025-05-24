@@ -3,14 +3,16 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using Unity.VisualScripting;
-using Cinemachine; // Cinemachine 네임스페이스 추가
+using Cinemachine;
+using System.Dynamic; // Cinemachine 네임스페이스 추가
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance;  // 싱글톤 인스턴스
     public int hopeScore = 0;
     //public Text pointTxt;  // 점수 UI 표시용 텍스트
-    public int stageIndex = 0; // 초기 스테이지 인덱스 0으로 설정
+    private int stageIndex = 0; // 초기 스테이지 인덱스 0으로 설정
+    public static int index = 0;
     public GameObject[] stages = new GameObject[12]; // 크기를 startPositions.Length와 동일하게 설정
     public Transform player;
     public int totalLives = 3;  // 총 목숨 수
@@ -47,6 +49,7 @@ public class GameManager : MonoBehaviour
         // 싱글톤 패턴 적용
         if (instance == null)
         {
+            stageIndex = index;
             PlayerPrefs.DeleteKey("TotalLives");
             instance = this;
             DontDestroyOnLoad(gameObject);  // 씬 전환 시 유지
@@ -94,7 +97,7 @@ public class GameManager : MonoBehaviour
     }
 
 
-
+    
     public void FindPlayer()
     {
         // "Player" 태그를 가진 오브젝트를 찾아 player 변수에 할당
@@ -122,8 +125,14 @@ public class GameManager : MonoBehaviour
         }
     }
 
-
-
+    public static void setIndex(int i)
+    {
+        index = i;
+    }
+    public int getIndex()
+    {
+        return stageIndex;
+    }
     public void FindAndSetStagesByParent()
     {
         GameObject stagesParent = GameObject.Find("Stage");

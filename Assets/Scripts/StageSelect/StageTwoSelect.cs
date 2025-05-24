@@ -22,9 +22,9 @@ public class StageTwoSelect : MonoBehaviour
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        var gameManager = GameObject.Find("GameManager");
-        var script = gameManager.GetComponent<GameManager>();
-        script.stageIndex = 14;
+        // var gameManager = GameObject.Find("GameManager");
+        // var script = gameManager.GetComponent<GameManager>();
+        GameManager.setIndex(14);
     }
 
     private void OnDestroy()

@@ -24,7 +24,7 @@ public class StageOneSelect : MonoBehaviour
     {
         var gameManager = GameObject.Find("GameManager");
         var script = gameManager.GetComponent<GameManager>();
-        script.stageIndex = 7;
+        //?
     }
 
     

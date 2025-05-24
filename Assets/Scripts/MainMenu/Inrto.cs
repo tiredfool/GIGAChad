@@ -14,6 +14,7 @@ public class Intro: MonoBehaviour
     {
 
         StartCoroutine(FadeOutCoroutine());
+      //  GameManager.SetIndex(3);
     }
     private void Update()
     {

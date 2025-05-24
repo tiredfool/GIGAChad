@@ -613,7 +613,7 @@ public class PlayerController : MonoBehaviour
            
             if (GameManager.instance != null)
             {
-                if (GameManager.instance.stageIndex < GameManager.instance.startPositions.Length)
+                if (GameManager.instance.getIndex() < GameManager.instance.startPositions.Length)
                 {
                   
                      health = 100f;
