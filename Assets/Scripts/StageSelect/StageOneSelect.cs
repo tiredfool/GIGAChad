@@ -7,25 +7,10 @@ public class StageOneSelect : MonoBehaviour
 {
    
 
-    private void Start()
-    {
-        SceneManager.sceneLoaded += OnSceneLoaded;
-    }
-
     public void LoadStageOneBoss()
     {
-        
+        GameManager.setIndex(7);
         SceneManager.LoadScene("SampleScene");
     }
 
-    
-
-    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
-    {
-        var gameManager = GameObject.Find("GameManager");
-        var script = gameManager.GetComponent<GameManager>();
-        //?
-    }
-
-    
 }

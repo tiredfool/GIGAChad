@@ -2345,7 +2345,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb2f1d897848c6b419c28d40492fa2f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  setting: {fileID: 0}
+  setting: {fileID: 1041368172}
   isActivated: 0
 --- !u!1 &1043033522
 GameObject:
@@ -2900,7 +2900,7 @@ GameObject:
   - component: {fileID: 1318697230}
   - component: {fileID: 1318697231}
   m_Layer: 5
-  m_Name: SE_Slide
+  m_Name: SFX_Slide
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
