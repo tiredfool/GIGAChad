@@ -53,12 +53,14 @@ public class DialogueSequenceController : MonoBehaviour
     // DialogueManager에서 현재 ID를 받아 트리거 여부 확인
     public void CheckDialogueEnd(string currentDialogueId)
     {
-        // 카메라 전환 로직 (기존 코드)
-        if (isCameraSequenceActive && !string.IsNullOrEmpty(cameraTriggerEndId) && currentDialogueId == cameraTriggerEndId && cameraController != null && !cameraController.IsMoving)
-        {
+        
+            // 카메라 전환 로직 (기존 코드)
+            if (isCameraSequenceActive && !string.IsNullOrEmpty(cameraTriggerEndId) && currentDialogueId == cameraTriggerEndId && cameraController != null && !cameraController.IsMoving)
+            {
             Debug.Log($"{gameObject.name}: 대화 ID '{cameraTriggerEndId}' 도달, 카메라 이동 시작");
+            cameraTriggerEndId = "NOT";
             StartCoroutine(HandleCameraMovement());
-        }
+            }
 
         // 🚨 특정 대화 ID 도달 시 이벤트 실행 로직 추가
         foreach (var action in dialogueActions)
@@ -80,16 +82,10 @@ public class DialogueSequenceController : MonoBehaviour
             }
         }
     }
-    public void MoveCam()
-    {
-        if (isCameraSequenceActive && !string.IsNullOrEmpty(cameraTriggerEndId) &&  cameraController != null && !cameraController.IsMoving)
-        {
-            Debug.Log($"{gameObject.name}: 대화 ID '{cameraTriggerEndId}' 도달, 카메라 이동 시작");
-            StartCoroutine(HandleCameraMovement());
-        }
-    }
+
     private IEnumerator HandleCameraMovement()
     {
+
         dialogueManager.EndDialogue();
 
         if (cameraController != null)
