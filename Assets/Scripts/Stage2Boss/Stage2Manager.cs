@@ -26,12 +26,13 @@ public class Stage2Manager : MonoBehaviour
     private bool isGameOver = false;
 
     // Boss 소환 및 장애물 관련
-    public GameObject bossSmall;
-    public GameObject bossBig;
+    public GameObject boss;
+    public GameObject bossAttack;
+    public GameObject bossIdle;
     public GameObject fallingObjectPrefab;
 
     public float spawnInterval = 5f;
-    public float bossBigDuration = 3f;
+    public float bossAttackDuration = 3f;
     public float spawnRate = 0.7f;
 
     private bool isSpawning = false;
@@ -42,10 +43,16 @@ public class Stage2Manager : MonoBehaviour
         if (instance == null) instance = this;
         else Destroy(gameObject);
 
-        if (bossSmall != null) bossSmall.SetActive(true);
-        if (bossBig != null) bossBig.SetActive(false);
+        if (boss != null) boss.SetActive(true);
+        if (bossAttack != null) bossAttack.SetActive(false);
+        if (bossIdle != null) bossIdle.SetActive(true);
 
-        //StartCoroutine(BossRoutine());
+        // AudioListener 끄기
+        if (bossCamera != null)
+        {
+            AudioListener bossAudio = bossCamera.GetComponent<AudioListener>();
+            if (bossAudio != null) bossAudio.enabled = false;
+        }
     }
 
     void Update()
@@ -97,6 +104,7 @@ public class Stage2Manager : MonoBehaviour
 
     public void HandlePlatformStepped(Vector3 currentPlatformPos)
     {
+
         // UI 시작
         ScoreManager.instance.StartGameUI();
 
@@ -106,6 +114,15 @@ public class Stage2Manager : MonoBehaviour
         // 카메라 전환
         if (mainCamera != null) mainCamera.SetActive(false);
         if (bossCamera != null) bossCamera.SetActive(true);
+
+        // AudioListener 전환
+        AudioListener mainAudio = mainCamera?.GetComponent<AudioListener>();
+        if (mainAudio != null) mainAudio.enabled = false;
+        AudioListener bossAudio = bossCamera?.GetComponent<AudioListener>();
+        if (bossAudio != null) bossAudio.enabled = true;
+
+        // Boss_Idle 비활성화
+        if (bossIdle != null) bossIdle.SetActive(false);
 
         // 카메라 상승 시작
         CameraSmoothRise cameraScript = bossCamera.GetComponent<CameraSmoothRise>();
@@ -139,21 +156,21 @@ public class Stage2Manager : MonoBehaviour
 
         while (true)
         {
-            // Boss(Big) 등장
-            if (bossSmall != null) bossSmall.SetActive(false);
-            if (bossBig != null)
+            // Boss 공격 시
+            if (boss != null) boss.SetActive(false);
+            if (bossAttack != null)
             {
-                bossBig.SetActive(true);
-                Vector3 pos = bossBig.transform.position;
-                bossBig.transform.position = new Vector3(pos.x, player.transform.position.y + 0.1f, pos.z);
+                bossAttack.SetActive(true);
+                Vector3 pos = bossAttack.transform.position;
+                bossAttack.transform.position = new Vector3(pos.x, player.transform.position.y + 0f, pos.z);
             }
 
             isSpawning = true;
             yield return StartCoroutine(SpawnFallingObjects());
 
-            // Boss(Big) 퇴장
-            if (bossBig != null) bossBig.SetActive(false);
-            if (bossSmall != null) bossSmall.SetActive(true);
+            // Boss 공격 끝
+            if (bossAttack != null) bossAttack.SetActive(false);
+            if (boss != null) boss.SetActive(true);
 
             isSpawning = false;
 
@@ -165,7 +182,7 @@ public class Stage2Manager : MonoBehaviour
     {
         float elapsed = 0f;
 
-        while (elapsed < bossBigDuration)
+        while (elapsed < bossAttackDuration)
         {
             float randomX = Random.Range(270f, 280f);
             float spawnY = player.transform.position.y + 5f;
@@ -206,8 +223,19 @@ public class Stage2Manager : MonoBehaviour
         }
 
         // 카메라 초기화
-        if (mainCamera != null) mainCamera.SetActive(true);
-        if (bossCamera != null) bossCamera.SetActive(false);
+        if (mainCamera != null)
+        {
+            mainCamera.SetActive(true);
+            AudioListener mainAudio = mainCamera.GetComponent<AudioListener>();
+            if (mainAudio != null) mainAudio.enabled = true;
+        }
+
+        if (bossCamera != null)
+        {
+            bossCamera.SetActive(false);
+            AudioListener bossAudio = bossCamera.GetComponent<AudioListener>();
+            if (bossAudio != null) bossAudio.enabled = false;
+        }
 
         // 게임오버 UI 초기화
         if (gameOverText != null)
