@@ -45,6 +45,8 @@ public class SwitchMoveToUp : MonoBehaviour
     IEnumerator MovePlatform()
     {
         isMoving = true;
+        if (MainSoundManager.instance != null)
+            MainSoundManager.instance.PlaySFX("WallMoving");
 
         while (Vector3.Distance(movePlatformTransform.position, targetPosition) > 0.01f)
         {

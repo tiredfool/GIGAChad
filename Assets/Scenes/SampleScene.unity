@@ -4538,6 +4538,7 @@ MonoBehaviour:
   foodSpawner: {fileID: 1858103361}
   platformerUI: {fileID: 78725521}
   topDownUI: {fileID: 1438190910}
+  SoundManager: {fileID: 2138090603}
 --- !u!1 &109705449
 GameObject:
   m_ObjectHideFlags: 0
@@ -16136,7 +16137,7 @@ SpriteRenderer:
   m_Size: {x: 23.039999, y: 12.959999}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &423661507
@@ -19105,7 +19106,7 @@ SpriteRenderer:
   m_Size: {x: 23.039999, y: 12.959999}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &488360913
@@ -61551,7 +61552,7 @@ SpriteRenderer:
   m_Size: {x: 23.039999, y: 12.959999}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &1588247627
@@ -63619,7 +63620,7 @@ SpriteRenderer:
   m_Size: {x: 23.039999, y: 12.959999}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &1602879663
@@ -73326,7 +73327,7 @@ SpriteRenderer:
   m_Size: {x: 23.039999, y: 12.959999}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &2045408663
@@ -77230,12 +77231,20 @@ MonoBehaviour:
     sfxClip: {fileID: 8300000, guid: 862af812bef152c44981ee1d1e735694, type: 3}
     volume: 0.123
     loop: 0
+  - sfxName: MonsterDeath
+    sfxClip: {fileID: 8300000, guid: d56d6c2601a95a24fad93b4c1ddea4f4, type: 3}
+    volume: 0.243
+    loop: 0
+  - sfxName: WallMoving
+    sfxClip: {fileID: 8300000, guid: 70d2974f5e423864586825a4c4a81d88, type: 3}
+    volume: 0.184
+    loop: 0
   bgmSoundsList:
   - bgmName: 1StageBoss
     bgmClip: {fileID: 8300000, guid: b878c5c7e81570f4e952350ee27ec52f, type: 3}
     volume: 0.51
   - bgmName: Basic
-    bgmClip: {fileID: 8300000, guid: 7c31db63d7e768341bc2d7015199ed49, type: 3}
+    bgmClip: {fileID: 8300000, guid: db90f8314330da34d86219459721af8b, type: 3}
     volume: 0.203
   - bgmName: gameOver
     bgmClip: {fileID: 8300000, guid: 77436716b2b75a24eac168276363e52b, type: 3}
@@ -77245,6 +77254,9 @@ MonoBehaviour:
     volume: 0.51
   - bgmName: StackGame
     bgmClip: {fileID: 8300000, guid: a58dfceecf703094ea8af958f3cc8efe, type: 3}
+    volume: 0.51
+  - bgmName: 1stage hidden
+    bgmClip: {fileID: 8300000, guid: dbc2bfb309fa82744ab1c13ff655d048, type: 3}
     volume: 0.51
   Mixer: {fileID: 24100000, guid: e6fe55fdf126be145854f2f91482e015, type: 2}
 --- !u!1 &2138405987

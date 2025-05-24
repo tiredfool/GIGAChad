@@ -16,6 +16,7 @@ public class SwitchZone : MonoBehaviour
 
     public GameObject platformerUI;
     public GameObject topDownUI;
+    public GameObject SoundManager;
 
     private bool isTopDown = false;
 
@@ -128,7 +129,7 @@ public class SwitchZone : MonoBehaviour
     private IEnumerator SwitchToTopDown()
     {
         isTopDown = true;
-
+        SoundManager.GetComponent<MainSoundManager>().ChangeBGM("1stage hidden");
         if (vcamPlatformer != null) vcamPlatformer.Priority = 5;
         if (vcamTopDown != null) vcamTopDown.Priority = 10;
 
@@ -176,7 +177,7 @@ public class SwitchZone : MonoBehaviour
     private IEnumerator SwitchToPlatformer()
     {
         Debug.Log("플랫포머 모드로 복귀");
-
+        SoundManager.GetComponent<MainSoundManager>().ChangeBGM("Basic");
         isTopDown = false;
 
         if (vcamPlatformer != null) vcamPlatformer.Priority = 10;
