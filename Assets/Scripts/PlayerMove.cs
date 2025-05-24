@@ -358,6 +358,13 @@ public class PlayerController : MonoBehaviour
     {
         if (Time.time - lastDamageTime > damageCooldown && !isTakingDamage && !isStackGameMode && !died)
         {
+            if (GameManager.instance != null)
+            {
+                if (GameManager.instance.getIndex() == 0)
+                {
+                    return;
+                }
+            }
             health -= 10;
             Debug.Log("Player Health: " + health);
             if (DialogueManager.instance != null)
