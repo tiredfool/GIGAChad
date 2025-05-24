@@ -79615,6 +79615,7 @@ GameObject:
   - component: {fileID: 2090965227}
   - component: {fileID: 2090965229}
   - component: {fileID: 2090965228}
+  - component: {fileID: 2090965230}
   m_Layer: 0
   m_Name: Boss_Idle
   m_TagString: Untagged
@@ -79710,6 +79711,18 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &2090965230
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2090965226}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8880e3e9c2aaf354cb74f40816f8c725, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &2095693077
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -80763,6 +80776,10 @@ MonoBehaviour:
   - sfxName: Pistol
     sfxClip: {fileID: 8300000, guid: 2203773368e4340d98c114f55c2dd7fd, type: 3}
     volume: 0.085
+    loop: 0
+  - sfxName: Ripping_Paper
+    sfxClip: {fileID: 8300000, guid: 862af812bef152c44981ee1d1e735694, type: 3}
+    volume: 0.123
     loop: 0
   bgmSoundsList:
   - bgmName: 1StageBoss
