@@ -63876,11 +63876,11 @@ Transform:
   - {fileID: 211936772}
   - {fileID: 1627306839}
   - {fileID: 1860324655}
+  - {fileID: 1845866700}
   - {fileID: 838106550}
   - {fileID: 1607993653}
   - {fileID: 284438859}
   - {fileID: 1219650643}
-  - {fileID: 1845866700}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1501388840
@@ -74531,6 +74531,7 @@ MonoBehaviour:
   - {x: 21, y: -28, z: 0}
   - {x: 71, y: -19, z: 0}
   - {x: 124, y: -19, z: 0}
+  - {x: 308.5, y: -22, z: 0}
   - {x: 170, y: -26, z: 0}
   - {x: 201, y: -22, z: 0}
   - {x: 234, y: -22, z: 0}
