@@ -270,6 +270,13 @@ public class GameManager : MonoBehaviour
                 lifeImages[i].enabled = false;  // ¸ñ¼ûÀÌ ¾øÀ» ¶§ ¼û±è
             }
         }
+        MainSoundManager.instance.StopBGM();
+        if (index < 7) MainSoundManager.instance.PlayBGM("Basic");
+        else if (index == 7) MainSoundManager.instance.PlayBGM("1StageBoss");
+        else if (index < 11) MainSoundManager.instance.PlayBGM("2stage");
+        else if (index == 11) MainSoundManager.instance.PlayBGM("2StageBoss");
+        else if (index < 15) MainSoundManager.instance.PlayBGM("2stage");
+        else if (index == 15) MainSoundManager.instance.PlayBGM("2StageBoss");
 
     }
 

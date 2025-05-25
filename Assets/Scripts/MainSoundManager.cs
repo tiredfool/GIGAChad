@@ -36,15 +36,15 @@ public class MainSoundManager : MonoBehaviour
     private AudioSource bgmAudioSource;
     public AudioMixer Mixer;
 
-    
+
     private Slider _bgmSlider; // 자동으로 할당
     private Slider _sfxSlider;
 
     private const float MIN_VOLUME_DB = -80f; // AudioMixer의 가장 낮은 볼륨
-    private const float MAX_VOLUME_DB = 0f;   // AudioMixer의 기본 볼륨 (오디오 클립의 원본 볼륨)
+    private const float MAX_VOLUME_DB = 0f;    // AudioMixer의 기본 볼륨 (오디오 클립의 원본 볼륨)
 
     //초기볼륨
-    private float currentBGMVolume = 1f; 
+    private float currentBGMVolume = 1f;
     private float currentSFXVolume = 1f;
 
     private Coroutine currentBGMChangeCoroutine = null;
@@ -171,12 +171,12 @@ public class MainSoundManager : MonoBehaviour
         else
         {
             Debug.LogWarning("BGMSlider를 씬에서 찾을 수 없습니다! 이름이 'BGMSlider'인지 확인하세요.");
-           
+
             float bgmDb = (currentBGMVolume <= 0.0001f) ? MIN_VOLUME_DB : Mathf.Log10(currentBGMVolume) * 20;
             Mixer.SetFloat("BGM", bgmDb);
         }
 
-      
+
         if (_sfxSlider != null)
         {
             _sfxSlider.onValueChanged.RemoveAllListeners();
@@ -323,13 +323,17 @@ public class MainSoundManager : MonoBehaviour
             yield return StartCoroutine(FadeOutBGM(fadeTime));
         }
 
-        // 2. 새로운 BGM 설정 및 페이드 인 시작
+        // 2. 새로운 BGM 즉시 설정 및 재생
         bgmAudioSource.clip = newBgm.bgmClip;
-        bgmAudioSource.volume = 0f; // 페이드 인을 위해 초기 볼륨 0으로 설정
+        bgmAudioSource.volume = newBgm.volume; // 새 BGM의 개별 볼륨을 즉시 적용
         bgmAudioSource.Play();
         bgmAudioSource.loop = true; // BGM은 항상 루프
 
-        yield return StartCoroutine(FadeInBGM(newBgm.volume, fadeTime)); // newBgm.volume은 클립의 개별 볼륨
+        // AudioMixer 볼륨 조절 (믹서 그룹 볼륨을 즉시 설정)
+        float finalMixerDb = (newBgm.volume * currentBGMVolume <= 0.0001f) ? MIN_VOLUME_DB : Mathf.Log10(newBgm.volume * currentBGMVolume) * 20;
+        Mixer.SetFloat("BGM", finalMixerDb);
+        Debug.Log($"새 BGM '{newBgm.bgmName}' 즉시 재생. 클립 볼륨: {newBgm.volume}, 믹서 dB: {finalMixerDb}");
+
         currentBGMChangeCoroutine = null; // 코루틴 완료
     }
 
@@ -358,33 +362,32 @@ public class MainSoundManager : MonoBehaviour
         Debug.Log("BGM 페이드 아웃 완료.");
     }
 
-    private IEnumerator FadeInBGM(float targetClipVolume, float fadeTime)
-    {
-        float timer = 0f;
-        float startVolume = 0f; // 페이드 인은 0에서 시작
+    // FadeInBGM 함수는 더 이상 사용되지 않으므로 제거하거나 주석 처리할 수 있습니다.
+    // private IEnumerator FadeInBGM(float targetClipVolume, float fadeTime)
+    // {
+    //     float timer = 0f;
+    //     float startVolume = 0f; // 페이드 인은 0에서 시작
 
-        while (timer < fadeTime)
-        {
-            timer += Time.deltaTime;
-            // Linear 증가
-            float newVolume = Mathf.Lerp(startVolume, targetClipVolume, timer / fadeTime);
-            bgmAudioSource.volume = newVolume; // BGM AudioSource의 볼륨
+    //     while (timer < fadeTime)
+    //     {
+    //         timer += Time.deltaTime;
+    //         // Linear 증가
+    //         float newVolume = Mathf.Lerp(startVolume, targetClipVolume, timer / fadeTime);
+    //         bgmAudioSource.volume = newVolume; // BGM AudioSource의 볼륨
 
-            // AudioMixer 볼륨 조절 (믹서 그룹 볼륨을 조절)
-            float mixerDb = (newVolume <= 0.0001f) ? MIN_VOLUME_DB : Mathf.Log10(newVolume * currentBGMVolume) * 20; // UI 슬라이더 값 반영
-            Mixer.SetFloat("BGM", mixerDb);
+    //         // AudioMixer 볼륨 조절 (믹서 그룹 볼륨을 조절)
+    //         float mixerDb = (newVolume <= 0.0001f) ? MIN_VOLUME_DB : Mathf.Log10(newVolume * currentBGMVolume) * 20; // UI 슬라이더 값 반영
+    //         Mixer.SetFloat("BGM", mixerDb);
 
-            yield return null;
-        }
+    //         yield return null;
+    //     }
 
-        bgmAudioSource.volume = targetClipVolume; // 최종 볼륨으로 설정 (개별 BGM의 설정 볼륨)
-        // 최종 믹서 볼륨도 설정
-        float finalMixerDb = (targetClipVolume <= 0.0001f) ? MIN_VOLUME_DB : Mathf.Log10(targetClipVolume * currentBGMVolume) * 20;
-        Mixer.SetFloat("BGM", finalMixerDb);
-        Debug.Log("BGM 페이드 인 완료.");
-    }
-
-
+    //     bgmAudioSource.volume = targetClipVolume; // 최종 볼륨으로 설정 (개별 BGM의 설정 볼륨)
+    //     // 최종 믹서 볼륨도 설정
+    //     float finalMixerDb = (targetClipVolume <= 0.0001f) ? MIN_VOLUME_DB : Mathf.Log10(targetClipVolume * currentBGMVolume) * 20;
+    //     Mixer.SetFloat("BGM", finalMixerDb);
+    //     Debug.Log("BGM 페이드 인 완료.");
+    // }
 
 
     public void PlaySFX(string sfxName)

@@ -40327,7 +40327,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &808048288
 RectTransform:
   m_ObjectHideFlags: 0
@@ -48381,7 +48381,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1110398626
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -55653,7 +55653,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 146815380322088691, guid: 5b1a83a9d8c3ca24eb49841f3d0a0ed7, type: 3}
       propertyPath: health
-      value: 100
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 146815380322088691, guid: 5b1a83a9d8c3ca24eb49841f3d0a0ed7, type: 3}
       propertyPath: follower
@@ -81687,22 +81687,25 @@ MonoBehaviour:
   bgmSoundsList:
   - bgmName: 1StageBoss
     bgmClip: {fileID: 8300000, guid: b878c5c7e81570f4e952350ee27ec52f, type: 3}
-    volume: 0.51
+    volume: 1
   - bgmName: Basic
     bgmClip: {fileID: 8300000, guid: db90f8314330da34d86219459721af8b, type: 3}
-    volume: 0.203
+    volume: 1
   - bgmName: gameOver
-    bgmClip: {fileID: 8300000, guid: 77436716b2b75a24eac168276363e52b, type: 3}
-    volume: 0
+    bgmClip: {fileID: 8300000, guid: d3e2d3f30de47964f9582eb52423407e, type: 3}
+    volume: 1
   - bgmName: 2StageBoss
     bgmClip: {fileID: 8300000, guid: 81eb748a8cabb9c429cb1272d247c88b, type: 3}
-    volume: 0.51
+    volume: 1
   - bgmName: StackGame
     bgmClip: {fileID: 8300000, guid: a58dfceecf703094ea8af958f3cc8efe, type: 3}
-    volume: 0.51
+    volume: 1
   - bgmName: 1stage hidden
     bgmClip: {fileID: 8300000, guid: dbc2bfb309fa82744ab1c13ff655d048, type: 3}
-    volume: 0.51
+    volume: 1
+  - bgmName: 2stage
+    bgmClip: {fileID: 8300000, guid: 225e5bee0b195f64ebc923029d6b1283, type: 3}
+    volume: 1
   Mixer: {fileID: 24100000, guid: e6fe55fdf126be145854f2f91482e015, type: 2}
 --- !u!1 &2138405987
 GameObject:
