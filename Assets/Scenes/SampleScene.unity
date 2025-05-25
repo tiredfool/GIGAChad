@@ -3305,6 +3305,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 6695ec9ce034e624db844d9ed9b5e49b, type: 3}
   - {fileID: 21300000, guid: 493a4eb42eda9994c94986440622fb07, type: 3}
   - {fileID: -766008591, guid: 9195482b9ee406b45a0c88721dcebbb4, type: 3}
+  - {fileID: 21300000, guid: a9e2577f5b190064fbd576973724ee45, type: 3}
   playerController: {fileID: 1245668516}
   follower: {fileID: 762254780}
   standingImageLeft: {fileID: 1980569175}
@@ -3315,6 +3316,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 504275b63f3b21347bf4df35c2f5a849, type: 3}
   - {fileID: 21300000, guid: 493a4eb42eda9994c94986440622fb07, type: 3}
   - {fileID: -766008591, guid: 9195482b9ee406b45a0c88721dcebbb4, type: 3}
+  - {fileID: 21300000, guid: a9e2577f5b190064fbd576973724ee45, type: 3}
   diedMessageBackground: {fileID: 21300000, guid: 9a7293055570e6644b4ecf7482167704, type: 3}
   fadeDuration: 1.5
 --- !u!114 &78725523
@@ -34281,6 +34283,7 @@ GameObject:
   - component: {fileID: 731877783}
   - component: {fileID: 731877785}
   - component: {fileID: 731877784}
+  - component: {fileID: 731877786}
   m_Layer: 0
   m_Name: GameObject
   m_TagString: Untagged
@@ -34366,6 +34369,18 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &731877786
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 731877782}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cfd1d36908ae6cf4a8ce17eb870b1da4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &737071256
 GameObject:
   m_ObjectHideFlags: 0
@@ -86081,6 +86096,9 @@ MonoBehaviour:
     volume: 1
   - bgmName: 2stage
     bgmClip: {fileID: 8300000, guid: 225e5bee0b195f64ebc923029d6b1283, type: 3}
+    volume: 1
+  - bgmName: Hope
+    bgmClip: {fileID: 8300000, guid: e502abf1d64f2294cb74467c7f388681, type: 3}
     volume: 1
   Mixer: {fileID: 24100000, guid: e6fe55fdf126be145854f2f91482e015, type: 2}
 --- !u!1 &2138405987

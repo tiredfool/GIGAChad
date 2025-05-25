@@ -660,6 +660,7 @@
       "standingPosition": "right"
     },
     {
+      "id" : "2B-a",
       "npcName": "만삣삐",
       "portraitName": "Player_sad",
       "fontSize": 70,
@@ -692,7 +693,7 @@
       "standingPosition": "right"
     },
     { 
-      "id" : "2B-a",
+      
       "npcName": "보스",
       "portraitName": "Boss_sprite_5",
       "fontSize": 70,
@@ -971,8 +972,17 @@
       "portraitName": "Q",
       "fontSize": 70,
       "dialogue": "완전 에이스야 에이스!",
-       "backgroundImageName": "office"
+      "backgroundImageName": "office"
     },
+    { 
+      "npcName": "보스",
+      "portraitName": "Boss_Good",
+      "fontSize": 70,
+      "dialogue": "흠흠..능력 하나는 인정하마.",
+      "standingImage": "Boss_Good",
+      "standingPosition": "right",
+      "backgroundImageName": "office"
+    }, 
     {
   
       "npcName": "만삣삐",
