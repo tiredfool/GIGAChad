@@ -187,6 +187,7 @@ public class DialogueManager : MonoBehaviour
         // 혹시 Time.timeScale이 0으로 고정되어 있다면 다시 1로 돌려줍니다.
         // (대화 도중 씬이 로드될 경우 대비)
         Time.timeScale = 1f;
+        follower.SetVisible(false);
     }
 
     public void SetMaxHealth(float health)

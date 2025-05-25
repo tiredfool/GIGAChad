@@ -586,11 +586,20 @@
       "standingPosition": "left"
     },
     {
-      "id" : "1B-4e",
+      
       "npcName": "기가차드",
       "portraitName": "Gigachard",
       "fontSize": 60,
       "dialogue": "만삣삐, 그만큼 넌 one step forward 한거야",
+      "standingImage": "chardStand",
+      "standingPosition": "right"
+    },
+    {
+      "id" : "1B-4e",
+      "npcName": "기가차드",
+      "portraitName": "Gigachard",
+      "fontSize": 60,
+      "dialogue": "이제 Left로 나가자 삣삐..",
       "standingImage": "chardStand",
       "standingPosition": "right"
     },

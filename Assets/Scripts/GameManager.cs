@@ -12,7 +12,7 @@ public class GameManager : MonoBehaviour
     public int hopeScore = 0;
     //public Text pointTxt;  // 점수 UI 표시용 텍스트
     private int stageIndex = 0; // 초기 스테이지 인덱스 0으로 설정
-    public static int index = 0;
+    public static int index = 7;
     public GameObject[] stages = new GameObject[12]; // 크기를 startPositions.Length와 동일하게 설정
     public Transform player;
     public int totalLives = 3;  // 총 목숨 수
@@ -63,9 +63,9 @@ public class GameManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-
+       
         // PlayerPrefs에서 totalLives 값을 불러오기
-        
+       
 
         // Virtual Camera가 할당되었다면 초기 댐핑 값 저장
         if (virtualCamera != null && virtualCamera.GetCinemachineComponent(CinemachineCore.Stage.Body) is CinemachineTransposer)
@@ -73,11 +73,13 @@ public class GameManager : MonoBehaviour
             CinemachineTransposer transposer = virtualCamera.GetCinemachineComponent(CinemachineCore.Stage.Body) as CinemachineTransposer;
             originalDamping = new Vector3(transposer.m_XDamping, transposer.m_YDamping, transposer.m_ZDamping);
         }
+
     }
 
     void Start()
     {
 
+        MainSoundManager.instance.PlayBGM("Basic");
         totalLives = PlayerPrefs.GetInt("TotalLives", 3);  // 기본값 3으로 설정
         UpdateLifeUI();  // UI 업데이트
 
@@ -93,11 +95,12 @@ public class GameManager : MonoBehaviour
             }
             SetCameraConfinerBounds(stages[stageIndex]);
         }
-        MainSoundManager.instance.PlayBGM("Basic");
+ 
+
     }
 
 
-    
+
     public void FindPlayer()
     {
         // "Player" 태그를 가진 오브젝트를 찾아 player 변수에 할당
@@ -163,6 +166,7 @@ public class GameManager : MonoBehaviour
                     stages[i].SetActive(i == stageIndex);
                 }
             }
+      
             SetCameraConfinerBounds(stages[stageIndex]); // 재시작 시 설정
         }
     }
@@ -211,7 +215,7 @@ public class GameManager : MonoBehaviour
         PlayerRepositionLogic(); // 플레이어 리포지션 및 관련 로직 호출
         SetPlayerInteraction(false);
         SetCameraConfinerBounds(stages[stageIndex]);
-
+      
         // **여기서 0.4초 대기**
         yield return new WaitForSeconds(0.3f);
         SetPlayerInteraction(true);
@@ -232,7 +236,9 @@ public class GameManager : MonoBehaviour
             GameManager.instance.hopeScore = 0; // 리포지션 시 점수 초기화 (필요하다면)
             SetCameraDamping(originalDamping);
             SetPlayerInteraction(true);
+           
             Debug.Log($"플레이어 상호작용 활성화됨. (페이드 아웃 없이 즉시)");
+        
         }
         else
         {
@@ -271,12 +277,7 @@ public class GameManager : MonoBehaviour
             }
         }
         MainSoundManager.instance.StopBGM();
-        if (index < 7) MainSoundManager.instance.PlayBGM("Basic");
-        else if (index == 7) MainSoundManager.instance.PlayBGM("1StageBoss");
-        else if (index < 11) MainSoundManager.instance.PlayBGM("2stage");
-        else if (index == 11) MainSoundManager.instance.PlayBGM("2StageBoss");
-        else if (index < 15) MainSoundManager.instance.PlayBGM("2stage");
-        else if (index == 15) MainSoundManager.instance.PlayBGM("2StageBoss");
+
 
     }
 

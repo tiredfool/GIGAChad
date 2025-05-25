@@ -124,6 +124,9 @@ public class BossManager : MonoBehaviour
             {
                 DialogueManager.instance.StartDialogueByIdRange("1B-3s", "1B-3e");
                 StopAllFeatures();
+                
+            
+
                 isRunning = false; // 더 이상 Update에서 확인하지 않도록 플래그 변경
             }
             else
