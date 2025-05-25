@@ -46,6 +46,9 @@ public class SwitchMoveToRight : MonoBehaviour
     {
         isMoving = true;
 
+        if (MainSoundManager.instance != null)
+            MainSoundManager.instance.PlaySFX("WallMoving"); // 사운드 재생
+
         while (Vector3.Distance(movePlatformTransform.position, targetPosition) > 0.01f)
         {
             movePlatformTransform.position = Vector3.MoveTowards(movePlatformTransform.position, targetPosition, moveSpeed * Time.deltaTime);
