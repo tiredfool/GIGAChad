@@ -12,7 +12,7 @@ public class GameManager : MonoBehaviour
     public int hopeScore = 0;
     //public Text pointTxt;  // 점수 UI 표시용 텍스트
     private int stageIndex = 0; // 초기 스테이지 인덱스 0으로 설정
-    public static int index = 15;
+    public static int index = 11;
     public GameObject[] stages = new GameObject[12]; // 크기를 startPositions.Length와 동일하게 설정
     public Transform player;
     public int totalLives = 3;  // 총 목숨 수

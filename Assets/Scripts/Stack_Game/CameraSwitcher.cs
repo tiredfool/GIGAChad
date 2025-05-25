@@ -28,7 +28,7 @@ public class CameraSwitcher : MonoBehaviour
             playerCamera.enabled = false;
             stackCamera.enabled = true;
             isInStackMode = true;
-
+            stackManager.isStackGameActive = true;
             // 플레이어 조작 제한 (선택 사항)
             if (playerController != null)
             {
