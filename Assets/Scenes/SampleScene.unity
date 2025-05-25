@@ -3303,6 +3303,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 31892e3c581236b469b79152855b6107, type: 3}
   - {fileID: 21300000, guid: 6695ec9ce034e624db844d9ed9b5e49b, type: 3}
   - {fileID: 21300000, guid: 493a4eb42eda9994c94986440622fb07, type: 3}
+  - {fileID: -766008591, guid: 9195482b9ee406b45a0c88721dcebbb4, type: 3}
   playerController: {fileID: 1245668516}
   follower: {fileID: 762254780}
   standingImageLeft: {fileID: 1980569175}
@@ -3312,6 +3313,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 054811e369e80a549bd81452f12259c6, type: 3}
   - {fileID: 21300000, guid: 504275b63f3b21347bf4df35c2f5a849, type: 3}
   - {fileID: 21300000, guid: 493a4eb42eda9994c94986440622fb07, type: 3}
+  - {fileID: -766008591, guid: 9195482b9ee406b45a0c88721dcebbb4, type: 3}
   diedMessageBackground: {fileID: 21300000, guid: 9a7293055570e6644b4ecf7482167704, type: 3}
   fadeDuration: 1.5
 --- !u!114 &78725523
@@ -72906,7 +72908,7 @@ GameObject:
   - component: {fileID: 1835682623}
   - component: {fileID: 1835682622}
   - component: {fileID: 1835682621}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: slow1-2
   m_TagString: Slow
   m_Icon: {fileID: 0}
