@@ -12,7 +12,7 @@ public class GameManager : MonoBehaviour
     public int hopeScore = 0;
     //public Text pointTxt;  // 점수 UI 표시용 텍스트
     private int stageIndex = 0; // 초기 스테이지 인덱스 0으로 설정
-    public static int index = 7;
+    public static int index = 0;
     public GameObject[] stages = new GameObject[12]; // 크기를 startPositions.Length와 동일하게 설정
     public Transform player;
     public int totalLives = 3;  // 총 목숨 수
@@ -79,7 +79,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
 
-        MainSoundManager.instance.PlayBGM("Basic");
+       
         totalLives = PlayerPrefs.GetInt("TotalLives", 3);  // 기본값 3으로 설정
         UpdateLifeUI();  // UI 업데이트
 
@@ -95,8 +95,8 @@ public class GameManager : MonoBehaviour
             }
             SetCameraConfinerBounds(stages[stageIndex]);
         }
- 
 
+        MainSoundManager.instance.PlayBGM("Basic");
     }
 
 
