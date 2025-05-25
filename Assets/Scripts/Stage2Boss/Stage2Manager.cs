@@ -68,7 +68,8 @@ public class Stage2Manager : MonoBehaviour
             isGameOver = true;
             Debug.Log("게임 종료 - 점수 5000 도달");
             ShowGameOver("축하합니다!\n점수 도달로 게임 종료");
-            StartCoroutine(RestartAfterDelay(1f));
+            //StartCoroutine(RestartAfterDelay(1f));
+            GameManager.instance.NextStage();
         }
     }
 

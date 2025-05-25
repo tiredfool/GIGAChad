@@ -101,4 +101,5 @@ public class FollowPlayer : MonoBehaviour
     {
         gameObject.SetActive(value);
     }
+
 }

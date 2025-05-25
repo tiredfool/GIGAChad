@@ -241,6 +241,7 @@ public class DialogueManager : MonoBehaviour
         Time.timeScale = 0f;
         follower.togleLocate();
         Debug.Log($"StartDialogue: 첫 번째 대사 표시 시도 (index: {dialogueIndex}, ID: {currentDialogues[dialogueIndex].id})");
+
         ShowDialogue(currentDialogues[dialogueIndex]);
         dialogueIndex++;
         dialogueStarted = true;
@@ -252,15 +253,68 @@ public class DialogueManager : MonoBehaviour
         // 현재 실행 중인 모든 코루틴을 중지시키는 대신, 필요한 코루틴만 중지하도록 변경
         // StartCoroutine(TypeDialogue)는 여기서 다시 시작되므로 걱정 없음
         StopExistingCoroutines(); // 새로 추가된 함수 호출
-
+        
         // 모든 대화 박스 및 관련 요소 비활성화 (배경 이미지 포함)
         dialogueBox.SetActive(false);
         blackBox.SetActive(false);
         blackBox.GetComponent<Image>().color = originalBlackBoxColor; // 색상 초기화 (페이드인 시에는 알파를 0으로 설정)
-        if (standingImageLeft != null) standingImageLeft.gameObject.SetActive(false);
-        if (standingImageRight != null) standingImageRight.gameObject.SetActive(false);
+      //  if (standingImageLeft != null) standingImageLeft.gameObject.SetActive(false);
+      //  if (standingImageRight != null) standingImageRight.gameObject.SetActive(false);
         isBlackBoxActive = false;
+        if (data.id == "E-A")
+        {
+           
+            Debug.Log("페이드 아웃 시작");
+            // 오른쪽 스탠딩 이미지 페이드 아웃
+            if (standingImageRight != null) // .gameObject.activeInHierarchy는 이미지를 다시 활성화할 것이므로 제거하거나, 활성 상태를 먼저 확인
+            {
+                // 페이드 아웃 시작 전에 일단 활성화 상태를 보장 (새로 나타나는 경우 대비)
+                if (!standingImageRight.gameObject.activeInHierarchy)
+                {
+                    standingImageRight.gameObject.SetActive(true);
+                    standingImageRight.color = new Color(standingImageRight.color.r, standingImageRight.color.g, standingImageRight.color.b, 1f); // 초기 알파값 1로 설정
+                }
+                StartCoroutine(FadeOutImage(standingImageRight, fadeDuration));
+            }
+            else
+            {
+                Debug.LogWarning("[ShowDialogue] standingImageRight가 할당되지 않았습니다. 페이드 아웃 불가.");
+            }
 
+
+            // follower 페이드 아웃 (FollowPlayer 스크립트에 페이드 관련 로직이 필요할 수 있습니다)
+            if (follower != null)
+            {
+                SpriteRenderer followerSpriteRenderer = follower.GetComponent<SpriteRenderer>();
+                if (followerSpriteRenderer != null)
+                {
+                    // 페이드 아웃 시작 전에 일단 활성화 상태를 보장
+                    if (!followerSpriteRenderer.gameObject.activeInHierarchy)
+                    {
+                        followerSpriteRenderer.gameObject.SetActive(true);
+                        followerSpriteRenderer.color = new Color(followerSpriteRenderer.color.r, followerSpriteRenderer.color.g, followerSpriteRenderer.color.b, 1f);
+                    }
+                    StartCoroutine(FadeOutSpriteRenderer(followerSpriteRenderer, fadeDuration));
+                }
+                else
+                {
+                    Debug.LogWarning("[ShowDialogue] follower에 SpriteRenderer가 없습니다. 페이드 아웃 불가.");
+                    // SpriteRenderer가 없으면 즉시 비활성화 처리
+                    if (follower.gameObject.activeInHierarchy) follower.SetVisible(false);
+                }
+            }
+            else
+            {
+                Debug.LogWarning("[ShowDialogue] follower가 할당되지 않았습니다. 페이드 아웃 불가.");
+            }
+        }
+        else // "E-A"가 아닐 경우, 이미지들이 활성화되어야 할 수 있으므로 ShowDialogue의 뒷부분에서 처리
+        {
+            if (standingImageRight != null) standingImageRight.gameObject.SetActive(false); // 기본 상태는 비활성화
+            if (standingImageLeft != null) standingImageLeft.gameObject.SetActive(false); // 기본 상태는 비활성화
+                                                                                          // follower도 마찬가지로, 필요에 따라 여기서 비활성화하거나,
+                                                                                          // ShowDialogue의 일반 로직에서 다시 활성화되도록 처리
+        }
         if (data.dialogueType == "normal")
         {
             dialogueBox.SetActive(true);
@@ -308,11 +362,13 @@ public class DialogueManager : MonoBehaviour
                             {
                                 standingImageLeft.gameObject.SetActive(true);
                                 standingImageLeft.sprite = standingSprite;
+                                standingImageLeft.color = Color.white;
                             }
-                            else if (position == "right" && standingImageRight != null)
+                            else if (position == "right" && standingImageRight != null && data.id != "E-A")
                             {
                                 standingImageRight.gameObject.SetActive(true);
                                 standingImageRight.sprite = standingSprite;
+                                standingImageLeft.color = Color.white;
                             }
                             else if (position == "both" && standingImageLeft != null && standingImageRight != null)
                             {
@@ -800,7 +856,54 @@ public class DialogueManager : MonoBehaviour
             onComplete?.Invoke();
         }));
     }
+    public IEnumerator FadeOutImage(Image targetImage, float duration, Action onComplete = null)
+    {
+        if (targetImage == null)
+        {
+            onComplete?.Invoke();
+            yield break;
+        }
 
+        float timer = 0f;
+        Color startColor = targetImage.color;
+        Color endColor = new Color(startColor.r, startColor.g, startColor.b, 0f); // 투명하게 페이드 아웃
+
+        while (timer < duration)
+        {
+            timer += Time.unscaledDeltaTime; // Time.timeScale이 0일 때도 작동하도록 unscaledDeltaTime 사용
+            float progress = timer / duration;
+            targetImage.color = Color.Lerp(startColor, endColor, progress);
+            yield return null;
+        }
+
+        targetImage.color = endColor; // 완전히 투명하게 설정
+        targetImage.gameObject.SetActive(false); // 페이드 아웃 후 GameObject 비활성화 (선택 사항)
+        onComplete?.Invoke();
+    }// DialogueManager 클래스 내부에 추가
+    public IEnumerator FadeOutSpriteRenderer(SpriteRenderer targetRenderer, float duration, Action onComplete = null)
+    {
+        if (targetRenderer == null)
+        {
+            onComplete?.Invoke();
+            yield break;
+        }
+
+        float timer = 0f;
+        Color startColor = targetRenderer.color;
+        Color endColor = new Color(startColor.r, startColor.g, startColor.b, 0f);
+
+        while (timer < duration)
+        {
+            timer += Time.unscaledDeltaTime;
+            float progress = timer / duration;
+            targetRenderer.color = Color.Lerp(startColor, endColor, progress);
+            yield return null;
+        }
+
+        targetRenderer.color = endColor;
+        targetRenderer.gameObject.SetActive(false);
+        onComplete?.Invoke();
+    }
     public void off()
     {
         instance = null;

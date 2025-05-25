@@ -22,4 +22,13 @@ public class Breake : MonoBehaviour
     {
         this.gameObject.SetActive(true);
     }
+    public void resume()
+    {
+        Time.timeScale = 1f;
+    }
+    public void End2()
+    {
+        DialogueManager.instance.StartDialogueByIdRange("E-2s","E-2e");
+      
+    }
 }
