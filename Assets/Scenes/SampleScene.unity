@@ -25452,8 +25452,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dialogueManager: {fileID: 78725522}
   targetTag: Player
-  startDialogueId: 2_s_m_b
-  endDialogueId: 2_s_m_e
+  startDialogueId: 2B-a
+  endDialogueId: 2B-b
   dialogueSequencer: {fileID: 0}
   distroy: 0
 --- !u!61 &552630237

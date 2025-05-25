@@ -695,7 +695,7 @@
       "npcName": "보스",
       "portraitName": "Boss_sprite_5",
       "fontSize": 70,
-      "dialogue": "실력 좋고 연차 있는 신입들은 대체 다 어디간거야!",
+      "dialogue": "실력 좋고 연차 있는 신입들은\n대체 다 어디간거야!",
       "standingImage": "Boss_sprite_5",
       "standingPosition": "right",
       "shakeScreen": true
@@ -704,7 +704,7 @@
       "npcName": "보스",
       "portraitName": "Boss_sprite_5",
       "fontSize": 70,
-      "dialogue": "아. 그쪽이 이번에 지원한 [지원자]군.",
+      "dialogue": "아. 그쪽이 이번에 지원한\n[지원자]군.",
       "standingImage": "Boss_sprite_5",
       "standingPosition": "right"
     }, 
@@ -730,7 +730,7 @@
       "npcName": "보스",
       "portraitName": "Boss_sprite_5",
       "fontSize": 70,
-      "dialogue": "저번에 면접을 봤던 그 분 아닌가?",
+      "dialogue": "저번에 면접을 봤던\n그 분 아닌가?",
       "standingImage": "Boss_sprite_5",
       "standingPosition": "right"
     }, 
@@ -738,7 +738,7 @@
       "npcName": "보스",
       "portraitName": "Boss_sprite_5",
       "fontSize": 70,
-      "dialogue": "뭐 보나마나 저번과 결과가 똑같겠죠.",
+      "dialogue": "뭐 보나마나 저번과\n결과가 똑같겠죠.",
       "standingImage": "Boss_sprite_5",
       "standingPosition": "right"
     }, 

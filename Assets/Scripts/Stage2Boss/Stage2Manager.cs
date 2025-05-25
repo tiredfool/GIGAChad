@@ -167,12 +167,19 @@ public class Stage2Manager : MonoBehaviour
         {
             // Boss °ø°Ý ½Ã
             if (boss != null) boss.SetActive(false);
+            if (bossAttack != null && boss != null)
+            {
+                bossAttack.transform.position = boss.transform.position;
+                bossAttack.SetActive(true);
+            }
+            /*
             if (bossAttack != null)
             {
                 bossAttack.SetActive(true);
                 Vector3 pos = bossAttack.transform.position;
                 bossAttack.transform.position = new Vector3(pos.x, player.transform.position.y + 0f, pos.z);
             }
+            */
 
             isSpawning = true;
             yield return StartCoroutine(SpawnFallingObjects());
