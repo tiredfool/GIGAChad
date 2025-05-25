@@ -34,17 +34,6 @@ public class CameraSwitcher : MonoBehaviour
             {
                 playerController.SetStackGameMode(true);
             }
-
-            // 스택 게임 시작
-            if (stackManager != null)
-            {
-                stackManager.StartStackGame(stackCamera); // 카메라 넘겨주기
-                stackManager.isGameStart = true;
-            }
-            else
-            {
-                Debug.LogWarning("StackManager가 연결되지 않았습니다!");
-            }
         }
     }
 

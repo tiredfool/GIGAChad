@@ -58,7 +58,7 @@ public class Stage2Manager : MonoBehaviour
 
     void Update()
     {
-       
+
     }
 
     public void EndGameByScore()
@@ -147,7 +147,7 @@ public class Stage2Manager : MonoBehaviour
         }
 
         // 货肺款 敲阀汽 积己
-        float newX = Random.Range(272f, 279f);
+        float newX = Random.Range(280f, 287f);
         float newY = currentPlatformPos.y + 3f;
         Vector3 newPlatformPos = new Vector3(newX, newY, 0f);
         Instantiate(platformPrefab, newPlatformPos, Quaternion.identity);
@@ -200,8 +200,8 @@ public class Stage2Manager : MonoBehaviour
 
         while (elapsed < bossAttackDuration)
         {
-            float randomX = Random.Range(270f, 280f);
-            float spawnY = player.transform.position.y + 5f;
+            float randomX = Random.Range(278f, 291f);
+            float spawnY = player.transform.position.y + 7f;
 
             Instantiate(fallingObjectPrefab, new Vector3(randomX, spawnY, 0f), Quaternion.identity);
             yield return new WaitForSeconds(spawnRate);
