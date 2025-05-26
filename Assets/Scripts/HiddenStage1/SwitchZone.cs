@@ -5,7 +5,7 @@ using Cinemachine;
 
 public class SwitchZone : MonoBehaviour
 {
-    public static SwitchZone Instance { get; private set; }
+    //public static SwitchZone Instance { get; private set; }
 
     public GameObject platformerPlayer;
     public GameObject topDownPlayer;
@@ -23,18 +23,18 @@ public class SwitchZone : MonoBehaviour
     private bool isTopDown = false;
 
     private PlayerController platformerPlayerController;
-    private void Awake()
-    {
-        // 싱글톤 설정
-        if (Instance != null && Instance != this)
-        {
-            Destroy(gameObject);
-            return;
-        }
+    //private void Awake()
+    //{
+    //    // 싱글톤 설정
+    //    if (Instance != null && Instance != this)
+    //    {
+    //        Destroy(gameObject);
+    //        return;
+    //    }
 
-        Instance = this;
-        DontDestroyOnLoad(gameObject); // 씬 유지
-    }
+    //    Instance = this;
+    //    DontDestroyOnLoad(gameObject); // 씬 유지
+    //}
 
     private void OnEnable()
     {
@@ -46,8 +46,9 @@ public class SwitchZone : MonoBehaviour
         SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
-    private void Start()
+    private IEnumerator DelayedInit()
     {
+        yield return null; // 1 프레임 대기
         TryFindReferences();
         InitState();
     }
@@ -55,20 +56,30 @@ public class SwitchZone : MonoBehaviour
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         Debug.Log("씬 로드됨: " + scene.name);
-        TryFindReferences();
-        InitState();
+        StartCoroutine(DelayedInit());
     }
 
     private void TryFindReferences()
     {
         if (platformerPlayer == null)
+        {
             platformerPlayer = GameObject.FindWithTag("Player");
+            if (platformerPlayer == null)
+                platformerPlayer = FindInactiveWithTag("Player");
+        }
         if (topDownPlayer == null)
+        {
             topDownPlayer = GameObject.FindWithTag("PlayerHidden");
+            if (topDownPlayer == null)
+                topDownPlayer = FindInactiveWithTag("PlayerHidden");
+        }
+
         if (dialogueStartTrigger == null)
+        {
             dialogueStartTrigger = GameObject.Find("dialogueHiddenS");
-        if (dialogueEndTrigger == null)
-            dialogueEndTrigger = GameObject.Find("dialogueHiddenE");
+            if (dialogueStartTrigger == null)
+                dialogueStartTrigger = FindInactiveWithTag("DHE");
+        }
 
         if (dialogueEndTrigger == null)
         {
@@ -115,6 +126,9 @@ public class SwitchZone : MonoBehaviour
 
         if (topDownUI == null)
             topDownUI = GameObject.FindWithTag("TU");
+        if (MainSoundManager.instance != null)
+            SoundManager = MainSoundManager.instance.gameObject;
+        
     }
 
     private void InitState()
@@ -201,7 +215,7 @@ public class SwitchZone : MonoBehaviour
             Debug.Log("end dialogue 오브젝트 활성화");
         }
 
-        yield return new WaitUntil(() => dialogueEndTrigger == null);
+        yield return new WaitUntil(() => dialogueEndTrigger == null);// 두번째 대화 끝날 때까지 대기
 
         Debug.Log("톱다운 모드 종료");
 
@@ -244,7 +258,7 @@ public class SwitchZone : MonoBehaviour
     }
     public void off()
     {
-        Instance = null;
+        //Instance = null;
         Destroy(this.gameObject);
     }
 

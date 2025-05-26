@@ -65,7 +65,6 @@ public class PlayerController : MonoBehaviour
     private float fixedYPosition; // Y 고정 시 사용할 Y 위치
     private bool wasPlayerInteractionEnabled = true; // 이전 프레임의 플레이어 상호작용 상태
     // ---
-
     void Start()
     {
         playerCollider = GetComponent<Collider2D>();
@@ -679,6 +678,13 @@ public class PlayerController : MonoBehaviour
                 DialogueManager.instance.FadeFromBlack();
                 Debug.Log("화면을 밝게 전환 시작했습니다.");
             }
+            //if(SwitchZone.Instance != null)
+            //{
+            //    if (!SwitchZone.Instance.gameObject.activeSelf)
+            //    {
+            //        SwitchZone.Instance.gameObject.SetActive(true);
+            //    }
+            //}
         };
     }
 

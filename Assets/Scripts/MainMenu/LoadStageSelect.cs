@@ -10,8 +10,8 @@ public class LoadStageSelect: MonoBehaviour
     public void StageSelectScene()
     {
 
-        if (SwitchZone.Instance != null)
-            SwitchZone.Instance.off();
+        //if (SwitchZone.Instance != null)
+        //    SwitchZone.Instance.off();
         if (GameManager.instance != null)
             GameManager.instance.off();
         if (DialogueManager.instance != null)

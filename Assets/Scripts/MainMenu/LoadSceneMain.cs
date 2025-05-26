@@ -9,8 +9,8 @@ public class LoadSceneMain : MonoBehaviour
 
     public void MainMenuScene()
     {
-        if(SwitchZone.Instance!=null)
-            SwitchZone.Instance.off();
+        //if(SwitchZone.Instance!=null)
+        //    SwitchZone.Instance.off();
         if (GameManager.instance != null)
             GameManager.instance.off();
         if (DialogueManager.instance != null)
