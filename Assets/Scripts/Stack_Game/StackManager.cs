@@ -25,9 +25,15 @@ public class StackManager : MonoBehaviour
     public bool isStackGameActive = false;
     public string blockSortingLayerName = "Default";
     public int baseBlockOrderInLayer = 0;
+
+    // Badge
     public GameObject badgeImageObject; // Inspector에서 연결할 뱃지 GameObject
     public Sprite[] badgeSprites; // Inspector에서 연결할 뱃지 Sprite 배열
     public Vector3 badgeOffset = new Vector3(2f, 2f, 0f); // 카메라로부터의 상대적인 위치 오프셋
+    // Studying
+    public GameObject studyingImageObject;
+    public Vector3 studyingOffset = new Vector3(0f, 0f, 10f);
+
     private bool canExit = false; // 더 이상 사용하지 않음
     public float exitDelay = 3f; // 3초 딜레이
     public PlayerController Pc;
@@ -35,6 +41,7 @@ public class StackManager : MonoBehaviour
 
     public void StartStackGame(Camera stackCamera)
     {
+        DialogueManager.instance.StartDialogueByIdRange("2S-m-1", "2S-m-2");
         Debug.Log("스택 게임 시작됨!");
         isStackGameActive = true;
         mainCamera = stackCamera;
@@ -51,6 +58,11 @@ public class StackManager : MonoBehaviour
         if (badgeImageObject != null)
         {
             badgeImageObject.SetActive(false);
+        }
+        if (studyingImageObject != null)
+        {
+            studyingImageObject.SetActive(true);
+            UpdateStudyingImagePosition(); // 초기 위치 설정
         }
     }
 
@@ -71,6 +83,11 @@ public class StackManager : MonoBehaviour
         if (badgeImageObject != null)
         {
             badgeImageObject.SetActive(false);
+        }
+        if (studyingImageObject != null)
+        {
+            studyingImageObject.SetActive(true);
+            UpdateStudyingImagePosition(); // 초기 위치 설정
         }
     }
 
@@ -181,6 +198,16 @@ public class StackManager : MonoBehaviour
         }
     }
 
+    // Studying 이미지의 위치를 업데이트하는 새 메서드
+    void UpdateStudyingImagePosition()
+    {
+        if (studyingImageObject != null && mainCamera != null)
+        {
+            // Studying 오브젝트를 카메라의 위치에 오프셋을 더하여 설정
+            studyingImageObject.transform.position = mainCamera.transform.position + studyingOffset;
+        }
+    }
+
     IEnumerator ReturnToOriginalGame()
     {
         yield return new WaitForSeconds(exitDelay);
@@ -212,5 +239,6 @@ public class StackManager : MonoBehaviour
     void MoveCameraUp()
     {
         if (isStackGameActive) mainCamera.transform.position += new Vector3(0, blockHeight + 0.5f, 0);
+        UpdateStudyingImagePosition();
     }
 }

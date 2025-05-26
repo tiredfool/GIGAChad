@@ -25,6 +25,7 @@ public class Stage2Manager : MonoBehaviour
 
     public Text gameOverText;
     private bool isGameOver = false;
+    public GameObject uiCanvasToHide;
 
     // Boss 소환 및 장애물 관련
     public GameObject boss;
@@ -67,6 +68,11 @@ public class Stage2Manager : MonoBehaviour
         {
             isGameOver = true;
             Debug.Log("게임 종료 - 점수 5000 도달");
+            if (uiCanvasToHide != null)
+            {
+                uiCanvasToHide.SetActive(false);
+                Debug.Log($"{uiCanvasToHide.name} Canvas가 비활성화되었습니다.");
+            }
             MainSoundManager.instance.StopBGM();
             MainSoundManager.instance.PlayBGM("Hope");
             DialogueManager.instance.StartDialogueByIdRange("E-s","E-2e");
