@@ -741,6 +741,49 @@
       "standingPosition": "right"
     },
     {
+      "id" : "2S-1-1-1",
+      "npcName": "만삣삐",
+      "portraitName": "Player",
+      "fontSize": 70,
+      "dialogue": "기가차드..여긴..?",
+      "standingImage": "pepeStand",
+      "standingPosition": "left"
+    },
+    {
+      "npcName": "기가차드",
+      "portraitName": "Gigachard",
+      "fontSize": 60,
+      "dialogue": "Work하러 갈 시간이야. \n 어엿한 사회의 Member가 되는거지",
+      "standingImage": "chardStand",
+      "standingPosition": "right"
+    },
+    {
+      "npcName": "기가차드",
+      "portraitName": "Gigachard",
+      "fontSize": 60,
+      "dialogue": "온갖 유혹을 떨쳐내고, Study를 하여 자격증을 따는거야",
+      "standingImage": "chardStand",
+      "standingPosition": "right"
+    },
+    {
+      "npcName": "기가차드",
+      "portraitName": "Gigachard",
+      "fontSize": 60,
+      "dialogue": "처음은 Very Difficult할거야. \n 그럼에도 도전을 한다는 것은 Beautiful하지",
+      "standingImage": "chardStand",
+      "standingPosition": "right"
+    },
+    {
+      "id" : "2S-1-1-2",
+      "npcName": "기가차드",
+      "portraitName": "Gigachard_ex",
+      "fontSize": 80,
+      "dialogue": "삣삐. Just Do It!",
+      "standingImage": "chardStand",
+      "standingPosition": "right",
+      "shakeScreen": true
+    },
+    {
       "id" : "2B-a",
       "npcName": "만삣삐",
       "portraitName": "Player_sad",
