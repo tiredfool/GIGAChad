@@ -95,7 +95,7 @@ public class Player : MonoBehaviour
     {
         if (hp> 0)
         {
-            bossManager.ReduceActiveDuration(2f);
+            bossManager.ReduceActiveDuration(30f);
         }
     }
 }
