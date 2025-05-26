@@ -34,7 +34,7 @@ public class ScoreManager : MonoBehaviour
         score += amount;
         UpdateScoreText();
 
-        if (score >= 5000)
+        if (score >= 300)
         {
             Stage2Manager.instance.EndGameByScore();
         }

@@ -30,7 +30,7 @@ public class StackManager : MonoBehaviour
     public Vector3 badgeOffset = new Vector3(2f, 2f, 0f); // 카메라로부터의 상대적인 위치 오프셋
     private bool canExit = false; // 더 이상 사용하지 않음
     public float exitDelay = 3f; // 3초 딜레이
-    public bool isGameStart = false;
+
     public bool IsGameOver() { return isGameOver; }
 
     public void StartStackGame(Camera stackCamera)
@@ -190,17 +190,22 @@ public class StackManager : MonoBehaviour
     public void EndGame()
     {
         if (!isStackGameActive || isGameOver) return;
-        if (isGameOver) return;
+
         isGameOver = true;
+        isStackGameActive = false;
         Debug.Log("Game Over");
-        if (cameraSwitcher != null) cameraSwitcher.ExitStackMode();
+        if (cameraSwitcher != null)
+        {
+            cameraSwitcher.ExitStackMode();
+            cameraSwitcher.gameObject.SetActive(false); // CameraSwitcher를 비활성화
+        }
         if (stackedBlocks.Count > 0)
         {
             GameObject current = stackedBlocks[stackedBlocks.Count - 1];
             var controller = current.GetComponent<BlockController>();
             if (controller != null) controller.StopBlock();
         }
-        isGameStart = false;
+        MainSoundManager.instance.ChangeBGM("2stage");
     }
 
     void MoveCameraUp()

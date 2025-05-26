@@ -58,7 +58,7 @@ public class Stage2Manager : MonoBehaviour
 
     void Update()
     {
-       
+
     }
 
     public void EndGameByScore()
@@ -67,8 +67,29 @@ public class Stage2Manager : MonoBehaviour
         {
             isGameOver = true;
             Debug.Log("게임 종료 - 점수 5000 도달");
-            ShowGameOver("축하합니다!\n점수 도달로 게임 종료");
-            StartCoroutine(RestartAfterDelay(1f));
+            DialogueManager.instance.StartDialogueByIdRange("E-s","E-2e");
+            //ShowGameOver("축하합니다!\n점수 도달로 게임 종료");
+            ////  StartCoroutine(RestartAfterDelay(1f));
+            //if (mainCamera != null) mainCamera.SetActive(true);
+            //if (bossCamera != null) bossCamera.SetActive(false);
+
+            //AudioListener bossAudio = bossCamera?.GetComponent<AudioListener>();
+            //if (bossAudio != null) bossAudio.enabled = false;
+
+            //AudioListener mainAudio = mainCamera?.GetComponent<AudioListener>();
+            //if (mainAudio != null) mainAudio.enabled = true;
+            //GameManager.instance.NextStage();
+            //if (SwitchZone.Instance != null)
+            //    SwitchZone.Instance.off();
+            //if (GameManager.instance != null)
+            //    GameManager.instance.off();
+            //if (DialogueManager.instance != null)
+            //    DialogueManager.instance.off();
+            //if (MainSoundManager.instance != null)
+            //    MainSoundManager.instance.off();
+            //if (VirtualInputManager.Instance != null)
+            //    VirtualInputManager.Instance.off();
+            //SceneManager.LoadScene("MainMenu");
         }
     }
 
@@ -147,7 +168,7 @@ public class Stage2Manager : MonoBehaviour
         }
 
         // 새로운 플랫폼 생성
-        float newX = Random.Range(272f, 279f);
+        float newX = Random.Range(280f, 287f);
         float newY = currentPlatformPos.y + 3f;
         Vector3 newPlatformPos = new Vector3(newX, newY, 0f);
         Instantiate(platformPrefab, newPlatformPos, Quaternion.identity);
@@ -200,8 +221,8 @@ public class Stage2Manager : MonoBehaviour
 
         while (elapsed < bossAttackDuration)
         {
-            float randomX = Random.Range(270f, 280f);
-            float spawnY = player.transform.position.y + 5f;
+            float randomX = Random.Range(278f, 291f);
+            float spawnY = player.transform.position.y + 7f;
 
             Instantiate(fallingObjectPrefab, new Vector3(randomX, spawnY, 0f), Quaternion.identity);
             yield return new WaitForSeconds(spawnRate);
