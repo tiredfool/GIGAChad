@@ -201,6 +201,11 @@ public class DialogueManager : MonoBehaviour
         slider.value = health;
     }
 
+    public bool isTalking()
+    {
+        return dialogueStarted;
+    }
+
     void LoadDialogueFromJson()
     {
         allDialogues.Clear();

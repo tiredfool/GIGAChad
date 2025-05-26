@@ -1214,8 +1214,7 @@
       "standingPosition": "left,right",
        "backgroundImageName": "office2"
     },
-     {
-      "id" : "E-2e",
+     { 
       "npcName": "만삣삐",
       "portraitName": "Player",
       "fontSize": 70,
@@ -1223,6 +1222,45 @@
       "standingImage": "pepeStand",
       "standingPosition": "left",
        "backgroundImageName": "office2"
+    },
+     {
+      "dialogueType": "black",
+      "dialogue": "얼마뒤",
+      "fontSize": 48,
+      "blackBoxDuration": 1
+    },
+     {
+      "dialogueType": "black",
+      "dialogue": "",
+      "fontSize": 48,
+      "blackBoxDuration": 0
+    },
+    { 
+      "npcName": "또다른 삣삐",
+      "portraitName": "Q",
+      "fontSize": 70,
+      "dialogue": "또 실패했어... 난 안 될 거야.",
+      "backgroundImageName": "Park"
+    },
+     { 
+      "npcName": "성장한 만삣삐",
+       "portraitName": "gigapepe",
+      "fontSize": 70,
+      "dialogue": "Hey boy, 무슨 Idiot 같은 생각을 하고 있길래 그러고 있는 거야?",
+      "standingImage": "GigapepeS",
+      "standingPosition": "left",
+      "backgroundImageName": "Park"
+    },
+     { 
+      "id" : "E-2e",
+      "npcName": "성장한 만삣삐",
+      "portraitName": "gigapepe",
+      "fontSize": 70,
+      "dialogue": "나에게 말해봐, 삣삐",
+      "standingImage": "GigapepeS",
+      "standingPosition": "left",
+      "backgroundImageName": "Park"
     }
+   
   ]
 }

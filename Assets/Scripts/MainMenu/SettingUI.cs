@@ -17,7 +17,8 @@ public class SettingUI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyUp(KeyCode.Escape))
+
+        if (Input.GetKeyUp(KeyCode.Escape)&& !DialogueManager.instance.isTalking())
         {
             if (isActivated == false)
             {
@@ -37,17 +38,20 @@ public class SettingUI : MonoBehaviour
     }
     public void togleActive()
     {
-        if (isActivated == false)
+        if (!DialogueManager.instance.isTalking())
         {
-            setting.gameObject.SetActive(true);
-            isActivated = true;
-            Time.timeScale = 0f;
-        }
-        else
-        {
-            setting.gameObject.SetActive(false);
-            isActivated = false;
-            Time.timeScale = 1f;
+            if (isActivated == false)
+            {
+                setting.gameObject.SetActive(true);
+                isActivated = true;
+                Time.timeScale = 0f;
+            }
+            else
+            {
+                setting.gameObject.SetActive(false);
+                isActivated = false;
+                Time.timeScale = 1f;
+            }
         }
     }
 

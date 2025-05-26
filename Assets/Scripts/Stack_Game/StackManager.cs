@@ -1,4 +1,4 @@
-using UnityEngine;
+ using UnityEngine;
 using System.Collections; // 코루틴 사용을 위해 추가
 using System.Collections.Generic;
 
@@ -30,7 +30,7 @@ public class StackManager : MonoBehaviour
     public Vector3 badgeOffset = new Vector3(2f, 2f, 0f); // 카메라로부터의 상대적인 위치 오프셋
     private bool canExit = false; // 더 이상 사용하지 않음
     public float exitDelay = 3f; // 3초 딜레이
-
+    public PlayerController Pc;
     public bool IsGameOver() { return isGameOver; }
 
     public void StartStackGame(Camera stackCamera)
@@ -77,7 +77,7 @@ public class StackManager : MonoBehaviour
     public void SpawnBlock()
     {
         if (!isStackGameActive || isGameOver) return;
-
+      
         Vector3 spawnPos = spawnPoint.position;
         if (lastBlock != null) spawnPos.y = lastBlock.transform.position.y + blockHeight + 0.5f;
         GameObject newBlock = Instantiate(blockPrefab, spawnPos, Quaternion.identity);
@@ -194,6 +194,7 @@ public class StackManager : MonoBehaviour
         isGameOver = true;
         isStackGameActive = false;
         Debug.Log("Game Over");
+        Pc.SetStackGameMode(false);
         if (cameraSwitcher != null)
         {
             cameraSwitcher.ExitStackMode();

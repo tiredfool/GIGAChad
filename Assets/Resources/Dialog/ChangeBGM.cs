@@ -5,6 +5,7 @@ using UnityEngine;
 public class ChangeBGM : MonoBehaviour
 {
     public string BGM;
+    public bool forced = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -18,7 +19,12 @@ public class ChangeBGM : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        MainSoundManager.instance.ChangeBGM(BGM);
+        if (forced)
+        {
+            MainSoundManager.instance.StopBGM();
+            MainSoundManager.instance.PlayBGM(BGM);
+        }
+        else MainSoundManager.instance.ChangeBGM(BGM);
 
     }
 }
