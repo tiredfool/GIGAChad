@@ -17,6 +17,8 @@ public class SwitchZone : MonoBehaviour
     public GameObject platformerUI;
     public GameObject topDownUI;
     public GameObject SoundManager;
+    public GameObject dialogueEndTrigger;
+    public GameObject dialogueStartTrigger;
 
     private bool isTopDown = false;
 
@@ -63,7 +65,17 @@ public class SwitchZone : MonoBehaviour
             platformerPlayer = GameObject.FindWithTag("Player");
         if (topDownPlayer == null)
             topDownPlayer = GameObject.FindWithTag("PlayerHidden");
+        if (dialogueStartTrigger == null)
+            dialogueStartTrigger = GameObject.Find("dialogueHiddenS");
+        if (dialogueEndTrigger == null)
+            dialogueEndTrigger = GameObject.Find("dialogueHiddenE");
 
+        if (dialogueEndTrigger == null)
+        {
+            dialogueEndTrigger = GameObject.FindWithTag("DHE");
+            if (dialogueEndTrigger == null)
+                dialogueEndTrigger = FindInactiveWithTag("DHE");
+        }
 
         if (platformerPlayer != null && platformerPlayerController == null)
         {
@@ -73,7 +85,6 @@ public class SwitchZone : MonoBehaviour
                 Debug.LogError("Platformer Player에 PlayerController 스크립트가 없습니다!");
             }
         }
-
 
 
         if (vcamPlatformer == null)
@@ -98,6 +109,7 @@ public class SwitchZone : MonoBehaviour
         }
 
 
+
         if (platformerUI == null)
             platformerUI = GameObject.FindWithTag("PU");
 
@@ -116,6 +128,8 @@ public class SwitchZone : MonoBehaviour
             platformerUI.SetActive(true);
         if (topDownUI != null)
             topDownUI.SetActive(false);
+        if(dialogueEndTrigger != null)
+            dialogueEndTrigger.GetComponent<Collider2D>().enabled = false;
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -128,16 +142,25 @@ public class SwitchZone : MonoBehaviour
 
     private IEnumerator SwitchToTopDown()
     {
+        Debug.Log("SwitchToTopDown 코루틴 시작");
         isTopDown = true;
+        Debug.Log("BGM 바꾸기 전");
         SoundManager.GetComponent<MainSoundManager>().ChangeBGM("1stage hidden");
-        if (vcamPlatformer != null) vcamPlatformer.Priority = 5;
-        if (vcamTopDown != null) vcamTopDown.Priority = 10;
+        Debug.Log("BGM 바꿈");
+        if (vcamPlatformer != null)
+        {
+            vcamPlatformer.Priority = 5;
+            Debug.Log("플랫포머 카메라 priority 낮춤");
+        }
+        if (vcamTopDown != null)
+        {
+            vcamTopDown.Priority = 10;
+            Debug.Log("톱다운 카메라 priority 높임");
+        }
 
         if (platformerUI != null) platformerUI.SetActive(false);
         if (topDownUI != null) topDownUI.SetActive(true);
 
-        if (foodSpawner != null) foodSpawner.SetActive(true);
-        if (topDownPlayer != null) topDownPlayer.SetActive(true);
         if (platformerPlayer != null) platformerPlayer.SetActive(false);
 
         if (platformerPlayerController != null) // 발소리 제거
@@ -150,6 +173,11 @@ public class SwitchZone : MonoBehaviour
             }
         }
         if (platformerPlayer != null) platformerPlayer.SetActive(false);
+        if (topDownPlayer != null) topDownPlayer.SetActive(true);
+
+        yield return new WaitUntil(() => dialogueStartTrigger == null);
+
+        if (foodSpawner != null) foodSpawner.SetActive(true);
 
         Debug.Log("톱다운 모드 시작");
 
@@ -161,6 +189,13 @@ public class SwitchZone : MonoBehaviour
             if (player != null)
                 player.EndMiniGame();
         }
+        if (dialogueEndTrigger != null)
+        {
+            dialogueEndTrigger.GetComponent<Collider2D>().enabled = true; ;
+            Debug.Log("end dialogue 오브젝트 활성화");
+        }
+
+        yield return new WaitUntil(() => dialogueEndTrigger == null);
 
         Debug.Log("톱다운 모드 종료");
 

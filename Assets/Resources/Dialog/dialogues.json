@@ -44,6 +44,7 @@
       "blackBoxDuration": 2.2
     },
      {
+    {
       "id": "1_e",
       "dialogueType": "black",
       "dialogue": "",
@@ -52,6 +53,7 @@
     },
     {
       
+
       "npcName": "만삣삐",
       "portraitName": "Player",
       "fontSize": 70,
@@ -131,6 +133,7 @@
       "fontSize": 55,
       "dialogue": "또 새로운 하루가 시작되었어...",
      "standingImage": "pepeStand,chardStand",
+      "standingImage": "pepeStand,chardStand",
       "standingPosition": "left,right",
       "backgroundImageName": "Room1"
     },
@@ -140,6 +143,7 @@
       "fontSize": 60,
       "dialogue": "물론이지, 만삣삐",
      "standingImage": "pepeStand,chardStand",
+      "standingImage": "pepeStand,chardStand",
       "standingPosition": "left,right",
       "backgroundImageName": "Room1"
     },
@@ -149,6 +153,7 @@
       "fontSize": 60,
       "dialogue": "아주 황금같은 하루가 말이야.",
      "standingImage": "pepeStand,chardStand",
+      "standingImage": "pepeStand,chardStand",
       "standingPosition": "left,right",
       "backgroundImageName": "Room1"
     },
@@ -205,6 +210,7 @@
       "portraitName": "Player",
       "fontSize": 60,
       "dialogue": "네 덕분이지.",
+      "dialogue": "네 덕분이야, 기가차드.",
       "standingImage": "pepeStand",
       "standingPosition": "left"
     },
@@ -228,6 +234,8 @@
     },
     { 
       "id" : "T-2s",
+    {
+      "id": "T-2s",
       "npcName": "기가차드",
       "portraitName": "Gigachard",
       "fontSize": 60,
@@ -237,6 +245,7 @@
     },
     {
       
+
       "npcName": "기가차드",
       "portraitName": "Gigachard",
       "fontSize": 60,
@@ -246,6 +255,7 @@
     },
     {
       "id" : "T-2e",
+      "id": "T-2e",
       "npcName": "기가차드",
       "portraitName": "Gigachard",
       "fontSize": 60,
@@ -255,6 +265,7 @@
     },
     {
       "id" : "T-3s",
+      "id": "T-3s",
       "npcName": "기가차드",
       "portraitName": "Gigachard_ex",
       "fontSize": 60,
@@ -264,6 +275,8 @@
     },
      {
       "id" : "T-3e",
+    {
+      "id": "T-3e",
       "npcName": "기가차드",
       "portraitName": "Gigachard",
       "fontSize": 60,
@@ -273,6 +286,7 @@
     },
     {
       "id" : "T-4s",
+      "id": "T-4s",
       "npcName": "기가차드",
       "portraitName": "Gigachard",
       "fontSize": 60,
@@ -282,6 +296,8 @@
     },
      {
       "id" : "T-4e",
+    {
+      "id": "T-4e",
       "npcName": "기가차드",
       "portraitName": "Gigachard",
       "fontSize": 60,
@@ -290,6 +306,7 @@
       "standingPosition": "right"
     },
      {
+    {
       "npcName": "기가차드",
       "portraitName": "Gigachard",
       "fontSize": 60,
@@ -298,6 +315,7 @@
       "standingPosition": "right"
     },
      {
+    {
       "npcName": "기가차드",
       "portraitName": "Gigachard",
       "fontSize": 60,
@@ -307,6 +325,7 @@
     },
     {
       "id" : "T-5",
+      "id": "T-5",
       "npcName": "기가차드",
       "portraitName": "Gigachard_ex",
       "fontSize": 60,
@@ -317,6 +336,8 @@
     },
      {
       "id" : "T-6",
+    {
+      "id": "T-6",
       "npcName": "기가차드",
       "portraitName": "Gigachard",
       "fontSize": 60,
@@ -326,6 +347,8 @@
     },
      {
       "id" : "T-7",
+    {
+      "id": "T-7",
       "npcName": "기가차드",
       "portraitName": "Gigachard",
       "fontSize": 60,
@@ -335,6 +358,8 @@
     },
      {
       "id" : "T-8",
+    {
+      "id": "T-8",
       "npcName": "기가차드",
       "portraitName": "Gigachard",
       "fontSize": 60,
@@ -344,6 +369,8 @@
     },
      {
       "id" : "T-9",
+    {
+      "id": "T-9",
       "npcName": "기가차드",
       "portraitName": "Gigachard",
       "fontSize": 60,
@@ -353,6 +380,8 @@
     },
      {
       "id" : "T-10",
+    {
+      "id": "T-10",
       "npcName": "기가차드",
       "portraitName": "Gigachard_ex",
       "fontSize": 60,
@@ -360,9 +389,12 @@
       "standingImage": "chardStand",
       "standingPosition": "right",
        "shakeScreen": true
+      "shakeScreen": true
     },
    
    
+
+
     {
       "id": "3_s",
       "npcName": "기가차드",
@@ -409,6 +441,15 @@
     },
     {
        "id" : "1M-s",
+      "id": "1M-s",
+      "npcName": "만삣삐",
+      "portraitName": "Player",
+      "fontSize": 70,
+      "dialogue": "여긴.. 어디지?",
+      "standingImage": "pepeStand",
+      "standingPosition": "left"
+    },
+    {
       "npcName": "???",
       "portraitName": "Q",
       "fontSize": 70,
@@ -424,10 +465,19 @@
     },
     {
      
+
       "npcName": "???",
       "portraitName": "Q",
       "fontSize": 70,
       "dialogue": "oh, diet? b**l s**t. 만삣삐. 이건 너의 work에 대한 보상이야!"
+    },
+    {
+      "npcName": "만삣삐",
+      "portraitName": "Player",
+      "fontSize": 70,
+      "dialogue": "내가 좋아하는 음식들만 있어..",
+      "standingImage": "pepeStand",
+      "standingPosition": "left"
     },
     {
       "npcName": "기가차드",
@@ -440,6 +490,7 @@
     },
     {
       "id" : "1M-e",
+      "id": "1M-e",
       "npcName": "만삣삐",
       "portraitName": "Player",
       "fontSize": 70,
@@ -448,7 +499,7 @@
       "standingPosition": "left"
     },
     {
-      "id" : "1M-2s",
+      "id": "1M-2s",
       "npcName": "흑형",
       "portraitName": "ChickenMan",
       "fontSize": 70,
@@ -458,6 +509,7 @@
     },
     {
       "id" : "1M-2e",
+      "id": "1M-2e",
       "npcName": "기가차드",
       "portraitName": "Gigachard",
       "fontSize": 60,
@@ -467,6 +519,7 @@
     },
     {
       "id" : "1B-s",
+      "id": "1B-s",
       "npcName": "만삣삐",
       "portraitName": "Player",
       "fontSize": 70,
@@ -475,6 +528,7 @@
       "standingPosition": "left"
     },
      {
+    {
       "npcName": "기가차드",
       "portraitName": "Gigachard",
       "fontSize": 60,
@@ -483,6 +537,7 @@
       "standingPosition": "right"
     },
       {
+    {
       "npcName": "기가차드",
       "portraitName": "Gigachard_ex",
       "fontSize": 60,
@@ -492,6 +547,7 @@
       "standingPosition": "right"
     },
     {    
+    {
       "npcName": "???",
       "portraitName": "Q",
       "fontSize": 70,
@@ -508,6 +564,7 @@
     },
     {
      
+
       "npcName": "흑형",
       "portraitName": "ChickenMan",
       "fontSize": 70,
@@ -518,6 +575,7 @@
     },
     {
       "id" : "1B-e",
+      "id": "1B-e",
       "npcName": "만삣삐",
       "portraitName": "Player",
       "fontSize": 70,
@@ -527,6 +585,8 @@
     },
      {
       "id" : "1B-2s",
+    {
+      "id": "1B-2s",
       "npcName": "기가차드",
       "portraitName": "Gigachard",
       "fontSize": 60,
@@ -544,6 +604,8 @@
     },
      {
       "id" : "1B-2e",
+    {
+      "id": "1B-2e",
       "npcName": "기가차드",
       "portraitName": "Gigachard",
       "fontSize": 60,
@@ -553,6 +615,7 @@
     },
     {
       "id" : "1B-3s",
+      "id": "1B-3s",
       "npcName": "흑형",
       "portraitName": "ChickenMan",
       "fontSize": 70,
@@ -563,6 +626,8 @@
     },
        {
       "id" : "1B-3e",
+    {
+      "id": "1B-3e",
       "npcName": "흑형",
       "portraitName": "ChickenMan",
       "fontSize": 70,
@@ -570,6 +635,8 @@
       "shakeScreen": true
     },
     {"id" : "1B-4s",
+    {
+      "id": "1B-4s",
       "npcName": "기가차드",
       "portraitName": "Gigachard",
       "fontSize": 60,
@@ -587,6 +654,7 @@
     },
     {
       
+
       "npcName": "기가차드",
       "portraitName": "Gigachard",
       "fontSize": 60,
@@ -596,6 +664,7 @@
     },
     {
       "id" : "1B-4e",
+      "id": "1B-4e",
       "npcName": "기가차드",
       "portraitName": "Gigachard",
       "fontSize": 60,
@@ -693,6 +762,8 @@
     },
     { 
       "id" : "2B-a",
+    {
+      "id": "2B-a",
       "npcName": "보스",
       "portraitName": "Boss_sprite_5",
       "fontSize": 70,
@@ -701,6 +772,8 @@
       "standingPosition": "right"
     },  
     { 
+    },
+    {
       "npcName": "보스",
       "portraitName": "Boss_sprite_5",
       "fontSize": 70,
@@ -710,6 +783,8 @@
       "shakeScreen": true
     }, 
     { 
+    },
+    {
       "npcName": "보스",
       "portraitName": "Boss_sprite_5",
       "fontSize": 70,
@@ -719,6 +794,9 @@
     }, 
     { 
       "id" : "2B-b",
+    },
+    {
+      "id": "2B-b",
       "npcName": "보스",
       "portraitName": "Boss_sprite_5",
       "fontSize": 70,
@@ -728,6 +806,9 @@
     }, 
     { 
       "id" : "2B-c",
+    },
+    {
+      "id": "2B-c",
       "npcName": "보스",
       "portraitName": "Boss_sprite_5",
       "fontSize": 70,
@@ -736,6 +817,8 @@
       "standingPosition": "right"
     },  
     { 
+    },
+    {
       "npcName": "보스",
       "portraitName": "Boss_sprite_5",
       "fontSize": 70,
@@ -744,6 +827,8 @@
       "standingPosition": "right"
     }, 
     { 
+    },
+    {
       "npcName": "보스",
       "portraitName": "Boss_sprite_5",
       "fontSize": 70,
@@ -753,6 +838,9 @@
     }, 
     { 
       "id" : "2B-d",
+    },
+    {
+      "id": "2B-d",
       "npcName": "보스",
       "portraitName": "Boss_sprite_5",
       "fontSize": 70,
@@ -761,6 +849,8 @@
       "standingPosition": "right"
     }, 
     { 
+    },
+    {
       "npcName": "보스",
       "portraitName": "Boss_sprite_5",
       "fontSize": 70,
@@ -769,6 +859,8 @@
       "standingPosition": "right"
     }, 
     { 
+    },
+    {
       "npcName": "보스",
       "portraitName": "Boss_sprite_5",
       "fontSize": 70,
@@ -776,6 +868,7 @@
       "standingImage": "Boss_sprite_5",
       "standingPosition": "right"
     }, 
+    },
     {
       "npcName": "만삣삐",
       "portraitName": "Player_sad",
