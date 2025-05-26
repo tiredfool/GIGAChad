@@ -130,6 +130,8 @@ public class SwitchZone : MonoBehaviour
             topDownUI.SetActive(false);
         if(dialogueEndTrigger != null)
             dialogueEndTrigger.GetComponent<Collider2D>().enabled = false;
+        if (dialogueStartTrigger != null)
+            dialogueStartTrigger.GetComponent<Collider2D>().enabled = false;
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -158,7 +160,7 @@ public class SwitchZone : MonoBehaviour
             Debug.Log("톱다운 카메라 priority 높임");
         }
 
-        if (platformerUI != null) platformerUI.SetActive(false);
+        //if (platformerUI != null) platformerUI.SetActive(false);
         if (topDownUI != null) topDownUI.SetActive(true);
 
         if (platformerPlayer != null) platformerPlayer.SetActive(false);
@@ -174,6 +176,10 @@ public class SwitchZone : MonoBehaviour
         }
         if (platformerPlayer != null) platformerPlayer.SetActive(false);
         if (topDownPlayer != null) topDownPlayer.SetActive(true);
+        yield return new WaitForSeconds(2f);
+
+        if (dialogueStartTrigger != null)
+            dialogueStartTrigger.GetComponent<Collider2D>().enabled = true;
 
         yield return new WaitUntil(() => dialogueStartTrigger == null);
 
