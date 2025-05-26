@@ -43,7 +43,6 @@
       "fontSize": 48,
       "blackBoxDuration": 2.2
     },
-     {
     {
       "id": "1_e",
       "dialogueType": "black",
@@ -52,7 +51,6 @@
       "blackBoxDuration": 0
     },
     {
-      
 
       "npcName": "만삣삐",
       "portraitName": "Player",
@@ -132,7 +130,6 @@
       "portraitName": "Player",
       "fontSize": 55,
       "dialogue": "또 새로운 하루가 시작되었어...",
-     "standingImage": "pepeStand,chardStand",
       "standingImage": "pepeStand,chardStand",
       "standingPosition": "left,right",
       "backgroundImageName": "Room1"
@@ -142,7 +139,6 @@
       "portraitName": "Gigachard",
       "fontSize": 60,
       "dialogue": "물론이지, 만삣삐",
-     "standingImage": "pepeStand,chardStand",
       "standingImage": "pepeStand,chardStand",
       "standingPosition": "left,right",
       "backgroundImageName": "Room1"
@@ -152,7 +148,6 @@
       "portraitName": "Gigachard",
       "fontSize": 60,
       "dialogue": "아주 황금같은 하루가 말이야.",
-     "standingImage": "pepeStand,chardStand",
       "standingImage": "pepeStand,chardStand",
       "standingPosition": "left,right",
       "backgroundImageName": "Room1"
@@ -209,7 +204,6 @@
       "npcName": "만삣삐",
       "portraitName": "Player",
       "fontSize": 60,
-      "dialogue": "네 덕분이지.",
       "dialogue": "네 덕분이야, 기가차드.",
       "standingImage": "pepeStand",
       "standingPosition": "left"
@@ -232,8 +226,6 @@
       "standingImage": "chardStand",
       "standingPosition": "right"
     },
-    { 
-      "id" : "T-2s",
     {
       "id": "T-2s",
       "npcName": "기가차드",
@@ -244,7 +236,6 @@
       "standingPosition": "right"
     },
     {
-      
 
       "npcName": "기가차드",
       "portraitName": "Gigachard",
@@ -254,7 +245,6 @@
       "standingPosition": "right"
     },
     {
-      "id" : "T-2e",
       "id": "T-2e",
       "npcName": "기가차드",
       "portraitName": "Gigachard",
@@ -264,7 +254,6 @@
       "standingPosition": "right"
     },
     {
-      "id" : "T-3s",
       "id": "T-3s",
       "npcName": "기가차드",
       "portraitName": "Gigachard_ex",
@@ -273,8 +262,6 @@
       "standingImage": "chardStand",
       "standingPosition": "right"
     },
-     {
-      "id" : "T-3e",
     {
       "id": "T-3e",
       "npcName": "기가차드",
@@ -285,7 +272,6 @@
       "standingPosition": "right"
     },
     {
-      "id" : "T-4s",
       "id": "T-4s",
       "npcName": "기가차드",
       "portraitName": "Gigachard",
@@ -294,8 +280,6 @@
       "standingImage": "chardStand",
       "standingPosition": "right"
     },
-     {
-      "id" : "T-4e",
     {
       "id": "T-4e",
       "npcName": "기가차드",
@@ -305,7 +289,6 @@
       "standingImage": "chardStand",
       "standingPosition": "right"
     },
-     {
     {
       "npcName": "기가차드",
       "portraitName": "Gigachard",
@@ -314,7 +297,6 @@
       "standingImage": "chardStand",
       "standingPosition": "right"
     },
-     {
     {
       "npcName": "기가차드",
       "portraitName": "Gigachard",
@@ -324,7 +306,6 @@
       "standingPosition": "right"
     },
     {
-      "id" : "T-5",
       "id": "T-5",
       "npcName": "기가차드",
       "portraitName": "Gigachard_ex",
@@ -334,8 +315,6 @@
       "standingPosition": "right",
       "shakeScreen": true
     },
-     {
-      "id" : "T-6",
     {
       "id": "T-6",
       "npcName": "기가차드",
@@ -345,8 +324,6 @@
       "standingImage": "chardStand",
       "standingPosition": "right"
     },
-     {
-      "id" : "T-7",
     {
       "id": "T-7",
       "npcName": "기가차드",
@@ -356,8 +333,6 @@
       "standingImage": "chardStand",
       "standingPosition": "right"
     },
-     {
-      "id" : "T-8",
     {
       "id": "T-8",
       "npcName": "기가차드",
@@ -367,8 +342,6 @@
       "standingImage": "chardStand",
       "standingPosition": "right"
     },
-     {
-      "id" : "T-9",
     {
       "id": "T-9",
       "npcName": "기가차드",
@@ -378,8 +351,6 @@
       "standingImage": "chardStand",
       "standingPosition": "right"
     },
-     {
-      "id" : "T-10",
     {
       "id": "T-10",
       "npcName": "기가차드",
@@ -388,11 +359,8 @@
       "dialogue": "LET'S GO! 만삣삐!!!",
       "standingImage": "chardStand",
       "standingPosition": "right",
-       "shakeScreen": true
       "shakeScreen": true
     },
-   
-   
 
 
     {
@@ -440,7 +408,6 @@
       "standingPosition": "left"
     },
     {
-       "id" : "1M-s",
       "id": "1M-s",
       "npcName": "만삣삐",
       "portraitName": "Player",
@@ -464,7 +431,6 @@
       "standingPosition": "left"
     },
     {
-     
 
       "npcName": "???",
       "portraitName": "Q",
@@ -489,7 +455,6 @@
       "shakeScreen": true
     },
     {
-      "id" : "1M-e",
       "id": "1M-e",
       "npcName": "만삣삐",
       "portraitName": "Player",
@@ -508,7 +473,6 @@
       "standingPosition": "right"
     },
     {
-      "id" : "1M-2e",
       "id": "1M-2e",
       "npcName": "기가차드",
       "portraitName": "Gigachard",
@@ -518,7 +482,6 @@
       "standingPosition": "right"
     },
     {
-      "id" : "1B-s",
       "id": "1B-s",
       "npcName": "만삣삐",
       "portraitName": "Player",
@@ -527,7 +490,6 @@
       "standingImage": "pepeStand",
       "standingPosition": "left"
     },
-     {
     {
       "npcName": "기가차드",
       "portraitName": "Gigachard",
@@ -536,7 +498,6 @@
       "standingImage": "chardStand",
       "standingPosition": "right"
     },
-      {
     {
       "npcName": "기가차드",
       "portraitName": "Gigachard_ex",
@@ -546,7 +507,6 @@
       "shakeScreen": true,
       "standingPosition": "right"
     },
-    {    
     {
       "npcName": "???",
       "portraitName": "Q",
@@ -563,7 +523,6 @@
       "shakeScreen": true
     },
     {
-     
 
       "npcName": "흑형",
       "portraitName": "ChickenMan",
@@ -574,7 +533,6 @@
       "shakeScreen": true
     },
     {
-      "id" : "1B-e",
       "id": "1B-e",
       "npcName": "만삣삐",
       "portraitName": "Player",
@@ -583,8 +541,6 @@
       "standingImage": "pepeStand",
       "standingPosition": "left"
     },
-     {
-      "id" : "1B-2s",
     {
       "id": "1B-2s",
       "npcName": "기가차드",
@@ -602,8 +558,6 @@
       "standingImage": "chardStand",
       "standingPosition": "right"
     },
-     {
-      "id" : "1B-2e",
     {
       "id": "1B-2e",
       "npcName": "기가차드",
@@ -614,7 +568,6 @@
       "standingPosition": "right"
     },
     {
-      "id" : "1B-3s",
       "id": "1B-3s",
       "npcName": "흑형",
       "portraitName": "ChickenMan",
@@ -624,8 +577,6 @@
       "standingPosition": "right",
       "shakeScreen": true
     },
-       {
-      "id" : "1B-3e",
     {
       "id": "1B-3e",
       "npcName": "흑형",
@@ -634,7 +585,6 @@
       "dialogue": "이럴수는!!!",
       "shakeScreen": true
     },
-    {"id" : "1B-4s",
     {
       "id": "1B-4s",
       "npcName": "기가차드",
@@ -653,7 +603,6 @@
       "standingPosition": "left"
     },
     {
-      
 
       "npcName": "기가차드",
       "portraitName": "Gigachard",
@@ -663,7 +612,6 @@
       "standingPosition": "right"
     },
     {
-      "id" : "1B-4e",
       "id": "1B-4e",
       "npcName": "기가차드",
       "portraitName": "Gigachard",
@@ -760,8 +708,6 @@
       "standingImage": "chardStand",
       "standingPosition": "right"
     },
-    { 
-      "id" : "2B-a",
     {
       "id": "2B-a",
       "npcName": "보스",
@@ -770,8 +716,6 @@
       "dialogue": "또 이런애들 뿐이야?",
       "standingImage": "Boss_sprite_5",
       "standingPosition": "right"
-    },  
-    { 
     },
     {
       "npcName": "보스",
@@ -781,8 +725,6 @@
       "standingImage": "Boss_sprite_5",
       "standingPosition": "right",
       "shakeScreen": true
-    }, 
-    { 
     },
     {
       "npcName": "보스",
@@ -791,9 +733,6 @@
       "dialogue": "아. 그쪽이 이번에 지원한\n[지원자]군.",
       "standingImage": "Boss_sprite_5",
       "standingPosition": "right"
-    }, 
-    { 
-      "id" : "2B-b",
     },
     {
       "id": "2B-b",
@@ -803,9 +742,6 @@
       "dialogue": "그러면 면접 시작하도록 하지.",
       "standingImage": "Boss_sprite_5",
       "standingPosition": "right"
-    }, 
-    { 
-      "id" : "2B-c",
     },
     {
       "id": "2B-c",
@@ -815,8 +751,6 @@
       "dialogue": "다음 지원자 들어오시죠.",
       "standingImage": "Boss_sprite_5",
       "standingPosition": "right"
-    },  
-    { 
     },
     {
       "npcName": "보스",
@@ -825,8 +759,6 @@
       "dialogue": "저번에 면접을 봤던\n그 분 아닌가?",
       "standingImage": "Boss_sprite_5",
       "standingPosition": "right"
-    }, 
-    { 
     },
     {
       "npcName": "보스",
@@ -835,9 +767,6 @@
       "dialogue": "뭐 보나마나 저번과\n결과가 똑같겠죠.",
       "standingImage": "Boss_sprite_5",
       "standingPosition": "right"
-    }, 
-    { 
-      "id" : "2B-d",
     },
     {
       "id": "2B-d",
@@ -847,8 +776,6 @@
       "dialogue": "그러면 면접 시작하도록 하지.",
       "standingImage": "Boss_sprite_5",
       "standingPosition": "right"
-    }, 
-    { 
     },
     {
       "npcName": "보스",
@@ -857,8 +784,6 @@
       "dialogue": "그쪽은 저희 회사와 맞지 않는군요.",
       "standingImage": "Boss_sprite_5",
       "standingPosition": "right"
-    }, 
-    { 
     },
     {
       "npcName": "보스",
@@ -867,7 +792,6 @@
       "dialogue": "면접 종료하도록 하죠.",
       "standingImage": "Boss_sprite_5",
       "standingPosition": "right"
-    }, 
     },
     {
       "npcName": "만삣삐",
