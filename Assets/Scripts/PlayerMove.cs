@@ -153,7 +153,7 @@ public class PlayerController : MonoBehaviour
 
         bool currentPlayerInteractionEnabled = GameManager.instance.IsPlayerInteractionEnabled();
         bool disableInputByTime = (Time.time < inputDisabledTime);
-        bool shouldDisableMovement = disableInputByTime || isTalking || isStackGameMode || !currentPlayerInteractionEnabled;
+        bool shouldDisableMovement = disableInputByTime || isStackGameMode || !currentPlayerInteractionEnabled;// ||isTalking;
 
         if (shouldDisableMovement)
         {

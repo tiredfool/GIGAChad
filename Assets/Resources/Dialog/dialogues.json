@@ -390,14 +390,31 @@
       "standingImage": "pepeStand",
       "standingPosition": "left"
     },
+      {
+      "npcName": "기가차드",
+      "portraitName": "Gigachard",
+      "fontSize": 70,
+      "dialogue": "이제부터 다이어트 부터 하는거야 삣삐..",
+      "standingImage": "chardStand",
+      "standingPosition": "right"
+    },
     {
       "npcName": "기가차드",
       "portraitName": "Gigachard",
       "fontSize": 60,
-      "dialogue": "만삣삐. 넌 과거의 너에 비해 f**king work을 한 boy야. step by step! 나아가 만삣삐.",
+      "dialogue": "만삣삐. 넌 과거의 너에 비해 f**king work하고있는거야.",
       "standingImage": "chardStand",
       "standingPosition": "right"
     },
+    {
+      "npcName": "기가차드",
+      "portraitName": "Gigachard",
+      "fontSize": 60,
+      "dialogue": "step by step! 유혹을피해 나아가 만삣삐!!",
+      "standingImage": "chardStand",
+      "standingPosition": "right",
+      "shakeScreen": true
+      },
     {
       "id": "4_e",
       "npcName": "만삣삐",
