@@ -663,6 +663,7 @@
       "standingPosition": "left"
     },
     {
+      "id": "2S-m-3",
       "npcName": "만삣삐",
       "portraitName": "Player",
       "fontSize": 70,
@@ -671,6 +672,50 @@
       "standingPosition": "left"
     },
     {
+      "id": "2S-m-4",
+      "npcName": "기가차드",
+      "portraitName": "Gigachard",
+      "fontSize": 60,
+      "dialogue": "만삣삐. 넌 잘 해내고 있어. very proud my boy!",
+      "standingImage": "chardStand",
+      "standingPosition": "right"
+    },
+    {
+      "id": "2S-m-5",
+      "npcName": "만삣삐",
+      "portraitName": "Player_sad",
+      "fontSize": 70,
+      "dialogue": "으아....",
+      "standingImage": "pepeStand_sad",
+      "standingPosition": "left"
+    },
+    {
+      "npcName": "만삣삐",
+      "portraitName": "Player_sad",
+      "fontSize": 70,
+      "dialogue": "기가차드...난 안되나봐...",
+      "standingImage": "pepeStand_sad",
+      "standingPosition": "left"
+    },
+    {
+      "npcName": "만삣삐",
+      "portraitName": "Player_sad",
+      "fontSize": 70,
+      "dialogue": "역시...끝은 이럴줄 알았어...",
+      "standingImage": "pepeStand_sad",
+      "standingPosition": "left"
+    },
+    {
+      "npcName": "기가차드",
+      "portraitName": "Gigachard",
+      "fontSize": 60,
+      "dialogue": "You F**king Idiot! 도전하는 자가 아름다운 법\n 넌 도전을 하였어.",
+      "standingImage": "chardStand",
+      "standingPosition": "right",
+      "shakeScreen": true
+    },
+    {
+      "id": "2S-m-6",
       "npcName": "기가차드",
       "portraitName": "Gigachard",
       "fontSize": 60,
@@ -781,6 +826,14 @@
       "portraitName": "Boss_sprite_5",
       "fontSize": 70,
       "dialogue": "아. 그쪽이 이번에 지원한\n[면접자]군.",
+      "standingImage": "Boss_sprite_5",
+      "standingPosition": "right"
+    },
+    {
+      "npcName": "보스",
+      "portraitName": "Boss_sprite_5",
+      "fontSize": 70,
+      "dialogue": "5000점을 채울 수 있을지도 모르겠군.",
       "standingImage": "Boss_sprite_5",
       "standingPosition": "right"
     },

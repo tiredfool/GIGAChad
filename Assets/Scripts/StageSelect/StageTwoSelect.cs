@@ -11,7 +11,7 @@ public class StageTwoSelect : MonoBehaviour
 
     public void LoadStageTwoBoss()
     {
-        GameManager.setIndex(11);
+        GameManager.setIndex(14);
         SceneManager.LoadScene("SampleScene");
     }
 
