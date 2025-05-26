@@ -43,6 +43,8 @@ public class GameManager : MonoBehaviour
 
     private bool isPlayerInteractionEnabled = true;
 
+    public GameObject stackElementsParent;
+
     void Awake()
     {
         
@@ -168,6 +170,17 @@ public class GameManager : MonoBehaviour
             }
       
             SetCameraConfinerBounds(stages[stageIndex]); // 재시작 시 설정
+        }
+
+        GameObject stackObject = GameObject.Find("Stack");
+        if (stackObject != null)
+        {
+            stackObject.SetActive(false);
+            Debug.Log("'Stack' GameObject가 비활성화되었습니다.");
+        }
+        else
+        {
+            Debug.LogWarning("'Stack' GameObject를 찾을 수 없습니다.");
         }
     }
 

@@ -77083,6 +77083,7 @@ MonoBehaviour:
   - {x: 278, y: -24.5, z: 0}
   virtualCamera: {fileID: 1245668515}
   confiner2D: {fileID: 1245668514}
+  stackElementsParent: {fileID: 1490339591}
 --- !u!4 &1888601929
 Transform:
   m_ObjectHideFlags: 0
