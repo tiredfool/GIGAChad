@@ -452,7 +452,7 @@
       "npcName": "???",
       "portraitName": "Q",
       "fontSize": 70,
-      "dialogue": "Me? 식욕에 괴로워하는 널 행복하게 해줄 사람이랄까?"
+      "dialogue": "Me? 네 식욕의 집합체랄까?\n 괴로워하지 말고 원하는 대로 먹어, 만삣삐."
     },
     {
       "npcName": "만삣삐",
@@ -506,15 +506,15 @@
     },
     {
       "id": "1M-2s",
-      "npcName": "흑형",
+      "npcName": "치킨맨",
       "portraitName": "ChickenMan",
       "fontSize": 70,
-      "dialogue": "나 Chicken흑형의 유혹을 견뎌내다니..",
+      "dialogue": "나 ChickenMan의 유혹을 견뎌내다니..",
       "standingImage": "ChickenMan",
       "standingPosition": "right"
     },
     {
-      "npcName": "흑형",
+      "npcName": "치킨맨",
       "portraitName": "ChickenMan",
       "fontSize": 70,
       "dialogue": "damn... 이걸로 넘어가지 않을꺼야 만삣삐! i'll be back!",
@@ -563,7 +563,7 @@
       "dialogue": "후후후.. "
     },
     {
-      "npcName": "흑형",
+      "npcName": "치킨맨",
       "portraitName": "ChickenMan",
       "fontSize": 70,
       "dialogue": "yo! 여기까지 왔군 삣삐! 나의 모든 것을 다 보여주겠어!",
@@ -573,7 +573,7 @@
     },
     {
 
-      "npcName": "흑형",
+      "npcName": "치킨맨",
       "portraitName": "ChickenMan",
       "fontSize": 70,
       "dialogue": "Chicken의 유혹을 이길수 있을까 Man삣삐?!",
@@ -612,13 +612,13 @@
       "npcName": "기가차드",
       "portraitName": "Gigachard",
       "fontSize": 60,
-      "dialogue": "음식을 피하며 RUN!!!",
+      "dialogue": "런닝 머신에서 밀려 떨어지지 않게 RUN!!!",
       "standingImage": "chardStand",
       "standingPosition": "right"
     },
     {
       "id": "1B-3s",
-      "npcName": "흑형",
+      "npcName": "치킨맨",
       "portraitName": "ChickenMan",
       "fontSize": 70,
       "dialogue": "크아아아악!!!! 내가...내가...!",
@@ -628,7 +628,7 @@
     },
     {
       "id": "1B-3e",
-      "npcName": "흑형",
+      "npcName": "치킨맨",
       "portraitName": "ChickenMan",
       "fontSize": 70,
       "dialogue": "이럴수는 없어!!!",
