@@ -21,7 +21,7 @@ public class BossManager : MonoBehaviour
     [Tooltip("시작 지연 시간 (초)")]
     public float startDelay = 2f;
     [Tooltip("작동 지속 시간 (초)")]
-    public float activeDuration = 6f;
+    private float activeDuration;
 
     //[Tooltip("진행 시간을 표시할 텍스트 UI")]
     //public TextMeshProUGUI progressText_TMP; // TextMeshPro 사용 시
@@ -36,6 +36,7 @@ public class BossManager : MonoBehaviour
 
     void Start()
     {
+        activeDuration = GameManager.instance.OneStageBossTime;
         // 슬라이더의 CanvasGroup 컴포넌트 찾기 (없으면 추가)
         sliderCanvasGroup = slider.GetComponent<CanvasGroup>();
         if (sliderCanvasGroup == null)
@@ -63,6 +64,7 @@ public class BossManager : MonoBehaviour
 
     public void StartAllFeatures()
     {
+        activeDuration = GameManager.instance.OneStageBossTime;
         MainSoundManager.instance.ChangeBGM("1StageBoss");
         StartCoroutine(FadeInSlider()); // 슬라이더 서서히 나타나게 함
 
@@ -270,8 +272,9 @@ public class BossManager : MonoBehaviour
 
     public void ReduceActiveDuration(float amount)
     {
-        activeDuration = Mathf.Max(0f, activeDuration - amount); // 0초 밑으로는 줄지 않도록
+        activeDuration = Mathf.Max(60f, activeDuration - amount); // 0초 밑으로는 줄지 않도록
         SetMaxHealth(activeDuration); // 슬라이더 최대값도 업데이트
+        GameManager.instance.OneStageBossTime = activeDuration;
         Debug.Log($"activeDuration이 {amount}초 감소하여 현재 {activeDuration}초입니다.");
     }
 }

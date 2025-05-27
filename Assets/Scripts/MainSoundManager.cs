@@ -213,7 +213,7 @@ public class MainSoundManager : MonoBehaviour
             volumeDb = Mathf.Log10(sliderValue) * 20* nowBGMVolume;
         }
         Mixer.SetFloat("BGM", volumeDb);
-         SoundSettings.Instance.MasterBGMVolume = sliderValue; // 변경된 슬라이더 값을 내부 변수에 저장
+        SoundSettings.Instance.MasterBGMVolume = sliderValue; // 변경된 슬라이더 값을 내부 변수에 저장
        
         Debug.Log($"BGM Slider Value changed and stored: {sliderValue}, BGM Volume dB: {volumeDb}");
     }

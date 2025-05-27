@@ -73,7 +73,7 @@
       "npcName": "만삣삐",
       "portraitName": "Player_sad",
       "fontSize": 70,
-      "dialogue": "이렇게 살아가는게 무슨 의미일까..?",
+      "dialogue": "이렇게 살아가는게\n무슨 의미일까..?",
       "standingImage": "pepeStand_sad",
       "standingPosition": "left",
       "backgroundImageName": "Room1"
@@ -213,7 +213,7 @@
       "npcName": "기가차드",
       "portraitName": "Gigachard",
       "fontSize": 60,
-      "dialogue": "자 만삣삐. 너의 그 철근같은 궁딩이를 이끌어서 한번 hard work 전 스트레칭을 해보자고",
+      "dialogue": "자 만삣삐.\n 너의 그 철근같은 궁딩이를 이끌어서\n hard work 전 스트레칭을 해보자고",
       "standingImage": "chardStand",
       "standingPosition": "right"
     },
@@ -249,7 +249,7 @@
       "npcName": "기가차드",
       "portraitName": "Gigachard",
       "fontSize": 60,
-      "dialogue": "자 스페이스 바를 눌러봐 그럼 너의 몸이 통아저씨마냥 튀어오를거야.",
+      "dialogue": "자 스페이스 바를 눌러봐\n몸이 통아저씨마냥 튀어오를거야.",
       "standingImage": "chardStand",
       "standingPosition": "right"
     },
@@ -276,7 +276,7 @@
       "npcName": "기가차드",
       "portraitName": "Gigachard",
       "fontSize": 60,
-      "dialogue": "저건 앞으로 계속해서 널 유혹에 빠트릴 아주 위험한 것들이야",
+      "dialogue": "저건 앞으로 계속해서\n널 유혹에 빠트릴 아주 위험한 것이야",
       "standingImage": "chardStand",
       "standingPosition": "right"
     },
@@ -289,19 +289,19 @@
       "standingImage": "chardStand",
       "standingPosition": "right"
     },
-    {
+    {"id": "T-4",
       "npcName": "기가차드",
       "portraitName": "Gigachard",
       "fontSize": 60,
-      "dialogue": "만삣삐, 너가 저것들을 점프 후 take it down 할수 있어",
+      "dialogue": "만삣삐, 너가 저것들을 점프 후\ntake it down 할수 있어",
       "standingImage": "chardStand",
       "standingPosition": "right"
     },
     {
       "npcName": "기가차드",
       "portraitName": "Gigachard",
-      "fontSize": 60,
-      "dialogue": "지금은 괜찮겠지만 이후엔 Be careful..\n 닿으면 너의 Life가 닳게 될 거고 0이 되면 넌 Give Up 하게돼.",
+      "fontSize": 55,
+      "dialogue": "지금은 괜찮겠지만 Be careful..\n 닿으면 너의 Life가 닳게 될 거고 \n0이 되면 넌 Give Up 하게돼.",
       "standingImage": "chardStand",
       "standingPosition": "right"
     },
@@ -355,7 +355,7 @@
       "id": "T-10",
       "npcName": "기가차드",
       "portraitName": "Gigachard_ex",
-      "fontSize": 60,
+      "fontSize": 85,
       "dialogue": "LET'S GO! 만삣삐!!!",
       "standingImage": "chardStand",
       "standingPosition": "right",
@@ -376,17 +376,18 @@
       "id": "3_e",
       "npcName": "기가차드",
       "portraitName": "Gigachard",
-      "fontSize": 60,
-      "dialogue": "저기!",
+      "fontSize": 80,
+      "dialogue": "저기!!",
       "standingImage": "chardStand",
-      "standingPosition": "right"
+      "standingPosition": "right",
+      "shakeScreen": true
     },
     {
       "id": "4_s",
       "npcName": "만삣삐",
       "portraitName": "Player",
-      "fontSize": 70,
-      "dialogue": "기가차드... 이제 진짜 시작이야...",
+      "fontSize": 60,
+      "dialogue": "기가차드.. 이제 진짜 시작이야..",
       "standingImage": "pepeStand",
       "standingPosition": "left"
     },
@@ -1324,7 +1325,7 @@
     {
       "npcName": "기가차드",
       "portraitName": "Gigachard",
-      "fontSize": 70,
+      "fontSize": 60,
       "dialogue": "포기하지 않고 달려서\n기적같은 하루하루를 만들어낸 건\n너 자신이야",
       "standingImage": "pepeStand,chardStand",
       "standingPosition": "left,right",
@@ -1399,14 +1400,14 @@
       "npcName": "기가삣삐",
       "portraitName": "gigapepe",
       "fontSize": 70,
-      "dialogue": "무슨 Idiot 같은 생각을 하고 있길래\n그러고 있는 거야?",
+      "dialogue": "무슨 Idiot 같은 생각을 하고\n그러고 있는 거야?",
       "standingImage": "GigapepeS",
       "standingPosition": "left",
       "backgroundImageName": "Park"
     },
     {
-      "id": "기가삣삐",
-      "npcName": "성장한 만삣삐",
+      "id": "E-2e",
+      "npcName": "기가삣삐",
       "portraitName": "gigapepe",
       "fontSize": 70,
       "dialogue": "나에게 말해봐, 삣삐",

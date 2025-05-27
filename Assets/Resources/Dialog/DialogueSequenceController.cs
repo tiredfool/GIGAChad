@@ -24,7 +24,7 @@ public class DialogueSequenceController : MonoBehaviour
     public string cameraTriggerEndId = "";
     public DialogueSequence postCameraDialogue;
     private bool isCameraSequenceActive = false;
-    private DialogueManager dialogueManager;
+   
 
     
     public DialogueActionEvent[] dialogueActions;
@@ -32,21 +32,12 @@ public class DialogueSequenceController : MonoBehaviour
 
     void Start()
     {
-        dialogueManager = DialogueManager.instance;
-        if (dialogueManager == null)
-        {
-            Debug.LogError("DialogueManager 인스턴스를 찾을 수 없습니다.");
-            enabled = false;
-        }
-        if (cameraController == null)
-        {
-            Debug.LogWarning($"{gameObject.name}: CameraController가 할당되지 않았습니다.");
-        }
+      
     }
 
     public void StartDialogueSequence(string startId, string endId)
     {
-        dialogueManager.StartDialogueByIdRange(startId, endId);
+        DialogueManager.instance.StartDialogueByIdRange(startId, endId);
         isCameraSequenceActive = true;
     }
 
@@ -86,7 +77,7 @@ public class DialogueSequenceController : MonoBehaviour
     private IEnumerator HandleCameraMovement()
     {
 
-        dialogueManager.EndDialogue();
+        DialogueManager.instance.EndDialogue();
 
         if (cameraController != null)
         {
@@ -111,7 +102,7 @@ public class DialogueSequenceController : MonoBehaviour
 
     public void StartSpecificDialogue(string startId, string endId)
     {
-        dialogueManager.StartDialogueByIdRange(startId, endId);
+        DialogueManager.instance.StartDialogueByIdRange(startId, endId);
     }
 
     

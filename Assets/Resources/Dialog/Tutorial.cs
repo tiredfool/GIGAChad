@@ -56,14 +56,14 @@ public class Tutorial : MonoBehaviour
     void CheckPhase1Input()
     {
         // 왼쪽 버튼이 방금 눌렸는지 확인하고, 한 번이라도 눌렸으면 플래그를 true로 설정
-        if (!hasLeftBeenPressedOnce && VirtualInputManager.Instance.GetKeyOrButtonDown(virtualLeftButton))
+        if (!hasLeftBeenPressedOnce && VirtualInputManager.Instance.GetKeyOrButtonDown(virtualLeftButton) && !DialogueManager.instance.isTalking())
         {
             hasLeftBeenPressedOnce = true;
             Debug.Log($"<color=blue>'{virtualLeftButton}' 가상 버튼 감지 (튜토리얼 1단계).</color>");
         }
 
         // 오른쪽 버튼이 방금 눌렸는지 확인하고, 한 번이라도 눌렸으면 플래그를 true로 설정
-        if (!hasRightBeenPressedOnce && VirtualInputManager.Instance.GetKeyOrButtonDown(virtualRightButton))
+        if (!hasRightBeenPressedOnce && VirtualInputManager.Instance.GetKeyOrButtonDown(virtualRightButton) && !DialogueManager.instance.isTalking())
         {
             hasRightBeenPressedOnce = true;
             Debug.Log($"<color=blue>'{virtualRightButton}' 가상 버튼 감지 (튜토리얼 1단계).</color>");

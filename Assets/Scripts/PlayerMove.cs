@@ -666,12 +666,9 @@ public class PlayerController : MonoBehaviour
             }
 
             Time.timeScale = 1;
-
-            // BGM º¯°æ
-            if (MainSoundManager.instance != null)
-            {
-                MainSoundManager.instance.ChangeBGM("Basic");
-            }
+            MainSoundManager.instance.StopBGM();
+            if (GameManager.index <= 7) MainSoundManager.instance.PlayBGM("Basic");
+            else if (GameManager.index <= 14) MainSoundManager.instance.PlayBGM("2stage");
 
             if (DialogueManager.instance != null)
             {
