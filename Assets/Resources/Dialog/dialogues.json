@@ -301,7 +301,7 @@
       "npcName": "기가차드",
       "portraitName": "Gigachard",
       "fontSize": 60,
-      "dialogue": "지금은 괜찮겠지만 이후엔 Becareful..\n 닿으면 너의 Life가 닳게 될 거고 0이 되면 넌 Give Up 하게돼.",
+      "dialogue": "지금은 괜찮겠지만 이후엔 Be careful..\n 닿으면 너의 Life가 닳게 될 거고 0이 되면 넌 Give Up 하게돼.",
       "standingImage": "chardStand",
       "standingPosition": "right"
     },
@@ -595,7 +595,7 @@
       "npcName": "기가차드",
       "portraitName": "Gigachard",
       "fontSize": 60,
-      "dialogue": "안되 만삣삐! 저건 너의 이곳에서 도망치지마!!",
+      "dialogue": "안돼 만삣삐! 도망치는 순간 끝이야! 저녀석의 유혹을 이겨내야 forward로 나아갈 수 있어!",
       "standingImage": "chardStand",
       "standingPosition": "right"
     },
@@ -612,7 +612,7 @@
       "npcName": "기가차드",
       "portraitName": "Gigachard",
       "fontSize": 60,
-      "dialogue": "유혹을 피하며 RUN!!!",
+      "dialogue": "음식을 피하며 RUN!!!",
       "standingImage": "chardStand",
       "standingPosition": "right"
     },
@@ -631,7 +631,7 @@
       "npcName": "흑형",
       "portraitName": "ChickenMan",
       "fontSize": 70,
-      "dialogue": "이럴수는!!!",
+      "dialogue": "이럴수는 없어!!!",
       "shakeScreen": true
     },
     {
@@ -639,7 +639,7 @@
       "npcName": "기가차드",
       "portraitName": "Gigachard",
       "fontSize": 60,
-      "dialogue": "welldone my boy.",
+      "dialogue": "Well done, my boy.",
       "standingImage": "chardStand",
       "standingPosition": "right"
     },
@@ -682,7 +682,7 @@
       "npcName": "기가차드",
       "portraitName": "Gigachard",
       "fontSize": 60,
-      "dialogue": "만삣삐, 그런 F**king weak 한 마인드로는 안돼. hard heart를 가져 만삣삐.",
+      "dialogue": "만삣삐, 그런 F**king weak 한 마인드로는 안돼. Hard heart를 가져 만삣삐.",
       "standingImage": "chardStand",
       "standingPosition": "right"
     },
@@ -698,7 +698,7 @@
       "npcName": "기가차드",
       "portraitName": "Gigachard",
       "fontSize": 60,
-      "dialogue": "만삣삐. do hard study! 책을 one by one으로 쌓으면 넌 더 올라갈거야, 만삣삐.",
+      "dialogue": "만삣삐. Do hard study! 책을 one by one으로 쌓으면 넌 더 올라갈거야, 만삣삐.",
       "standingImage": "chardStand",
       "standingPosition": "right"
     },
@@ -725,7 +725,7 @@
       "npcName": "기가차드",
       "portraitName": "Gigachard",
       "fontSize": 60,
-      "dialogue": "만삣삐. 넌 잘 해내고 있어. very proud my boy!",
+      "dialogue": "만삣삐. 넌 잘 해내고 있어. Very proud of you my boy!",
       "standingImage": "chardStand",
       "standingPosition": "right"
     },
@@ -758,7 +758,7 @@
       "npcName": "기가차드",
       "portraitName": "Gigachard",
       "fontSize": 60,
-      "dialogue": "You F**king Idiot! 도전하는 자가 아름다운 법\n 넌 도전을 하였어.",
+      "dialogue": "You F**king Idiot! 도전하는 자가 아름다운 법!\n 넌 도전을 했어.",
       "standingImage": "chardStand",
       "standingPosition": "right",
       "shakeScreen": true
@@ -768,7 +768,7 @@
       "npcName": "기가차드",
       "portraitName": "Gigachard",
       "fontSize": 60,
-      "dialogue": "만삣삐. 넌 잘 해내고 있어. very proud my boy!",
+      "dialogue": "만삣삐. 넌 잘 해내고 있어. Very proud of you my boy!",
       "standingImage": "chardStand",
       "standingPosition": "right"
     },
