@@ -9355,6 +9355,18 @@ MonoBehaviour:
           m_StringArgument: Action
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: EndScript, Assembly-CSharp
+        m_MethodName: EndingScene
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &208640048
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -32109,7 +32121,6 @@ GameObject:
   m_Component:
   - component: {fileID: 674373490}
   - component: {fileID: 674373491}
-  - component: {fileID: 674373492}
   m_Layer: 0
   m_Name: end
   m_TagString: Untagged
@@ -32154,9 +32165,9 @@ MonoBehaviour:
     onDialogueIdReached:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 674373492}
-          m_TargetAssemblyTypeName: EndScript, Assembly-CSharp
-          m_MethodName: EndingScene
+        - m_Target: {fileID: 1633717245}
+          m_TargetAssemblyTypeName: LoadSceneMain, Assembly-CSharp
+          m_MethodName: MainMenuScene
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -32166,19 +32177,6 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
---- !u!114 &674373492
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 674373489}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3095d8a7ab6cfcd4b81bc3f9c035bdc1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  I: {fileID: 21300000, guid: dc292ded0e88c8f44ae4afb8b254bd7a, type: 3}
 --- !u!1 &675993565
 GameObject:
   m_ObjectHideFlags: 0

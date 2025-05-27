@@ -1355,7 +1355,7 @@
       "npcName": "만삣삐",
       "portraitName": "Player",
       "fontSize": 70,
-      "dialogue": "고마워 기가차드......",
+      "dialogue": "기가차드......",
       "standingImage": "pepeStand,chardStand",
       "standingPosition": "left,right",
       "backgroundImageName": "office2"
@@ -1364,7 +1364,7 @@
       "npcName": "만삣삐",
       "portraitName": "Player",
       "fontSize": 70,
-      "dialogue": "이제 회사로 돌아가지...",
+      "dialogue": "기가차드..?",
       "standingImage": "pepeStand",
       "standingPosition": "left",
       "backgroundImageName": "office2"
@@ -1406,11 +1406,21 @@
       "backgroundImageName": "Park"
     },
     {
-      "id": "E-2e",
+     
       "npcName": "기가삣삐",
       "portraitName": "gigapepe",
       "fontSize": 70,
       "dialogue": "나에게 말해봐, 삣삐",
+      "standingImage": "GigapepeS",
+      "standingPosition": "left",
+      "backgroundImageName": "Park"
+    },
+     {
+      "id": "E-2e",
+      "npcName": "기가삣삐",
+      "portraitName": "gigapepe",
+      "fontSize": 70,
+      "dialogue": "내가 너의 GIGACHAD가 되어줄게",
       "standingImage": "GigapepeS",
       "standingPosition": "left",
       "backgroundImageName": "Park"

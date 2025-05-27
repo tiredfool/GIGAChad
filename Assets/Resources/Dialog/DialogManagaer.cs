@@ -833,17 +833,7 @@ public class DialogueManager : MonoBehaviour
         }
     }
 
-    public void setImage(Sprite i)
-    {
-        
-        blackBoxImage.sprite = i;
-        blackBoxImage.color = new Color(1f, 1f, 1f, 1f);
-        blackBox.SetActive(true);
-        isBlackBoxActive = true;
-      
-        isBlackBoxActive = true;
 
-    }
     public void Flash(Action onComplete = null)
     {
         if (blackBoxImage == null)
