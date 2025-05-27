@@ -103,16 +103,16 @@ public class PlayerController : MonoBehaviour
         if (VirtualInputManager.Instance.GetKeyOrButton("Left"))
         {
             currentHorizontalDirection = -1;
-            Debug.Log("[PlayerController] Left Input Detected!"); // 추가
+           // Debug.Log("[PlayerController] Left Input Detected!"); // 추가
         }
         else if (VirtualInputManager.Instance.GetKeyOrButton("Right"))
         {
             currentHorizontalDirection = 1;
-            Debug.Log("[PlayerController] Right Input Detected!"); // 추가
+          //  //Debug.Log("[PlayerController] Right Input Detected!"); // 추가
         }
 
         horizontalInput = currentHorizontalDirection;
-        Debug.Log($"[PlayerController] currentHorizontalDirection: {currentHorizontalDirection}, horizontalInput: {horizontalInput}"); // 추가
+        ////Debug.Log($"[PlayerController] currentHorizontalDirection: {currentHorizontalDirection}, horizontalInput: {horizontalInput}"); // 추가
 
 
         // 스프라이트 방향 전환
@@ -168,7 +168,7 @@ public class PlayerController : MonoBehaviour
                     fixedYPosition = transform.position.y;
                     rb.gravityScale = 0f;
                     rb.velocity = Vector2.zero;
-                    Debug.Log($"[PlayerController] Y 위치 고정 시작. 고정 Y: {fixedYPosition}");
+                    //Debug.Log($"[PlayerController] Y 위치 고정 시작. 고정 Y: {fixedYPosition}");
                 }
                 transform.position = new Vector3(transform.position.x, fixedYPosition, transform.position.z);
                 rb.velocity = new Vector2(0, rb.velocity.y);
@@ -199,7 +199,7 @@ public class PlayerController : MonoBehaviour
             if (!wasPlayerInteractionEnabled && currentPlayerInteractionEnabled) // 방금 활성화 상태가 된 경우
             {
                 rb.gravityScale = 1f; // 중력 다시 적용
-                Debug.Log("[PlayerController] Y 위치 고정 해제 및 중력 복원.");
+                //Debug.Log("[PlayerController] Y 위치 고정 해제 및 중력 복원.");
             }
 
             wasPlayerInteractionEnabled = currentPlayerInteractionEnabled; // 상태 업데이트
@@ -338,11 +338,11 @@ public class PlayerController : MonoBehaviour
         isGrounded = IsGrounded();
         if (collision.gameObject.CompareTag("Enemy"))
         {
-            Debug.Log("플레이어가 맞았습니다!");
+            //Debug.Log("플레이어가 맞았습니다!");
 
             if (rb.velocity.y < 0 && transform.position.y > collision.transform.position.y)
             {
-                Debug.Log("밟기");
+                //Debug.Log("밟기");
                 Enemy_Move enemy = collision.gameObject.GetComponent<Enemy_Move>();
                 if (enemy != null)
                 {
@@ -351,7 +351,7 @@ public class PlayerController : MonoBehaviour
                     isGrounded = IsGrounded();
                     canJump = true;
                     verticalVelocity = 0;
-                    Debug.Log("적 밟은 후 isGrounded: " + isGrounded);
+                    //Debug.Log("적 밟은 후 isGrounded: " + isGrounded);
                 }
             }
             else
@@ -387,7 +387,7 @@ public class PlayerController : MonoBehaviour
                 }
             }
             health -= 10;
-            Debug.Log("Player Health: " + health);
+            //Debug.Log("Player Health: " + health);
             if (DialogueManager.instance != null)
             {
                 DialogueManager.instance.SetHealth(health);
@@ -427,7 +427,7 @@ public class PlayerController : MonoBehaviour
         if (Time.time - lastDamageTime > damageCooldown && !isTakingDamage && !isStackGameMode && !died)
         {
             health -= 10;
-            Debug.Log("Player Health: " + health);
+            //Debug.Log("Player Health: " + health);
             if (DialogueManager.instance != null)
             {
                 DialogueManager.instance.SetHealth(health);
@@ -478,7 +478,7 @@ public class PlayerController : MonoBehaviour
     {
         died = true;
         if (MainSoundManager.instance != null) MainSoundManager.instance.StopAllSFX();
-        Debug.Log("Player Died!");
+        //Debug.Log("Player Died!");
         GameManager.instance.totalLives--;
         PlayerPrefs.SetInt("TotalLives", GameManager.instance.totalLives);
         GameManager.instance.UpdateLifeUI();
@@ -491,7 +491,7 @@ public class PlayerController : MonoBehaviour
 
         if (GameManager.instance.totalLives <= 0)
         {
-            Debug.Log("Game Over");
+            //Debug.Log("Game Over");
             game_over = true;
             if (DialogueManager.instance != null) // DialogueManager 인스턴스 확인
             {
@@ -535,11 +535,11 @@ public class PlayerController : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log("무언가와 충돌 감지됨: " + collision.gameObject.name);
+        //Debug.Log("무언가와 충돌 감지됨: " + collision.gameObject.name);
 
         if (collision.gameObject.CompareTag("Coin"))
         {
-            Debug.Log("코인 트리거 충돌 감지됨!");
+            //Debug.Log("코인 트리거 충돌 감지됨!");
 
             if (GameManager.instance != null)
             {
@@ -549,7 +549,7 @@ public class PlayerController : MonoBehaviour
             if (MainSoundManager.instance != null)
             {
                 MainSoundManager.instance.PlaySFX("Coin");
-                Debug.Log("코인 사운드 재생");
+                //Debug.Log("코인 사운드 재생");
             }
 
             Destroy(collision.gameObject);
@@ -574,9 +574,9 @@ public class PlayerController : MonoBehaviour
             currentConveyorScript = collision.GetComponent<ConveyorBeltPhysics>();
             if (currentConveyorScript == null)
             {
-                Debug.LogError("ConveyorBeltPhysics 스크립트를 찾을 수 없습니다!", collision.gameObject);
+                //Debug.LogError("ConveyorBeltPhysics 스크립트를 찾을 수 없습니다!", collision.gameObject);
             }
-            Debug.Log("Entered Conveyor");
+            //Debug.Log("Entered Conveyor");
         }
     }
 
@@ -594,7 +594,7 @@ public class PlayerController : MonoBehaviour
             {
                 isOnConveyor = false;
                 currentConveyorScript = null;
-                Debug.Log("Exited Conveyor");
+                //Debug.Log("Exited Conveyor");
             }
         }
     }
@@ -602,28 +602,28 @@ public class PlayerController : MonoBehaviour
     public void ApplySlow(float multiplier)
     {
         maxMoveSpeed = originalMoveSpeed * multiplier;
-        Debug.Log("이동 속도 감소: " + maxMoveSpeed);
+        //Debug.Log("이동 속도 감소: " + maxMoveSpeed);
     }
 
     public void RemoveSlow()
     {
         maxMoveSpeed = originalMoveSpeed;
-        Debug.Log("이동 속도 복구: " + maxMoveSpeed);
+        //Debug.Log("이동 속도 복구: " + maxMoveSpeed);
     }
 
     void RestartGame()
     {
-        Debug.Log("리셋 시작!");
+        //Debug.Log("리셋 시작!");
 
 
         if (DialogueManager.instance != null)
         {
             DialogueManager.instance.setBlack();
-            Debug.Log("화면을 검게 설정했습니다.");
+            //Debug.Log("화면을 검게 설정했습니다.");
         }
         else
         {
-            Debug.LogError("DialogueManager 인스턴스를 찾을 수 없습니다! 화면을 검게 만들 수 없습니다.");
+            //Debug.LogError("DialogueManager 인스턴스를 찾을 수 없습니다! 화면을 검게 만들 수 없습니다.");
 
         }
 
@@ -636,7 +636,7 @@ public class PlayerController : MonoBehaviour
 
         SceneManager.LoadSceneAsync("SampleScene").completed += (AsyncOperation operation) =>
         {
-            Debug.Log("씬 로드 완료: " + operation.isDone);
+            //Debug.Log("씬 로드 완료: " + operation.isDone);
 
 
             if (GameManager.instance != null)
@@ -673,7 +673,7 @@ public class PlayerController : MonoBehaviour
             if (DialogueManager.instance != null)
             {
                 DialogueManager.instance.FadeFromBlack();
-                Debug.Log("화면을 밝게 전환 시작했습니다.");
+                //Debug.Log("화면을 밝게 전환 시작했습니다.");
             }
             //if(SwitchZone.Instance != null)
             //{

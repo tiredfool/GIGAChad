@@ -222,7 +222,7 @@
       "npcName": "기가차드",
       "portraitName": "Gigachard",
       "fontSize": 60,
-      "dialogue": "우선 D키와 A키를 혹은 화살표 좌우를 눌러서 left and right로 움직여봐",
+      "dialogue": "방향키나 A,D로 움직여봐 만삣삐!",
       "standingImage": "chardStand",
       "standingPosition": "right"
     },
@@ -249,7 +249,7 @@
       "npcName": "기가차드",
       "portraitName": "Gigachard",
       "fontSize": 60,
-      "dialogue": "자 스페이스 바를 눌러봐\n몸이 통아저씨마냥 튀어오를거야.",
+      "dialogue": "자 SPACE를 눌러봐\n몸이 통아저씨마냥 튀어오를거야.",
       "standingImage": "chardStand",
       "standingPosition": "right"
     },
@@ -320,7 +320,7 @@
       "npcName": "기가차드",
       "portraitName": "Gigachard",
       "fontSize": 60,
-      "dialogue": " 그리고 저건 코인이야\n 저것들을 모아야 앞으로 나아갈 수 있어",
+      "dialogue": "그리고 저건 코인이야\n저것들을 모아 앞으로 나아갈 수 있어",
       "standingImage": "chardStand",
       "standingPosition": "right"
     },
@@ -361,8 +361,6 @@
       "standingPosition": "right",
       "shakeScreen": true
     },
-
-
     {
       "id": "3_s",
       "npcName": "기가차드",
@@ -532,7 +530,7 @@
       "npcName": "치킨맨",
       "portraitName": "ChickenMan",
       "fontSize": 70,
-      "dialogue": "나 ChickenMan의 유혹을 견뎌내다니..",
+      "dialogue": "나 ChickenMan의 유혹을\n견뎌내다니..",
       "standingImage": "ChickenMan",
       "standingPosition": "right"
     },
@@ -540,7 +538,7 @@
       "npcName": "치킨맨",
       "portraitName": "ChickenMan",
       "fontSize": 70,
-      "dialogue": "damn...\n이걸로 넘어가지 않을꺼야 만삣삐!\ni'll be back!",
+      "dialogue": "damn...\n이걸로 끝난게 아니야 만삣삐!\ni'll be back!",
       "standingImage": "ChickenMan",
       "standingPosition": "right"
     },

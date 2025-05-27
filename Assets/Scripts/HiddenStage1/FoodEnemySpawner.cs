@@ -6,7 +6,7 @@ public class MonsterSpawner : MonoBehaviour
 {
     public GameObject[] monsterPrefabs; // 여러 종류의 몬스터
     public float spawnRate = 1f;
-
+    private bool stop = false;
     private Vector2[] spawnPoints = new Vector2[]
     {
         new Vector2(54.5f, 52f),
@@ -17,7 +17,7 @@ public class MonsterSpawner : MonoBehaviour
 
     void Start()
     {
-        InvokeRepeating(nameof(SpawnMonster), 2f, spawnRate);
+        if(!stop)InvokeRepeating(nameof(SpawnMonster), 2f, spawnRate);
     }
 
     void SpawnMonster()
@@ -26,5 +26,10 @@ public class MonsterSpawner : MonoBehaviour
         GameObject monsterPrefab = monsterPrefabs[Random.Range(0, monsterPrefabs.Length)]; // 몬스터 종류 랜덤 선택
 
         Instantiate(monsterPrefab, spawnPosition, Quaternion.identity);
+    }
+    public void stopSpawn()
+    {
+        stop = true;
+        CancelInvoke(nameof(SpawnMonster));
     }
 }

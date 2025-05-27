@@ -89,7 +89,7 @@ public class GameManager : MonoBehaviour
         UpdateLifeUI();  // UI 업데이트
 
         FindAndSetStagesByParent();
-        //Debug.Log("GameManager Start - totalLives: " + totalLives);
+        ////Debug.Log("GameManager Start - totalLives: " + totalLives);
         player.transform.position = startPositions[stageIndex];
         // 초기 스테이지 활성화 및 카메라 범위 설정
         if (stages.Length > 0 && stageIndex < stages.Length)
@@ -118,19 +118,19 @@ public class GameManager : MonoBehaviour
             virtualCamera = playerObject.GetComponentInChildren<CinemachineVirtualCamera>();
             if (virtualCamera == null)
             {
-                Debug.LogError("Player 오브젝트 또는 그 자식에서 CinemachineVirtualCamera 컴포넌트를 찾을 수 없습니다!");
+                //Debug.LogError("Player 오브젝트 또는 그 자식에서 CinemachineVirtualCamera 컴포넌트를 찾을 수 없습니다!");
             }
 
             // Player 오브젝트에서 Cinemachine Confiner 2D 컴포넌트 찾기 (자식 오브젝트에서 찾을 수도 있음)
             confiner2D = playerObject.GetComponentInChildren<CinemachineConfiner2D>();
             if (confiner2D == null)
             {
-                Debug.LogError("Player 오브젝트 또는 그 자식에서 CinemachineConfiner2D 컴포넌트를 찾을 수 없습니다!");
+                //Debug.LogError("Player 오브젝트 또는 그 자식에서 CinemachineConfiner2D 컴포넌트를 찾을 수 없습니다!");
             }
         }
         else
         {
-            Debug.LogError("Player 태그를 가진 오브젝트를 찾을 수 없습니다!");
+            //Debug.LogError("Player 태그를 가진 오브젝트를 찾을 수 없습니다!");
         }
     }
 
@@ -181,11 +181,11 @@ public class GameManager : MonoBehaviour
         if (stackObject != null)
         {
             stackObject.SetActive(false);
-            Debug.Log("'Stack' GameObject가 비활성화되었습니다.");
+            //Debug.Log("'Stack' GameObject가 비활성화되었습니다.");
         }
         else
         {
-            Debug.LogWarning("'Stack' GameObject를 찾을 수 없습니다.");
+            //Debug.LogWarning("'Stack' GameObject를 찾을 수 없습니다.");
         }
 
     }
@@ -194,7 +194,7 @@ public class GameManager : MonoBehaviour
     public void ResetGameProgress()
     {
         HasStackGameSucceededThisRun = false; // 스택 게임 성공 여부 초기화
-        Debug.Log("GameManager: 현재 게임 진행 상태가 초기화되었습니다.");
+        //Debug.Log("GameManager: 현재 게임 진행 상태가 초기화되었습니다.");
     }
 
     //코인 5개까지 증가시키는 함수
@@ -226,7 +226,7 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning("마지막 스테이지에 도달하여 이동할 수 없습니다.");
+            //Debug.LogWarning("마지막 스테이지에 도달하여 이동할 수 없습니다.");
         }
     }
 
@@ -235,7 +235,7 @@ public class GameManager : MonoBehaviour
         stages[stageIndex].gameObject.SetActive(false);
         stageIndex++;
         stages[stageIndex].gameObject.SetActive(true);
-        Debug.Log("Next Stage Index: " + stageIndex);
+        //Debug.Log("Next Stage Index: " + stageIndex);
 
         PlayerRepositionLogic(); // 플레이어 리포지션 및 관련 로직 호출
         SetPlayerInteraction(false);
@@ -247,7 +247,7 @@ public class GameManager : MonoBehaviour
         DialogueManager.instance.FadeFromBlack(() => {
             SetCameraDamping(originalDamping);
 
-            Debug.Log($"플레이어 상호작용 활성화됨. (페이드 아웃 완료)");
+            //Debug.Log($"플레이어 상호작용 활성화됨. (페이드 아웃 완료)");
         });
     }
 
@@ -262,12 +262,12 @@ public class GameManager : MonoBehaviour
             SetCameraDamping(originalDamping);
             SetPlayerInteraction(true);
 
-            Debug.Log($"플레이어 상호작용 활성화됨. (페이드 아웃 없이 즉시)");
+            //Debug.Log($"플레이어 상호작용 활성화됨. (페이드 아웃 없이 즉시)");
 
         }
         else
         {
-            Debug.LogWarning($"PlayerReposition: stageIndex({stageIndex})가 startPositions 범위를 초과했습니다.");
+            //Debug.LogWarning($"PlayerReposition: stageIndex({stageIndex})가 startPositions 범위를 초과했습니다.");
         }
     }
 
@@ -275,7 +275,7 @@ public class GameManager : MonoBehaviour
 
     private void PlayerRepositionLogic()
     {
-        Debug.Log("Player Repositioned to: " + startPositions[stageIndex]);
+        //Debug.Log("Player Repositioned to: " + startPositions[stageIndex]);
         if (player != null) // player가 null일 수 있으므로 null 체크 추가
         {
             player.transform.position = startPositions[stageIndex];
@@ -329,7 +329,7 @@ public class GameManager : MonoBehaviour
     public void SetPlayerInteraction(bool enable)
     {
         isPlayerInteractionEnabled = enable;
-        Debug.Log("변경된 플레이어 상호작용 상태 " + enable);
+        //Debug.Log("변경된 플레이어 상호작용 상태 " + enable);
 
     }
     public bool IsPlayerInteractionEnabled()
@@ -345,16 +345,16 @@ public class GameManager : MonoBehaviour
             if (stageCollider != null)
             {
                 confiner2D.m_BoundingShape2D = stageCollider;
-                Debug.Log($"카메라 범위를 스테이지 '{stage.name}'의 콜라이더로 설정했습니다.");
+                //Debug.Log($"카메라 범위를 스테이지 '{stage.name}'의 콜라이더로 설정했습니다.");
             }
             else
             {
-                Debug.LogError(stage.name + "에 Collider2D 컴포넌트가 없습니다!");
+                //Debug.LogError(stage.name + "에 Collider2D 컴포넌트가 없습니다!");
             }
         }
         else
         {
-            Debug.LogError("CinemachineConfiner2D 또는 스테이지가 할당되지 않았습니다!");
+            //Debug.LogError("CinemachineConfiner2D 또는 스테이지가 할당되지 않았습니다!");
         }
     }
     public void SetCameraConfinerForCurrentStage()
@@ -365,16 +365,16 @@ public class GameManager : MonoBehaviour
             if (stageCollider != null)
             {
                 confiner2D.m_BoundingShape2D = stageCollider;
-                Debug.Log($"카메라 범위를 스테이지 '{stages[stageIndex].name}'의 콜라이더로 재설정했습니다.");
+                //Debug.Log($"카메라 범위를 스테이지 '{stages[stageIndex].name}'의 콜라이더로 재설정했습니다.");
             }
             else
             {
-                Debug.LogError(stages[stageIndex].name + "에 Collider2D 컴포넌트가 없습니다!");
+                //Debug.LogError(stages[stageIndex].name + "에 Collider2D 컴포넌트가 없습니다!");
             }
         }
         else
         {
-            Debug.LogWarning("CinemachineConfiner2D, stages 배열, 또는 현재 스테이지가 유효하지 않아 카메라 범위를 설정할 수 없습니다.");
+            //Debug.LogWarning("CinemachineConfiner2D, stages 배열, 또는 현재 스테이지가 유효하지 않아 카메라 범위를 설정할 수 없습니다.");
         }
     }
 

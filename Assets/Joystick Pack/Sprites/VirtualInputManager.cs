@@ -70,14 +70,14 @@ public class VirtualInputManager : MonoBehaviour
             {
                 _buttonDownThisFrame[buttonName] = true;
                 _buttonIsPressed[buttonName] = true; // 키보드로 눌리면 바로 Pressed 상태로 만듦
-                Debug.Log($"[VIM-Keyboard] KeyDown: {mapping.actualKey} -> Virtual: {buttonName} DOWN");
+              //  Debug.Log($"[VIM-Keyboard] KeyDown: {mapping.actualKey} -> Virtual: {buttonName} DOWN");
             }
             // 키보드 KeyUp 이벤트
             if (Input.GetKeyUp(mapping.actualKey))
             {
                 _buttonUpThisFrame[buttonName] = true;
                 _buttonIsPressed[buttonName] = false; // 키보드로 떼면 바로 Pressed 상태를 해제
-                Debug.Log($"[VIM-Keyboard] KeyUp: {mapping.actualKey} -> Virtual: {buttonName} UP");
+              //  Debug.Log($"[VIM-Keyboard] KeyUp: {mapping.actualKey} -> Virtual: {buttonName} UP");
             }
             // 키보드 GetKey (지속적인 눌림) 상태
             // KeyDown/KeyUp으로 변경된 상태를 유지하거나, 눌려있는 상태를 반영

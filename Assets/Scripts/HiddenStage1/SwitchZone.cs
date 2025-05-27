@@ -221,7 +221,12 @@ public class SwitchZone : MonoBehaviour
 
         if (topDownUI != null) topDownUI.SetActive(false);
         if (topDownPlayer != null) topDownPlayer.SetActive(false);
-        if (foodSpawner != null) foodSpawner.SetActive(false);
+        if (foodSpawner != null) {
+            // foodSpawner.s
+            MonsterSpawner temp = foodSpawner.GetComponent<MonsterSpawner>();
+            temp.stopSpawn();//인위적으로 꺼줘야함
+            foodSpawner.SetActive(false); 
+        }
         if (vcamTopDown != null) vcamTopDown.gameObject.SetActive(false);
 
         StartCoroutine(SwitchToPlatformer());

@@ -59,6 +59,7 @@ public class Hand : MonoBehaviour
     }
     public void Fire()
     {
+        if (DialogueManager.instance.isTalking()) return;
         GameObject bullet = Instantiate(bulletPrefab, gunPoint.position, Quaternion.identity);
 
         // 총알의 방향을 마우스 방향으로 설정

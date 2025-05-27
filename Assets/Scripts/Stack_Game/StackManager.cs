@@ -55,7 +55,7 @@ public class StackManager : MonoBehaviour
 
     public void StartStackGame(Camera stackCamera)
     {
-        //DialogueManager.instance.StartDialogueByIdRange("2S-m-1", "2S-m-2");
+        DialogueManager.instance.StartDialogueByIdRange("2S-m-1", "2S-m-2");
         Debug.Log("스택 게임 시작됨!");
         isStackGameActive = true;
         mainCamera = stackCamera;
