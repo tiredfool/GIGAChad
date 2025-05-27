@@ -85303,6 +85303,46 @@ MonoBehaviour:
     sfxClip: {fileID: 8300000, guid: 70d2974f5e423864586825a4c4a81d88, type: 3}
     volume: 0.62
     loop: 0
+  - sfxName: GoodBye
+    sfxClip: {fileID: 8300000, guid: 04c582c4e9e22a44bb3b1e9956005bfe, type: 3}
+    volume: 1
+    loop: 0
+  - sfxName: JustDoIt
+    sfxClip: {fileID: 8300000, guid: 5671be916963f754da541af2479eab14, type: 3}
+    volume: 1
+    loop: 0
+  - sfxName: StepByStep
+    sfxClip: {fileID: 8300000, guid: fdd6e4a3792abc64da806605a3684e74, type: 3}
+    volume: 1
+    loop: 0
+  - sfxName: LetsGo
+    sfxClip: {fileID: 8300000, guid: 6fe3eab8f726da84a84201351e7b13a0, type: 3}
+    volume: 1
+    loop: 0
+  - sfxName: Worried
+    sfxClip: {fileID: 8300000, guid: d106fe4ffa5d4914f967acd9650a5696, type: 3}
+    volume: 1
+    loop: 0
+  - sfxName: EVIL
+    sfxClip: {fileID: 8300000, guid: 1d856d68e40ee22448d4dad72e4ee9e6, type: 3}
+    volume: 1
+    loop: 0
+  - sfxName: GoodJob
+    sfxClip: {fileID: 8300000, guid: dadbfecbe5d5f404aaa982f6a96e7190, type: 3}
+    volume: 1
+    loop: 0
+  - sfxName: Yelling
+    sfxClip: {fileID: 8300000, guid: 9e9a01678877c4240a49f84ecabf30bc, type: 3}
+    volume: 1
+    loop: 0
+  - sfxName: Died
+    sfxClip: {fileID: 8300000, guid: f98a551003909524abcf4ee85c42815e, type: 3}
+    volume: 1
+    loop: 0
+  - sfxName: OfCourse
+    sfxClip: {fileID: 8300000, guid: 73189572c5042a24bab05a932ca4558a, type: 3}
+    volume: 1
+    loop: 0
   bgmSoundsList:
   - bgmName: 1StageBoss
     bgmClip: {fileID: 8300000, guid: b878c5c7e81570f4e952350ee27ec52f, type: 3}

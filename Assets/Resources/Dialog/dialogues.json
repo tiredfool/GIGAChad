@@ -93,7 +93,8 @@
       "fontSize": 70,
       "dialogue": "유 뻐킹 이디엇! 만삣삐!",
       "shakeScreen": true,
-      "backgroundImageName": "Room1"
+      "backgroundImageName": "Room1",
+      "voice": "Yelling"
     },
     {
       "dialogueType": "black",
@@ -123,7 +124,8 @@
       "dialogue": "오브콜스, 만삣삐",
       "standingImage": "pepeStand,chardStand",
       "standingPosition": "left,right",
-      "backgroundImageName": "Room1"
+      "backgroundImageName": "Room1",
+      "voice": "OfCourse"
     },
     {
       "npcName": "만삣삐",
@@ -141,7 +143,8 @@
       "dialogue": "물론이지, 만삣삐",
       "standingImage": "pepeStand,chardStand",
       "standingPosition": "left,right",
-      "backgroundImageName": "Room1"
+      "backgroundImageName": "Room1",
+      "voice": "OfCourse"
     },
     {
       "npcName": "기가차드",
@@ -170,7 +173,8 @@
       "standingImage": "chardStand",
       "standingPosition": "right",
       "shakeScreen": true,
-      "backgroundImageName": "Room1"
+      "backgroundImageName": "Room1",
+      "voice": "Yelling"
     },
     {
       "id": "1_s_m_b",
@@ -179,7 +183,8 @@
       "fontSize": 60,
       "dialogue": "아주 잘하고 있어 삣삐. 킵 고잉!",
       "standingImage": "chardStand",
-      "standingPosition": "right"
+      "standingPosition": "right",
+      "voice": "GoodJob"
     },
     {
       "id": "1_s_m_e",
@@ -197,7 +202,8 @@
       "fontSize": 60,
       "dialogue": "정말 훌륭해 삣삐. 너는 확실히 나아가고 있어.",
       "standingImage": "chardStand",
-      "standingPosition": "right"
+      "standingPosition": "right",
+      "voice": "GoodJob"
     },
     {
       "id": "2_s_m_e",
@@ -233,7 +239,8 @@
       "fontSize": 60,
       "dialogue": "굿 워크! 마이 썬.",
       "standingImage": "chardStand",
-      "standingPosition": "right"
+      "standingPosition": "right",
+      "voice": "GoodJob"
     },
     {
 
@@ -287,7 +294,8 @@
       "fontSize": 60,
       "dialogue": " 데인저러스 이블!",
       "standingImage": "chardStand",
-      "standingPosition": "right"
+      "standingPosition": "right",
+      "voice": "EVIL"
     },
     {"id": "T-4",
       "npcName": "기가차드",
@@ -313,7 +321,8 @@
       "dialogue": "이제 가서 처리해!",
       "standingImage": "chardStand",
       "standingPosition": "right",
-      "shakeScreen": true
+      "shakeScreen": true,
+      "voice": "JustDoIt"
     },
     {
       "id": "T-6",
@@ -359,7 +368,8 @@
       "dialogue": "LET'S GO! 만삣삐!!!",
       "standingImage": "chardStand",
       "standingPosition": "right",
-      "shakeScreen": true
+      "shakeScreen": true,
+      "voice": "LetsGo"
     },
     {
       "id": "3_s",
@@ -395,7 +405,8 @@
       "fontSize": 70,
       "dialogue": "다이어트부터 하는거야 삣삐..",
       "standingImage": "chardStand",
-      "standingPosition": "right"
+      "standingPosition": "right",
+      "voice": "Worried"
     },
     {
       "npcName": "기가차드",
@@ -412,7 +423,8 @@
       "dialogue": "step by step! ",
       "standingImage": "chardStand",
       "standingPosition": "right",
-      "shakeScreen": true
+      "shakeScreen": true,
+      "voice" : "StepByStep"
     },
      {
       "npcName": "기가차드",
@@ -421,7 +433,8 @@
       "dialogue": "유혹을피해 나아가 만삣삐!! ",
       "standingImage": "chardStand",
       "standingPosition": "right",
-      "shakeScreen": true
+      "shakeScreen": true,
+      "voice": "Yelling"
     },
     {
       "id": "4_e",
@@ -505,7 +518,8 @@
       "dialogue": "you f**king stupid idiot 만삣삐! 그딴 수준 낮은 유혹에 get out 해!",
       "standingImage": "chardStand",
       "standingPosition": "right",
-      "shakeScreen": true
+      "shakeScreen": true,
+      "voice": "Yelling"
     },
     {
       "npcName": "기가차드",
@@ -549,7 +563,8 @@
       "fontSize": 60,
       "dialogue": "만삣삐.\n넌 one step forward 한거야.\n굿 잡 my son!",
       "standingImage": "chardStand",
-      "standingPosition": "right"
+      "standingPosition": "right",
+      "voice": "GoodJob"
     },
     {
       "id": "1B-s",
@@ -618,7 +633,9 @@
       "fontSize": 60,
       "dialogue": "안돼 만삣삐! 도망치는 순간 끝이야!\n저녀석의 유혹을 이겨내야 \nforward로 나아갈 수 있어!",
       "standingImage": "chardStand",
-      "standingPosition": "right"
+      "standingPosition": "right",
+      "shakeScreen": true,
+      "voice": "Yelling"
     },
     {
       "npcName": "기가차드",
@@ -626,7 +643,9 @@
       "fontSize": 60,
       "dialogue": "만삣삐! watch out!! 위를 조심해!",
       "standingImage": "chardStand",
-      "standingPosition": "right"
+      "standingPosition": "right",
+      "shakeScreen": true
+      
     },
     {
       "id": "1B-2e",
@@ -635,7 +654,8 @@
       "fontSize": 60,
       "dialogue": "런닝 머신에서 밀려 떨어지지 않게 RUN!!!",
       "standingImage": "chardStand",
-      "standingPosition": "right"
+      "standingPosition": "right",
+      "shakeScreen": true
     },
     {
       "id": "1B-3s",
@@ -679,7 +699,8 @@
       "fontSize": 60,
       "dialogue": "만삣삐, 그만큼 넌 one step forward 한거야",
       "standingImage": "chardStand",
-      "standingPosition": "right"
+      "standingPosition": "right",
+      "voice": "Worried"
     },
     {
       "id": "1B-4e",
@@ -705,7 +726,8 @@
       "fontSize": 60,
       "dialogue": "만삣삐, 그런 F**king weak 한 마인드로는 안돼. Hard heart를 가져 만삣삐.",
       "standingImage": "chardStand",
-      "standingPosition": "right"
+      "standingPosition": "right",
+      "voice": "Worried"
     },
     {
       "npcName": "만삣삐",
@@ -748,7 +770,8 @@
       "fontSize": 60,
       "dialogue": "만삣삐. 넌 잘 해내고 있어.\nVery proud of you my boy!",
       "standingImage": "chardStand",
-      "standingPosition": "right"
+      "standingPosition": "right",
+      "voice": "GoodJob"
     },
     {
       "id": "2S-m-5",
@@ -791,7 +814,8 @@
       "fontSize": 60,
       "dialogue": "만삣삐. 넌 잘 해내고 있어.\nVery proud of you my boy!",
       "standingImage": "chardStand",
-      "standingPosition": "right"
+      "standingPosition": "right",
+      "voice": "Worried"
     },
     {
       "id": "2S-1-1-1",
@@ -834,7 +858,8 @@
       "dialogue": "삣삐. Just Do It!",
       "standingImage": "chardStand",
       "standingPosition": "right",
-      "shakeScreen": true
+      "shakeScreen": true,
+      "voice": "JustDoIt"
     },
     {
       "id": "2B-a",
@@ -851,7 +876,8 @@
       "fontSize": 60,
       "dialogue": "oh, 만삣삐... ",
       "standingImage": "chardStand",
-      "standingPosition": "right"
+      "standingPosition": "right",
+      "voice": "Worried"
     },
     {
       "npcName": "기가차드",
@@ -1174,7 +1200,8 @@
       "dialogue": "오브 콜스, 만삣삐.",
       "standingImage": "pepeStand,chardStand",
       "standingPosition": "left,right",
-      "backgroundImageName": "office2"
+      "backgroundImageName": "office2",
+      "voice": "OfCourse"
     },
     {
       "npcName": "만삣삐",
@@ -1264,7 +1291,8 @@
       "dialogue": "이제 삣삐 넌... 내가 없어도 잘 해낼 수 있을 거야",
       "standingImage": "pepeStand,chardStand",
       "standingPosition": "left,right",
-      "backgroundImageName": "office2"
+      "backgroundImageName": "office2",
+      "voice": "Worried"
     },
     {
       "npcName": "만삣삐",
@@ -1346,7 +1374,8 @@
       "dialogue": "그럼.. Good Bye. 삣삐.",
       "standingImage": "pepeStand,chardStand",
       "standingPosition": "left,right",
-      "backgroundImageName": "office2"
+      "backgroundImageName": "office2",
+      "voice": "GoodBye"
     },
     {
 

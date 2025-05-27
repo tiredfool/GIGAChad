@@ -263,8 +263,9 @@ public class DialogueManager : MonoBehaviour
         dialogueBox.SetActive(false);
         blackBox.SetActive(false);
         blackBox.GetComponent<Image>().color = originalBlackBoxColor; // 색상 초기화 (페이드인 시에는 알파를 0으로 설정)
-      //  if (standingImageLeft != null) standingImageLeft.gameObject.SetActive(false);
-      //  if (standingImageRight != null) standingImageRight.gameObject.SetActive(false);
+                                                                      //  if (standingImageLeft != null) standingImageLeft.gameObject.SetActive(false);
+                                                                      //  if (standingImageRight != null) standingImageRight.gameObject.SetActive(false);
+        if (data.voice != null) MainSoundManager.instance.PlaySFX(data.voice);
         isBlackBoxActive = false;
         if (data.id == "E-A")
         {

@@ -15,6 +15,7 @@ public class DialogueData
     public string standingPosition; // 스탠딩 이미지 위치 (left, right)
     public float blackBoxDuration = 10f;
     public string backgroundImageName; //배경이미지
+    public string voice = null;
 }
 
 public class DialogueWrapper
