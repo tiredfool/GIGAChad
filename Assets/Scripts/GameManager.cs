@@ -12,7 +12,7 @@ public class GameManager : MonoBehaviour
     public int hopeScore = 0;
     //public Text pointTxt;  // 점수 UI 표시용 텍스트
     private int stageIndex = 0; // 초기 스테이지 인덱스 0으로 설정
-    public static int index = 13;
+    public static int index = 1;
     public GameObject[] stages = new GameObject[12]; // 크기를 startPositions.Length와 동일하게 설정
     public Transform player;
     public int totalLives = 3;  // 총 목숨 수
@@ -47,7 +47,7 @@ public class GameManager : MonoBehaviour
 
     void Awake()
     {
-        
+
         // 싱글톤 패턴 적용
         if (instance == null)
         {
@@ -65,9 +65,9 @@ public class GameManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-       
+
         // PlayerPrefs에서 totalLives 값을 불러오기
-       
+
 
         // Virtual Camera가 할당되었다면 초기 댐핑 값 저장
         if (virtualCamera != null && virtualCamera.GetCinemachineComponent(CinemachineCore.Stage.Body) is CinemachineTransposer)
@@ -81,7 +81,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
 
-       
+
         totalLives = PlayerPrefs.GetInt("TotalLives", 3);  // 기본값 3으로 설정
         UpdateLifeUI();  // UI 업데이트
 
@@ -98,8 +98,8 @@ public class GameManager : MonoBehaviour
             SetCameraConfinerBounds(stages[stageIndex]);
         }
 
-        if(index<=7)MainSoundManager.instance.PlayBGM("Basic");
-        else if(index<=14) MainSoundManager.instance.PlayBGM("2stage");
+        if (index <= 7) MainSoundManager.instance.PlayBGM("Basic");
+        else if (index <= 14) MainSoundManager.instance.PlayBGM("2stage");
     }
 
 
@@ -169,9 +169,10 @@ public class GameManager : MonoBehaviour
                     stages[i].SetActive(i == stageIndex);
                 }
             }
-      
+
             SetCameraConfinerBounds(stages[stageIndex]); // 재시작 시 설정
         }
+
 
         GameObject stackObject = GameObject.Find("Stack");
         if (stackObject != null)
@@ -183,9 +184,10 @@ public class GameManager : MonoBehaviour
         {
             Debug.LogWarning("'Stack' GameObject를 찾을 수 없습니다.");
         }
+
     }
 
-    
+
     //코인 5개까지 증가시키는 함수
     public void AddScore(int amount)
     {
@@ -205,7 +207,7 @@ public class GameManager : MonoBehaviour
     {
         if (stageIndex < stages.Length - 1 && stageIndex < startPositions.Length - 1)
         {
-            
+
             SetCameraDamping(Vector3.zero);
 
             DialogueManager.instance.FadeToBlack(() => {
@@ -229,13 +231,13 @@ public class GameManager : MonoBehaviour
         PlayerRepositionLogic(); // 플레이어 리포지션 및 관련 로직 호출
         SetPlayerInteraction(false);
         SetCameraConfinerBounds(stages[stageIndex]);
-      
+
         // **여기서 0.4초 대기**
         yield return new WaitForSeconds(0.3f);
         SetPlayerInteraction(true);
         DialogueManager.instance.FadeFromBlack(() => {
             SetCameraDamping(originalDamping);
-            
+
             Debug.Log($"플레이어 상호작용 활성화됨. (페이드 아웃 완료)");
         });
     }
@@ -250,9 +252,9 @@ public class GameManager : MonoBehaviour
             GameManager.instance.hopeScore = 0; // 리포지션 시 점수 초기화 (필요하다면)
             SetCameraDamping(originalDamping);
             SetPlayerInteraction(true);
-           
+
             Debug.Log($"플레이어 상호작용 활성화됨. (페이드 아웃 없이 즉시)");
-        
+
         }
         else
         {
@@ -312,7 +314,7 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(delay);
         SetCameraDamping(originalDamping);
         SetPlayerInteraction(true); // 상호작용 다시 활성화
-       
+
     }
 
     public void SetPlayerInteraction(bool enable)

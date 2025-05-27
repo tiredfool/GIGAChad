@@ -41,6 +41,16 @@ public class StackManager : MonoBehaviour
     public PlayerController Pc;
     public bool IsGameOver() { return isGameOver; }
 
+    void Awake()
+    {
+        LoadLicenseStatus();
+    }
+
+    void OnApplicationQuit()
+    {
+        SaveLicenseStatus();
+    }
+
     public void StartStackGame(Camera stackCamera)
     {
         DialogueManager.instance.StartDialogueByIdRange("2S-m-1", "2S-m-2");
@@ -156,6 +166,7 @@ public class StackManager : MonoBehaviour
             {
                 //Debug.Log("모든 자격증을 취득했습니다! " + exitDelay + "초 후에 원래 게임으로 돌아갑니다.");
                 AllLicensesObtained = true;
+                SaveLicenseStatus();
                 StartCoroutine(ReturnToOriginalGame(true)); // 3초 후 돌아가는 코루틴 시작
                 return; // 더 이상 블록을 생성하지 않도록 return
             }
@@ -170,6 +181,18 @@ public class StackManager : MonoBehaviour
 
         nextBlockScale = currentBlock.transform.localScale;
         SpawnBlock();
+    }
+
+    private void SaveLicenseStatus()
+    {
+        PlayerPrefs.SetInt("AllLicensesObtained", AllLicensesObtained ? 1 : 0);
+        PlayerPrefs.Save(); // 변경사항을 즉시 저장
+        Debug.Log("License Status Saved: " + AllLicensesObtained);
+    }
+    private void LoadLicenseStatus()
+    {
+        AllLicensesObtained = PlayerPrefs.GetInt("AllLicensesObtained", 0) == 1; // 기본값은 false (0)
+        Debug.Log("License Status Loaded: " + AllLicensesObtained);
     }
 
     void ShowBadge(int badgeIndex)
