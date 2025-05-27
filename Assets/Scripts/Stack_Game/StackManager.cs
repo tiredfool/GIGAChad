@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections; // 코루틴 사용을 위해 추가
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 
 public class StackManager : MonoBehaviour
 {
@@ -30,13 +31,14 @@ public class StackManager : MonoBehaviour
     public GameObject badgeImageObject; // Inspector에서 연결할 뱃지 GameObject
     public Sprite[] badgeSprites; // Inspector에서 연결할 뱃지 Sprite 배열
     public Vector3 badgeOffset = new Vector3(2f, 2f, 0f); // 카메라로부터의 상대적인 위치 오프셋
-    public bool AllLicensesObtained { get; private set; } = false;
+
+    public bool AllLicensesObtained { get; private set; } = false; // 영구적인 모든 자격증 취득 여부
+    public bool WasLastGameSuccessful { get; private set; } = false; // 직전 스택 게임 세션의 성공 여부
 
     // Studying
     public GameObject studyingImageObject;
     public Vector3 studyingOffset = new Vector3(0f, 0f, 10f);
 
-    private bool canExit = false; // 더 이상 사용하지 않음
     public float exitDelay = 3f; // 3초 딜레이
     public PlayerController Pc;
     public bool IsGameOver() { return isGameOver; }
@@ -53,10 +55,16 @@ public class StackManager : MonoBehaviour
 
     public void StartStackGame(Camera stackCamera)
     {
-        DialogueManager.instance.StartDialogueByIdRange("2S-m-1", "2S-m-2");
+        //DialogueManager.instance.StartDialogueByIdRange("2S-m-1", "2S-m-2");
         Debug.Log("스택 게임 시작됨!");
         isStackGameActive = true;
         mainCamera = stackCamera;
+
+        if (mainCamera != null)
+        {
+            mainCamera.enabled = true;
+        }
+
         if (initialCameraPosition == Vector3.zero) initialCameraPosition = mainCamera.transform.position;
         originalBlockPrefab = blockPrefab;
         blockHeight = blockPrefab.transform.localScale.y;
@@ -64,6 +72,8 @@ public class StackManager : MonoBehaviour
         if (mainCamera != null) mainCamera.enabled = true;
 
         MainSoundManager.instance.ChangeBGM("StackGame");
+
+        WasLastGameSuccessful = false; // 새로운 스택 게임 시작 시 초기화
 
         ResetStackGame();
         // 게임 시작 시 뱃지 GameObject 비활성화
@@ -83,6 +93,7 @@ public class StackManager : MonoBehaviour
         isGameOver = false;
         blocksStackedCount = 0;
         licenseCount = 0;
+
         blockPrefab = originalBlockPrefab;
         foreach (GameObject block in stackedBlocks) if (block != null) Destroy(block);
         stackedBlocks.Clear();
@@ -167,6 +178,18 @@ public class StackManager : MonoBehaviour
                 //Debug.Log("모든 자격증을 취득했습니다! " + exitDelay + "초 후에 원래 게임으로 돌아갑니다.");
                 AllLicensesObtained = true;
                 SaveLicenseStatus();
+
+                // GameManager의 현재 게임 실행 상태 업데이트
+                if (GameManager.instance != null) // 'instance'로 접근
+                {
+                    GameManager.instance.HasStackGameSucceededThisRun = true;
+                    Debug.Log("StackManager: 현재 게임 실행에서 스택 게임 성공으로 GameManager 상태 업데이트!");
+                }
+                else
+                {
+                    Debug.LogWarning("StackManager: GameManager.instance를 찾을 수 없습니다! 스택 게임 성공 상태를 저장할 수 없습니다.");
+                }
+
                 StartCoroutine(ReturnToOriginalGame(true)); // 3초 후 돌아가는 코루틴 시작
                 return; // 더 이상 블록을 생성하지 않도록 return
             }
@@ -260,7 +283,14 @@ public class StackManager : MonoBehaviour
             if (controller != null) controller.StopBlock();
         }
         MainSoundManager.instance.ChangeBGM("2stage");
-        if (this.AllLicensesObtained) // 여기에 this.AllLicensesObtained를 사용
+
+        WasLastGameSuccessful = allLicensesObtainedInEndGame;
+
+        Debug.Log($"EndGame 호출됨. 현재 AllLicensesObtained 상태 (속성): {this.AllLicensesObtained}");
+        Debug.Log($"EndGame 호출 시 allLicensesObtainedInEndGame 파라미터 값: {allLicensesObtainedInEndGame}");
+        Debug.Log($"EndGame 호출 시 WasLastGameSuccessful (새 속성): {WasLastGameSuccessful}");
+
+        if (allLicensesObtainedInEndGame)
         {
             DialogueManager.instance.StartDialogueByIdRange("2S-m-3", "2S-m-4");
         }

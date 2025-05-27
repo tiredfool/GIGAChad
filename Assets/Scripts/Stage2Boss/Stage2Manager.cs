@@ -53,6 +53,12 @@ public class Stage2Manager : MonoBehaviour
             Debug.LogError("Stage2Manager: 씬에서 StackManager를 찾을 수 없습니다. 다이얼로그 가시성 설정에 문제가 발생할 수 있습니다.");
         }
 
+        // GameManager 인스턴스 존재 여부 확인
+        if (GameManager.instance == null) // 'instance'로 접근
+        {
+            Debug.LogWarning("Stage2Manager: GameManager.instance를 찾을 수 없습니다. 게임 진행 상태가 올바르지 않을 수 있습니다.");
+        }
+
         if (boss != null) boss.SetActive(true);
         if (bossAttack != null) bossAttack.SetActive(false);
         if (bossIdle != null) bossIdle.SetActive(true);
@@ -84,28 +90,6 @@ public class Stage2Manager : MonoBehaviour
             MainSoundManager.instance.StopBGM();
             MainSoundManager.instance.PlayBGM("Hope");
             DialogueManager.instance.StartDialogueByIdRange("E-s", "E-2e");
-            //ShowGameOver("축하합니다!\n점수 도달로 게임 종료");
-            ////  StartCoroutine(RestartAfterDelay(1f));
-            //if (mainCamera != null) mainCamera.SetActive(true);
-            //if (bossCamera != null) bossCamera.SetActive(false);
-
-            //AudioListener bossAudio = bossCamera?.GetComponent<AudioListener>();
-            //if (bossAudio != null) bossAudio.enabled = false;
-
-            //AudioListener mainAudio = mainCamera?.GetComponent<AudioListener>();
-            //if (mainAudio != null) mainAudio.enabled = true;
-            //GameManager.instance.NextStage();
-            //if (SwitchZone.Instance != null)
-            //    SwitchZone.Instance.off();
-            //if (GameManager.instance != null)
-            //    GameManager.instance.off();
-            //if (DialogueManager.instance != null)
-            //    DialogueManager.instance.off();
-            //if (MainSoundManager.instance != null)
-            //    MainSoundManager.instance.off();
-            //if (VirtualInputManager.Instance != null)
-            //    VirtualInputManager.Instance.off();
-            //SceneManager.LoadScene("MainMenu");
         }
     }
 
@@ -134,28 +118,22 @@ public class Stage2Manager : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
-    //public void RestartGame()
-    //{
-    //    ResetGameState();  // 씬을 리로드하지 않고 직접 초기화
-    //}
-
-
     public void HandlePlatformStepped(Vector3 currentPlatformPos)
     {
 
         // UI 시작
         ScoreManager.instance.StartGameUI();
 
-        // 점수 추가 로직 변경: 자격증 소지 여부에 따라 다른 점수 부여
-        if (stackManager != null && stackManager.AllLicensesObtained)
+        // 점수 추가 로직: GameManager의 HasStackGameSucceededThisRun 상태 확인
+        if (GameManager.instance != null && GameManager.instance.HasStackGameSucceededThisRun) // 'instance'로 접근
         {
-            ScoreManager.instance.AddScore(150); // 자격증 있다면 150점
-            Debug.Log("Platform Stepped: 자격증 보유로 150점 추가.");
+            ScoreManager.instance.AddScore(150); // 현재 게임 세션에서 스택 게임 성공 시 150점
+            Debug.Log("Platform Stepped: 현재 게임 세션에서 스택 게임 성공 상태이므로 150점 추가.");
         }
         else
         {
-            ScoreManager.instance.AddScore(100); // 자격증 없다면 100점
-            Debug.Log("Platform Stepped: 자격증 미보유로 100점 추가.");
+            ScoreManager.instance.AddScore(100); // 현재 게임 세션에서 스택 게임 미성공 상태이므로 100점
+            Debug.Log("Platform Stepped: 현재 게임 세션에서 스택 게임 미성공 상태이므로 100점 추가.");
         }
 
         /*

@@ -43,6 +43,9 @@ public class GameManager : MonoBehaviour
 
     private bool isPlayerInteractionEnabled = true;
 
+    // 현재 플레이 중인 '전체 게임 세션'에서 스택 게임을 성공했는지 여부
+    public bool HasStackGameSucceededThisRun { get; set; } = false;
+
     public GameObject stackElementsParent;
     public float OneStageBossTime = 90f;
     void Awake()
@@ -187,6 +190,12 @@ public class GameManager : MonoBehaviour
 
     }
 
+    // 새로운 게임 시작 시 호출될 메서드 : 스택게임
+    public void ResetGameProgress()
+    {
+        HasStackGameSucceededThisRun = false; // 스택 게임 성공 여부 초기화
+        Debug.Log("GameManager: 현재 게임 진행 상태가 초기화되었습니다.");
+    }
 
     //코인 5개까지 증가시키는 함수
     public void AddScore(int amount)
