@@ -64,6 +64,12 @@ public class BlockController : MonoBehaviour
 
     void Update()
     {
+        // DialogueManager.instance가 null이 아니고 대화 중이라면 블록 움직임과 입력을 중지합니다.
+        if (DialogueManager.instance != null && DialogueManager.instance.isTalking()) // isTalking() 메서드 사용 [cite: 47]
+        {
+            return; // 대화 중에는 아무것도 하지 않고 함수 종료
+        }
+
         if (isStopped || stackManager.IsGameOver())
             return;
 
