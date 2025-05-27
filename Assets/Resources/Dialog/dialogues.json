@@ -368,7 +368,7 @@
       "npcName": "기가차드",
       "portraitName": "Gigachard",
       "fontSize": 60,
-      "dialogue": "만삣삐. look up there! 이제 저곳으로 나아가 my boy!",
+      "dialogue": "만삣삐. look up there!\n이제 저곳으로 나아가 my boy!",
       "standingImage": "chardStand",
       "standingPosition": "right"
     },
@@ -394,7 +394,7 @@
       "npcName": "기가차드",
       "portraitName": "Gigachard",
       "fontSize": 70,
-      "dialogue": "이제 다이어트부터 하는거야 삣삐..",
+      "dialogue": "다이어트부터 하는거야 삣삐..",
       "standingImage": "chardStand",
       "standingPosition": "right"
     },
@@ -402,15 +402,24 @@
       "npcName": "기가차드",
       "portraitName": "Gigachard",
       "fontSize": 60,
-      "dialogue": "만삣삐. 넌 과거의 너에 비해 f**king work하고있는거야.",
+      "dialogue": "만삣삐. 넌 과거의 너에 비해\nf**king work하고있는거야.",
       "standingImage": "chardStand",
       "standingPosition": "right"
     },
     {
       "npcName": "기가차드",
       "portraitName": "Gigachard",
-      "fontSize": 60,
-      "dialogue": "step by step! 유혹을피해 나아가 만삣삐!!",
+      "fontSize": 90,
+      "dialogue": "step by step! ",
+      "standingImage": "chardStand",
+      "standingPosition": "right",
+      "shakeScreen": true
+    },
+     {
+      "npcName": "기가차드",
+      "portraitName": "Gigachard",
+      "fontSize": 70,
+      "dialogue": "유혹을피해 나아가 만삣삐!! ",
       "standingImage": "chardStand",
       "standingPosition": "right",
       "shakeScreen": true
@@ -436,8 +445,14 @@
     {
       "npcName": "???",
       "portraitName": "Q",
-      "fontSize": 70,
-      "dialogue": "요 만삣삐. 왜 이렇게 hard work을 하는거야? 이 amazing 한 음식들을 보라고"
+      "fontSize": 60,
+      "dialogue": "요 만삣삐.\n왜 이렇게 hard work을 하는거야? "
+    },
+     {
+      "npcName": "???",
+      "portraitName": "Q",
+      "fontSize": 60,
+      "dialogue": "이 amazing 한 음식들을 보라고"
     },
     {
       "npcName": "만삣삐",
@@ -452,7 +467,14 @@
       "npcName": "???",
       "portraitName": "Q",
       "fontSize": 70,
-      "dialogue": "Me? 네 식욕의 집합체랄까?\n 괴로워하지 말고 원하는 대로 먹어, 만삣삐."
+      "dialogue": "Me? 네 식욕의 집합체랄까?"
+    },
+    {
+
+      "npcName": "???",
+      "portraitName": "Q",
+      "fontSize": 67,
+      "dialogue": "괴로워하지 말고 원하는 대로 먹어\n 만삣삐."
     },
     {
       "npcName": "만삣삐",
@@ -466,8 +488,8 @@
 
       "npcName": "???",
       "portraitName": "Q",
-      "fontSize": 70,
-      "dialogue": "oh, diet? b**l s**t. 만삣삐. 이건 너의 work에 대한 보상이야!"
+      "fontSize": 65,
+      "dialogue": "oh, diet? b**l s**t. 만삣삐.\n이건 너의 work에 대한 보상이야!"
     },
     {
       "npcName": "만삣삐",
@@ -517,7 +539,7 @@
       "npcName": "치킨맨",
       "portraitName": "ChickenMan",
       "fontSize": 70,
-      "dialogue": "damn... 이걸로 넘어가지 않을꺼야 만삣삐! i'll be back!",
+      "dialogue": "damn...\n이걸로 넘어가지 않을꺼야 만삣삐!\ni'll be back!",
       "standingImage": "ChickenMan",
       "standingPosition": "right"
     },
@@ -526,7 +548,7 @@
       "npcName": "기가차드",
       "portraitName": "Gigachard",
       "fontSize": 60,
-      "dialogue": "만삣삐. 넌 one step forward 한거야. 굿 잡 my son!",
+      "dialogue": "만삣삐.\n넌 one step forward 한거야.\n굿 잡 my son!",
       "standingImage": "chardStand",
       "standingPosition": "right"
     },
@@ -566,7 +588,7 @@
       "npcName": "치킨맨",
       "portraitName": "ChickenMan",
       "fontSize": 70,
-      "dialogue": "yo! 여기까지 왔군 삣삐! 나의 모든 것을 다 보여주겠어!",
+      "dialogue": "yo! 여기까지 왔군 삣삐!\n나의 모든 것을 다 보여주겠어!",
       "standingImage": "ChickenMan",
       "standingPosition": "right",
       "shakeScreen": true
@@ -575,8 +597,8 @@
 
       "npcName": "치킨맨",
       "portraitName": "ChickenMan",
-      "fontSize": 70,
-      "dialogue": "Chicken의 유혹을 이길수 있을까 Man삣삐?!",
+      "fontSize": 65,
+      "dialogue": "Chicken의 유혹을 이길수 있을까\nMan삣삐?!",
       "standingImage": "ChickenMan",
       "standingPosition": "right",
       "shakeScreen": true
@@ -595,7 +617,7 @@
       "npcName": "기가차드",
       "portraitName": "Gigachard",
       "fontSize": 60,
-      "dialogue": "안돼 만삣삐! 도망치는 순간 끝이야! 저녀석의 유혹을 이겨내야 forward로 나아갈 수 있어!",
+      "dialogue": "안돼 만삣삐! 도망치는 순간 끝이야!\n저녀석의 유혹을 이겨내야 \nforward로 나아갈 수 있어!",
       "standingImage": "chardStand",
       "standingPosition": "right"
     },
@@ -793,7 +815,7 @@
       "npcName": "기가차드",
       "portraitName": "Gigachard",
       "fontSize": 60,
-      "dialogue": "온갖 유혹을 떨쳐내고, Study를 하여 자격증을 따는거야",
+      "dialogue": "온갖 유혹을 떨쳐내고,\nStudy를 하여 자격증을 따는거야",
       "standingImage": "chardStand",
       "standingPosition": "right"
     },
