@@ -1,4 +1,4 @@
- using UnityEngine;
+using UnityEngine;
 using System.Collections; // 코루틴 사용을 위해 추가
 using System.Collections.Generic;
 
@@ -30,6 +30,8 @@ public class StackManager : MonoBehaviour
     public GameObject badgeImageObject; // Inspector에서 연결할 뱃지 GameObject
     public Sprite[] badgeSprites; // Inspector에서 연결할 뱃지 Sprite 배열
     public Vector3 badgeOffset = new Vector3(2f, 2f, 0f); // 카메라로부터의 상대적인 위치 오프셋
+    public bool AllLicensesObtained { get; private set; } = false;
+
     // Studying
     public GameObject studyingImageObject;
     public Vector3 studyingOffset = new Vector3(0f, 0f, 10f);
@@ -94,7 +96,7 @@ public class StackManager : MonoBehaviour
     public void SpawnBlock()
     {
         if (!isStackGameActive || isGameOver) return;
-      
+
         Vector3 spawnPos = spawnPoint.position;
         if (lastBlock != null) spawnPos.y = lastBlock.transform.position.y + blockHeight + 0.5f;
         GameObject newBlock = Instantiate(blockPrefab, spawnPos, Quaternion.identity);
@@ -146,13 +148,14 @@ public class StackManager : MonoBehaviour
         {
             if (licenseCount < maxLicenses)
             {
-                Debug.Log("자격증을 취득했습니다!!!");
+                //Debug.Log("자격증을 취득했습니다!!!");
                 ShowBadge(licenseCount); // 뱃지 표시
                 licenseCount++;
             }
             if (licenseCount >= maxLicenses)
             {
-                Debug.Log("모든 자격증을 취득했습니다! " + exitDelay + "초 후에 원래 게임으로 돌아갑니다.");
+                //Debug.Log("모든 자격증을 취득했습니다! " + exitDelay + "초 후에 원래 게임으로 돌아갑니다.");
+                AllLicensesObtained = true;
                 StartCoroutine(ReturnToOriginalGame(true)); // 3초 후 돌아가는 코루틴 시작
                 return; // 더 이상 블록을 생성하지 않도록 return
             }
@@ -214,7 +217,7 @@ public class StackManager : MonoBehaviour
         EndGame(allLicensesObtained);
     }
 
-    public void EndGame(bool allLicensesObtained = false)
+    public void EndGame(bool allLicensesObtainedInEndGame = false)
     {
         if (!isStackGameActive || isGameOver) return;
 
@@ -234,7 +237,7 @@ public class StackManager : MonoBehaviour
             if (controller != null) controller.StopBlock();
         }
         MainSoundManager.instance.ChangeBGM("2stage");
-        if (allLicensesObtained)
+        if (this.AllLicensesObtained) // 여기에 this.AllLicensesObtained를 사용
         {
             DialogueManager.instance.StartDialogueByIdRange("2S-m-3", "2S-m-4");
         }

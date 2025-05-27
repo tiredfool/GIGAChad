@@ -40,10 +40,18 @@ public class Stage2Manager : MonoBehaviour
     private bool isSpawning = false;
     private bool hasBossEventStarted = false;
 
+    private StackManager stackManager; // StackManager 참조를 위한 변수 추가
+
     private void Awake()
     {
         if (instance == null) instance = this;
         else Destroy(gameObject);
+
+        stackManager = FindObjectOfType<StackManager>();
+        if (stackManager == null)
+        {
+            Debug.LogError("Stage2Manager: 씬에서 StackManager를 찾을 수 없습니다. 다이얼로그 가시성 설정에 문제가 발생할 수 있습니다.");
+        }
 
         if (boss != null) boss.SetActive(true);
         if (bossAttack != null) bossAttack.SetActive(false);
@@ -75,7 +83,7 @@ public class Stage2Manager : MonoBehaviour
             }
             MainSoundManager.instance.StopBGM();
             MainSoundManager.instance.PlayBGM("Hope");
-            DialogueManager.instance.StartDialogueByIdRange("E-s","E-2e");
+            DialogueManager.instance.StartDialogueByIdRange("E-s", "E-2e");
             //ShowGameOver("축하합니다!\n점수 도달로 게임 종료");
             ////  StartCoroutine(RestartAfterDelay(1f));
             //if (mainCamera != null) mainCamera.SetActive(true);
@@ -138,8 +146,22 @@ public class Stage2Manager : MonoBehaviour
         // UI 시작
         ScoreManager.instance.StartGameUI();
 
+        // 점수 추가 로직 변경: 자격증 소지 여부에 따라 다른 점수 부여
+        if (stackManager != null && stackManager.AllLicensesObtained)
+        {
+            ScoreManager.instance.AddScore(150); // 자격증 있다면 150점
+            Debug.Log("Platform Stepped: 자격증 보유로 150점 추가.");
+        }
+        else
+        {
+            ScoreManager.instance.AddScore(100); // 자격증 없다면 100점
+            Debug.Log("Platform Stepped: 자격증 미보유로 100점 추가.");
+        }
+
+        /*
         // 점수 추가
         ScoreManager.instance.AddScore(100);
+        */
 
         // 카메라 전환
         if (mainCamera != null) mainCamera.SetActive(false);
@@ -238,68 +260,4 @@ public class Stage2Manager : MonoBehaviour
             elapsed += spawnRate;
         }
     }
-
-    /*
-    private void ResetGameState()
-    {
-        // 기존 플랫폼 제거
-        foreach (GameObject obj in GameObject.FindGameObjectsWithTag("Platform"))
-        {
-            if (obj != platform) // 초기 platform 오브젝트는 제외
-                Destroy(obj);
-        }
-
-        // Stage 하위 오브젝트 비활성화
-        if (stageParent != null)
-        {
-            foreach (Transform child in stageParent.transform)
-            {
-                child.gameObject.SetActive(false);
-            }
-        }
-
-        // Stage 부모 오브젝트 자체도 비활성화 (이 부분 추가!)
-        stageParent.SetActive(false);
-
-        // 플레이어 위치 초기화
-        if (player != null && playerStartPos != null)
-        {
-            player.transform.position = playerStartPos.position;
-            player.SetActive(true);  // 혹시 비활성화된 경우
-        }
-
-        // 카메라 초기화
-        if (mainCamera != null)
-        {
-            mainCamera.SetActive(true);
-            AudioListener mainAudio = mainCamera.GetComponent<AudioListener>();
-            if (mainAudio != null) mainAudio.enabled = true;
-        }
-
-        if (bossCamera != null)
-        {
-            bossCamera.SetActive(false);
-            AudioListener bossAudio = bossCamera.GetComponent<AudioListener>();
-            if (bossAudio != null) bossAudio.enabled = false;
-        }
-
-        // 게임오버 UI 초기화
-        if (gameOverText != null)
-        {
-            gameOverText.gameObject.SetActive(false);
-        }
-
-        // 점수 초기화
-        ScoreManager.instance.ResetScore();
-
-        // BlackWaves 위치 초기화
-        if (blackwaves != null && blackwavesStartPos != null)
-        {
-            blackwaves.transform.position = blackwavesStartPos.position;
-            blackwaves.SetActive(true);
-        }
-
-        isGameOver = false;
-    }
-    */
 }
