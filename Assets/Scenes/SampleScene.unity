@@ -2821,8 +2821,8 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 839357871}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMin: {x: 1, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -3270,7 +3270,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &78725522
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17428,7 +17428,7 @@ SpriteRenderer:
   m_Size: {x: 23.039999, y: 12.959999}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &423661507
@@ -20481,7 +20481,7 @@ SpriteRenderer:
   m_Size: {x: 23.039999, y: 12.959999}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &488360913
@@ -24838,7 +24838,7 @@ Transform:
   m_GameObject: {fileID: 519420028}
   serializedVersion: 2
   m_LocalRotation: {x: -9.856191e-32, y: 2.1949697e-16, z: 0, w: 1}
-  m_LocalPosition: {x: -53, y: -3, z: -10}
+  m_LocalPosition: {x: 235.72, y: -24, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -57629,11 +57629,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1821372119480011127, guid: 5b1a83a9d8c3ca24eb49841f3d0a0ed7, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -53
+      value: 235.72
       objectReference: {fileID: 0}
     - target: {fileID: 1821372119480011127, guid: 5b1a83a9d8c3ca24eb49841f3d0a0ed7, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -3
+      value: -24
       objectReference: {fileID: 0}
     - target: {fileID: 1821372119480011127, guid: 5b1a83a9d8c3ca24eb49841f3d0a0ed7, type: 3}
       propertyPath: m_LocalPosition.z
@@ -57770,7 +57770,7 @@ RectTransform:
   m_Father: {fileID: 233167515}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 10, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -66361,7 +66361,6 @@ GameObject:
   - component: {fileID: 1485966129}
   - component: {fileID: 1485966131}
   - component: {fileID: 1485966130}
-  - component: {fileID: 1485966132}
   m_Layer: 0
   m_Name: dialogue
   m_TagString: Untagged
@@ -66447,20 +66446,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &1485966132
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1485966128}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 870c7b1cf2ca6f44ab71f91469b4ecba, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  BGM: 2stage
-  forced: 1
 --- !u!1 &1489886626
 GameObject:
   m_ObjectHideFlags: 0
@@ -68149,7 +68134,7 @@ SpriteRenderer:
   m_Size: {x: 23.039999, y: 12.959999}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &1588247627
@@ -70587,7 +70572,7 @@ SpriteRenderer:
   m_Size: {x: 23.039999, y: 12.959999}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &1602879663
@@ -77405,7 +77390,7 @@ MonoBehaviour:
   - {x: 124, y: -19, z: 0}
   - {x: 170, y: -26, z: 0}
   - {x: 201, y: -20, z: 0}
-  - {x: 234, y: -22, z: 0}
+  - {x: 235, y: -24, z: 0}
   - {x: 278, y: -24.5, z: 0}
   virtualCamera: {fileID: 1245668515}
   confiner2D: {fileID: 1245668514}
@@ -81259,7 +81244,7 @@ SpriteRenderer:
   m_Size: {x: 23.039999, y: 12.959999}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &2045408663

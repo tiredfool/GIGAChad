@@ -720,7 +720,7 @@
       "npcName": "기가차드",
       "portraitName": "Gigachard",
       "fontSize": 60,
-      "dialogue": "만삣삐. Do hard study! 책을 one by one으로 쌓으면 넌 더 올라갈거야, 만삣삐.",
+      "dialogue": "만삣삐. Do hard study!\n책을 one by one으로 쌓으면\n넌 더 올라갈거야, 만삣삐.",
       "standingImage": "chardStand",
       "standingPosition": "right"
     },
@@ -747,7 +747,7 @@
       "npcName": "기가차드",
       "portraitName": "Gigachard",
       "fontSize": 60,
-      "dialogue": "만삣삐. 넌 잘 해내고 있어. Very proud of you my boy!",
+      "dialogue": "만삣삐. 넌 잘 해내고 있어.\nVery proud of you my boy!",
       "standingImage": "chardStand",
       "standingPosition": "right"
     },
@@ -780,7 +780,7 @@
       "npcName": "기가차드",
       "portraitName": "Gigachard",
       "fontSize": 60,
-      "dialogue": "You F**king Idiot! 도전하는 자가 아름다운 법!\n 넌 도전을 했어.",
+      "dialogue": "You F**king Idiot!\n도전하는 자가 아름다운 법!\n 넌 도전을 했어.",
       "standingImage": "chardStand",
       "standingPosition": "right",
       "shakeScreen": true
@@ -790,7 +790,7 @@
       "npcName": "기가차드",
       "portraitName": "Gigachard",
       "fontSize": 60,
-      "dialogue": "만삣삐. 넌 잘 해내고 있어. Very proud of you my boy!",
+      "dialogue": "만삣삐. 넌 잘 해내고 있어.\nVery proud of you my boy!",
       "standingImage": "chardStand",
       "standingPosition": "right"
     },
@@ -850,7 +850,15 @@
       "npcName": "기가차드",
       "portraitName": "Gigachard",
       "fontSize": 60,
-      "dialogue": "oh, 만삣삐... 넌 여태까지 잘 헤쳐나왔어. trust yourself 만삣삐.",
+      "dialogue": "oh, 만삣삐... ",
+      "standingImage": "chardStand",
+      "standingPosition": "right"
+    },
+    {
+      "npcName": "기가차드",
+      "portraitName": "Gigachard",
+      "fontSize": 60,
+      "dialogue": "넌 여태까지 잘 헤쳐나왔어.\ntrust yourself 만삣삐.",
       "standingImage": "chardStand",
       "standingPosition": "right"
     },
@@ -866,7 +874,7 @@
       "npcName": "기가차드",
       "portraitName": "Gigachard",
       "fontSize": 60,
-      "dialogue": "don't look! 그걸 보지마 만삣삐! 그런 Think를 하지마!",
+      "dialogue": "don't look! 그걸 보지마 만삣삐!\n그런 Think를 하지마!",
       "standingImage": "chardStand",
       "standingPosition": "right"
     },
@@ -874,7 +882,7 @@
       "npcName": "기가차드",
       "portraitName": "Gigachard",
       "fontSize": 60,
-      "dialogue": "너가 걸어온 Way를 봐! 넌 100kg 오리궁뎅이 같은 존재에서",
+      "dialogue": "너가 걸어온 Way를 봐!\n넌 100kg 오리궁뎅이 같은 존재에서",
       "standingImage": "chardStand",
       "standingPosition": "right"
     },
@@ -890,7 +898,7 @@
       "npcName": "만삣삐",
       "portraitName": "Player_sad",
       "fontSize": 70,
-      "dialogue": "기가차드...! 하지만...내가 할 수 있을까?",
+      "dialogue": "기가차드...! 하지만...\n내가 할 수 있을까?",
       "standingImage": "pepeStand_sad",
       "standingPosition": "left"
     },
@@ -898,7 +906,15 @@
       "npcName": "기가차드",
       "portraitName": "Gigachard",
       "fontSize": 60,
-      "dialogue": "하..만삣삐. dont Think! 심호흡하고. 자연스레 내뱉어. 안정감을 찾아. my bro.",
+      "dialogue": "하..만삣삐...\ndon't Think! 심호흡하고. 자연스레 내뱉어.",
+      "standingImage": "chardStand",
+      "standingPosition": "right"
+    },
+     {
+      "npcName": "기가차드",
+      "portraitName": "Gigachard",
+      "fontSize": 60,
+      "dialogue": "안정감을 찾아. my bro.",
       "standingImage": "chardStand",
       "standingPosition": "right"
     },
@@ -906,7 +922,7 @@
       "npcName": "만삣삐",
       "portraitName": "Player",
       "fontSize": 70,
-      "dialogue": "후우.... 기가차드... 그래... 난 진정되었어.",
+      "dialogue": "후우.... 기가차드... 그래...\n난 진정되었어.",
       "standingImage": "pepeStand",
       "standingPosition": "left"
     },
@@ -914,7 +930,7 @@
       "npcName": "기가차드",
       "portraitName": "Gigachard",
       "fontSize": 60,
-      "dialogue": "Good! 만삣삐. 넌 결국 해낼거야. 비록 그게 not today더라도. 너의 try는 결코 배신하지 않을거야",
+      "dialogue": "Good! 만삣삐. 넌 결국 해낼거야.\n비록 그게 not today더라도.\n너의 try는 결코 배신하지 않을거야",
       "standingImage": "chardStand",
       "standingPosition": "right"
     },
@@ -946,8 +962,8 @@
     {
       "npcName": "보스",
       "portraitName": "Boss_sprite_5",
-      "fontSize": 70,
-      "dialogue": "5000점을 채울 수 있을지도 모르겠군.",
+      "fontSize": 60,
+      "dialogue": "5000점을 채울 수 있을지도 모르겠어.",
       "standingImage": "Boss_sprite_5",
       "standingPosition": "right"
     },
@@ -1099,7 +1115,7 @@
       "npcName": "동료",
       "portraitName": "Q",
       "fontSize": 70,
-      "dialogue": "이야.. 삣삐씨 이번달도 잘했는걸?",
+      "dialogue": "이야.. 삣삐씨\n이번달도 잘했는걸?",
       "backgroundImageName": "office"
     },
     {
@@ -1183,7 +1199,16 @@
       "npcName": "만삣삐",
       "portraitName": "Player",
       "fontSize": 70,
-      "dialogue": "그냥.. 전부. 내가 이렇게 변할 수 있었던 건 네 덕분이야, 기가차드.",
+      "dialogue": "그냥.. 전부.",
+      "standingImage": "pepeStand,chardStand",
+      "standingPosition": "left,right",
+      "backgroundImageName": "office2"
+    },
+      {
+      "npcName": "만삣삐",
+      "portraitName": "Player",
+      "fontSize": 70,
+      "dialogue": "내가 이렇게 변할 수 있었던 건\n전부 네 덕분이야, 기가차드.",
       "standingImage": "pepeStand,chardStand",
       "standingPosition": "left,right",
       "backgroundImageName": "office2"
@@ -1200,8 +1225,8 @@
     {
       "npcName": "기가차드",
       "portraitName": "Gigachard",
-      "fontSize": 70,
-      "dialogue": "Oh... 삣삐. 내가 한 건 그저 네 등을 아주 살짝 밀었을 뿐이야.",
+      "fontSize": 65,
+      "dialogue": "Oh... 삣삐. 내가 한 건 그저\n네 등을 아주 살짝 밀었을 뿐이야.",
       "standingImage": "pepeStand,chardStand",
       "standingPosition": "left,right",
       "backgroundImageName": "office2"
@@ -1246,7 +1271,7 @@
       "npcName": "만삣삐",
       "portraitName": "Player",
       "fontSize": 70,
-      "dialogue": "....뭐? 그게 무슨 소리야, 기가차드?",
+      "dialogue": "....뭐? 그게 무슨 소리야\n기가차드?",
       "standingImage": "pepeStand,chardStand",
       "standingPosition": "left,right",
       "backgroundImageName": "office2"
@@ -1255,7 +1280,7 @@
       "npcName": "기가차드",
       "portraitName": "Gigachard",
       "fontSize": 70,
-      "dialogue": "말한 그대로야, 삣삐.\n넌 이미 GIGACHAD야. 이제 내가 필요 없지.",
+      "dialogue": "말한 그대로야, 삣삐.\n넌 이미 GIGACHAD야.\n이제 내가 필요 없지.",
       "standingImage": "pepeStand,chardStand",
       "standingPosition": "left,right",
       "backgroundImageName": "office2"
@@ -1273,7 +1298,7 @@
       "npcName": "기가차드",
       "portraitName": "Gigachard",
       "fontSize": 70,
-      "dialogue": "Stop, 삣삐. 너 스스로도 알고 있잖아",
+      "dialogue": "Stop, 삣삐.\n너 스스로도 알고 있잖아",
       "standingImage": "pepeStand,chardStand",
       "standingPosition": "left,right",
       "backgroundImageName": "office2"
@@ -1291,7 +1316,7 @@
       "npcName": "기가차드",
       "portraitName": "Gigachard",
       "fontSize": 70,
-      "dialogue": "너가 지금까지 한 것들을 떠올려 봐",
+      "dialogue": "너가 지금까지 한 것들을 떠올려",
       "standingImage": "pepeStand,chardStand",
       "standingPosition": "left,right",
       "backgroundImageName": "office2"
@@ -1300,7 +1325,7 @@
       "npcName": "기가차드",
       "portraitName": "Gigachard",
       "fontSize": 70,
-      "dialogue": "포기하지 않고 달려서 기적같은 하루하루를 만들어낸 건 너 자신이야",
+      "dialogue": "포기하지 않고 달려서\n기적같은 하루하루를 만들어낸 건\n너 자신이야",
       "standingImage": "pepeStand,chardStand",
       "standingPosition": "left,right",
       "backgroundImageName": "office2"
@@ -1308,8 +1333,8 @@
     {
       "npcName": "기가차드",
       "portraitName": "Gigachard",
-      "fontSize": 70,
-      "dialogue": "내가 네 곁에 없어도, 너가 GIGACHAD인 한 항상 너와 함께 있는 거야.",
+      "fontSize": 65,
+      "dialogue": "내가 네 곁에 없어도\n너가 GIGACHAD인 한\n나는 항상 너와 함께 있는 거야.",
       "standingImage": "pepeStand,chardStand",
       "standingPosition": "left,right",
       "backgroundImageName": "office2"
@@ -1356,23 +1381,31 @@
       "blackBoxDuration": 0
     },
     {
-      "npcName": "또다른 삣삐",
+      "npcName": "O삣삐",
       "portraitName": "Q",
       "fontSize": 70,
       "dialogue": "또 실패했어... 난 안 될 거야.",
       "backgroundImageName": "Park"
     },
     {
-      "npcName": "성장한 만삣삐",
+      "npcName": "???",
+      "portraitName": "Q",
+      "fontSize": 70,
+      "dialogue": "Hey boy",
+      "backgroundImageName": "Park",
+      "shakeScreen": true
+    },
+    {
+      "npcName": "기가삣삐",
       "portraitName": "gigapepe",
       "fontSize": 70,
-      "dialogue": "Hey boy, 무슨 Idiot 같은 생각을 하고 있길래 그러고 있는 거야?",
+      "dialogue": "무슨 Idiot 같은 생각을 하고 있길래\n그러고 있는 거야?",
       "standingImage": "GigapepeS",
       "standingPosition": "left",
       "backgroundImageName": "Park"
     },
     {
-      "id": "E-2e",
+      "id": "기가삣삐",
       "npcName": "성장한 만삣삐",
       "portraitName": "gigapepe",
       "fontSize": 70,
