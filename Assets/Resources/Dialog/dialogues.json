@@ -228,7 +228,7 @@
       "npcName": "기가차드",
       "portraitName": "Gigachard",
       "fontSize": 60,
-      "dialogue": "조이스틱으로 움직여봐 만삣삐!",
+      "dialogue": "A,D 혹은 방향키로\n 움직여봐 만삣삐!",
       "standingImage": "chardStand",
       "standingPosition": "right"
     },
@@ -256,7 +256,7 @@
       "npcName": "기가차드",
       "portraitName": "Gigachard",
       "fontSize": 60,
-      "dialogue": "자 JUMP를 눌러봐\n몸이 통아저씨마냥 튀어오를거야.",
+      "dialogue": "자 SPACE를 눌러봐\n몸이 통아저씨마냥 튀어오를거야.",
       "standingImage": "chardStand",
       "standingPosition": "right"
     },
@@ -526,15 +526,6 @@
       "portraitName": "Gigachard",
       "fontSize": 60,
       "dialogue": "침착하게 저 녀석이 던지는 음식을 GUN으로 쏴서 막아내는 거야!",
-      "standingImage": "chardStand",
-      "standingPosition": "right",
-      "shakeScreen": true
-    },
-     {
-      "npcName": "기가차드",
-      "portraitName": "Gigachard",
-      "fontSize": 60,
-      "dialogue": "화면을 터치해서 Gun을 쏴봐 만삣삐!",
       "standingImage": "chardStand",
       "standingPosition": "right",
       "shakeScreen": true
@@ -1452,7 +1443,7 @@
       "backgroundImageName": "Park"
     },
      {
-      "id": "E-2e",
+      
       "npcName": "기가삣삐",
       "portraitName": "gigapepe",
       "fontSize": 70,
@@ -1460,6 +1451,19 @@
       "standingImage": "GigapepeS",
       "standingPosition": "left",
       "backgroundImageName": "Park"
+    },
+     {
+      "dialogueType": "black",
+      "dialogue": "END",
+      "fontSize": 48,
+      "blackBoxDuration": 3
+    },
+    {
+      "id": "E-2e",
+      "dialogueType": "black",
+      "dialogue": "",
+      "fontSize": 48,
+      "blackBoxDuration": 0
     }
 
   ]

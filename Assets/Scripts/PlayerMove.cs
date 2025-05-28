@@ -639,7 +639,7 @@ public class PlayerController : MonoBehaviour
         SceneManager.LoadSceneAsync("SampleScene").completed += (AsyncOperation operation) =>
         {
             //Debug.Log("¾À ·Îµå ¿Ï·á: " + operation.isDone);
-
+            MainSoundManager.instance.StopAllSFX();
 
             if (GameManager.instance != null)
             {
@@ -669,8 +669,8 @@ public class PlayerController : MonoBehaviour
 
             Time.timeScale = 1;
             MainSoundManager.instance.StopBGM();
-            if (GameManager.index <= 7) MainSoundManager.instance.PlayBGM("Basic");
-            else if (GameManager.index <= 14) MainSoundManager.instance.PlayBGM("2stage");
+            if (GameManager.instance.getIndex() <= 7) MainSoundManager.instance.PlayBGM("Basic");
+            else if (GameManager.instance.getIndex() <= 14) MainSoundManager.instance.PlayBGM("2stage");
 
             if (DialogueManager.instance != null)
             {
