@@ -9,10 +9,10 @@ using System.Dynamic; // Cinemachine 네임스페이스 추가
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance;  // 싱글톤 인스턴스
-    public int hopeScore = 0;
+    public int hopeScore = 4;
     //public Text pointTxt;  // 점수 UI 표시용 텍스트
     private int stageIndex = 0; // 초기 스테이지 인덱스 0으로 설정
-    public static int index = 3;
+    public static int index = 0;
     public GameObject[] stages = new GameObject[12]; // 크기를 startPositions.Length와 동일하게 설정
     public Transform player;
     public int totalLives =3;  // 총 목숨 수
@@ -221,6 +221,7 @@ public class GameManager : MonoBehaviour
 
             DialogueManager.instance.FadeToBlack(() => {
                 // 페이드 인 완료 후 로직
+
                 StartCoroutine(NextStageAfterFadeIn()); // 다음 스테이지로 전환하는 코루틴 시작
             });
         }
@@ -240,7 +241,7 @@ public class GameManager : MonoBehaviour
         PlayerRepositionLogic(); // 플레이어 리포지션 및 관련 로직 호출
         SetPlayerInteraction(false);
         SetCameraConfinerBounds(stages[stageIndex]);
-
+        if(stageIndex !=0) hopeScore = 0;
         // **여기서 0.4초 대기**
         yield return new WaitForSeconds(0.3f);
         SetPlayerInteraction(true);
