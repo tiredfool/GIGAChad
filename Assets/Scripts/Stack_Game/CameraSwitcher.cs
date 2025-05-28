@@ -24,6 +24,7 @@ public class CameraSwitcher : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
+
             // 카메라 전환
             playerCamera.enabled = false;
             stackCamera.enabled = true;

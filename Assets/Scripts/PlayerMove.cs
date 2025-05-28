@@ -506,7 +506,7 @@ public class PlayerController : MonoBehaviour
             if (DialogueManager.instance != null) // DialogueManager 인스턴스 확인
             {
                 MainSoundManager.instance.PlaySFX("Died");
-                DialogueManager.instance.SetDiedMessage("oh..만삣삐 넌 할 수 있어 \n\n\n\n\n\n\n\n\n 'Action'을 눌러 다시 Stand Up 하는거야!");
+                DialogueManager.instance.SetDiedMessage("oh..만삣삐 넌 할 수 있어 \n\n\n\n\n\n\n\n\n 'R'을 눌러 다시 Stand Up 하는거야!");
             }
         }
     }

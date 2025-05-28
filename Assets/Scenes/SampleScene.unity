@@ -3264,6 +3264,7 @@ GameObject:
   - component: {fileID: 78725524}
   - component: {fileID: 78725523}
   - component: {fileID: 78725522}
+  - component: {fileID: 78725527}
   m_Layer: 5
   m_Name: Dialogs
   m_TagString: PU
@@ -3410,6 +3411,35 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &78725527
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 78725521}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 2
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 497294298}
+          m_TargetAssemblyTypeName: VirtualInputManager, Assembly-CSharp
+          m_MethodName: SetButtonDownExternal
+          m_Mode: 5
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: Enter
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &80414029
 GameObject:
   m_ObjectHideFlags: 0
@@ -22444,6 +22474,8 @@ MonoBehaviour:
     virtualButtonName: Up
   - actualKey: 115
     virtualButtonName: Down
+  - actualKey: 13
+    virtualButtonName: Enter
 --- !u!1 &501226373
 GameObject:
   m_ObjectHideFlags: 0
@@ -34773,7 +34805,8 @@ Transform:
   m_LocalPosition: {x: 0.36949998, y: -0.008889093, z: 0}
   m_LocalScale: {x: 0.05, y: 0.05555556, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1882844487}
   m_Father: {fileID: 2008000709}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &737220050
@@ -45348,7 +45381,7 @@ Transform:
   m_GameObject: {fileID: 896777595}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 122.45698, y: 2.021656, z: -0.31406447}
+  m_LocalPosition: {x: 122.78, y: 2.021656, z: -0.31406447}
   m_LocalScale: {x: 1, y: 9.396066, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -77379,11 +77412,11 @@ Transform:
   m_GameObject: {fileID: 1882844484}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.0004999161, y: 0.04166667, z: 0}
-  m_LocalScale: {x: 0.09635543, y: 0.1049936, z: 1}
+  m_LocalPosition: {x: -7.3999977, y: 0.9100038, z: 0}
+  m_LocalScale: {x: 1.9271086, y: 1.8898845, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 2008000709}
+  m_Father: {fileID: 737220049}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1886619318
 GameObject:
@@ -77574,6 +77607,7 @@ MonoBehaviour:
   - {x: 278, y: -24.5, z: 0}
   virtualCamera: {fileID: 1245668515}
   confiner2D: {fileID: 1245668514}
+  HasStackGameSucceededThisRun: 0
   stackElementsParent: {fileID: 1490339591}
   OneStageBossTime: 90
 --- !u!4 &1888601929
@@ -79201,7 +79235,6 @@ Transform:
   - {fileID: 2110538462}
   - {fileID: 1731476865}
   - {fileID: 737220049}
-  - {fileID: 1882844487}
   - {fileID: 137951120}
   - {fileID: 2030051473}
   m_Father: {fileID: 0}
@@ -86232,8 +86265,8 @@ SceneRoots:
   - {fileID: 1304332082}
   - {fileID: 2033144978}
   - {fileID: 1490339592}
-  - {fileID: 898032204}
   - {fileID: 2008000709}
+  - {fileID: 898032204}
   - {fileID: 106880732}
   - {fileID: 2072499757}
   - {fileID: 179934333}

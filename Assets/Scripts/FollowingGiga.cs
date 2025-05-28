@@ -25,7 +25,10 @@ public class FollowPlayer : MonoBehaviour
         }
         // else { Debug.Log("FollowPlayer: SpriteRenderer 컴포넌트 발견 및 초기화 완료."); }
     }
-
+    private void Start()
+    {
+       
+    }
     void LateUpdate()
     {
         if (!player) // 플레이어 Transform이 할당되지 않았다면 함수 종료

@@ -109,6 +109,7 @@ public class DialogueManager : MonoBehaviour
     void Start()
     {
         // Start에서는 할 게 없음
+        follower.SetVisible(false);
     }
 
 
@@ -646,8 +647,8 @@ public class DialogueManager : MonoBehaviour
         if (standingImageLeft != null) standingImageLeft.gameObject.SetActive(false);
         if (standingImageRight != null) standingImageRight.gameObject.SetActive(false);
         playerController.SetTalking(false);
-        Time.timeScale = 1f;
-        follower.togleLocate(); // 대화 종료 시 위치 반전? (이 로직이 맞는지는 확인 필요)
+        if(dialogueStarted)Time.timeScale = 1f;
+        follower.togleLocate();
         follower.SetVisible(false);
         dialogueStarted = false;
         Debug.Log("대화 종료");
@@ -660,7 +661,7 @@ public class DialogueManager : MonoBehaviour
 
     void Update()
     {
-        if (VirtualInputManager.Instance.GetKeyOrButton("Action") && !isBlackBoxActive)
+        if ((VirtualInputManager.Instance.GetKeyOrButton("Action") || VirtualInputManager.Instance.GetKeyOrButton("Enter")) && !isBlackBoxActive)
         {
             Debug.Log("엔터눌림");
             NextDialogue();

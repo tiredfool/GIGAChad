@@ -33,7 +33,7 @@ public class StartUpManager : MonoBehaviour
         // StackManager는 처음에 비활성화 상태로 둡니다.
         if (stackManager != null)
         {
-            stackManager.gameObject.SetActive(false);
+           // stackManager.gameObject.SetActive(false);
             stackManager.isStackGameActive = false; // 스택 게임 활성화 상태도 false로 초기화
         }
     }
