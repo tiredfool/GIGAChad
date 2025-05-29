@@ -1,4 +1,4 @@
-#🎮 Unity 2D Platformer Game
+# 🎮Unity 2D Platformer Game
 
 유니티(Unity)로 개발된 2D 플랫포머 게임입니다.  
 플레이어는 적을 밟아 처치하고, 코인을 수집하며 맵을 탐험합니다.  
