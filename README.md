@@ -61,7 +61,7 @@ PC 및 모바일 양쪽 플랫폼을 지원합니다.
 git clone https://github.com/tiredfool/GIGAChad.git
 ```
 ### 2. 모바일 apk 다운로드
-# https://drive.google.com/file/d/1zm0n9j61gCrRgyHt_7i7BGLoZxORZXQX/view?usp=sharing
+### https://drive.google.com/file/d/1zm0n9j61gCrRgyHt_7i7BGLoZxORZXQX/view?usp=sharing
 
 ## 👥 Contributors
 
@@ -160,7 +160,7 @@ You can check out and download this project from the GitHub repository below.
 git clone https://github.com/tiredfool/GIGAChad.git
 ```
 ### 2. mobile apk download
-# https://drive.google.com/file/d/1zm0n9j61gCrRgyHt_7i7BGLoZxORZXQX/view?usp=sharing
+### https://drive.google.com/file/d/1zm0n9j61gCrRgyHt_7i7BGLoZxORZXQX/view?usp=sharing
 
 ## 👥 Contributors
 
