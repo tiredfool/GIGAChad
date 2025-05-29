@@ -64,6 +64,30 @@ public class SwitchToTrigger : MonoBehaviour
         }
     }
 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (!collision.gameObject.CompareTag("Player")) return;
+
+        if (switchType == SwitchType.Timed)
+        {
+            if (!isActivated)
+            {
+                isActivated = true;
+                switchRenderer.sprite = greenLightSprite;
+                StartCoroutine(ActivateTemporarily());
+            }
+        }
+        else if (switchType == SwitchType.Permanent)
+        {
+            if (!isActivated)
+            {
+                isActivated = true;
+                switchRenderer.sprite = greenLightSprite;
+                ActivatePlatforms(true); // 한 번만 작동, 계속 켜짐
+            }
+        }
+    }
+
     IEnumerator ActivateTemporarily()
     {
         ActivatePlatforms(true); // 발판 켜기

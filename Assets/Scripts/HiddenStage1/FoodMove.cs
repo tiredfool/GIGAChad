@@ -1,39 +1,49 @@
+using Pathfinding;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class FoodMove : MonoBehaviour
 {
-    public float moveSpeed = 2f;
-    private Transform player;
+    public Transform target;
+
+    private AIDestinationSetter destinationSetter;
 
     void Start()
     {
-        player = GameObject.FindGameObjectWithTag("PlayerHidden").transform;
-    }
+        destinationSetter = GetComponent<AIDestinationSetter>();
 
-    void Update()
-    {
-        if (player != null)
+        if (destinationSetter != null)
         {
-            Vector2 direction = (player.position - transform.position).normalized;
-            transform.position += (Vector3)direction * moveSpeed * Time.deltaTime;
+            GameObject playerObj = GameObject.FindGameObjectWithTag("PlayerHidden");
+            if (playerObj != null)
+            {
+                target = playerObj.transform;
+                destinationSetter.target = target;
+                Debug.Log("Target set to: " + target.name);
+            }
+            else
+            {
+                Debug.LogWarning("No GameObject with tag 'PlayerHidden' found.");
+            }
         }
     }
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        if(other.CompareTag("Bullet"))
+        if (other.CompareTag("Bullet"))
         {
             Destroy(gameObject);
         }
-        else if(other.CompareTag("PlayerHidden"))
+        else if (other.CompareTag("PlayerHidden"))
         {
             Player player = other.GetComponent<Player>();
             if (player != null)
             {
-                player.hp--; // 플레이어의 체력 감소
+                player.hp--;
             }
+
+            Destroy(gameObject); // 부딪힌 후 사라지게
         }
     }
 }

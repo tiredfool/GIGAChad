@@ -41,10 +41,21 @@ public class SwitchMoveToRight : MonoBehaviour
             StartCoroutine(MovePlatform());
         }
     }
-
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("Player") && !isMoving)
+        {
+            Debug.Log("스위치 작동: 발판 이동 시작");
+            switchRenderer.sprite = greenLightSprite; // 녹색불로 변경
+            StartCoroutine(MovePlatform());
+        }
+    }
     IEnumerator MovePlatform()
     {
         isMoving = true;
+
+        if (MainSoundManager.instance != null)
+            MainSoundManager.instance.PlaySFX("WallMoving"); // 사운드 재생
 
         while (Vector3.Distance(movePlatformTransform.position, targetPosition) > 0.01f)
         {

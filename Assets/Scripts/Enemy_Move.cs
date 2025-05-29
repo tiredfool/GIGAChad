@@ -128,6 +128,8 @@ public class Enemy_Move : MonoBehaviour
 
     void Die()
     {
+        if (MainSoundManager.instance != null)
+            MainSoundManager.instance.PlaySFX("MonsterDeath");
         Destroy(gameObject);
     }
 

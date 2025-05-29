@@ -14,10 +14,12 @@ public class Intro: MonoBehaviour
     {
 
         StartCoroutine(FadeOutCoroutine());
+       
     }
     private void Update()
     {
         if(fadeCount <= 0) FadePannel.gameObject.SetActive(false);
+
     }
     IEnumerator FadeOutCoroutine()
     {
@@ -31,6 +33,7 @@ public class Intro: MonoBehaviour
             yield return null;
         }
         yield return new WaitForSeconds(1);
+        //Destroy(FadePannel);
         FadePannel.SetActive(false);
 
     }

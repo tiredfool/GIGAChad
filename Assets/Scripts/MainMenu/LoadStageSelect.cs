@@ -9,7 +9,19 @@ public class LoadStageSelect: MonoBehaviour
 
     public void StageSelectScene()
     {
+
+        //if (SwitchZone.Instance != null)
+        //    SwitchZone.Instance.off();
+        if (GameManager.instance != null)
+            GameManager.instance.off();
+        if (DialogueManager.instance != null)
+            DialogueManager.instance.off();
+        if (MainSoundManager.instance != null)
+            MainSoundManager.instance.off();
+        if (VirtualInputManager.Instance != null)
+            VirtualInputManager.Instance.off();
         SceneManager.LoadScene("StageSelect");
+        Debug.Log("Å¬¸¯µÊ");
     }
 
 

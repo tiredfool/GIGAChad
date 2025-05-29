@@ -1,39 +1,1479 @@
 {
   "dialogues": [
     {
-      "id": "scene1_start",
+      "id": "2_s",
+      "dialogueType": "black",
+      "dialogue": "난 어릴적에는\n잠재력이 넘치는 아이였다.",
+      "fontSize": 48,
+      "blackBoxDuration": 3.3
+    },
+    {
+      "dialogueType": "black",
+      "dialogue": "부모님부터 주위 사람들은\n나에게 천재나 신동이라는 이야기를 했다",
+      "fontSize": 48,
+      "blackBoxDuration": 3.3
+    },
+    {
+      "dialogueType": "black",
+      "dialogue": "하지만 그뿐이었다.",
+      "fontSize": 48,
+      "blackBoxDuration": 2
+    },
+    {
+      "dialogueType": "black",
+      "dialogue": "나의 성장은\n시간이 지나면서 더뎌졌고",
+      "fontSize": 48,
+      "blackBoxDuration": 2.5
+    },
+    {
+      "dialogueType": "black",
+      "dialogue": "대학을 졸업하고나서는\n지금의 나는",
+      "fontSize": 48,
+      "blackBoxDuration": 2.5
+    },
+    {
+      "dialogueType": "black",
+      "dialogue": "하나의 히키코모리가 되어",
+      "fontSize": 48,
+      "blackBoxDuration": 2.5
+    },
+    {
+      "dialogueType": "black",
+      "dialogue": "방안에 쓸쓸히 있을 뿐이다.",
+      "fontSize": 48,
+      "blackBoxDuration": 2.2
+    },
+    {
+      "id": "1_e",
+      "dialogueType": "black",
+      "dialogue": "",
+      "fontSize": 48,
+      "blackBoxDuration": 0
+    },
+    {
+
       "npcName": "만삣삐",
       "portraitName": "Player",
-      "dialogue": "기가차드.. 난 할 수 없을것같아"
+      "fontSize": 70,
+      "dialogue": ".....",
+      "standingImage": "pepeStand",
+      "standingPosition": "left",
+      "backgroundImageName": "Room1"
+    },
+    {
+      "npcName": "만삣삐",
+      "portraitName": "Player",
+      "fontSize": 70,
+      "dialogue": "뭐 볼만한거 없나...",
+      "standingImage": "pepeStand",
+      "standingPosition": "left",
+      "backgroundImageName": "Room1"
     },
     {
       "npcName": "만삣삐",
       "portraitName": "Player_sad",
-      "dialogue": "난 이제 뭘 해야 하는걸까?"
+      "fontSize": 70,
+      "dialogue": "이렇게 살아가는게\n무슨 의미일까..?",
+      "standingImage": "pepeStand_sad",
+      "standingPosition": "left",
+      "backgroundImageName": "Room1"
+    },
+    {
+      "npcName": "만삣삐",
+      "portraitName": "Player_sad",
+      "fontSize": 70,
+      "dialogue": "그냥... 다 포기하고 싶어...",
+      "standingImage": "pepeStand_sad",
+      "standingPosition": "left",
+      "backgroundImageName": "Room1"
+    },
+    {
+      "npcName": "???",
+      "portraitName": "Q",
+      "fontSize": 70,
+      "dialogue": "유 뻐킹 이디엇! 만삣삐!",
+      "shakeScreen": true,
+      "backgroundImageName": "Room1",
+      "voice": "Yelling"
+    },
+    {
+      "dialogueType": "black",
+      "dialogue": "며칠 후",
+      "fontSize": 48,
+      "blackBoxDuration": 1
+    },
+    {
+      "dialogueType": "black",
+      "dialogue": "",
+      "fontSize": 48,
+      "blackBoxDuration": 0
+    },
+    {
+      "npcName": "만삣삐",
+      "portraitName": "Player",
+      "fontSize": 70,
+      "dialogue": "기가차드, 거기 있어?",
+      "standingImage": "pepeStand",
+      "standingPosition": "left",
+      "backgroundImageName": "Room1"
     },
     {
       "npcName": "기가차드",
       "portraitName": "Gigachard",
-      "dialogue": "Oh My Son Stop Crying 그리고"
+      "fontSize": 60,
+      "dialogue": "오브콜스, 만삣삐",
+      "standingImage": "pepeStand,chardStand",
+      "standingPosition": "left,right",
+      "backgroundImageName": "Room1",
+      "voice": "OfCourse"
     },
     {
-      "id": "scene1_end",
+      "npcName": "만삣삐",
+      "portraitName": "Player",
+      "fontSize": 55,
+      "dialogue": "또 새로운 하루가 시작되었어...",
+      "standingImage": "pepeStand,chardStand",
+      "standingPosition": "left,right",
+      "backgroundImageName": "Room1"
+    },
+    {
+      "npcName": "기가차드",
+      "portraitName": "Gigachard",
+      "fontSize": 60,
+      "dialogue": "물론이지, 만삣삐",
+      "standingImage": "pepeStand,chardStand",
+      "standingPosition": "left,right",
+      "backgroundImageName": "Room1",
+      "voice": "OfCourse"
+    },
+    {
+      "npcName": "기가차드",
+      "portraitName": "Gigachard",
+      "fontSize": 60,
+      "dialogue": "아주 황금같은 하루가 말이야.",
+      "standingImage": "pepeStand,chardStand",
+      "standingPosition": "left,right",
+      "backgroundImageName": "Room1"
+    },
+    {
+      "npcName": "기가차드",
+      "portraitName": "Gigachard",
+      "fontSize": 60,
+      "dialogue": "그럼 겟 투 워크할 시간이야.",
+      "standingImage": "chardStand",
+      "standingPosition": "right",
+      "backgroundImageName": "Room1"
+    },
+    {
+      "id": "2_e",
       "npcName": "기가차드",
       "portraitName": "Gigachard_ex",
-      "dialogue": "Do 하드 Work!",
+      "fontSize": 80,
+      "dialogue": "삣삐. 무브 유어 애즈!",
+      "standingImage": "chardStand",
+      "standingPosition": "right",
+      "shakeScreen": true,
+      "backgroundImageName": "Room1",
+      "voice": "Yelling"
+    },
+    {
+      "id": "1_s_m_b",
+      "npcName": "기가차드",
+      "portraitName": "Gigachard",
+      "fontSize": 60,
+      "dialogue": "아주 잘하고 있어 삣삐. 킵 고잉!",
+      "standingImage": "chardStand",
+      "standingPosition": "right",
+      "voice": "GoodJob"
+    },
+    {
+      "id": "1_s_m_e",
+      "npcName": "만삣삐",
+      "portraitName": "Player",
+      "fontSize": 60,
+      "dialogue": "응!",
+      "standingImage": "pepeStand",
+      "standingPosition": "left"
+    },
+    {
+      "id": "2_s_m_b",
+      "npcName": "기가차드",
+      "portraitName": "Gigachard",
+      "fontSize": 60,
+      "dialogue": "정말 훌륭해 삣삐. 너는 확실히 나아가고 있어.",
+      "standingImage": "chardStand",
+      "standingPosition": "right",
+      "voice": "GoodJob"
+    },
+    {
+      "id": "2_s_m_e",
+      "npcName": "만삣삐",
+      "portraitName": "Player",
+      "fontSize": 60,
+      "dialogue": "네 덕분이야, 기가차드.",
+      "standingImage": "pepeStand",
+      "standingPosition": "left"
+    },
+    {
+      "id": "T-s",
+      "npcName": "기가차드",
+      "portraitName": "Gigachard",
+      "fontSize": 60,
+      "dialogue": "자 만삣삐.\n 너의 그 철근같은 궁딩이를 이끌어서\n hard work 전 스트레칭을 해보자고",
+      "standingImage": "chardStand",
+      "standingPosition": "right"
+    },
+    {
+      "id": "T-e",
+      "npcName": "기가차드",
+      "portraitName": "Gigachard",
+      "fontSize": 60,
+      "dialogue": "방향키나 A,D로\n 움직여봐 만삣삐!",
+      "standingImage": "chardStand",
+      "standingPosition": "right"
+    },
+    {
+      "id": "T-2s",
+      "npcName": "기가차드",
+      "portraitName": "Gigachard",
+      "fontSize": 60,
+      "dialogue": "굿 워크! 마이 썬.",
+      "standingImage": "chardStand",
+      "standingPosition": "right",
+      "voice": "GoodJob"
+    },
+    {
+
+      "npcName": "기가차드",
+      "portraitName": "Gigachard",
+      "fontSize": 60,
+      "dialogue": "그다음엔 점프를 해보자, 만삣삐",
+      "standingImage": "chardStand",
+      "standingPosition": "right"
+    },
+    {
+      "id": "T-2e",
+      "npcName": "기가차드",
+      "portraitName": "Gigachard",
+      "fontSize": 60,
+      "dialogue": "자 SPACE를 눌러봐\n몸이 통아저씨마냥 튀어오를거야.",
+      "standingImage": "chardStand",
+      "standingPosition": "right"
+    },
+    {
+      "id": "T-3s",
+      "npcName": "기가차드",
+      "portraitName": "Gigachard_ex",
+      "fontSize": 60,
+      "dialogue": "엑셀렌트, 만삣삐!",
+      "standingImage": "chardStand",
+      "standingPosition": "right"
+    },
+    {
+      "id": "T-3e",
+      "npcName": "기가차드",
+      "portraitName": "Gigachard",
+      "fontSize": 60,
+      "dialogue": "이제 앞으로 가보자!",
+      "standingImage": "chardStand",
+      "standingPosition": "right"
+    },
+    {
+      "id": "T-4s",
+      "npcName": "기가차드",
+      "portraitName": "Gigachard",
+      "fontSize": 60,
+      "dialogue": "저건 앞으로 계속해서\n널 유혹에 빠트릴 아주 위험한 것이야",
+      "standingImage": "chardStand",
+      "standingPosition": "right"
+    },
+    {
+      "id": "T-4e",
+      "npcName": "기가차드",
+      "portraitName": "Gigachard",
+      "fontSize": 60,
+      "dialogue": " 데인저러스 이블!",
+      "standingImage": "chardStand",
+      "standingPosition": "right",
+      "voice": "EVIL"
+    },
+    {"id": "T-4",
+      "npcName": "기가차드",
+      "portraitName": "Gigachard",
+      "fontSize": 60,
+      "dialogue": "만삣삐, 너가 저것들을 점프 후\ntake it down 할수 있어",
+      "standingImage": "chardStand",
+      "standingPosition": "right"
+    },
+    {
+      "npcName": "기가차드",
+      "portraitName": "Gigachard",
+      "fontSize": 55,
+      "dialogue": "지금은 괜찮겠지만 Be careful..\n 닿으면 너의 Life가 닳게 될 거고 \n0이 되면 넌 Give Up 하게돼.",
+      "standingImage": "chardStand",
+      "standingPosition": "right"
+    },
+    {
+      "id": "T-5",
+      "npcName": "기가차드",
+      "portraitName": "Gigachard_ex",
+      "fontSize": 60,
+      "dialogue": "이제 가서 처리해!",
+      "standingImage": "chardStand",
+      "standingPosition": "right",
+      "shakeScreen": true,
+      "voice": "JustDoIt"
+    },
+    {
+      "id": "T-6",
+      "npcName": "기가차드",
+      "portraitName": "Gigachard",
+      "fontSize": 60,
+      "dialogue": "그리고 저건 코인이야\n저것을 다모아야 앞으로 갈 수 있어",
+      "standingImage": "chardStand",
+      "standingPosition": "right"
+    },
+    {
+      "id": "T-7",
+      "npcName": "기가차드",
+      "portraitName": "Gigachard",
+      "fontSize": 60,
+      "dialogue": " It's Shining thing!",
+      "standingImage": "chardStand",
+      "standingPosition": "right"
+    },
+    {
+      "id": "T-8",
+      "npcName": "기가차드",
+      "portraitName": "Gigachard",
+      "fontSize": 60,
+      "dialogue": "가서 잡아봐!",
+      "standingImage": "chardStand",
+      "standingPosition": "right"
+    },
+    {
+      "id": "T-9",
+      "npcName": "기가차드",
+      "portraitName": "Gigachard",
+      "fontSize": 60,
+      "dialogue": "좋아 잘했어.. 이제 앞으로 나아가서 우리들의 이야기를 시작하는거야..",
+      "standingImage": "chardStand",
+      "standingPosition": "right"
+    },
+    {
+      "id": "T-10",
+      "npcName": "기가차드",
+      "portraitName": "Gigachard_ex",
+      "fontSize": 85,
+      "dialogue": "LET'S GO! 만삣삐!!!",
+      "standingImage": "chardStand",
+      "standingPosition": "right",
+      "shakeScreen": true,
+      "voice": "LetsGo"
+    },
+    {
+      "id": "3_s",
+      "npcName": "기가차드",
+      "portraitName": "Gigachard",
+      "fontSize": 60,
+      "dialogue": "만삣삐. look up there!\n이제 저곳으로 나아가 my boy!",
+      "standingImage": "chardStand",
+      "standingPosition": "right"
+    },
+    {
+      "id": "3_e",
+      "npcName": "기가차드",
+      "portraitName": "Gigachard",
+      "fontSize": 80,
+      "dialogue": "저기!!",
+      "standingImage": "chardStand",
+      "standingPosition": "right",
       "shakeScreen": true
     },
     {
-      "id": "black_start",
-      "dialogue": "예시 텍스트1",
-      "dialogueType": "black",
+      "id": "4_s",
+      "npcName": "만삣삐",
+      "portraitName": "Player",
+      "fontSize": 60,
+      "dialogue": "기가차드.. 이제 진짜 시작이야..",
+      "standingImage": "pepeStand",
+      "standingPosition": "left"
+    },
+    {
+      "npcName": "기가차드",
+      "portraitName": "Gigachard",
+      "fontSize": 70,
+      "dialogue": "다이어트부터 하는거야 삣삐..",
+      "standingImage": "chardStand",
+      "standingPosition": "right",
+      "voice": "Worried"
+    },
+    {
+      "npcName": "기가차드",
+      "portraitName": "Gigachard",
+      "fontSize": 60,
+      "dialogue": "만삣삐. 넌 과거의 너에 비해\nf**king work하고있는거야.",
+      "standingImage": "chardStand",
+      "standingPosition": "right"
+    },
+    {
+      "npcName": "기가차드",
+      "portraitName": "Gigachard",
+      "fontSize": 90,
+      "dialogue": "step by step! ",
+      "standingImage": "chardStand",
+      "standingPosition": "right",
+      "shakeScreen": true,
+      "voice" : "StepByStep"
+    },
+     {
+      "npcName": "기가차드",
+      "portraitName": "Gigachard",
+      "fontSize": 70,
+      "dialogue": "유혹을피해 나아가 만삣삐!! ",
+      "standingImage": "chardStand",
+      "standingPosition": "right",
+      "shakeScreen": true,
+      "voice": "Yelling"
+    },
+    {
+      "id": "4_e",
+      "npcName": "만삣삐",
+      "portraitName": "Player",
+      "fontSize": 70,
+      "dialogue": "기가차드... 응! 나아갈게!",
+      "standingImage": "pepeStand",
+      "standingPosition": "left"
+    },
+    {
+      "id": "1M-s",
+      "npcName": "만삣삐",
+      "portraitName": "Player",
+      "fontSize": 70,
+      "dialogue": "여긴.. 어디지?",
+      "standingImage": "pepeStand",
+      "standingPosition": "left"
+    },
+    {
+      "npcName": "???",
+      "portraitName": "Q",
+      "fontSize": 60,
+      "dialogue": "요 만삣삐.\n왜 이렇게 hard work을 하는거야? "
+    },
+     {
+      "npcName": "???",
+      "portraitName": "Q",
+      "fontSize": 60,
+      "dialogue": "이 amazing 한 음식들을 보라고"
+    },
+    {
+      "npcName": "만삣삐",
+      "portraitName": "Player",
+      "fontSize": 70,
+      "dialogue": "누.. 누구야?",
+      "standingImage": "pepeStand",
+      "standingPosition": "left"
+    },
+    {
+
+      "npcName": "???",
+      "portraitName": "Q",
+      "fontSize": 70,
+      "dialogue": "Me? 네 식욕의 집합체랄까?"
+    },
+    {
+
+      "npcName": "???",
+      "portraitName": "Q",
+      "fontSize": 67,
+      "dialogue": "괴로워하지 말고 원하는 대로 먹어\n 만삣삐."
+    },
+    {
+      "npcName": "만삣삐",
+      "portraitName": "Player",
+      "fontSize": 70,
+      "dialogue": "안돼... 나 다이어트 중이라고...!",
+      "standingImage": "pepeStand",
+      "standingPosition": "left"
+    },
+    {
+
+      "npcName": "???",
+      "portraitName": "Q",
+      "fontSize": 65,
+      "dialogue": "oh, diet? b**l s**t. 만삣삐.\n이건 너의 work에 대한 보상이야!"
+    },
+    {
+      "npcName": "만삣삐",
+      "portraitName": "Player",
+      "fontSize": 70,
+      "dialogue": "내가 좋아하는 음식들만 있어..",
+      "standingImage": "pepeStand",
+      "standingPosition": "left"
+    },
+    {
+      "npcName": "기가차드",
+      "portraitName": "Gigachard",
+      "fontSize": 60,
+      "dialogue": "you f**king stupid idiot 만삣삐! 그딴 수준 낮은 유혹에 get out 해!",
+      "standingImage": "chardStand",
+      "standingPosition": "right",
+      "shakeScreen": true,
+      "voice": "Yelling"
+    },
+    {
+      "npcName": "기가차드",
+      "portraitName": "Gigachard",
+      "fontSize": 60,
+      "dialogue": "침착하게 저 녀석이 던지는 음식을 GUN으로 쏴서 막아내는 거야!",
+      "standingImage": "chardStand",
+      "standingPosition": "right",
+      "shakeScreen": true
+    },
+      {
+      "npcName": "기가차드",
+      "portraitName": "Gigachard",
+      "fontSize": 60,
+      "dialogue": "화면을 클릭해 총을 쏴봐 만삣삐!",
+      "standingImage": "chardStand",
+      "standingPosition": "right",
       "shakeScreen": true
     },
     {
-      "id": "black_end",
-      "dialogue": "예시 텍스트2",
-      "dialogueType": "black",
+      "id": "1M-e",
+      "npcName": "만삣삐",
+      "portraitName": "Player",
+      "fontSize": 70,
+      "dialogue": "응...! 기가차드!",
+      "standingImage": "pepeStand",
+      "standingPosition": "left"
+    },
+    {
+      "id": "1M-2s",
+      "npcName": "치킨맨",
+      "portraitName": "ChickenMan",
+      "fontSize": 70,
+      "dialogue": "나 ChickenMan의 유혹을\n견뎌내다니..",
+      "standingImage": "ChickenMan",
+      "standingPosition": "right"
+    },
+    {
+      "npcName": "치킨맨",
+      "portraitName": "ChickenMan",
+      "fontSize": 70,
+      "dialogue": "damn...\n이걸로 끝난게 아니야 만삣삐!\ni'll be back!",
+      "standingImage": "ChickenMan",
+      "standingPosition": "right"
+    },
+    {
+      "id": "1M-2e",
+      "npcName": "기가차드",
+      "portraitName": "Gigachard",
+      "fontSize": 60,
+      "dialogue": "만삣삐.\n넌 one step forward 한거야.\n굿 잡 my son!",
+      "standingImage": "chardStand",
+      "standingPosition": "right",
+      "voice": "GoodJob"
+    },
+    {
+      "id": "1B-s",
+      "npcName": "만삣삐",
+      "portraitName": "Player",
+      "fontSize": 70,
+      "dialogue": "기가차드..여긴..?",
+      "standingImage": "pepeStand",
+      "standingPosition": "left"
+    },
+    {
+      "npcName": "기가차드",
+      "portraitName": "Gigachard",
+      "fontSize": 60,
+      "dialogue": "여긴 너의 다이어트를 도와줄 곳이야 만삣삐.",
+      "standingImage": "chardStand",
+      "standingPosition": "right"
+    },
+    {
+      "npcName": "기가차드",
+      "portraitName": "Gigachard_ex",
+      "fontSize": 60,
+      "dialogue": "바로 런닝머신!",
+      "standingImage": "chardStand",
+      "shakeScreen": true,
+      "standingPosition": "right"
+    },
+    {
+      "npcName": "???",
+      "portraitName": "Q",
+      "fontSize": 70,
+      "dialogue": "후후후.. "
+    },
+    {
+      "npcName": "치킨맨",
+      "portraitName": "ChickenMan",
+      "fontSize": 70,
+      "dialogue": "yo! 여기까지 왔군 삣삐!\n나의 모든 것을 다 보여주겠어!",
+      "standingImage": "ChickenMan",
+      "standingPosition": "right",
       "shakeScreen": true
+    },
+    {
+
+      "npcName": "치킨맨",
+      "portraitName": "ChickenMan",
+      "fontSize": 65,
+      "dialogue": "Chicken의 유혹을 이길수 있을까\nMan삣삐?!",
+      "standingImage": "ChickenMan",
+      "standingPosition": "right",
+      "shakeScreen": true
+    },
+    {
+      "id": "1B-e",
+      "npcName": "만삣삐",
+      "portraitName": "Player",
+      "fontSize": 70,
+      "dialogue": "히이익..! 도.. 도망쳐야..",
+      "standingImage": "pepeStand",
+      "standingPosition": "left"
+    },
+    {
+      "id": "1B-2s",
+      "npcName": "기가차드",
+      "portraitName": "Gigachard",
+      "fontSize": 60,
+      "dialogue": "안돼 만삣삐! 도망치는 순간 끝이야!\n저녀석의 유혹을 이겨내야 \nforward로 나아갈 수 있어!",
+      "standingImage": "chardStand",
+      "standingPosition": "right",
+      "shakeScreen": true,
+      "voice": "Yelling"
+    },
+    {
+      "npcName": "기가차드",
+      "portraitName": "Gigachard",
+      "fontSize": 60,
+      "dialogue": "만삣삐! watch out!! 위를 조심해!",
+      "standingImage": "chardStand",
+      "standingPosition": "right",
+      "shakeScreen": true
+      
+    },
+    {
+      "id": "1B-2e",
+      "npcName": "기가차드",
+      "portraitName": "Gigachard",
+      "fontSize": 60,
+      "dialogue": "런닝 머신에서 밀려 떨어지지 않게 RUN!!!",
+      "standingImage": "chardStand",
+      "standingPosition": "right",
+      "shakeScreen": true
+    },
+    {
+      "id": "1B-3s",
+      "npcName": "치킨맨",
+      "portraitName": "ChickenMan",
+      "fontSize": 70,
+      "dialogue": "크아아아악!!!! 내가...내가...!",
+      "standingImage": "ChickenMan",
+      "standingPosition": "right",
+      "shakeScreen": true
+    },
+    {
+      "id": "1B-3e",
+      "npcName": "치킨맨",
+      "portraitName": "ChickenMan",
+      "fontSize": 70,
+      "dialogue": "이럴수는 없어!!!",
+      "shakeScreen": true
+    },
+    {
+      "id": "1B-4s",
+      "npcName": "기가차드",
+      "portraitName": "Gigachard",
+      "fontSize": 60,
+      "dialogue": "Well done, my boy.",
+      "standingImage": "chardStand",
+      "standingPosition": "right"
+    },
+    {
+      "npcName": "만삣삐",
+      "portraitName": "Player",
+      "fontSize": 70,
+      "dialogue": "무지 힘든 싸움이었어...",
+      "standingImage": "pepeStand",
+      "standingPosition": "left"
+    },
+    {
+
+      "npcName": "기가차드",
+      "portraitName": "Gigachard",
+      "fontSize": 60,
+      "dialogue": "만삣삐, 그만큼 넌 one step forward 한거야",
+      "standingImage": "chardStand",
+      "standingPosition": "right",
+      "voice": "Worried"
+    },
+    {
+      "id": "1B-4e",
+      "npcName": "기가차드",
+      "portraitName": "Gigachard",
+      "fontSize": 60,
+      "dialogue": "이제 Left로 나가자 삣삐..",
+      "standingImage": "chardStand",
+      "standingPosition": "right"
+    },
+    {
+      "id": "2S-m-1",
+      "npcName": "만삣삐",
+      "portraitName": "Player_sad",
+      "fontSize": 70,
+      "dialogue": "내가 잘 해낼 수 있을까...",
+      "standingImage": "pepeStand_sad",
+      "standingPosition": "left"
+    },
+    {
+      "npcName": "기가차드",
+      "portraitName": "Gigachard",
+      "fontSize": 60,
+      "dialogue": "만삣삐, 그런 F**king weak 한 마인드로는 안돼. Hard heart를 가져 만삣삐.",
+      "standingImage": "chardStand",
+      "standingPosition": "right",
+      "voice": "Worried"
+    },
+    {
+      "npcName": "만삣삐",
+      "portraitName": "Player",
+      "fontSize": 70,
+      "dialogue": "응.. 나 각오를 다질게...!",
+      "standingImage": "pepeStand",
+      "standingPosition": "left"
+    },
+    {
+      "npcName": "기가차드",
+      "portraitName": "Gigachard",
+      "fontSize": 60,
+      "dialogue": "만삣삐. Do hard study!\n책을 one by one으로 쌓으면\n넌 더 올라갈거야, 만삣삐.",
+      "standingImage": "chardStand",
+      "standingPosition": "right"
+    },
+    {
+      "id": "2S-m-2",
+      "npcName": "만삣삐",
+      "portraitName": "Player",
+      "fontSize": 70,
+      "dialogue": "응...! 해볼게 기가차드...!",
+      "standingImage": "pepeStand",
+      "standingPosition": "left"
+    },
+    {
+      "id": "2S-m-3",
+      "npcName": "만삣삐",
+      "portraitName": "Player",
+      "fontSize": 70,
+      "dialogue": "내가 해냈어...!",
+      "standingImage": "pepeStand",
+      "standingPosition": "left"
+    },
+    {
+      "id": "2S-m-4",
+      "npcName": "기가차드",
+      "portraitName": "Gigachard",
+      "fontSize": 60,
+      "dialogue": "만삣삐. 넌 잘 해내고 있어.\nVery proud of you my boy!",
+      "standingImage": "chardStand",
+      "standingPosition": "right",
+      "voice": "GoodJob"
+    },
+    {
+      "id": "2S-m-5",
+      "npcName": "만삣삐",
+      "portraitName": "Player_sad",
+      "fontSize": 70,
+      "dialogue": "으아....",
+      "standingImage": "pepeStand_sad",
+      "standingPosition": "left"
+    },
+    {
+      "npcName": "만삣삐",
+      "portraitName": "Player_sad",
+      "fontSize": 70,
+      "dialogue": "기가차드...난 안되나봐...",
+      "standingImage": "pepeStand_sad",
+      "standingPosition": "left"
+    },
+    {
+      "npcName": "만삣삐",
+      "portraitName": "Player_sad",
+      "fontSize": 70,
+      "dialogue": "역시...끝은 이럴줄 알았어...",
+      "standingImage": "pepeStand_sad",
+      "standingPosition": "left"
+    },
+    {
+      "npcName": "기가차드",
+      "portraitName": "Gigachard",
+      "fontSize": 60,
+      "dialogue": "You F**king Idiot!\n도전하는 자가 아름다운 법!\n 넌 도전을 했어.",
+      "standingImage": "chardStand",
+      "standingPosition": "right",
+      "shakeScreen": true
+    },
+    {
+      "id": "2S-m-6",
+      "npcName": "기가차드",
+      "portraitName": "Gigachard",
+      "fontSize": 60,
+      "dialogue": "만삣삐. 넌 잘 해내고 있어.\nVery proud of you my boy!",
+      "standingImage": "chardStand",
+      "standingPosition": "right",
+      "voice": "Worried"
+    },
+    {
+      "id": "2S-1-1-1",
+      "npcName": "만삣삐",
+      "portraitName": "Player",
+      "fontSize": 70,
+      "dialogue": "기가차드..여긴..?",
+      "standingImage": "pepeStand",
+      "standingPosition": "left"
+    },
+    {
+      "npcName": "기가차드",
+      "portraitName": "Gigachard",
+      "fontSize": 60,
+      "dialogue": "Work하러 갈 시간이야. \n 어엿한 사회의 Member가 되는거지",
+      "standingImage": "chardStand",
+      "standingPosition": "right"
+    },
+    {
+      "npcName": "기가차드",
+      "portraitName": "Gigachard",
+      "fontSize": 60,
+      "dialogue": "온갖 유혹을 떨쳐내고,\nStudy를 하여 자격증을 따는거야",
+      "standingImage": "chardStand",
+      "standingPosition": "right"
+    },
+    {
+      "npcName": "기가차드",
+      "portraitName": "Gigachard",
+      "fontSize": 60,
+      "dialogue": "처음은 Very Difficult할거야. \n 그럼에도 도전을 한다는 것은 Beautiful하지",
+      "standingImage": "chardStand",
+      "standingPosition": "right"
+    },
+    {
+      "id": "2S-1-1-2",
+      "npcName": "기가차드",
+      "portraitName": "Gigachard_ex",
+      "fontSize": 80,
+      "dialogue": "삣삐. Just Do It!",
+      "standingImage": "chardStand",
+      "standingPosition": "right",
+      "shakeScreen": true,
+      "voice": "JustDoIt"
+    },
+    {
+      "id": "2B-a",
+      "npcName": "만삣삐",
+      "portraitName": "Player_sad",
+      "fontSize": 70,
+      "dialogue": "나 긴장돼...기가차드...",
+      "standingImage": "pepeStand_sad",
+      "standingPosition": "left"
+    },
+    {
+      "npcName": "기가차드",
+      "portraitName": "Gigachard",
+      "fontSize": 60,
+      "dialogue": "oh, 만삣삐... ",
+      "standingImage": "chardStand",
+      "standingPosition": "right",
+      "voice": "Worried"
+    },
+    {
+      "npcName": "기가차드",
+      "portraitName": "Gigachard",
+      "fontSize": 60,
+      "dialogue": "넌 여태까지 잘 헤쳐나왔어.\ntrust yourself 만삣삐.",
+      "standingImage": "chardStand",
+      "standingPosition": "right"
+    },
+    {
+      "npcName": "만삣삐",
+      "portraitName": "Player_sad",
+      "fontSize": 70,
+      "dialogue": "저 아래...빨려들어갈거 같아..",
+      "standingImage": "pepeStand_sad",
+      "standingPosition": "left"
+    },
+    {
+      "npcName": "기가차드",
+      "portraitName": "Gigachard",
+      "fontSize": 60,
+      "dialogue": "don't look! 그걸 보지마 만삣삐!\n그런 Think를 하지마!",
+      "standingImage": "chardStand",
+      "standingPosition": "right"
+    },
+    {
+      "npcName": "기가차드",
+      "portraitName": "Gigachard",
+      "fontSize": 60,
+      "dialogue": "너가 걸어온 Way를 봐!\n넌 100kg 오리궁뎅이 같은 존재에서",
+      "standingImage": "chardStand",
+      "standingPosition": "right"
+    },
+    {
+      "npcName": "기가차드",
+      "portraitName": "Gigachard",
+      "fontSize": 60,
+      "dialogue": "지금 대기업에서 면접을 보고있어! amazing process야!",
+      "standingImage": "chardStand",
+      "standingPosition": "right"
+    },
+    {
+      "npcName": "만삣삐",
+      "portraitName": "Player_sad",
+      "fontSize": 70,
+      "dialogue": "기가차드...! 하지만...\n내가 할 수 있을까?",
+      "standingImage": "pepeStand_sad",
+      "standingPosition": "left"
+    },
+    {
+      "npcName": "기가차드",
+      "portraitName": "Gigachard",
+      "fontSize": 60,
+      "dialogue": "하..만삣삐...\ndon't Think! 심호흡하고. 자연스레 내뱉어.",
+      "standingImage": "chardStand",
+      "standingPosition": "right"
+    },
+     {
+      "npcName": "기가차드",
+      "portraitName": "Gigachard",
+      "fontSize": 60,
+      "dialogue": "안정감을 찾아. my bro.",
+      "standingImage": "chardStand",
+      "standingPosition": "right"
+    },
+    {
+      "npcName": "만삣삐",
+      "portraitName": "Player",
+      "fontSize": 70,
+      "dialogue": "후우.... 기가차드... 그래...\n난 진정되었어.",
+      "standingImage": "pepeStand",
+      "standingPosition": "left"
+    },
+    {
+      "npcName": "기가차드",
+      "portraitName": "Gigachard",
+      "fontSize": 60,
+      "dialogue": "Good! 만삣삐. 넌 결국 해낼거야.\n비록 그게 not today더라도.\n너의 try는 결코 배신하지 않을거야",
+      "standingImage": "chardStand",
+      "standingPosition": "right"
+    },
+    {
+      "npcName": "보스",
+      "portraitName": "Boss_sprite_5",
+      "fontSize": 70,
+      "dialogue": "또 이런애들 뿐이야?",
+      "standingImage": "Boss_sprite_5",
+      "standingPosition": "right"
+    },
+    {
+      "npcName": "보스",
+      "portraitName": "Boss_sprite_5",
+      "fontSize": 70,
+      "dialogue": "실력 좋고 연차 있는 신입들은\n대체 다 어디간거야!",
+      "standingImage": "Boss_sprite_5",
+      "standingPosition": "right",
+      "shakeScreen": true
+    },
+    {
+      "npcName": "보스",
+      "portraitName": "Boss_sprite_5",
+      "fontSize": 70,
+      "dialogue": "아. 그쪽이 이번에 지원한\n[면접자]군.",
+      "standingImage": "Boss_sprite_5",
+      "standingPosition": "right"
+    },
+    {
+      "npcName": "보스",
+      "portraitName": "Boss_sprite_5",
+      "fontSize": 60,
+      "dialogue": "5000점을 채울 수 있을지도 모르겠어.",
+      "standingImage": "Boss_sprite_5",
+      "standingPosition": "right"
+    },
+    {
+      "id": "2B-b",
+      "npcName": "보스",
+      "portraitName": "Boss_sprite_5",
+      "fontSize": 70,
+      "dialogue": "그러면 면접 시작하도록 하지.",
+      "standingImage": "Boss_sprite_5",
+      "standingPosition": "right"
+    },
+    {
+      "npcName": "만삣삐",
+      "portraitName": "Player_sad",
+      "fontSize": 70,
+      "dialogue": "으아....",
+      "standingImage": "pepeStand_sad",
+      "standingPosition": "left"
+    },
+    {
+      "npcName": "만삣삐",
+      "portraitName": "Player_sad",
+      "fontSize": 70,
+      "dialogue": "기가차드...난 안되나봐...",
+      "standingImage": "pepeStand_sad",
+      "standingPosition": "left"
+    },
+    {
+      "npcName": "만삣삐",
+      "portraitName": "Player_sad",
+      "fontSize": 70,
+      "dialogue": "역시...끝은 이럴줄 알았어...",
+      "standingImage": "pepeStand_sad",
+      "standingPosition": "left"
+    },
+    {
+      "npcName": "기가차드",
+      "portraitName": "Gigachard",
+      "fontSize": 60,
+      "dialogue": "You F**king Idiot! 아직 모르겠어 만삣삐!",
+      "standingImage": "chardStand",
+      "standingPosition": "right",
+      "shakeScreen": true
+    },
+    {
+      "npcName": "만삣삐",
+      "portraitName": "Player",
+      "fontSize": 70,
+      "dialogue": "나... 잘해냈어! 기가차드 보여?",
+      "standingImage": "pepeStand",
+      "standingPosition": "left"
+    },
+    {
+      "dialogueType": "black",
+      "dialogue": ".....",
+      "fontSize": 48,
+      "blackBoxDuration": 1
+    },
+    {
+      "npcName": "만삣삐",
+      "portraitName": "Player",
+      "fontSize": 70,
+      "dialogue": "기가차드...?",
+      "standingImage": "pepeStand",
+      "standingPosition": "left"
+    },
+    {
+      "npcName": "만삣삐",
+      "portraitName": "Player",
+      "fontSize": 70,
+      "dialogue": "기가차드.......",
+      "standingImage": "pepeStand",
+      "standingPosition": "left"
+    },
+    {
+      "npcName": "만삣삐",
+      "portraitName": "Player",
+      "fontSize": 70,
+      "dialogue": "고마워 기가차드......",
+      "standingImage": "pepeStand",
+      "standingPosition": "left"
+    },
+
+    {
+      "id": "2B-d",
+      "npcName": "보스",
+      "portraitName": "Boss_sprite_5",
+      "fontSize": 70,
+      "dialogue": "그러면 면접 시작하도록 하지.",
+      "standingImage": "Boss_sprite_5",
+      "standingPosition": "right"
+    },
+    {
+      "npcName": "보스",
+      "portraitName": "Boss_sprite_5",
+      "fontSize": 70,
+      "dialogue": "그쪽은 저희 회사와 맞지 않는군요.",
+      "standingImage": "Boss_sprite_5",
+      "standingPosition": "right"
+    },
+    {
+      "npcName": "보스",
+      "portraitName": "Boss_sprite_5",
+      "fontSize": 70,
+      "dialogue": "면접 종료하도록 하죠.",
+      "standingImage": "Boss_sprite_5",
+      "standingPosition": "right"
+    },
+    {
+      "npcName": "만삣삐",
+      "portraitName": "Player_sad",
+      "fontSize": 70,
+      "dialogue": "으아....",
+      "standingImage": "pepeStand_sad",
+      "standingPosition": "left"
+    },
+    {
+      "npcName": "만삣삐",
+      "portraitName": "Player_sad",
+      "fontSize": 70,
+      "dialogue": "기가차드...난 안되나봐...",
+      "standingImage": "pepeStand_sad",
+      "standingPosition": "left"
+    },
+    {
+      "npcName": "만삣삐",
+      "portraitName": "Player_sad",
+      "fontSize": 70,
+      "dialogue": "역시...끝은 이럴줄 알았어...",
+      "standingImage": "pepeStand_sad",
+      "standingPosition": "left"
+    },
+
+    {
+      "id": "E-s",
+      "dialogueType": "black",
+      "dialogue": "그렇게 난 면접에 합격했다.",
+      "fontSize": 45,
+      "blackBoxDuration": 2
+    },
+    {
+      "dialogueType": "black",
+      "dialogue": "",
+      "fontSize": 48,
+      "blackBoxDuration": 0
+    },
+    {
+      "npcName": "동료",
+      "portraitName": "Q",
+      "fontSize": 70,
+      "dialogue": "이야.. 삣삐씨\n이번달도 잘했는걸?",
+      "backgroundImageName": "office"
+    },
+    {
+      "npcName": "동료",
+      "portraitName": "Q",
+      "fontSize": 70,
+      "dialogue": "완전 에이스야 에이스!",
+      "backgroundImageName": "office"
+    },
+    {
+      "npcName": "보스",
+      "portraitName": "Boss_Good",
+      "fontSize": 70,
+      "dialogue": "흠흠..능력 하나는 인정하마.",
+      "standingImage": "Boss_Good",
+      "standingPosition": "right",
+      "backgroundImageName": "office"
+    },
+    {
+
+      "npcName": "만삣삐",
+      "portraitName": "Player",
+      "fontSize": 70,
+      "dialogue": "아하하.. 감사합니다.",
+      "standingImage": "pepeStand",
+      "standingPosition": "left",
+      "backgroundImageName": "office"
+    },
+    {
+      "dialogueType": "black",
+      "dialogue": "에이스 소리를 들으며 회사일에 전념하고 있다.",
+      "fontSize": 48,
+      "blackBoxDuration": 3.3
+    },
+    {
+      "id": "E-e",
+      "dialogueType": "black",
+      "dialogue": "",
+      "fontSize": 48,
+      "blackBoxDuration": 0
+    },
+
+    {
+      "id": "E-2s",
+      "npcName": "만삣삐",
+      "portraitName": "Player",
+      "fontSize": 70,
+      "dialogue": "기가차드, 거기 있어?",
+      "standingImage": "pepeStand",
+      "standingPosition": "left",
+      "backgroundImageName": "office2"
+    },
+    {
+      "npcName": "기가차드",
+      "portraitName": "Gigachard",
+      "fontSize": 70,
+      "dialogue": "오브 콜스, 만삣삐.",
+      "standingImage": "pepeStand,chardStand",
+      "standingPosition": "left,right",
+      "backgroundImageName": "office2",
+      "voice": "OfCourse"
+    },
+    {
+      "npcName": "만삣삐",
+      "portraitName": "Player",
+      "fontSize": 70,
+      "dialogue": ".....고마워",
+      "standingImage": "pepeStand,chardStand",
+      "standingPosition": "left,right",
+      "backgroundImageName": "office2"
+    },
+    {
+      "npcName": "기가차드",
+      "portraitName": "Gigachard",
+      "fontSize": 70,
+      "dialogue": "뭐가 말이지? 삣삐?",
+      "standingImage": "pepeStand,chardStand",
+      "standingPosition": "left,right",
+      "backgroundImageName": "office2"
+    },
+    {
+      "npcName": "만삣삐",
+      "portraitName": "Player",
+      "fontSize": 70,
+      "dialogue": "그냥.. 전부.",
+      "standingImage": "pepeStand,chardStand",
+      "standingPosition": "left,right",
+      "backgroundImageName": "office2"
+    },
+      {
+      "npcName": "만삣삐",
+      "portraitName": "Player",
+      "fontSize": 70,
+      "dialogue": "내가 이렇게 변할 수 있었던 건\n전부 네 덕분이야, 기가차드.",
+      "standingImage": "pepeStand,chardStand",
+      "standingPosition": "left,right",
+      "backgroundImageName": "office2"
+    },
+    {
+      "npcName": "기가차드",
+      "portraitName": "Gigachard",
+      "fontSize": 70,
+      "dialogue": "뭐가 말이지? 삣삐?",
+      "standingImage": "pepeStand,chardStand",
+      "standingPosition": "left,right",
+      "backgroundImageName": "office2"
+    },
+    {
+      "npcName": "기가차드",
+      "portraitName": "Gigachard",
+      "fontSize": 65,
+      "dialogue": "Oh... 삣삐. 내가 한 건 그저\n네 등을 아주 살짝 밀었을 뿐이야.",
+      "standingImage": "pepeStand,chardStand",
+      "standingPosition": "left,right",
+      "backgroundImageName": "office2"
+    },
+    {
+      "npcName": "기가차드",
+      "portraitName": "Gigachard",
+      "fontSize": 70,
+      "dialogue": "처음의 넌 좌절감에 무너진 Idiot에 불과했지",
+      "standingImage": "pepeStand,chardStand",
+      "standingPosition": "left,right",
+      "backgroundImageName": "office2"
+    },
+    {
+      "npcName": "기가차드",
+      "portraitName": "Gigachard",
+      "fontSize": 70,
+      "dialogue": "그러나 넌 실패를 많이 겪었지만 용기를 냈고",
+      "standingImage": "pepeStand,chardStand",
+      "standingPosition": "left,right",
+      "backgroundImageName": "office2"
+    },
+    {
+      "npcName": "기가차드",
+      "portraitName": "Gigachard",
+      "fontSize": 70,
+      "dialogue": "그 과정 속에서 조금씩 나아졌지",
+      "standingImage": "pepeStand,chardStand",
+      "standingPosition": "left,right",
+      "backgroundImageName": "office2"
+    },
+    {
+      "npcName": "기가차드",
+      "portraitName": "Gigachard",
+      "fontSize": 70,
+      "dialogue": "이제 삣삐 넌... 내가 없어도 잘 해낼 수 있을 거야",
+      "standingImage": "pepeStand,chardStand",
+      "standingPosition": "left,right",
+      "backgroundImageName": "office2",
+      "voice": "Worried"
+    },
+    {
+      "npcName": "만삣삐",
+      "portraitName": "Player",
+      "fontSize": 70,
+      "dialogue": "....뭐? 그게 무슨 소리야\n기가차드?",
+      "standingImage": "pepeStand,chardStand",
+      "standingPosition": "left,right",
+      "backgroundImageName": "office2"
+    },
+    {
+      "npcName": "기가차드",
+      "portraitName": "Gigachard",
+      "fontSize": 70,
+      "dialogue": "말한 그대로야, 삣삐.\n넌 이미 GIGACHAD야.\n이제 내가 필요 없지.",
+      "standingImage": "pepeStand,chardStand",
+      "standingPosition": "left,right",
+      "backgroundImageName": "office2"
+    },
+    {
+      "npcName": "만삣삐",
+      "portraitName": "Player",
+      "fontSize": 70,
+      "dialogue": "아니야, 기가차드.\n아직 난 네가...",
+      "standingImage": "pepeStand,chardStand",
+      "standingPosition": "left,right",
+      "backgroundImageName": "office2"
+    },
+    {
+      "npcName": "기가차드",
+      "portraitName": "Gigachard",
+      "fontSize": 70,
+      "dialogue": "Stop, 삣삐.\n너 스스로도 알고 있잖아",
+      "standingImage": "pepeStand,chardStand",
+      "standingPosition": "left,right",
+      "backgroundImageName": "office2"
+    },
+    {
+      "npcName": "기가차드",
+      "portraitName": "Gigachard",
+      "fontSize": 70,
+      "dialogue": "난 한 번도 날 믿고 따라오라고 한 적이 없지",
+      "standingImage": "pepeStand,chardStand",
+      "standingPosition": "left,right",
+      "backgroundImageName": "office2"
+    },
+    {
+      "npcName": "기가차드",
+      "portraitName": "Gigachard",
+      "fontSize": 70,
+      "dialogue": "너가 지금까지 한 것들을 떠올려",
+      "standingImage": "pepeStand,chardStand",
+      "standingPosition": "left,right",
+      "backgroundImageName": "office2"
+    },
+    {
+      "npcName": "기가차드",
+      "portraitName": "Gigachard",
+      "fontSize": 60,
+      "dialogue": "포기하지 않고 달려서\n기적같은 하루하루를 만들어낸 건\n너 자신이야",
+      "standingImage": "pepeStand,chardStand",
+      "standingPosition": "left,right",
+      "backgroundImageName": "office2"
+    },
+    {
+      "npcName": "기가차드",
+      "portraitName": "Gigachard",
+      "fontSize": 65,
+      "dialogue": "내가 네 곁에 없어도\n너가 GIGACHAD인 한\n나는 항상 너와 함께 있는 거야.",
+      "standingImage": "pepeStand,chardStand",
+      "standingPosition": "left,right",
+      "backgroundImageName": "office2"
+    },
+    {
+      "id": "E-A",
+      "npcName": "기가차드",
+      "portraitName": "Gigachard",
+      "fontSize": 70,
+      "dialogue": "그럼.. Good Bye. 삣삐.",
+      "standingImage": "pepeStand,chardStand",
+      "standingPosition": "left,right",
+      "backgroundImageName": "office2",
+      "voice": "GoodBye"
+    },
+    {
+
+      "npcName": "만삣삐",
+      "portraitName": "Player",
+      "fontSize": 70,
+      "dialogue": "기가차드......",
+      "standingImage": "pepeStand,chardStand",
+      "standingPosition": "left,right",
+      "backgroundImageName": "office2"
+    },
+    {
+      "npcName": "만삣삐",
+      "portraitName": "Player",
+      "fontSize": 70,
+      "dialogue": "기가차드..?",
+      "standingImage": "pepeStand",
+      "standingPosition": "left",
+      "backgroundImageName": "office2"
+    },
+    {
+      "dialogueType": "black",
+      "dialogue": "얼마뒤",
+      "fontSize": 48,
+      "blackBoxDuration": 1
+    },
+    {
+      "dialogueType": "black",
+      "dialogue": "",
+      "fontSize": 48,
+      "blackBoxDuration": 0
+    },
+    {
+      "npcName": "O삣삐",
+      "portraitName": "Q",
+      "fontSize": 70,
+      "dialogue": "또 실패했어... 난 안 될 거야.",
+      "backgroundImageName": "Park"
+    },
+    {
+      "npcName": "???",
+      "portraitName": "Q",
+      "fontSize": 70,
+      "dialogue": "Hey boy",
+      "backgroundImageName": "Park",
+      "shakeScreen": true
+    },
+    {
+      "npcName": "기가삣삐",
+      "portraitName": "gigapepe",
+      "fontSize": 70,
+      "dialogue": "무슨 Idiot 같은 생각을 하고\n그러고 있는 거야?",
+      "standingImage": "GigapepeS",
+      "standingPosition": "left",
+      "backgroundImageName": "Park"
+    },
+    {
+     
+      "npcName": "기가삣삐",
+      "portraitName": "gigapepe",
+      "fontSize": 70,
+      "dialogue": "나에게 말해봐, 삣삐",
+      "standingImage": "GigapepeS",
+      "standingPosition": "left",
+      "backgroundImageName": "Park"
+    },
+     {
+      
+      "npcName": "기가삣삐",
+      "portraitName": "gigapepe",
+      "fontSize": 70,
+      "dialogue": "내가 너의 GIGACHAD가 되어줄게",
+      "standingImage": "GigapepeS",
+      "standingPosition": "left",
+      "backgroundImageName": "Park"
+    },
+     {
+      "dialogueType": "black",
+      "dialogue": "END",
+      "fontSize": 48,
+      "blackBoxDuration": 3
+    },
+    {
+      "id": "E-2e",
+      "dialogueType": "black",
+      "dialogue": "",
+      "fontSize": 48,
+      "blackBoxDuration": 0
     }
+
   ]
 }

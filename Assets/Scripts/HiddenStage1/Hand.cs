@@ -59,6 +59,7 @@ public class Hand : MonoBehaviour
     }
     public void Fire()
     {
+        if (DialogueManager.instance.isTalking()) return;
         GameObject bullet = Instantiate(bulletPrefab, gunPoint.position, Quaternion.identity);
 
         // 총알의 방향을 마우스 방향으로 설정
@@ -72,5 +73,7 @@ public class Hand : MonoBehaviour
         bullet.transform.rotation = Quaternion.Euler(0, 0, angle-90);
 
         bullet.GetComponent<Bullet>().SetDirection(fireDirection);
+        if (MainSoundManager.instance != null)
+            MainSoundManager.instance.PlaySFX("Pistol");
     }
 }
