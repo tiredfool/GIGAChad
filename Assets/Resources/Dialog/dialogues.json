@@ -228,7 +228,7 @@
       "npcName": "기가차드",
       "portraitName": "Gigachard",
       "fontSize": 60,
-      "dialogue": "조이패드를 이용해\n 움직여봐 만삣삐!",
+      "dialogue": "방향키나 A,D로\n 움직여봐 만삣삐!",
       "standingImage": "chardStand",
       "standingPosition": "right"
     },
@@ -256,7 +256,7 @@
       "npcName": "기가차드",
       "portraitName": "Gigachard",
       "fontSize": 60,
-      "dialogue": "자 JUMP를를 눌러봐\n몸이 통아저씨마냥 튀어오를거야.",
+      "dialogue": "자 SPACE를 눌러봐\n몸이 통아저씨마냥 튀어오를거야.",
       "standingImage": "chardStand",
       "standingPosition": "right"
     },
@@ -534,7 +534,7 @@
       "npcName": "기가차드",
       "portraitName": "Gigachard",
       "fontSize": 60,
-      "dialogue": "화면을 터치해 총을 쏴봐 만삣삐!",
+      "dialogue": "화면을 클릭해 총을 쏴봐 만삣삐!",
       "standingImage": "chardStand",
       "standingPosition": "right",
       "shakeScreen": true
