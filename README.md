@@ -49,6 +49,10 @@ PC 및 모바일 양쪽 플랫폼을 지원합니다.
 
 ---
 
+## 🎥 시현영상
+
+🔗 https://drive.google.com/file/d/1U9pXgORAIKVnOVeGskacYOPaty4-CtEp/view?usp=drive_link
+
 ## ⬇️ 다운로드 및 실행 방법
 
 해당 프로젝트는 아래 GitHub 저장소에서 확인하고 다운로드할 수 있습니다.
