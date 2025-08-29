@@ -49,7 +49,7 @@ PC 및 모바일 양쪽 플랫폼을 지원합니다.
 
 ---
 
-## 🎥 시현영상
+## 🎥 시연영상
 
 🔗 https://drive.google.com/file/d/1U9pXgORAIKVnOVeGskacYOPaty4-CtEp/view?usp=drive_link
 
